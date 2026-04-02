@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,maximum-scale=1">
+<title>Post Builder Pro - Imagem</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@400;700;800;900&family=Oswald:wght@600&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e0f13;--s1:#16181f;--s2:#1c1f29;--s3:#252936;
+  --b1:#232635;--b2:#2c3048;--tx:#eceef5;--t2:#8b90a8;--t3:#5a5f7a;
+  --ac:#6b6b6b;--ac-tx:#ffffff;--ac2:rgba(107,107,107,0.25);
+  --r:8px;--r2:12px;--r3:16px;--max:1200px;
+  --shadow:0 8px 24px rgba(0,0,0,0.3);--shadow-sm:0 2px 8px rgba(0,0,0,0.2);
+}
+body.lt{
+  --bg:#f4f5f7;--s1:#ffffff;--s2:#f0f1f4;--s3:#e5e7eb;
+  --b1:#e3e5ee;--b2:#d5d8e8;--tx:#111827;--t2:#6b7280;--t3:#9ca3af;
+  --shadow:0 8px 24px rgba(0,0,0,0.06);--shadow-sm:0 2px 8px rgba(0,0,0,0.04);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;font-size:14px;
+  line-height:1.5;min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  padding:10px 8px 80px;transition:background-color .3s;overflow-x:hidden;
+}
+button{font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+
+.app{width:100%;max-width:var(--max);display:flex;flex-direction:column;gap:12px}
+.workspace{display:flex;flex-direction:column;gap:12px;width:100%}
+.pcol{display:flex;flex-direction:column;gap:12px;width:100%}
+.ccol{display:flex;flex-direction:column;gap:12px;width:100%}
+.ccol-inner{display:flex;flex-direction:column;gap:12px;width:100%}
+
+@media(min-width:880px){
+  body{padding:20px 14px 100px}
+  .app{gap:16px}
+  .workspace{flex-direction:row;align-items:flex-start;gap:24px}
+  .pcol{width:360px;flex-shrink:0;position:sticky;top:20px}
+  .ccol{flex:1; display:grid; grid-template-columns: 1fr 1fr; align-items:start; gap:16px;}
+}
+
+/* Header */
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r3);box-shadow:var(--shadow-sm);margin-bottom:8px;flex-wrap:wrap;gap:12px}
+.hdr-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;width:100%}
+.logo-name{font-family:'Montserrat',sans-serif;font-weight:900;font-size:16px;color:var(--tx);text-transform:uppercase;letter-spacing:-.5px}
+.hdr-sep{color:var(--b2);font-weight:300}
+.ig-link {
+  display: flex; align-items: center; gap: 6px;
+  color: var(--tx); text-decoration: none;
+  font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800;
+  transition: color 0.2s; text-transform: uppercase;
+}
+.ig-link:hover { color: var(--ac); }
+.hdr-right{display:flex;align-items:center;gap:12px;width:100%;justify-content:center;flex-wrap:wrap}
+
+@media(min-width:600px){
+  .hdr{flex-wrap:nowrap;}
+  .hdr-left{width:auto;justify-content:flex-start;}
+  .hdr-right{width:auto;justify-content:flex-end;}
+}
+
+.ibtn{width:36px;height:36px;border-radius:50%;background:var(--s2);border:1px solid var(--b2);color:var(--t2);transition:all .2s;flex-shrink:0}
+.ibtn:hover{border-color:var(--ac);color:var(--ac);transform:scale(1.05)}
+
+.accent-picker{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center}
+.ac-dot{width:18px;height:18px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;flex-shrink:0}
+.ac-dot:hover{transform:scale(1.2)}
+.ac-dot.sel{border-color:#fff;transform:scale(1.2);box-shadow:0 0 0 3px var(--ac2)}
+
+/* Color Picker RGB Wheel */
+.color-picker-circle {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 2px solid var(--b2);
+  border-radius: 50%;
+  cursor: pointer;
+  background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
+  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, outline 0.2s;
+  overflow: hidden;
+  flex-shrink:0;
+}
+.color-picker-circle:hover {
+  transform: scale(1.15);
+  border-color: var(--ac);
+}
+.color-picker-circle.sel {
+  border-color: #fff;
+  transform: scale(1.2);
+  box-shadow: 0 0 0 3px var(--ac2);
+}
+.color-picker-circle.on {
+  outline: 2px solid var(--ac);
+  outline-offset: 3px;
+}
+.color-picker-circle::-webkit-color-swatch-wrapper { padding: 0; }
+.color-picker-circle::-webkit-color-swatch { border: none; opacity: 0; }
+.color-picker-circle::-moz-color-swatch { border: none; opacity: 0; }
+
+/* Cards */
+.card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r3);overflow:hidden;box-shadow:var(--shadow);border-top:3px solid var(--ac)}
+.card-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--b1);flex-wrap:wrap;gap:10px}
+.card-label{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx)}
+.card-body{padding:16px;display:flex;flex-direction:column;gap:16px}
+.hdr-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+
+.cbtn{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--ac-tx);background:var(--ac);border:none;padding:6px 14px;border-radius:20px;transition:all .2s;box-shadow:var(--shadow-sm);gap:6px;white-space:nowrap}
+.cbtn-outline{background:transparent;border:1px solid var(--ac);color:var(--ac)}
+.cbtn-outline.active{background:var(--ac);color:var(--ac-tx)}
+
+.field{display:flex;flex-direction:column;gap:6px;width:100%}
+.field-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3)}
+textarea,input[type=text],.custom-select{
+  width:100%;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r);
+  color:var(--tx);font-family:'Inter',sans-serif;font-size:13px;padding:12px;
+  outline:none;transition:all .2s;resize:none;line-height:1.5;box-sizing:border-box;
+}
+textarea:focus,input[type=text]:focus,.custom-select:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac2);background:var(--bg)}
+
+/* TextAreas Dinâmicos com a cor destaque */
+#titulo, #sub { color: var(--ac); font-weight: 600; }
+#titulo::placeholder, #sub::placeholder { color: var(--ac); opacity: 0.65; }
+
+.tog-row{display:flex;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r);overflow:hidden;padding:2px;gap:2px;flex-wrap:wrap}
+.tog{flex:1 1 auto;min-width:30%;padding:10px 4px;text-align:center;border:none;background:transparent;font-size:10px;font-weight:700;border-radius:6px;text-transform:uppercase;color:var(--t2);transition:all .2s}
+.tog.on{background:var(--ac);color:var(--ac-tx);box-shadow:var(--shadow-sm)}
+
+.slider-field{display:flex;flex-direction:column;gap:8px;width:100%}
+.slider-row{display:flex;align-items:center;gap:12px;width:100%}
+.slider-row input[type=range]{flex:1;height:24px;-webkit-appearance:none;background:transparent;outline:none;min-width:0}
+.slider-row input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--b2);border-radius:2px}
+.slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--ac);border:2px solid var(--s1);cursor:ew-resize;box-shadow:0 2px 6px rgba(0,0,0,.3);margin-top:-8px}
+.slider-row input[type=range]::-moz-range-track{height:4px;background:var(--b2);border-radius:2px}
+.slider-row input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--ac);border:2px solid var(--s1);cursor:ew-resize}
+.snum{width:52px;flex-shrink:0;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r);color:var(--tx);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;padding:6px;text-align:center;outline:none}
+
+.sw-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sw{width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;box-shadow:var(--shadow-sm);flex-shrink:0}
+.sw.on{outline:2px solid var(--ac);outline-offset:3px}
+
+/* Preview */
+.cwrap{
+  position:relative;width:100%;background:#06070a;
+  touch-action:none;user-select:none;overflow:hidden;
+  border-radius:var(--r);
+  display:flex;align-items:center;justify-content:center;
+}
+canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4}
+
+.prev-placeholder{
+  aspect-ratio:3/4;width:100%;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:14px;color:var(--t3);font-weight:500;background:var(--s2);
+  border-radius:var(--r);border:2px dashed var(--b2);cursor:pointer;
+}
+.prev-placeholder:hover{border-color:var(--ac);background:var(--s3)}
+.prev-placeholder-icon{width:54px;height:54px;border-radius:var(--r);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--t2);box-shadow:var(--shadow-sm)}
+
+.zoom-chip{
+  position:absolute;top:8px;left:8px;z-index:20;
+  display:none;align-items:center;gap:6px;padding:4px 10px;
+  background:rgba(6,7,10,.85);border:1px solid var(--b2);border-radius:20px;
+  font-size:11px;font-weight:700;font-family:'Montserrat',sans-serif;color:#fff;
+}
+
+.dl-main{
+  width:100%;background:var(--ac);color:var(--ac-tx);
+  font-family:'Inter',sans-serif;font-size:14px;font-weight:800;
+  letter-spacing:2px;text-transform:uppercase;padding:18px;border:none;border-radius:var(--r2);
+  cursor:pointer;box-shadow:var(--shadow);transition:all .2s;
+  position:sticky;bottom:14px;z-index:50;
+}
+@media(min-width:880px){.dl-main{position:static}}
+.dl-main:hover:not(:disabled){filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 12px 28px var(--ac2)}
+.dl-main:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+
+/* Correções extras para visual mobile perfeito */
+@media(max-width:480px){
+  .hdr-left { justify-content:center; }
+  .hdr-right { justify-content:center; }
+  .tog { font-size: 9px; padding: 8px 2px; line-height:1.2; white-space:normal; }
+  .card-hdr { flex-direction:column; align-items:flex-start; }
+  .hdr-actions { width:100%; justify-content:flex-end; }
+  .sw { width: 22px; height: 22px; }
+  .color-picker-circle { width: 24px; height: 24px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+<input type="file" id="imgInput" style="display:none" accept="image/*" onchange="loadImg(event)">
+
+<div class="hdr">
+  <div class="hdr-left">
+    <span class="logo-name">Post Builder</span>
+    <span class="hdr-sep">|</span>
+    <a href="https://www.instagram.com/valle.xp/" target="_blank" class="ig-link">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+      </svg>
+      @valle.xp
+    </a>
+  </div>
+
+  <div class="hdr-right">
+    <div class="accent-picker">
+      <div class="ac-dot sel" data-c="#6b6b6b" style="background:#6b6b6b" onclick="setAccent('#6b6b6b',this)"></div>
+      <div class="ac-dot" data-c="#3b9eff" style="background:#3b9eff" onclick="setAccent('#3b9eff',this)"></div>
+      <div class="ac-dot" data-c="#7c6af7" style="background:#7c6af7" onclick="setAccent('#7c6af7',this)"></div>
+      <div class="ac-dot" data-c="#00d4aa" style="background:#00d4aa" onclick="setAccent('#00d4aa',this)"></div>
+      <div class="ac-dot" data-c="#f7a26a" style="background:#f7a26a" onclick="setAccent('#f7a26a',this)"></div>
+      <input class="color-picker-circle" type="color" id="acCustom" value="#6b6b6b" oninput="setAccent(this.value,null)">
+    </div>
+    <button class="ibtn" onclick="resetAll()" title="Resetar Tudo">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+    </button>
+    <button class="ibtn" onclick="toggleTheme()" title="Tema">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="workspace" id="wsImg">
+  <div class="pcol">
+    <div class="card">
+      <div class="card-hdr">
+        <span class="card-label">Preview Visual</span>
+        <div class="hdr-actions">
+          <button class="cbtn cbtn-outline" id="btnMove" onclick="toggleMove()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 9 2 12 5 15"></polyline><polyline points="9 5 12 2 15 5"></polyline><polyline points="19 9 22 12 19 15"></polyline><polyline points="9 19 12 22 15 19"></polyline><line x1="2" y1="12" x2="22" y2="12"></line><line x1="12" y1="2" x2="12" y2="22"></line></svg>
+            Ajustar
+          </button>
+          <button class="cbtn cbtn-outline" id="btnChange" onclick="document.getElementById('imgInput').click()" style="display:none">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+            Trocar
+          </button>
+        </div>
+      </div>
+      <div class="card-body" style="padding:10px">
+        <div class="prev-placeholder" id="prevPlaceholder" onclick="document.getElementById('imgInput').click()">
+          <div class="prev-placeholder-icon">+</div>
+          <span id="phText">Importe uma Imagem para começar</span>
+        </div>
+        <div class="cwrap" id="cw" style="display:none;">
+          <div class="zoom-chip" id="zpill">
+            <span id="zlbl">100%</span>
+          </div>
+          <canvas id="cv"></canvas>
+        </div>
+      </div>
+    </div>
+    <button class="dl-main" id="dlBtn" onclick="exportMedia()" disabled>BAIXAR IMAGEM</button>
+  </div>
+
+  <div class="ccol">
+    
+    <div class="ccol-inner">
+      <div class="card">
+        <div class="card-hdr"><span class="card-label">Formato</span></div>
+        <div class="card-body">
+          <div class="field">
+            <span class="field-label">Proporção da Tela</span>
+            <div class="tog-row" id="ratioRow">
+              <button class="tog on" onclick="setRatio('9:16-hd',this)">3:4 FEED</button>
+              <button class="tog" onclick="setRatio('4:5',this)">4:5 Feed</button>
+              <button class="tog" onclick="setRatio('1:1',this)">1:1 Square</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-hdr"><span class="card-label">Efeitos & Extras</span></div>
+        <div class="card-body">
+          <div class="slider-field">
+            <span class="field-label">Gradiente Escuro de Base %</span>
+            <div class="slider-row">
+              <input type="range" id="gop" min="0" max="95" value="65" oninput="sync('gop','gnum')">
+              <input class="snum" type="number" id="gnum" value="65" min="0" max="95" onchange="nsync('gnum','gop')">
+            </div>
+          </div>
+          <div class="field">
+            <span class="field-label">Indicador de Ação</span>
+            <div class="tog-row" id="indRow">
+              <button class="tog on" onclick="setInd('none',this)">Nenhum</button>
+              <button class="tog" onclick="setInd('arrowDown',this)">Ler ↓</button>
+              <button class="tog" onclick="setInd('swipeRight',this)">Arraste ›</button>
+            </div>
+          </div>
+          <div class="slider-field" id="indOpWrap" style="display:none; margin-top:8px;">
+            <span class="field-label">Opacidade do Indicador %</span>
+            <div class="slider-row">
+              <input type="range" id="indOp" min="0" max="100" value="85" oninput="sync('indOp','indOpN')">
+              <input class="snum" type="number" id="indOpN" value="85" min="0" max="100" onchange="nsync('indOpN','indOp')">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <div class="ccol-inner">
+      <div class="card">
+        <div class="card-hdr"><span class="card-label">Textos</span></div>
+        <div class="card-body">
+          <div class="field">
+            <span class="field-label">Posição Geral</span>
+            <div class="tog-row">
+              <button class="tog on" id="posBot" onclick="setPos('bottom',this)">Em Baixo</button>
+              <button class="tog" id="posTop" onclick="setPos('top',this)">Em Cima</button>
+            </div>
+          </div>
+          <div class="field">
+            <span class="field-label">Alinhamento</span>
+            <div class="tog-row" id="alignRow">
+              <button class="tog on" onclick="setAlign('center',this)">Centro</button>
+              <button class="tog" onclick="setAlign('left',this)">Esquerda</button>
+              <button class="tog" onclick="setAlign('right',this)">Direita</button>
+            </div>
+          </div>
+          <div class="field">
+            <span class="field-label">Família da Fonte</span>
+            <select id="fontFam" class="custom-select" onchange="markDirty()">
+              <option value="Montserrat">Montserrat (Padrão Bold)</option>
+              <option value="Inter">Inter (Clean)</option>
+              <option value="Bebas Neue">Bebas Neue (Impacto)</option>
+              <option value="Poppins">Poppins (Redonda)</option>
+              <option value="Playfair Display">Playfair Display (Clássica)</option>
+              <option value="Oswald">Oswald (Condensada)</option>
+            </select>
+          </div>
+          <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+            <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t3);text-transform:none">(Use *asteriscos* para colorir)</span></span>
+            <textarea id="titulo" rows="2" placeholder="Ex: Escreva um *título* chamativo..." oninput="markDirty()"></textarea>
+          </div>
+          <div class="field">
+            <span class="field-label">Cor Destaque do Título</span>
+            <div class="sw-row" id="colorRow">
+              <div class="sw on" style="background:#fff" onclick="setTC('#fff',this)"></div>
+              <div class="sw" style="background:#FFD600" onclick="setTC('#FFD600',this)"></div>
+              <div class="sw" style="background:#FF6B00" onclick="setTC('#FF6B00',this)"></div>
+              <div class="sw" style="background:#FF3B3B" onclick="setTC('#FF3B3B',this)"></div>
+              <div class="sw" style="background:#00E5FF" onclick="setTC('#00E5FF',this)"></div>
+              <div class="sw" style="background:#69FF47" onclick="setTC('#69FF47',this)"></div>
+              <input type="color" id="tCP" class="color-picker-circle" style="background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);" value="#ffffff" oninput="setTC(this.value,null)">
+            </div>
+          </div>
+          <div class="slider-field">
+            <span class="field-label">Tamanho do Título</span>
+            <div class="slider-row">
+              <input type="range" id="tsz" min="45" max="60" value="48" oninput="sync('tsz','tnum')">
+              <input class="snum" type="number" id="tnum" value="48" min="45" max="60" onchange="nsync('tnum','tsz')">
+            </div>
+          </div>
+          <div class="slider-field">
+            <span class="field-label">Contorno Escuro (Stroke)</span>
+            <div class="slider-row">
+              <input type="range" id="tStrk" min="0" max="15" value="0" oninput="sync('tStrk','tStrkN')">
+              <input class="snum" type="number" id="tStrkN" value="0" min="0" max="15" onchange="nsync('tStrkN','tStrk')">
+            </div>
+          </div>
+          <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+            <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Enter = nova linha)</span></span>
+            <textarea id="sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty()"></textarea>
+          </div>
+          <div class="slider-field">
+            <span class="field-label">Tamanho do Subtítulo</span>
+            <div class="slider-row">
+              <input type="range" id="ssz" min="25" max="40" value="25" oninput="sync('ssz','snum2')">
+              <input class="snum" type="number" id="snum2" value="25" min="25" max="40" onchange="nsync('snum2','ssz')">
+            </div>
+          </div>
+          <div class="field">
+            <span class="field-label">Fundo de Leitura do Subtítulo</span>
+            <div class="tog-row">
+              <button class="tog on" id="sbOn" onclick="setSubBg(true)">Ativado</button>
+              <button class="tog" id="sbOff" onclick="setSubBg(false)">Desativado</button>
+            </div>
+          </div>
+          <div id="sbSlider" class="slider-field">
+            <span class="field-label">Opacidade do Fundo %</span>
+            <div class="slider-row">
+              <input type="range" id="sbop" min="0" max="90" value="52" oninput="sync('sbop','sbnum');markDirty()">
+              <input class="snum" type="number" id="sbnum" value="52" min="0" max="90" onchange="nsync('sbnum','sbop');markDirty()">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> </div></div></div><script>
+'use strict';
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let mediaFile   = null;
+const imgO = new Image();
+
+// Parâmetros visuais globais
+let ratio      = '9:16-hd';
+let pos        = 'bottom';
+let align      = 'center';
+let tColor     = '#ffffff';
+let showSubBg  = true;
+let indicator  = 'none';
+
+// Mover (Pan & Zoom Livre)
+let canMove    = false;
+let panX = 0.5, panY = 0.5, zoom = 1;
+
+let rafId = null, dirty = false;
+
+const DIMS = { '4:5':{W:1080,H:1350}, '1:1':{W:1080,H:1080}, '9:16-hd':{W:3240,H:4320} };
+const D = () => DIMS[ratio] || DIMS['9:16-hd'];
+
+const $ = id => document.getElementById(id);
+const cv = $('cv');
+const cw = $('cw');
+
+// Carregar estado salvo antes de iniciar a UI
+loadState();
+
+updateCanvasAspect();
+updatePlaceholderAspect();
+
+// ═══════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════
+function contrastColor(hex){
+  hex = hex.replace('#','');
+  if(hex.length===3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+  const r=parseInt(hex.substr(0,2),16), g=parseInt(hex.substr(2,2),16), b=parseInt(hex.substr(4,2),16);
+  return ((r*299+g*587+b*114)/1000) >= 140 ? '#111827' : '#ffffff';
+}
+
+function wrapText(ctx, text, maxW){
+  const result = [];
+  for(const para of text.split('\n')){
+    if(!para.trim()){ result.push(''); continue; }
+    const words = para.split(' ');
+    let line = '';
+    for(let i=0; i<words.length; i++){
+      const test = line + words[i] + ' ';
+      if(ctx.measureText(test).width > maxW && i > 0){
+        result.push(line.trimEnd());
+        line = words[i] + ' ';
+      } else {
+        line = test;
+      }
+    }
+    result.push(line.trimEnd());
+  }
+  while(result.length && !result[0]) result.shift();
+  while(result.length && !result[result.length-1]) result.pop();
+  return result;
+}
+
+// Quebra texto com suporte a cores inline usando '*'
+function formatTitLines(ctx, text, maxW) {
+  // Converte duplo asterisco ** para simples * para facilitar o split
+  const cleanText = text.replace(/\*\*/g, '*');
+  const paras = cleanText.split('\n');
+  const lines = [];
+  
+  for (const para of paras) {
+      if (!para.trim()) { lines.push([]); continue; }
+      const parts = para.split('*');
+      let currentLine = [];
+      let currentW = 0;
+
+      for (let i = 0; i < parts.length; i++) {
+          const isColored = (i % 2 !== 0);
+          const partText = parts[i];
+          if (!partText) continue;
+
+          const words = partText.split(' ');
+          for (let j = 0; j < words.length; j++) {
+              const word = words[j];
+              const addSpace = j < words.length - 1;
+              const textToMeasure = word + (addSpace ? ' ' : '');
+              if(!textToMeasure) continue;
+
+              const w = ctx.measureText(textToMeasure).width;
+
+              if (currentW + ctx.measureText(word).width > maxW && currentLine.length > 0) {
+                  if (currentLine.length > 0) {
+                      let lastChunk = currentLine[currentLine.length - 1];
+                      if (lastChunk.text.endsWith(' ')) {
+                          lastChunk.text = lastChunk.text.slice(0, -1);
+                      }
+                  }
+                  lines.push(currentLine);
+                  currentLine = [];
+                  currentW = 0;
+              }
+
+              currentLine.push({ text: textToMeasure, colored: isColored });
+              currentW += w;
+          }
+      }
+      
+      if (currentLine.length > 0) {
+          let lastChunk = currentLine[currentLine.length - 1];
+          if (lastChunk.text.endsWith(' ')) {
+              lastChunk.text = lastChunk.text.slice(0, -1);
+          }
+          lines.push(currentLine);
+      }
+  }
+  return lines;
+}
+
+function markDirty(){
+  dirty = true;
+  if(!rafId) rafId = requestAnimationFrame(renderLoop);
+}
+
+function renderLoop(){
+  rafId = null;
+  if(dirty){
+    dirty = false;
+    draw();
+    saveState(); // Salva toda vez que a tela é renderizada
+  }
+}
+
+// ═══════════════════════════════════════════════
+// LOCAL STORAGE (SALVAR E CARREGAR)
+// ═══════════════════════════════════════════════
+function saveState() {
+  const state = {
+    ratio, pos, align, tColor, showSubBg, indicator,
+    accentColor: $('acCustom').value,
+    fontFam: $('fontFam').value,
+    tsz: $('tsz').value,
+    tStrk: $('tStrk').value,
+    ssz: $('ssz').value,
+    sbop: $('sbop').value,
+    gop: $('gop').value,
+    indOp: $('indOp') ? $('indOp').value : 85
+  };
+  localStorage.setItem('postBuilderState', JSON.stringify(state));
+}
+
+function loadState() {
+  const saved = localStorage.getItem('postBuilderState');
+  if(!saved) return;
+  try {
+    const state = JSON.parse(saved);
+    
+    if(state.accentColor) setAccent(state.accentColor, null);
+
+    if(state.fontFam) $('fontFam').value = state.fontFam;
+    
+    if(state.tsz) { 
+      let val = Math.max(45, Math.min(60, +state.tsz));
+      $('tsz').value = val; $('tnum').value = val; 
+    }
+    if(state.tStrk) { $('tStrk').value = state.tStrk; $('tStrkN').value = state.tStrk; }
+    
+    if(state.ssz) { 
+      let val = Math.max(25, Math.min(40, +state.ssz));
+      $('ssz').value = val; $('snum2').value = val; 
+    }
+    if(state.sbop) { $('sbop').value = state.sbop; $('sbnum').value = state.sbop; }
+    if(state.gop) { $('gop').value = state.gop; $('gnum').value = state.gop; }
+    if(state.indOp) { $('indOp').value = state.indOp; $('indOpN').value = state.indOp; }
+    
+    if(state.ratio) {
+      const btn = document.querySelector(`#ratioRow button[onclick="setRatio('${state.ratio}',this)"]`);
+      if(btn) setRatio(state.ratio, btn);
+    }
+    if(state.pos) {
+      const btn = document.getElementById(state.pos==='bottom'?'posBot':'posTop');
+      if(btn) setPos(state.pos, btn);
+    }
+    if(state.align) {
+      const btn = document.querySelector(`#alignRow button[onclick="setAlign('${state.align}',this)"]`);
+      if(btn) setAlign(state.align, btn);
+    }
+    if(state.tColor) {
+      const sw = document.querySelector(`#colorRow .sw[onclick="setTC('${state.tColor}',this)"]`);
+      setTC(state.tColor, sw || null);
+    }
+    if(state.showSubBg !== undefined) setSubBg(state.showSubBg);
+    if(state.indicator) {
+      let ind = state.indicator === 'dots' ? 'none' : state.indicator;
+      const btn = document.querySelector(`#indRow button[onclick="setInd('${ind}',this)"]`);
+      if(btn) setInd(ind, btn);
+    }
+  } catch(e) { console.error("Erro ao carregar os dados salvos", e); }
+}
+
+// ═══════════════════════════════════════════════
+// UI CONTROLS
+// ═══════════════════════════════════════════════
+function setAccent(c, el){
+  document.documentElement.style.setProperty('--ac', c);
+  document.documentElement.style.setProperty('--ac-tx', contrastColor(c));
+  document.querySelectorAll('.accent-picker .ac-dot').forEach(d => d.classList.remove('sel'));
+  
+  const cp = $('acCustom');
+  cp.classList.remove('sel');
+
+  if(!el) {
+    el = document.querySelector(`.accent-picker .ac-dot[data-c="${c}"]`);
+  }
+
+  if(el) {
+    el.classList.add('sel');
+    cp.style.background = 'conic-gradient(red, yellow, lime, aqua, blue, magenta, red)';
+  } else {
+    cp.classList.add('sel');
+    cp.style.background = c;
+  }
+  cp.value = c;
+  markDirty();
+}
+
+function toggleMove(){
+  canMove = !canMove;
+  $('btnMove').classList.toggle('active', canMove);
+  cw.style.cursor = canMove ? 'grab' : 'default';
+}
+
+function toggleTheme(){ document.body.classList.toggle('lt'); }
+function resetAll(){ 
+  if(confirm('Tem certeza que deseja limpar tudo?')) {
+    localStorage.removeItem('postBuilderState');
+    location.reload(); 
+  }
+}
+
+function sync(rid,nid){ $(nid).value = $(rid).value; markDirty(); }
+function nsync(nid,rid){
+  const el=$(nid); let v=parseFloat(el.value); if(isNaN(v)) return;
+  v = Math.max(+el.min, Math.min(+el.max, v)); el.value = v; $(rid).value = v; markDirty();
+}
+
+function setRatio(r,btn){
+  ratio = r;
+  document.querySelectorAll('#ratioRow .tog').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  updateCanvasAspect();
+  updatePlaceholderAspect();
+  markDirty();
+}
+
+function updatePlaceholderAspect(){
+  const {W,H} = D();
+  const ph = document.getElementById('prevPlaceholder');
+  if(ph) ph.style.aspectRatio = W + '/' + H;
+}
+
+function updateCanvasAspect(){
+  const {W,H} = D();
+  cv.style.aspectRatio = W + '/' + H;
+  cv.width  = W;
+  cv.height = H;
+}
+
+function setPos(p,btn){
+  pos = p;
+  $('posBot').classList.toggle('on', p==='bottom');
+  $('posTop').classList.toggle('on', p==='top');
+  markDirty();
+}
+
+function setAlign(a,btn){
+  align = a;
+  document.querySelectorAll('#alignRow .tog').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  markDirty();
+}
+
+function setTC(c,el){
+  tColor = c; 
+  const cp = $('tCP');
+  cp.value = c;
+  document.querySelectorAll('#colorRow .sw').forEach(s => s.classList.remove('on'));
+  cp.classList.remove('on');
+  
+  if(!el) {
+    el = Array.from(document.querySelectorAll('#colorRow .sw:not(input)')).find(d => {
+      return rgbToHex(d.style.background).toLowerCase() === c.toLowerCase();
+    });
+  }
+
+  if(el) {
+    el.classList.add('on');
+    cp.style.background = 'conic-gradient(red, yellow, lime, aqua, blue, magenta, red)';
+  } else {
+    cp.classList.add('on');
+    cp.style.background = c;
+  }
+  markDirty();
+}
+
+function rgbToHex(val) {
+  if(!val) return '';
+  if(val.startsWith('#')) return val;
+  const rgb = val.match(/\d+/g);
+  if(!rgb) return '';
+  return '#' + rgb.slice(0,3).map(x => parseInt(x).toString(16).padStart(2,'0')).join('');
+}
+
+function setSubBg(v){
+  showSubBg = v;
+  $('sbOn').classList.toggle('on', v);
+  $('sbOff').classList.toggle('on', !v);
+  const sl = $('sbSlider');
+  if(sl) sl.style.display = v ? 'flex' : 'none';
+  markDirty();
+}
+
+function setInd(val,btn){
+  indicator = val;
+  document.querySelectorAll('#indRow .tog').forEach(b => b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  $('indOpWrap').style.display = val === 'none' ? 'none' : 'flex';
+  markDirty();
+}
+
+// ═══════════════════════════════════════════════
+// IMAGEM — LOAD
+// ═══════════════════════════════════════════════
+function loadImg(e){
+  const f = e.target.files[0]; if(!f) return;
+  mediaFile = f;
+  if(imgO._blobURL){ URL.revokeObjectURL(imgO._blobURL); }
+  const blobURL = URL.createObjectURL(f);
+  imgO._blobURL = blobURL;
+
+  $('prevPlaceholder').style.display = 'none';
+  $('cw').style.display = 'flex';
+  $('btnChange').style.display = 'flex';
+  $('dlBtn').disabled = false;
+
+  imgO.onload = () => {
+    panX=0.5; panY=0.5; zoom=1;
+    $('zlbl').textContent = '100%';
+    $('zpill').style.display = 'flex';
+    updateCanvasAspect();
+    markDirty();
+  };
+  imgO.onerror = () => alert('Erro ao carregar imagem.');
+  imgO.src = blobURL;
+  e.target.value = '';
+}
+
+// ═══════════════════════════════════════════════
+// DRAG (APENAS PARA PAN & ZOOM DO FUNDO)
+// ═══════════════════════════════════════════════
+function getPointerPos(e){
+  const src = e.touches ? e.touches[0] : e;
+  return { rawX: src.clientX, rawY: src.clientY };
+}
+
+let panDragging = false;
+let panLastRaw = {x:0,y:0};
+
+function onPointerDown(e){
+  if(!mediaFile || !canMove) return;
+  const {rawX, rawY} = getPointerPos(e);
+  
+  panDragging = true;
+  panLastRaw = {x: rawX, y: rawY};
+  
+  cw.style.cursor = 'grabbing';
+  if(!e.touches) e.preventDefault();
+}
+
+function onPointerMove(e){
+  if(!panDragging || !canMove) return;
+  const {rawX, rawY} = getPointerPos(e);
+  const dx = rawX - panLastRaw.x;
+  const dy = rawY - panLastRaw.y;
+  applyPan(dx, dy);
+  panLastRaw = {x: rawX, y: rawY};
+  markDirty();
+
+  if(e.touches) e.preventDefault();
+}
+
+function onPointerUp(){
+  panDragging = false;
+  if(canMove) cw.style.cursor = 'grab';
+}
+
+function applyPan(dxViewport, dyViewport){
+  if(!imgO.width) return;
+  const rect = cw.getBoundingClientRect();
+  const iw = imgO.naturalWidth, ih = imgO.naturalHeight;
+  const {W,H} = D();
+  const ir = iw/ih, cr = W/H;
+
+  let bw, bh;
+  if(ir > cr){ bh = ih; bw = bh*cr; } else { bw = iw; bh = bw/cr; }
+
+  const sw = bw/zoom, sh = bh/zoom;
+  const maxPX = iw - sw, maxPY = ih - sh;
+
+  const scX = (sw / rect.width);
+  const scY = (sh / rect.height);
+
+  if(maxPX > 0) panX = Math.max(0, Math.min(1, panX - (dxViewport * scX) / maxPX));
+  if(maxPY > 0) panY = Math.max(0, Math.min(1, panY - (dyViewport * scY) / maxPY));
+}
+
+let lTouches = [], lPinchDist = null;
+
+cw.addEventListener('mousedown', onPointerDown);
+window.addEventListener('mousemove', onPointerMove);
+window.addEventListener('mouseup', onPointerUp);
+
+cw.addEventListener('touchstart', e => {
+  if(!canMove) return;
+  lTouches = [...e.touches];
+  lPinchDist = e.touches.length===2 ? pinchDist(e.touches) : null;
+  if(e.touches.length===1) onPointerDown(e);
+}, {passive:false});
+
+cw.addEventListener('touchmove', e => {
+  if(!canMove) return;
+  if(e.touches.length===1){
+    onPointerMove(e);
+  } else if(e.touches.length===2){
+    panDragging = false;
+    const d = pinchDist(e.touches);
+    if(lPinchDist){ zoom = Math.max(1, Math.min(6, zoom*(d/lPinchDist))); if(zoom===1){panX=0.5;panY=0.5;} }
+    lPinchDist = d;
+    if(lTouches.length===2){
+      applyPan(
+        (e.touches[0].clientX+e.touches[1].clientX)/2 - (lTouches[0].clientX+lTouches[1].clientX)/2,
+        (e.touches[0].clientY+e.touches[1].clientY)/2 - (lTouches[0].clientY+lTouches[1].clientY)/2
+      );
+    }
+    $('zlbl').textContent = Math.round(zoom*100)+'%';
+    markDirty();
+  }
+  lTouches = [...e.touches];
+  e.preventDefault();
+}, {passive:false});
+
+cw.addEventListener('touchend', e => {
+  if(!canMove) return;
+  onPointerUp();
+  lTouches = [...e.touches];
+  if(e.touches.length < 2) lPinchDist = null;
+}, {passive:true});
+
+cw.addEventListener('wheel', e => {
+  if(!canMove) return;
+  e.preventDefault();
+  zoom = Math.max(1, Math.min(6, zoom + (e.deltaY<0 ? 0.07 : -0.07)));
+  if(zoom===1){panX=0.5;panY=0.5;}
+  $('zlbl').textContent = Math.round(zoom*100)+'%';
+  markDirty();
+}, {passive:false});
+
+function pinchDist(t){ const dx=t[0].clientX-t[1].clientX, dy=t[0].clientY-t[1].clientY; return Math.sqrt(dx*dx+dy*dy); }
+
+// ═══════════════════════════════════════════════
+// RENDER 
+// ═══════════════════════════════════════════════
+function rrect(ctx,x,y,w,h,r){
+  const rr = Math.min(r, w/2, h/2);
+  ctx.beginPath();
+  ctx.moveTo(x+rr,y);
+  ctx.arcTo(x+w,y,x+w,y+h,rr); ctx.arcTo(x+w,y+h,x,y+h,rr);
+  ctx.arcTo(x,y+h,x,y,rr);     ctx.arcTo(x,y,x+w,y,rr);
+  ctx.closePath();
+}
+
+function draw(){
+  const {W,H} = D();
+
+  if(cv.width !== W || cv.height !== H){
+    cv.width  = W;
+    cv.height = H;
+  }
+
+  const ctx = cv.getContext('2d');
+  ctx.clearRect(0,0,W,H);
+
+  // 1. FUNDO / MÍDIA (Modo Cover Livre)
+  if(mediaFile){
+    const src  = imgO;
+    const sW   = src.naturalWidth;
+    const sH   = src.naturalHeight;
+
+    if(sW > 0 && sH > 0){
+      const ir = sW/sH, cr = W/H;
+      let bw, bh;
+      if(ir > cr){ bh=sH; bw=bh*cr; } else { bw=sW; bh=bw/cr; }
+      const z  = zoom;
+      const px = panX;
+      const py = panY;
+      const sw = bw/z, sh = bh/z;
+      const mpx = sW - sw, mpy = sH - sh;
+      const dx  = mpx>0 ? mpx*px : (sW-sw)/2;
+      const dy  = mpy>0 ? mpy*py : (sH-sh)/2;
+      ctx.drawImage(src, dx, dy, sw, sh, 0, 0, W, H);
+    }
+  } else {
+    ctx.fillStyle = '#06070a';
+    ctx.fillRect(0,0,W,H);
+  }
+
+  // 2. GRADIENTE ESCURO
+  const gopVal = +$('gop').value / 100;
+  const isTop  = pos === 'top';
+  const gH     = H * 0.6;
+  const gY0    = isTop ? 0 : H - gH;
+  const grad   = ctx.createLinearGradient(0, isTop ? gH : gY0, 0, isTop ? 0 : H);
+  grad.addColorStop(0,   'rgba(0,0,0,0)');
+  grad.addColorStop(0.4, `rgba(0,0,0,${gopVal*0.6})`);
+  grad.addColorStop(1,   `rgba(0,0,0,${gopVal})`);
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, gY0, W, gH);
+
+  // 3. TEXTOS 
+  const sc       = W / 1080;
+  const pad      = 80 * sc;
+  const maxTxtW  = W - pad*2;
+
+  const baseAX   = align==='left' ? pad : align==='right' ? W-pad : W/2;
+  const textAlign= align==='right' ? 'right' : align==='left' ? 'left' : 'center';
+
+  const fontFam  = $('fontFam').value || 'Montserrat';
+  const titSzPx  = +$('tsz').value * sc;
+  const subSzPx  = +$('ssz').value * sc;
+  const strokeW  = +$('tStrk').value * sc;
+
+  const titTxt   = $('titulo').value.trim();
+  const subTxt   = $('sub').value.trim();
+
+  // Título com formatação Inline de cores
+  ctx.font = `800 ${titSzPx}px '${fontFam}',sans-serif`;
+  const titLines  = titTxt ? formatTitLines(ctx, titTxt, maxTxtW) : [];
+  const titLH     = titSzPx * 1.22;
+  const titBlockH = titLines.length * titLH;
+
+  // Subtítulo
+  ctx.font = `400 ${subSzPx}px 'Inter',sans-serif`;
+  const subLines  = subTxt ? wrapText(ctx, subTxt, maxTxtW) : [];
+  const subMet    = ctx.measureText('Ag');
+  const tH2       = subMet.actualBoundingBoxAscent + subMet.actualBoundingBoxDescent;
+  const spx2      = 18*sc;   
+  const spy       = 9*sc;    
+  const lg        = 6*sc;    
+  const bLH       = tH2 + spy*2;   
+  const stp       = tH2 + lg;      
+  const subBlockH = subLines.length > 0 ? (subLines.length - 1)*stp + bLH : 0;
+
+  const gap       = (titTxt && subTxt) ? 28*sc : 0;
+  const totalH    = titBlockH + gap + subBlockH;
+  
+  const baseTY = isTop ? 100*sc : H - 100*sc - totalH;
+  const baseSY = baseTY + titBlockH + gap;
+
+  // RENDER: Título Colorido
+  if(titLines.length > 0){
+    ctx.save();
+    ctx.font      = `800 ${titSzPx}px '${fontFam}',sans-serif`;
+    ctx.textAlign = 'left'; 
+    ctx.textBaseline = 'top';
+
+    titLines.forEach((lineArr, i) => {
+      let lineW = lineArr.reduce((sum, chunk) => sum + ctx.measureText(chunk.text).width, 0);
+      
+      let currentX = baseAX;
+      if(textAlign === 'center') currentX -= lineW / 2;
+      if(textAlign === 'right')  currentX -= lineW;
+
+      const posY = baseTY + i*titLH;
+
+      // Primeiro Passo: Stroke / Sombra
+      if(strokeW > 0){
+        ctx.strokeStyle = 'rgba(0,0,0,0.9)';
+        ctx.lineWidth   = strokeW * 2;
+        ctx.lineJoin    = 'round';
+        let tempX = currentX;
+        lineArr.forEach(chunk => {
+          ctx.strokeText(chunk.text, tempX, posY);
+          tempX += ctx.measureText(chunk.text).width;
+        });
+      } else {
+        ctx.shadowColor   = 'rgba(0,0,0,0.75)';
+        ctx.shadowBlur    = 18*sc;
+        ctx.shadowOffsetY = 3*sc;
+      }
+
+      // Segundo Passo: Fill com cores dinâmicas
+      let tempX2 = currentX;
+      lineArr.forEach(chunk => {
+        ctx.fillStyle = chunk.colored ? tColor : '#ffffff';
+        ctx.fillText(chunk.text, tempX2, posY);
+        tempX2 += ctx.measureText(chunk.text).width;
+      });
+    });
+
+    ctx.restore();
+  }
+
+  if(subLines.length > 0){
+    ctx.font         = `400 ${subSzPx}px 'Inter',sans-serif`;
+    ctx.textAlign    = textAlign;
+    ctx.textBaseline = 'top';
+
+    const posX = baseAX;
+    const posY = baseSY;
+
+    if(showSubBg){
+      const sbopVal = $('sbop') ? parseInt($('sbop').value)/100 : 0.52;
+      const off = document.createElement('canvas');
+      off.width = W; off.height = H;
+      const oc = off.getContext('2d');
+      oc.font = `400 ${subSzPx}px 'Inter',sans-serif`;
+      oc.fillStyle = '#000';
+      subLines.forEach((l,i) => {
+        if(!l) return;
+        const lw = oc.measureText(l).width, bw = lw + spx2*2;
+        const bx = textAlign==='left'  ? posX - spx2
+                 : textAlign==='right' ? posX - lw - spx2
+                 :                       posX - bw/2;
+        rrect(oc, bx, posY - spy + i*stp, bw, bLH, 10*sc);
+        oc.fill();
+      });
+      ctx.globalAlpha = sbopVal;
+      ctx.drawImage(off, 0, 0);
+      ctx.globalAlpha = 1;
+    } else {
+      ctx.shadowColor   = 'rgba(0,0,0,0.7)';
+      ctx.shadowBlur    = 10*sc;
+      ctx.shadowOffsetY = 2*sc;
+    }
+
+    ctx.fillStyle = 'rgba(255,255,255,.93)';
+    
+    // Centralização vertical garantida dentro da caixa
+    const textOffsetY = (bLH - subSzPx) / 2;
+    subLines.forEach((l,i) => { if(l) ctx.fillText(l, posX, posY - spy + i*stp + textOffsetY); });
+    
+    ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+  }
+
+  // 4. INDICADOR
+  if(indicator !== 'none'){
+    ctx.save();
+    const indOp = $('indOp') ? parseInt($('indOp').value)/100 : 0.85;
+    ctx.globalAlpha = indOp;
+    ctx.shadowColor = 'rgba(0,0,0,0.7)'; ctx.shadowBlur = 12*sc;
+
+    if(indicator === 'arrowDown'){
+      const aw=36*sc, ah=18*sc, ax=W/2, ay=H-60*sc;
+      ctx.fillStyle = '#fff';
+      ctx.beginPath(); ctx.moveTo(ax-aw/2,ay-ah/2); ctx.lineTo(ax+aw/2,ay-ah/2); ctx.lineTo(ax,ay+ah/2); ctx.closePath(); ctx.fill();
+    } else if(indicator === 'swipeRight'){
+      const ax=W-65*sc, ay=H/2, aw=18*sc, ah=36*sc;
+      ctx.strokeStyle='#fff'; ctx.lineWidth=6*sc; ctx.lineCap='round'; ctx.lineJoin='round';
+      ctx.beginPath(); ctx.moveTo(ax-aw/2,ay-ah/2); ctx.lineTo(ax+aw/2,ay); ctx.lineTo(ax-aw/2,ay+ah/2); ctx.stroke();
+    }
+    ctx.restore();
+  }
+}
+
+// ═══════════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════════
+function exportMedia(){
+  if(!mediaFile) return;
+  const expC = document.createElement('canvas');
+  drawToCanvas(expC);
+  setTimeout(() => {
+    const a = document.createElement('a');
+    a.download = 'post-imagem.png';
+    a.href = expC.toDataURL('image/png');
+    a.click();
+  }, 80);
+}
+
+function drawToCanvas(targetCanvas){
+  const {W,H} = D();
+  if(targetCanvas.width!==W || targetCanvas.height!==H){ targetCanvas.width=W; targetCanvas.height=H; }
+  draw();
+  targetCanvas.getContext('2d').drawImage(cv, 0, 0, W, H);
+}
+</script>
+</body>
+</html>

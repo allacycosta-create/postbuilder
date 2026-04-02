@@ -146,10 +146,12 @@ textarea:focus,input[type=text]:focus,.custom-select:focus{border-color:var(--ac
 /* Preview */
 .cwrap{
   position:relative;width:100%;background:#06070a;
-  touch-action:none;user-select:none;overflow:hidden;
+  user-select:none;overflow:hidden;
   border-radius:var(--r);
   display:flex;align-items:center;justify-content:center;
 }
+/* Permite scroll nativo quando desativado o "Ajustar", trava quando ativado */
+.cwrap.is-moving { touch-action: none; }
 canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4}
 
 .prev-placeholder{
@@ -262,6 +264,21 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
   <div class="ccol">
     
     <div class="ccol-inner">
+
+      <div class="card">
+        <div class="card-hdr"><span class="card-label">Conteúdo do Post</span></div>
+        <div class="card-body">
+          <div class="field">
+            <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t3);text-transform:none">(Use *asteriscos* para colorir)</span></span>
+            <textarea id="titulo" rows="2" placeholder="Ex: Escreva um *título* chamativo..." oninput="markDirty()"></textarea>
+          </div>
+          <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+            <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Enter = nova linha)</span></span>
+            <textarea id="sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty()"></textarea>
+          </div>
+        </div>
+      </div>
+
       <div class="card">
         <div class="card-hdr"><span class="card-label">Formato</span></div>
         <div class="card-body">
@@ -305,7 +322,7 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
       </div>
     </div> <div class="ccol-inner">
       <div class="card">
-        <div class="card-hdr"><span class="card-label">Textos</span></div>
+        <div class="card-hdr"><span class="card-label">Estilo dos Textos</span></div>
         <div class="card-body">
           <div class="field">
             <span class="field-label">Posição Geral</span>
@@ -333,11 +350,8 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
               <option value="Oswald">Oswald (Condensada)</option>
             </select>
           </div>
+          
           <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-            <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t3);text-transform:none">(Use *asteriscos* para colorir)</span></span>
-            <textarea id="titulo" rows="2" placeholder="Ex: Escreva um *título* chamativo..." oninput="markDirty()"></textarea>
-          </div>
-          <div class="field">
             <span class="field-label">Cor Destaque do Título</span>
             <div class="sw-row" id="colorRow">
               <div class="sw on" style="background:#fff" onclick="setTC('#fff',this)"></div>
@@ -363,11 +377,7 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
               <input class="snum" type="number" id="tStrkN" value="0" min="0" max="15" onchange="nsync('tStrkN','tStrk')">
             </div>
           </div>
-          <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-            <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Enter = nova linha)</span></span>
-            <textarea id="sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty()"></textarea>
-          </div>
-          <div class="slider-field">
+          <div class="slider-field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
             <span class="field-label">Tamanho do Subtítulo</span>
             <div class="slider-row">
               <input type="range" id="ssz" min="25" max="40" value="25" oninput="sync('ssz','snum2')">
@@ -460,7 +470,6 @@ function wrapText(ctx, text, maxW){
 
 // Quebra texto com suporte a cores inline usando '*'
 function formatTitLines(ctx, text, maxW) {
-  // Converte duplo asterisco ** para simples * para facilitar o split
   const cleanText = text.replace(/\*\*/g, '*');
   const paras = cleanText.split('\n');
   const lines = [];
@@ -523,7 +532,7 @@ function renderLoop(){
   if(dirty){
     dirty = false;
     draw();
-    saveState(); // Salva toda vez que a tela é renderizada
+    saveState(); // Salva toda vez que a tela é renderizada com novas informações
   }
 }
 
@@ -624,6 +633,7 @@ function toggleMove(){
   canMove = !canMove;
   $('btnMove').classList.toggle('active', canMove);
   cw.style.cursor = canMove ? 'grab' : 'default';
+  cw.classList.toggle('is-moving', canMove);
 }
 
 function toggleTheme(){ document.body.classList.toggle('lt'); }

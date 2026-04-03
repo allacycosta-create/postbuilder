@@ -70,40 +70,37 @@ button{font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:ce
 .ac-dot.sel{border-color:#fff;transform:scale(1.2);box-shadow:0 0 0 3px var(--ac2)}
 
 /* Color Picker RGB Wheel */
-.color-picker-wrap {
-  position: relative;
+.color-picker-circle {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
   width: 28px;
   height: 28px;
+  padding: 0;
   border: 2px solid var(--b2);
   border-radius: 50%;
   cursor: pointer;
   background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
   transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, outline 0.2s;
   overflow: hidden;
-  flex-shrink: 0;
+  flex-shrink:0;
 }
-.color-picker-wrap:hover {
+.color-picker-circle:hover {
   transform: scale(1.15);
   border-color: var(--ac);
 }
-.color-picker-wrap.sel {
+.color-picker-circle.sel {
   border-color: #fff;
   transform: scale(1.2);
   box-shadow: 0 0 0 3px var(--ac2);
 }
-.color-picker-wrap.on {
+.color-picker-circle.on {
   outline: 2px solid var(--ac);
   outline-offset: 3px;
 }
-.color-picker-wrap input[type="color"] {
-  position: absolute;
-  top: -10px; left: -10px;
-  width: 50px; height: 50px;
-  opacity: 0;
-  cursor: pointer;
-  border: none;
-  padding: 0;
-}
+.color-picker-circle::-webkit-color-swatch-wrapper { padding: 0; }
+.color-picker-circle::-webkit-color-swatch { border: none; opacity: 0; }
+.color-picker-circle::-moz-color-swatch { border: none; opacity: 0; }
 
 /* Cards */
 .card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r3);overflow:hidden;box-shadow:var(--shadow);border-top:3px solid var(--ac)}
@@ -191,14 +188,14 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
   .card-hdr { flex-direction:column; align-items:flex-start; }
   .hdr-actions { width:100%; justify-content:flex-end; }
   .sw { width: 22px; height: 22px; }
-  .color-picker-wrap { width: 24px; height: 24px; }
+  .color-picker-circle { width: 24px; height: 24px; }
 }
 </style>
 </head>
 <body>
 
 <div class="app">
-<input type="file" id="imgInput" style="display:none" accept="image/*" onchange="loadImg(event)">
+<input type="file" id="imgInput" style="opacity:0; position:absolute; z-index:-1; width:1px; height:1px;" accept="image/*" onchange="loadImg(event)">
 
 <div class="hdr">
   <div class="hdr-left">
@@ -221,9 +218,7 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
       <div class="ac-dot" data-c="#7c6af7" style="background:#7c6af7" onclick="setAccent('#7c6af7',this)"></div>
       <div class="ac-dot" data-c="#00d4aa" style="background:#00d4aa" onclick="setAccent('#00d4aa',this)"></div>
       <div class="ac-dot" data-c="#f7a26a" style="background:#f7a26a" onclick="setAccent('#f7a26a',this)"></div>
-      <div class="color-picker-wrap" id="acCustomWrap">
-        <input type="color" id="acCustom" value="#6b6b6b" oninput="setAccent(this.value,null)">
-      </div>
+      <input class="color-picker-circle" type="color" id="acCustom" value="#6b6b6b" oninput="setAccent(this.value,null)">
     </div>
     <button class="ibtn" onclick="resetAll()" title="Resetar Tudo">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
@@ -274,8 +269,8 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
         <div class="card-hdr"><span class="card-label">Conteúdo do Post</span></div>
         <div class="card-body">
           <div class="field">
-            <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ; para colorir)</span></span>
-            <textarea id="titulo" rows="2" placeholder="Ex: Escreva um ;título; chamativo..." oninput="markDirty()"></textarea>
+            <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ;; para colorir)</span></span>
+            <textarea id="titulo" rows="2" placeholder="Ex: Escreva um ;;título;; chamativo..." oninput="markDirty()"></textarea>
           </div>
           <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
             <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Enter = nova linha)</span></span>
@@ -325,9 +320,7 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
           </div>
         </div>
       </div>
-    </div> 
-    
-    <div class="ccol-inner">
+    </div> <div class="ccol-inner">
       <div class="card">
         <div class="card-hdr"><span class="card-label">Estilo dos Textos</span></div>
         <div class="card-body">
@@ -365,8 +358,49 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
               <div class="sw" data-c="#ffd600" style="background:#FFD600" onclick="setTC('#FFD600',this)"></div>
               <div class="sw" data-c="#ff6b00" style="background:#FF6B00" onclick="setTC('#FF6B00',this)"></div>
               <div class="sw" data-c="#ff3b3b" style="background:#FF3B3B" onclick="setTC('#FF3B3B',this)"></div>
-              <div class="sw" data-c="#00e5ff" style="background:#00
-                <script>
+              <div class="sw" data-c="#00e5ff" style="background:#00E5FF" onclick="setTC('#00E5FF',this)"></div>
+              <div class="sw" data-c="#69ff47" style="background:#69FF47" onclick="setTC('#69FF47',this)"></div>
+              <input type="color" id="tCP" class="color-picker-circle" style="background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);" value="#ffffff" oninput="setTC(this.value,null)">
+            </div>
+          </div>
+          <div class="slider-field">
+            <span class="field-label">Tamanho do Título</span>
+            <div class="slider-row">
+              <input type="range" id="tsz" min="45" max="60" value="48" oninput="sync('tsz','tnum')">
+              <input class="snum" type="number" id="tnum" value="48" min="45" max="60" onchange="nsync('tnum','tsz')">
+            </div>
+          </div>
+          <div class="slider-field">
+            <span class="field-label">Contorno Escuro (Stroke)</span>
+            <div class="slider-row">
+              <input type="range" id="tStrk" min="0" max="15" value="0" oninput="sync('tStrk','tStrkN')">
+              <input class="snum" type="number" id="tStrkN" value="0" min="0" max="15" onchange="nsync('tStrkN','tStrk')">
+            </div>
+          </div>
+          <div class="slider-field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+            <span class="field-label">Tamanho do Subtítulo</span>
+            <div class="slider-row">
+              <input type="range" id="ssz" min="25" max="40" value="25" oninput="sync('ssz','snum2')">
+              <input class="snum" type="number" id="snum2" value="25" min="25" max="40" onchange="nsync('snum2','ssz')">
+            </div>
+          </div>
+          <div class="field">
+            <span class="field-label">Fundo de Leitura do Subtítulo</span>
+            <div class="tog-row">
+              <button class="tog on" id="sbOn" onclick="setSubBg(true)">Ativado</button>
+              <button class="tog" id="sbOff" onclick="setSubBg(false)">Desativado</button>
+            </div>
+          </div>
+          <div id="sbSlider" class="slider-field">
+            <span class="field-label">Opacidade do Fundo %</span>
+            <div class="slider-row">
+              <input type="range" id="sbop" min="0" max="90" value="52" oninput="sync('sbop','sbnum');markDirty()">
+              <input class="snum" type="number" id="sbnum" value="52" min="0" max="90" onchange="nsync('sbnum','sbop');markDirty()">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> </div></div></div><script>
 'use strict';
 
 // ═══════════════════════════════════════════════
@@ -434,14 +468,14 @@ function wrapText(ctx, text, maxW){
   return result;
 }
 
-// Quebra texto com suporte a cores inline usando ';'
+// Quebra texto com suporte a cores inline usando ';;'
 function formatTitLines(ctx, text, maxW) {
   const paras = text.split('\n');
   const lines = [];
   
   for (const para of paras) {
       if (!para.trim()) { lines.push([]); continue; }
-      const parts = para.split(';');
+      const parts = para.split(';;');
       let currentLine = [];
       let currentW = 0;
 
@@ -501,13 +535,13 @@ function renderLoop(){
 function saveState() {
   const state = {
     ratio, pos, align, tColor, showSubBg, indicator,
-    accentColor: $('acCustom').value,
-    fontFam: $('fontFam').value,
-    tsz: $('tsz').value,
-    tStrk: $('tStrk').value,
-    ssz: $('ssz').value,
-    sbop: $('sbop').value,
-    gop: $('gop').value,
+    accentColor: $('acCustom') ? $('acCustom').value : '#6b6b6b',
+    fontFam: $('fontFam') ? $('fontFam').value : 'Montserrat',
+    tsz: $('tsz') ? $('tsz').value : 48,
+    tStrk: $('tStrk') ? $('tStrk').value : 0,
+    ssz: $('ssz') ? $('ssz').value : 25,
+    sbop: $('sbop') ? $('sbop').value : 52,
+    gop: $('gop') ? $('gop').value : 65,
     indOp: $('indOp') ? $('indOp').value : 85
   };
   localStorage.setItem('postBuilderState', JSON.stringify(state));
@@ -521,21 +555,33 @@ function loadState() {
     
     if(state.accentColor) setAccent(state.accentColor, null);
 
-    if(state.fontFam) $('fontFam').value = state.fontFam;
+    if(state.fontFam && $('fontFam')) $('fontFam').value = state.fontFam;
     
-    if(state.tsz) { 
+    if(state.tsz && $('tsz')) { 
       let val = Math.max(45, Math.min(60, +state.tsz));
-      $('tsz').value = val; $('tnum').value = val; 
+      $('tsz').value = val; if($('tnum')) $('tnum').value = val; 
     }
-    if(state.tStrk) { $('tStrk').value = state.tStrk; $('tStrkN').value = state.tStrk; }
+    if(state.tStrk && $('tStrk')) { 
+      $('tStrk').value = state.tStrk; 
+      if($('tStrkN')) $('tStrkN').value = state.tStrk; 
+    }
     
-    if(state.ssz) { 
+    if(state.ssz && $('ssz')) { 
       let val = Math.max(25, Math.min(40, +state.ssz));
-      $('ssz').value = val; $('snum2').value = val; 
+      $('ssz').value = val; if($('snum2')) $('snum2').value = val; 
     }
-    if(state.sbop) { $('sbop').value = state.sbop; $('sbnum').value = state.sbop; }
-    if(state.gop) { $('gop').value = state.gop; $('gnum').value = state.gop; }
-    if(state.indOp) { $('indOp').value = state.indOp; $('indOpN').value = state.indOp; }
+    if(state.sbop && $('sbop')) { 
+      $('sbop').value = state.sbop; 
+      if($('sbnum')) $('sbnum').value = state.sbop; 
+    }
+    if(state.gop && $('gop')) { 
+      $('gop').value = state.gop; 
+      if($('gnum')) $('gnum').value = state.gop; 
+    }
+    if(state.indOp && $('indOp')) { 
+      $('indOp').value = state.indOp; 
+      if($('indOpN')) $('indOpN').value = state.indOp; 
+    }
     
     if(state.ratio) {
       const btn = document.querySelector(`#ratioRow button[onclick="setRatio('${state.ratio}',this)"]`);
@@ -570,8 +616,8 @@ function setAccent(c, el){
   document.documentElement.style.setProperty('--ac-tx', contrastColor(c));
   document.querySelectorAll('.accent-picker .ac-dot').forEach(d => d.classList.remove('sel'));
   
-  const cp = $('acCustomWrap');
-  cp.classList.remove('sel');
+  const cp = $('acCustom');
+  if(cp) cp.classList.remove('sel');
 
   if(!el) {
     el = document.querySelector(`.accent-picker .ac-dot[data-c="${c.toLowerCase()}"]`);
@@ -579,20 +625,25 @@ function setAccent(c, el){
 
   if(el) {
     el.classList.add('sel');
-    cp.style.background = 'conic-gradient(red, yellow, lime, aqua, blue, magenta, red)';
+    if(cp) cp.style.background = 'conic-gradient(red, yellow, lime, aqua, blue, magenta, red)';
   } else {
-    cp.classList.add('sel');
-    cp.style.background = c;
+    if(cp) {
+      cp.classList.add('sel');
+      cp.style.background = c;
+    }
   }
-  $('acCustom').value = c;
+  if(cp) cp.value = c;
   markDirty();
 }
 
 function toggleMove(){
   canMove = !canMove;
-  $('btnMove').classList.toggle('active', canMove);
-  cw.style.cursor = canMove ? 'grab' : 'default';
-  cw.classList.toggle('is-moving', canMove);
+  const btn = $('btnMove');
+  if(btn) btn.classList.toggle('active', canMove);
+  if(cw) {
+    cw.style.cursor = canMove ? 'grab' : 'default';
+    cw.classList.toggle('is-moving', canMove);
+  }
 }
 
 function toggleTheme(){ document.body.classList.toggle('lt'); }
@@ -603,8 +654,14 @@ function resetAll(){
   }
 }
 
-function sync(rid,nid){ $(nid).value = $(rid).value; markDirty(); }
+function sync(rid,nid){ 
+  if($(nid) && $(rid)) {
+    $(nid).value = $(rid).value; 
+    markDirty(); 
+  }
+}
 function nsync(nid,rid){
+  if(!$(nid) || !$(rid)) return;
   const el=$(nid); let v=parseFloat(el.value); if(isNaN(v)) return;
   v = Math.max(+el.min, Math.min(+el.max, v)); el.value = v; $(rid).value = v; markDirty();
 }
@@ -612,7 +669,7 @@ function nsync(nid,rid){
 function setRatio(r,btn){
   ratio = r;
   document.querySelectorAll('#ratioRow .tog').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
+  if(btn) btn.classList.add('on');
   updateCanvasAspect();
   updatePlaceholderAspect();
   markDirty();
@@ -626,53 +683,57 @@ function updatePlaceholderAspect(){
 
 function updateCanvasAspect(){
   const {W,H} = D();
-  cv.style.aspectRatio = W + '/' + H;
-  cv.width  = W;
-  cv.height = H;
+  if(cv) {
+    cv.style.aspectRatio = W + '/' + H;
+    cv.width  = W;
+    cv.height = H;
+  }
 }
 
 function setPos(p,btn){
   pos = p;
-  $('posBot').classList.toggle('on', p==='bottom');
-  $('posTop').classList.toggle('on', p==='top');
+  if($('posBot')) $('posBot').classList.toggle('on', p==='bottom');
+  if($('posTop')) $('posTop').classList.toggle('on', p==='top');
   markDirty();
 }
 
 function setAlign(a,btn){
   align = a;
   document.querySelectorAll('#alignRow .tog').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
+  if(btn) btn.classList.add('on');
   markDirty();
 }
 
 function setTC(c,el){
   tColor = c; 
-  const cp = $('tCPWrap');
-  $('tCP').value = c;
+  const cp = $('tCP');
+  if(cp) cp.value = c;
   
   document.querySelectorAll('#colorRow .sw').forEach(s => s.classList.remove('on'));
-  cp.classList.remove('on');
+  if(cp) cp.classList.remove('on');
   
   if(!el) {
-    el = Array.from(document.querySelectorAll('#colorRow .sw:not(.color-picker-wrap)')).find(d => {
-      return d.dataset.c && d.dataset.c.toLowerCase() === c.toLowerCase();
+    el = Array.from(document.querySelectorAll('#colorRow .sw:not(input)')).find(d => {
+      return d.dataset && d.dataset.c && d.dataset.c.toLowerCase() === c.toLowerCase();
     });
   }
 
   if(el) {
     el.classList.add('on');
-    cp.style.background = 'conic-gradient(red, yellow, lime, aqua, blue, magenta, red)';
+    if(cp) cp.style.background = 'conic-gradient(red, yellow, lime, aqua, blue, magenta, red)';
   } else {
-    cp.classList.add('on');
-    cp.style.background = c;
+    if(cp) {
+      cp.classList.add('on');
+      cp.style.background = c;
+    }
   }
   markDirty();
 }
 
 function setSubBg(v){
   showSubBg = v;
-  $('sbOn').classList.toggle('on', v);
-  $('sbOff').classList.toggle('on', !v);
+  if($('sbOn')) $('sbOn').classList.toggle('on', v);
+  if($('sbOff')) $('sbOff').classList.toggle('on', !v);
   const sl = $('sbSlider');
   if(sl) sl.style.display = v ? 'flex' : 'none';
   markDirty();
@@ -682,7 +743,7 @@ function setInd(val,btn){
   indicator = val;
   document.querySelectorAll('#indRow .tog').forEach(b => b.classList.remove('on'));
   if(btn) btn.classList.add('on');
-  $('indOpWrap').style.display = val === 'none' ? 'none' : 'flex';
+  if($('indOpWrap')) $('indOpWrap').style.display = val === 'none' ? 'none' : 'flex';
   markDirty();
 }
 
@@ -696,15 +757,15 @@ function loadImg(e){
   const blobURL = URL.createObjectURL(f);
   imgO._blobURL = blobURL;
 
-  $('prevPlaceholder').style.display = 'none';
-  $('cw').style.display = 'flex';
-  $('btnChange').style.display = 'flex';
-  $('dlBtn').disabled = false;
+  if($('prevPlaceholder')) $('prevPlaceholder').style.display = 'none';
+  if($('cw')) $('cw').style.display = 'flex';
+  if($('btnChange')) $('btnChange').style.display = 'flex';
+  if($('dlBtn')) $('dlBtn').disabled = false;
 
   imgO.onload = () => {
     panX=0.5; panY=0.5; zoom=1;
-    $('zlbl').textContent = '100%';
-    $('zpill').style.display = 'flex';
+    if($('zlbl')) $('zlbl').textContent = '100%';
+    if($('zpill')) $('zpill').style.display = 'flex';
     updateCanvasAspect();
     markDirty();
   };
@@ -731,7 +792,7 @@ function onPointerDown(e){
   panDragging = true;
   panLastRaw = {x: rawX, y: rawY};
   
-  cw.style.cursor = 'grabbing';
+  if(cw) cw.style.cursor = 'grabbing';
   if(!e.touches) e.preventDefault();
 }
 
@@ -749,11 +810,11 @@ function onPointerMove(e){
 
 function onPointerUp(){
   panDragging = false;
-  if(canMove) cw.style.cursor = 'grab';
+  if(canMove && cw) cw.style.cursor = 'grab';
 }
 
 function applyPan(dxViewport, dyViewport){
-  if(!imgO.width) return;
+  if(!imgO.width || !cw) return;
   const rect = cw.getBoundingClientRect();
   const iw = imgO.naturalWidth, ih = imgO.naturalHeight;
   const {W,H} = D();
@@ -774,54 +835,56 @@ function applyPan(dxViewport, dyViewport){
 
 let lTouches = [], lPinchDist = null;
 
-cw.addEventListener('mousedown', onPointerDown);
+if(cw) {
+  cw.addEventListener('mousedown', onPointerDown);
+  cw.addEventListener('touchstart', e => {
+    if(!canMove) return;
+    lTouches = [...e.touches];
+    lPinchDist = e.touches.length===2 ? pinchDist(e.touches) : null;
+    if(e.touches.length===1) onPointerDown(e);
+  }, {passive:false});
+
+  cw.addEventListener('touchmove', e => {
+    if(!canMove) return;
+    if(e.touches.length===1){
+      onPointerMove(e);
+    } else if(e.touches.length===2){
+      panDragging = false;
+      const d = pinchDist(e.touches);
+      if(lPinchDist){ zoom = Math.max(1, Math.min(6, zoom*(d/lPinchDist))); if(zoom===1){panX=0.5;panY=0.5;} }
+      lPinchDist = d;
+      if(lTouches.length===2){
+        applyPan(
+          (e.touches[0].clientX+e.touches[1].clientX)/2 - (lTouches[0].clientX+lTouches[1].clientX)/2,
+          (e.touches[0].clientY+e.touches[1].clientY)/2 - (lTouches[0].clientY+lTouches[1].clientY)/2
+        );
+      }
+      if($('zlbl')) $('zlbl').textContent = Math.round(zoom*100)+'%';
+      markDirty();
+    }
+    lTouches = [...e.touches];
+    e.preventDefault();
+  }, {passive:false});
+
+  cw.addEventListener('touchend', e => {
+    if(!canMove) return;
+    onPointerUp();
+    lTouches = [...e.touches];
+    if(e.touches.length < 2) lPinchDist = null;
+  }, {passive:true});
+
+  cw.addEventListener('wheel', e => {
+    if(!canMove) return;
+    e.preventDefault();
+    zoom = Math.max(1, Math.min(6, zoom + (e.deltaY<0 ? 0.07 : -0.07)));
+    if(zoom===1){panX=0.5;panY=0.5;}
+    if($('zlbl')) $('zlbl').textContent = Math.round(zoom*100)+'%';
+    markDirty();
+  }, {passive:false});
+}
+
 window.addEventListener('mousemove', onPointerMove);
 window.addEventListener('mouseup', onPointerUp);
-
-cw.addEventListener('touchstart', e => {
-  if(!canMove) return;
-  lTouches = [...e.touches];
-  lPinchDist = e.touches.length===2 ? pinchDist(e.touches) : null;
-  if(e.touches.length===1) onPointerDown(e);
-}, {passive:false});
-
-cw.addEventListener('touchmove', e => {
-  if(!canMove) return;
-  if(e.touches.length===1){
-    onPointerMove(e);
-  } else if(e.touches.length===2){
-    panDragging = false;
-    const d = pinchDist(e.touches);
-    if(lPinchDist){ zoom = Math.max(1, Math.min(6, zoom*(d/lPinchDist))); if(zoom===1){panX=0.5;panY=0.5;} }
-    lPinchDist = d;
-    if(lTouches.length===2){
-      applyPan(
-        (e.touches[0].clientX+e.touches[1].clientX)/2 - (lTouches[0].clientX+lTouches[1].clientX)/2,
-        (e.touches[0].clientY+e.touches[1].clientY)/2 - (lTouches[0].clientY+lTouches[1].clientY)/2
-      );
-    }
-    $('zlbl').textContent = Math.round(zoom*100)+'%';
-    markDirty();
-  }
-  lTouches = [...e.touches];
-  e.preventDefault();
-}, {passive:false});
-
-cw.addEventListener('touchend', e => {
-  if(!canMove) return;
-  onPointerUp();
-  lTouches = [...e.touches];
-  if(e.touches.length < 2) lPinchDist = null;
-}, {passive:true});
-
-cw.addEventListener('wheel', e => {
-  if(!canMove) return;
-  e.preventDefault();
-  zoom = Math.max(1, Math.min(6, zoom + (e.deltaY<0 ? 0.07 : -0.07)));
-  if(zoom===1){panX=0.5;panY=0.5;}
-  $('zlbl').textContent = Math.round(zoom*100)+'%';
-  markDirty();
-}, {passive:false});
 
 function pinchDist(t){ const dx=t[0].clientX-t[1].clientX, dy=t[0].clientY-t[1].clientY; return Math.sqrt(dx*dx+dy*dy); }
 
@@ -838,6 +901,7 @@ function rrect(ctx,x,y,w,h,r){
 }
 
 function draw(){
+  if(!cv) return;
   const {W,H} = D();
 
   if(cv.width !== W || cv.height !== H){
@@ -873,7 +937,7 @@ function draw(){
   }
 
   // 2. GRADIENTE ESCURO
-  const gopVal = +$('gop').value / 100;
+  const gopVal = $('gop') ? +$('gop').value / 100 : 0.65;
   const isTop  = pos === 'top';
   const gH     = H * 0.6;
   const gY0    = isTop ? 0 : H - gH;
@@ -892,15 +956,15 @@ function draw(){
   const baseAX   = align==='left' ? pad : align==='right' ? W-pad : W/2;
   const textAlign= align==='right' ? 'right' : align==='left' ? 'left' : 'center';
 
-  const fontFam  = $('fontFam').value || 'Montserrat';
-  const titSzPx  = +$('tsz').value * sc;
-  const subSzPx  = +$('ssz').value * sc;
-  const strokeW  = +$('tStrk').value * sc;
+  const fontFam  = $('fontFam') ? $('fontFam').value : 'Montserrat';
+  const titSzPx  = $('tsz') ? +$('tsz').value * sc : 48 * sc;
+  const subSzPx  = $('ssz') ? +$('ssz').value * sc : 25 * sc;
+  const strokeW  = $('tStrk') ? +$('tStrk').value * sc : 0;
 
-  const titTxt   = $('titulo').value.trim();
-  const subTxt   = $('sub').value.trim();
+  const titTxt   = $('titulo') ? $('titulo').value.trim() : '';
+  const subTxt   = $('sub') ? $('sub').value.trim() : '';
 
-  // Título com formatação Inline de cores usando ';'
+  // Título com formatação Inline de cores usando ';;'
   ctx.font = `800 ${titSzPx}px '${fontFam}',sans-serif`;
   const titLines  = titTxt ? formatTitLines(ctx, titTxt, maxTxtW) : [];
   const titLH     = titSzPx * 1.22;
@@ -1023,4 +1087,35 @@ function draw(){
       ctx.beginPath(); ctx.moveTo(ax-aw/2,ay-ah/2); ctx.lineTo(ax+aw/2,ay-ah/2); ctx.lineTo(ax,ay+ah/2); ctx.closePath(); ctx.fill();
     } else if(indicator === 'swipeRight'){
       const ax=W-65*sc, ay=H/2, aw=18*sc, ah=36*sc;
-      ctx.strokeStyle='#fff'; ctx.lineWidth=6*sc; ctx.lineCap='round'; ctx.lineJo
+      ctx.strokeStyle='#fff'; ctx.lineWidth=6*sc; ctx.lineCap='round'; ctx.lineJoin='round';
+      ctx.beginPath(); ctx.moveTo(ax-aw/2,ay-ah/2); ctx.lineTo(ax+aw/2,ay); ctx.lineTo(ax-aw/2,ay+ah/2); ctx.stroke();
+    }
+    ctx.restore();
+  }
+}
+
+// ═══════════════════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════════════════
+function exportMedia(){
+  if(!mediaFile) return;
+  const expC = document.createElement('canvas');
+  drawToCanvas(expC);
+  setTimeout(() => {
+    const a = document.createElement('a');
+    a.download = 'post-imagem.png';
+    a.href = expC.toDataURL('image/png');
+    a.click();
+  }, 80);
+}
+
+function drawToCanvas(targetCanvas){
+  const {W,H} = D();
+  if(targetCanvas.width!==W || targetCanvas.height!==H){ targetCanvas.width=W; targetCanvas.height=H; }
+  draw();
+  if(cv) targetCanvas.getContext('2d').drawImage(cv, 0, 0, W, H);
+}
+</script>
+</body>
+</html>
+

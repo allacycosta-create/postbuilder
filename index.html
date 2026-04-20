@@ -752,7 +752,7 @@ function markDirty(mode){
 }
 function renderLoop(mode){
   const s=S[mode]; s.rafId=null;
-  if(s.dirty){ s.dirty=false; draw(mode); }
+  if(s.dirty){ s.dirty=false; draw(mode); saveState(); }
 }
 
 // ═══════════════════════════════════
@@ -918,7 +918,7 @@ function setAccent(c,el){
   if(el){el.classList.add('sel');cp.style.background='conic-gradient(red,yellow,lime,aqua,blue,magenta,red)';}
   else{cp.classList.add('sel');cp.style.background=c;}
   $('acCustom').value=c;
-  markDirty('img'); markDirty('reels');
+  markDirty('img'); markDirty('reels'); saveState();
 }
 
 function toggleTheme(){document.body.classList.toggle('lt');}
@@ -926,10 +926,10 @@ function resetAll(){
   if(confirm('Tem certeza que deseja limpar tudo?')){localStorage.removeItem('pbState');location.reload();}
 }
 
-function sync(rid,nid,mode){ $(nid).value=$(rid).value; markDirty(mode); }
+function sync(rid,nid,mode){ $(nid).value=$(rid).value; markDirty(mode); saveState(); }
 function nsync(nid,rid,mode){
   const el=$(nid);let v=parseFloat(el.value);if(isNaN(v))return;
-  v=Math.max(+el.min,Math.min(+el.max,v));el.value=v;$(rid).value=v;markDirty(mode);
+  v=Math.max(+el.min,Math.min(+el.max,v));el.value=v;$(rid).value=v;markDirty(mode);saveState();
 }
 
 function setRatio(r,btn){
@@ -939,7 +939,7 @@ function setRatio(r,btn){
   const cv=cvEl('img'); const {W,H}=D('img');
   cv.style.aspectRatio=W+'/'+H; cv.width=W; cv.height=H;
   const ph=$('prevPlaceholder'); if(ph) ph.style.aspectRatio=W+'/'+H;
-  markDirty('img');
+  markDirty('img'); saveState();
 }
 
 function setPos(p,btn,mode){
@@ -948,14 +948,14 @@ function setPos(p,btn,mode){
   $(`${pfx}posBot`)&&$(`${pfx}posBot`).classList.toggle('on',p==='bottom');
   $(`${pfx}posTop`)&&$(`${pfx}posTop`).classList.toggle('on',p==='top');
   $(`${pfx}posMid`)&&$(`${pfx}posMid`).classList.toggle('on',p==='middle');
-  markDirty(mode);
+  markDirty(mode); saveState();
 }
 
 function setAlign(a,btn,mode){
   S[mode].align=a;
   const row=mode==='reels'?'r-alignRow':'alignRow';
   document.querySelectorAll(`#${row} .tog`).forEach(b=>b.classList.remove('on'));
-  btn.classList.add('on'); markDirty(mode);
+  btn.classList.add('on'); markDirty(mode); saveState();
 }
 
 function setTC(c,el,mode){
@@ -967,7 +967,7 @@ function setTC(c,el,mode){
   if(!el) el=Array.from(document.querySelectorAll(`#${pfx}colorRow .sw:not(.color-picker-wrap)`)).find(d=>d.dataset.c&&d.dataset.c.toLowerCase()===c.toLowerCase());
   if(el){el.classList.add('on');cp.style.background='conic-gradient(red,yellow,lime,aqua,blue,magenta,red)';}
   else{cp.classList.add('on');cp.style.background=c;}
-  markDirty(mode);
+  markDirty(mode); saveState();
 }
 
 function setSubBg(v,mode){
@@ -976,7 +976,7 @@ function setSubBg(v,mode){
   $(`${pfx}sbOn`).classList.toggle('on',v);
   $(`${pfx}sbOff`).classList.toggle('on',!v);
   $(`${pfx}sbSlider`).style.display=v?'flex':'none';
-  markDirty(mode);
+  markDirty(mode); saveState();
 }
 
 function setInd(val,btn,mode){
@@ -985,7 +985,7 @@ function setInd(val,btn,mode){
   document.querySelectorAll(`#${pfx}indRow .tog`).forEach(b=>b.classList.remove('on'));
   if(btn) btn.classList.add('on');
   $(`${pfx}indOpWrap`).style.display=(val==='none'||S[mode].transparentBg)?'none':'flex';
-  markDirty(mode);
+  markDirty(mode); saveState();
 }
 
 // ═══════════════════════════════════
@@ -994,35 +994,32 @@ function setInd(val,btn,mode){
 function activateTransparent(e,mode){
   if(e) e.stopPropagation();
   const s=S[mode]; s.transparentBg=true;
-  const pfx=mode==='reels'?'r-':'';
-  const cw=cwEl(mode), ph=$(pfx==='r-'?'r-prevPlaceholder':'prevPlaceholder');
-  ph.style.display='none'; cw.style.display='flex';
-  cw.classList.add('transparent-mode');
-  $(`${pfx}transpBadge`).classList.add('visible');
-  $(`${pfx}transpInfoBox`).classList.add('visible');
-  $(`${pfx==='r-'?'r-gopWrap':'gopWrap'}`).style.opacity='.35';
-  $(`${pfx==='r-'?'r-gopWrap':'gopWrap'}`).style.pointerEvents='none';
-  $(`${pfx==='r-'?'r-indWrap':'indWrap'}`).style.opacity='.35';
-  $(`${pfx==='r-'?'r-indWrap':'indWrap'}`).style.pointerEvents='none';
-  $(pfx+'dlBtn'||'dlBtn').disabled=false;
-  const dlId=mode==='reels'?'r-dlBtn':'dlBtn'; $(dlId).disabled=false;
+  const cw=cwEl(mode);
+  // só img tem placeholder/badge — reels já começa com xadrez
+  if(mode==='img'){
+    const ph=$('prevPlaceholder');
+    if(ph) ph.style.display='none';
+    cw.style.display='flex';
+    cw.classList.add('transparent-mode');
+    const infoBox=$('transpInfoBox');
+    if(infoBox) infoBox.classList.add('visible');
+    $('dlBtn').disabled=false;
+  }
   markDirty(mode);
 }
 
 function deactivateTransparent(mode){
   const s=S[mode]; s.transparentBg=false; s.mediaFile=null;
-  const pfx=mode==='reels'?'r-':'';
-  const cw=cwEl(mode), ph=$(pfx==='r-'?'r-prevPlaceholder':'prevPlaceholder');
-  cw.classList.remove('transparent-mode');
-  $(`${pfx}transpBadge`).classList.remove('visible');
-  $(`${pfx}transpInfoBox`).classList.remove('visible');
-  $(`${pfx==='r-'?'r-gopWrap':'gopWrap'}`).style.opacity='';
-  $(`${pfx==='r-'?'r-gopWrap':'gopWrap'}`).style.pointerEvents='';
-  $(`${pfx==='r-'?'r-indWrap':'indWrap'}`).style.opacity='';
-  $(`${pfx==='r-'?'r-indWrap':'indWrap'}`).style.pointerEvents='';
-  cw.style.display='none';
-  ph.style.display='flex';
-  const dlId=mode==='reels'?'r-dlBtn':'dlBtn'; $(dlId).disabled=true;
+  if(mode==='img'){
+    const cw=cwEl(mode);
+    cw.classList.remove('transparent-mode');
+    cw.style.display='none';
+    const ph=$('prevPlaceholder');
+    if(ph) ph.style.display='flex';
+    const infoBox=$('transpInfoBox');
+    if(infoBox) infoBox.classList.remove('visible');
+    $('dlBtn').disabled=true;
+  }
 }
 
 // ═══════════════════════════════════
@@ -1030,31 +1027,141 @@ function deactivateTransparent(mode){
 // ═══════════════════════════════════
 function loadImg(e,mode){
   const f=e.target.files[0]; if(!f) return;
-  const s=S[mode]; s.mediaFile=f; s.transparentBg=false;
-  const pfx=mode==='reels'?'r-':'';
-  const cw=cwEl(mode), ph=$(pfx==='r-'?'r-prevPlaceholder':'prevPlaceholder');
-  cw.classList.remove('transparent-mode');
-  $(`${pfx}transpBadge`).classList.remove('visible');
-  $(`${pfx}transpInfoBox`).classList.remove('visible');
-  $(`${pfx==='r-'?'r-gopWrap':'gopWrap'}`).style.opacity='';
-  $(`${pfx==='r-'?'r-gopWrap':'gopWrap'}`).style.pointerEvents='';
-  $(`${pfx==='r-'?'r-indWrap':'indWrap'}`).style.opacity='';
-  $(`${pfx==='r-'?'r-indWrap':'indWrap'}`).style.pointerEvents='';
+  const s=S[mode]; s.mediaFile=f;
+  // Reels: mantém transparentBg=true mesmo com imagem (modo sempre transparente)
+  if(mode==='img') s.transparentBg=false;
+
+  const cw=cwEl(mode);
+
+  if(mode==='img'){
+    const ph=$('prevPlaceholder');
+    if(ph) ph.style.display='none';
+    cw.classList.remove('transparent-mode');
+    const infoBox=$('transpInfoBox');
+    if(infoBox) infoBox.classList.remove('visible');
+    cw.style.display='flex';
+    $('btnMove').style.display='flex';
+    $('btnChange').style.display='flex';
+    $('dlBtn').disabled=false;
+  } else {
+    // Reels: ao carregar imagem, desativa xadrez mas mantém flag transparentBg=true
+    // (o fundo da imagem substitui o xadrez visualmente, mas exporta sem fundo)
+    cw.classList.remove('transparent-mode');
+    $('r-btnMove').style.display='flex';
+    $('r-btnChange').style.display='flex';
+  }
+
   if(s.imgO._blobURL) URL.revokeObjectURL(s.imgO._blobURL);
   const blobURL=URL.createObjectURL(f); s.imgO._blobURL=blobURL;
-  ph.style.display='none'; cw.style.display='flex';
-  $(pfx+'btnMove').style.display='flex';
-  $(pfx+'btnChange').style.display='flex';
-  const dlId=mode==='reels'?'r-dlBtn':'dlBtn'; $(dlId).disabled=false;
+
   s.imgO.onload=()=>{
     s.panX=.5;s.panY=.5;s.zoom=1;
+    const pfx=mode==='reels'?'r-':'';
     $(pfx+'zlbl').textContent='100%';
     $(pfx+'zpill').style.display='flex';
     markDirty(mode);
+    saveState();
   };
   s.imgO.onerror=()=>alert('Erro ao carregar imagem.');
   s.imgO.src=blobURL;
   e.target.value='';
+}
+
+// ═══════════════════════════════════
+// SAVE / LOAD STATE (localStorage)
+// ═══════════════════════════════════
+function saveState(){
+  try{
+    const st={
+      accent: $('acCustom').value,
+      // ── img ──
+      img_ratio   : S.img.ratio,
+      img_pos     : S.img.pos,
+      img_align   : S.img.align,
+      img_tColor  : S.img.tColor,
+      img_showSubBg: S.img.showSubBg,
+      img_indicator: S.img.indicator,
+      img_fontFam : $('fontFam').value,
+      img_tsz     : $('tsz').value,
+      img_tStrk   : $('tStrk').value,
+      img_ssz     : $('ssz').value,
+      img_sbop    : $('sbop').value,
+      img_gop     : $('gop').value,
+      img_indOp   : $('indOp').value,
+      // ── reels ──
+      r_pos      : S.reels.pos,
+      r_align    : S.reels.align,
+      r_tColor   : S.reels.tColor,
+      r_showSubBg: S.reels.showSubBg,
+      r_fontFam  : $('r-fontFam').value,
+      r_tsz      : $('r-tsz').value,
+      r_tStrk    : $('r-tStrk').value,
+      r_ssz      : $('r-ssz').value,
+      r_sbop     : $('r-sbop').value,
+    };
+    localStorage.setItem('pbState2', JSON.stringify(st));
+  }catch(e){}
+}
+
+function loadState(){
+  try{
+    const raw=localStorage.getItem('pbState2'); if(!raw) return;
+    const st=JSON.parse(raw);
+
+    // Accent
+    if(st.accent) setAccent(st.accent, null);
+
+    // ── IMG ──
+    if(st.img_ratio){
+      const btn=document.querySelector(`#ratioRow button[onclick="setRatio('${st.img_ratio}',this)"]`);
+      if(btn) setRatio(st.img_ratio,btn);
+    }
+    if(st.img_pos){
+      const btn=$(`pos${st.img_pos==='bottom'?'Bot':'Top'}`);
+      if(btn) setPos(st.img_pos,btn,'img');
+    }
+    if(st.img_align){
+      const btn=document.querySelector(`#alignRow button[onclick="setAlign('${st.img_align}',this,'img')"]`);
+      if(btn) setAlign(st.img_align,btn,'img');
+    }
+    if(st.img_tColor){
+      const sw=document.querySelector(`#colorRow .sw[data-c="${st.img_tColor.toLowerCase()}"]`);
+      setTC(st.img_tColor,sw||null,'img');
+    }
+    if(st.img_showSubBg!==undefined) setSubBg(st.img_showSubBg,'img');
+    if(st.img_indicator){
+      const btn=document.querySelector(`#indRow button[onclick="setInd('${st.img_indicator}',this,'img')"]`);
+      if(btn) setInd(st.img_indicator,btn,'img');
+    }
+    if(st.img_fontFam) $('fontFam').value=st.img_fontFam;
+    if(st.img_tsz!==undefined){ const v=Math.max(45,Math.min(60,+st.img_tsz)); $('tsz').value=v; $('tnum').value=v; }
+    if(st.img_tStrk!==undefined){ $('tStrk').value=st.img_tStrk; $('tStrkN').value=st.img_tStrk; }
+    if(st.img_ssz!==undefined){ const v=Math.max(25,Math.min(40,+st.img_ssz)); $('ssz').value=v; $('snum2').value=v; }
+    if(st.img_sbop!==undefined){ $('sbop').value=st.img_sbop; $('sbnum').value=st.img_sbop; }
+    if(st.img_gop!==undefined){ $('gop').value=st.img_gop; $('gnum').value=st.img_gop; }
+    if(st.img_indOp!==undefined){ $('indOp').value=st.img_indOp; $('indOpN').value=st.img_indOp; }
+
+    // ── REELS ──
+    if(st.r_pos){
+      const idMap={bottom:'r-posBot',top:'r-posTop',middle:'r-posMid'};
+      const btn=$(idMap[st.r_pos]);
+      if(btn) setPos(st.r_pos,btn,'reels');
+    }
+    if(st.r_align){
+      const btn=document.querySelector(`#r-alignRow button[onclick="setAlign('${st.r_align}',this,'reels')"]`);
+      if(btn) setAlign(st.r_align,btn,'reels');
+    }
+    if(st.r_tColor){
+      const sw=document.querySelector(`#r-colorRow .sw[data-c="${st.r_tColor.toLowerCase()}"]`);
+      setTC(st.r_tColor,sw||null,'reels');
+    }
+    if(st.r_showSubBg!==undefined) setSubBg(st.r_showSubBg,'reels');
+    if(st.r_fontFam) $('r-fontFam').value=st.r_fontFam;
+    if(st.r_tsz!==undefined){ const v=Math.max(40,Math.min(80,+st.r_tsz)); $('r-tsz').value=v; $('r-tnum').value=v; }
+    if(st.r_tStrk!==undefined){ $('r-tStrk').value=st.r_tStrk; $('r-tStrkN').value=st.r_tStrk; }
+    if(st.r_ssz!==undefined){ const v=Math.max(20,Math.min(45,+st.r_ssz)); $('r-ssz').value=v; $('r-snum2').value=v; }
+    if(st.r_sbop!==undefined){ $('r-sbop').value=st.r_sbop; $('r-sbnum').value=st.r_sbop; }
+  }catch(e){ console.warn('loadState error',e); }
 }
 
 // ═══════════════════════════════════
@@ -1174,10 +1281,16 @@ function exportMedia(mode){
   cv.width=W;cv.height=H;cv.style.aspectRatio=W+'/'+H;
   const ph=$('prevPlaceholder'); if(ph) ph.style.aspectRatio=W+'/'+H;
 
-  // Reels: fixo 9:16, transparente sempre ativo, renderiza imediatamente
+  // Reels: fixo 9:16, transparente sempre ativo
   const rcv=cvEl('reels');
   rcv.width=1080;rcv.height=1920;rcv.style.aspectRatio='9/16';
-  markDirty('reels'); // dispara primeiro draw com fundo transparente
+
+  // Carrega configurações salvas
+  loadState();
+
+  // Renderiza os dois canvases com estado inicial
+  markDirty('img');
+  markDirty('reels');
 })();
 
 // Bind eventos de canvas para ambos os modos

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,maximum-scale=1">
-<title>Post Builder Pro - Imagem</title>
+<title>Post Builder Pro</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@400;700;800;900&family=Oswald:wght@600&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -38,23 +38,44 @@ button{font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:ce
   .app{gap:16px}
   .workspace{flex-direction:row;align-items:flex-start;gap:24px}
   .pcol{width:360px;flex-shrink:0;position:sticky;top:20px}
-  .ccol{flex:1; display:grid; grid-template-columns: 1fr 1fr; align-items:start; gap:16px;}
+  .ccol{flex:1;display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:16px;}
+  /* Reels: coluna única pois o preview já ocupa bastante */
+  .ccol.reels-ccol{display:flex;flex-direction:column;}
 }
 
-/* Header */
-.hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--s1);border:1px solid var(--b1);border-radius:var(--r3);box-shadow:var(--shadow-sm);margin-bottom:8px;flex-wrap:wrap;gap:12px}
+/* ── PAGE SWITCHER ── */
+.page-switcher{
+  display:flex;align-items:center;gap:6px;
+  background:var(--s2);border:1px solid var(--b2);border-radius:40px;
+  padding:4px;
+}
+.psw-btn{
+  display:flex;align-items:center;gap:7px;
+  padding:9px 18px;border-radius:30px;border:none;
+  background:transparent;color:var(--t2);
+  font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;
+  letter-spacing:.8px;text-transform:uppercase;
+  transition:all .22s;white-space:nowrap;cursor:pointer;
+}
+.psw-btn svg{flex-shrink:0;transition:inherit;}
+.psw-btn.active{
+  background:var(--ac);color:var(--ac-tx);
+  box-shadow:0 4px 14px var(--ac2);
+}
+.psw-btn:not(.active):hover{color:var(--tx);background:var(--s3);}
+
+/* ── HEADER ── */
+.hdr{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 16px;background:var(--s1);border:1px solid var(--b1);
+  border-radius:var(--r3);box-shadow:var(--shadow-sm);flex-wrap:wrap;gap:12px;
+}
 .hdr-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;width:100%}
 .logo-name{font-family:'Montserrat',sans-serif;font-weight:900;font-size:16px;color:var(--tx);text-transform:uppercase;letter-spacing:-.5px}
 .hdr-sep{color:var(--b2);font-weight:300}
-.ig-link {
-  display: flex; align-items: center; gap: 6px;
-  color: var(--tx); text-decoration: none;
-  font-family: 'Montserrat', sans-serif; font-size: 15px; font-weight: 800;
-  transition: color 0.2s; text-transform: uppercase;
-}
-.ig-link:hover { color: var(--ac); }
+.ig-link{display:flex;align-items:center;gap:6px;color:var(--tx);text-decoration:none;font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;transition:color .2s;text-transform:uppercase;}
+.ig-link:hover{color:var(--ac);}
 .hdr-right{display:flex;align-items:center;gap:12px;width:100%;justify-content:center;flex-wrap:wrap}
-
 @media(min-width:600px){
   .hdr{flex-wrap:nowrap;}
   .hdr-left{width:auto;justify-content:flex-start;}
@@ -69,43 +90,17 @@ button{font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:ce
 .ac-dot:hover{transform:scale(1.2)}
 .ac-dot.sel{border-color:#fff;transform:scale(1.2);box-shadow:0 0 0 3px var(--ac2)}
 
-/* Color Picker RGB Wheel */
-.color-picker-wrap {
-  position: relative;
-  width: 28px;
-  height: 28px;
-  border: 2px solid var(--b2);
-  border-radius: 50%;
-  cursor: pointer;
-  background: conic-gradient(red, yellow, lime, aqua, blue, magenta, red);
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s, outline 0.2s;
-  overflow: hidden;
-  flex-shrink: 0;
+.color-picker-wrap{
+  position:relative;width:28px;height:28px;border:2px solid var(--b2);border-radius:50%;cursor:pointer;
+  background:conic-gradient(red,yellow,lime,aqua,blue,magenta,red);
+  transition:transform .2s,border-color .2s,box-shadow .2s,outline .2s;overflow:hidden;flex-shrink:0;
 }
-.color-picker-wrap:hover {
-  transform: scale(1.15);
-  border-color: var(--ac);
-}
-.color-picker-wrap.sel {
-  border-color: #fff;
-  transform: scale(1.2);
-  box-shadow: 0 0 0 3px var(--ac2);
-}
-.color-picker-wrap.on {
-  outline: 2px solid var(--ac);
-  outline-offset: 3px;
-}
-.color-picker-wrap input[type="color"] {
-  position: absolute;
-  top: -10px; left: -10px;
-  width: 50px; height: 50px;
-  opacity: 0;
-  cursor: pointer;
-  border: none;
-  padding: 0;
-}
+.color-picker-wrap:hover{transform:scale(1.15);border-color:var(--ac);}
+.color-picker-wrap.sel{border-color:#fff;transform:scale(1.2);box-shadow:0 0 0 3px var(--ac2);}
+.color-picker-wrap.on{outline:2px solid var(--ac);outline-offset:3px;}
+.color-picker-wrap input[type="color"]{position:absolute;top:-10px;left:-10px;width:50px;height:50px;opacity:0;cursor:pointer;border:none;padding:0;}
 
-/* Cards */
+/* ── CARDS ── */
 .card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r3);overflow:hidden;box-shadow:var(--shadow);border-top:3px solid var(--ac)}
 .card-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--b1);flex-wrap:wrap;gap:10px}
 .card-label{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx)}
@@ -116,6 +111,16 @@ button{font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:ce
 .cbtn-outline{background:transparent;border:1px solid var(--ac);color:var(--ac)}
 .cbtn-outline.active{background:var(--ac);color:var(--ac-tx)}
 
+/* Badge transparente */
+.transparent-badge{
+  display:none;align-items:center;gap:5px;padding:4px 10px;
+  background:rgba(99,102,241,.15);border:1px solid rgba(99,102,241,.4);
+  border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.5px;
+  text-transform:uppercase;color:#a5b4fc;
+}
+.transparent-badge.visible{display:flex;}
+
+/* ── FIELDS ── */
 .field{display:flex;flex-direction:column;gap:6px;width:100%}
 .field-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3)}
 textarea,input[type=text],.custom-select{
@@ -124,10 +129,8 @@ textarea,input[type=text],.custom-select{
   outline:none;transition:all .2s;resize:none;line-height:1.5;box-sizing:border-box;
 }
 textarea:focus,input[type=text]:focus,.custom-select:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac2);background:var(--bg)}
-
-/* TextAreas Dinâmicos com a cor destaque */
-#titulo, #sub { color: var(--ac); font-weight: 600; }
-#titulo::placeholder, #sub::placeholder { color: var(--ac); opacity: 0.65; }
+#titulo,#sub,#r-titulo,#r-sub{color:var(--ac);font-weight:600;}
+#titulo::placeholder,#sub::placeholder,#r-titulo::placeholder,#r-sub::placeholder{color:var(--ac);opacity:.65;}
 
 .tog-row{display:flex;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r);overflow:hidden;padding:2px;gap:2px;flex-wrap:wrap}
 .tog{flex:1 1 auto;min-width:30%;padding:10px 4px;text-align:center;border:none;background:transparent;font-size:10px;font-weight:700;border-radius:6px;text-transform:uppercase;color:var(--t2);transition:all .2s}
@@ -146,24 +149,49 @@ textarea:focus,input[type=text]:focus,.custom-select:focus{border-color:var(--ac
 .sw{width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;box-shadow:var(--shadow-sm);flex-shrink:0}
 .sw.on{outline:2px solid var(--ac);outline-offset:3px}
 
-/* Preview */
+/* ── PREVIEW CANVAS ── */
 .cwrap{
   position:relative;width:100%;background:#06070a;
-  user-select:none;overflow:hidden;
-  border-radius:var(--r);
+  user-select:none;overflow:hidden;border-radius:var(--r);
   display:flex;align-items:center;justify-content:center;
 }
-/* Permite scroll nativo quando desativado o "Ajustar", trava quando ativado */
-.cwrap.is-moving { touch-action: none; }
-canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4}
+.cwrap.transparent-mode{
+  background-image:
+    linear-gradient(45deg,#2a2a2a 25%,transparent 25%),
+    linear-gradient(-45deg,#2a2a2a 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,#2a2a2a 75%),
+    linear-gradient(-45deg,transparent 75%,#2a2a2a 75%);
+  background-size:16px 16px;
+  background-position:0 0,0 8px,8px -8px,-8px 0px;
+  background-color:#1a1a1a;
+}
+body.lt .cwrap.transparent-mode{
+  background-image:
+    linear-gradient(45deg,#ccc 25%,transparent 25%),
+    linear-gradient(-45deg,#ccc 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,#ccc 75%),
+    linear-gradient(-45deg,transparent 75%,#ccc 75%);
+  background-color:#e0e0e0;
+}
+.cwrap.is-moving{touch-action:none;}
+canvas{display:block;width:100%;height:auto;pointer-events:none;}
 
+/* Preview placeholder */
 .prev-placeholder{
-  aspect-ratio:3/4;width:100%;display:flex;flex-direction:column;align-items:center;
+  width:100%;display:flex;flex-direction:column;align-items:center;
   justify-content:center;gap:14px;color:var(--t3);font-weight:500;background:var(--s2);
-  border-radius:var(--r);border:2px dashed var(--b2);cursor:pointer;
+  border-radius:var(--r);border:2px dashed var(--b2);cursor:pointer;padding:20px;
 }
 .prev-placeholder:hover{border-color:var(--ac);background:var(--s3)}
 .prev-placeholder-icon{width:54px;height:54px;border-radius:var(--r);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--t2);box-shadow:var(--shadow-sm)}
+.prev-placeholder-sub{font-size:11px;color:var(--t3);text-align:center;line-height:1.5;}
+.transp-link{
+  display:inline-flex;align-items:center;gap:5px;margin-top:4px;padding:6px 14px;
+  background:rgba(99,102,241,.12);border:1px solid rgba(99,102,241,.35);
+  border-radius:20px;font-size:11px;font-weight:700;color:#a5b4fc;cursor:pointer;
+  letter-spacing:.4px;transition:all .2s;
+}
+.transp-link:hover{background:rgba(99,102,241,.22);border-color:rgba(99,102,241,.6);}
 
 .zoom-chip{
   position:absolute;top:8px;left:8px;z-index:20;
@@ -172,6 +200,17 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
   font-size:11px;font-weight:700;font-family:'Montserrat',sans-serif;color:#fff;
 }
 
+/* ── REELS: badge de resolução ── */
+.res-badge{
+  position:absolute;top:8px;right:8px;z-index:20;
+  display:flex;align-items:center;gap:4px;padding:4px 10px;
+  background:rgba(6,7,10,.82);border:1px solid rgba(255,255,255,.12);
+  border-radius:20px;font-size:10px;font-weight:800;
+  font-family:'Montserrat',sans-serif;color:rgba(255,255,255,.7);
+  letter-spacing:.5px;
+}
+
+/* ── DOWNLOAD BTN ── */
 .dl-main{
   width:100%;background:var(--ac);color:var(--ac-tx);
   font-family:'Inter',sans-serif;font-size:14px;font-weight:800;
@@ -183,23 +222,56 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
 .dl-main:hover:not(:disabled){filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 12px 28px var(--ac2)}
 .dl-main:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
 
-/* Correções extras para visual mobile perfeito */
+/* ── INFO BOX ── */
+.info-box{
+  display:none;align-items:flex-start;gap:8px;padding:10px 12px;
+  background:rgba(99,102,241,.08);border:1px solid rgba(99,102,241,.25);
+  border-radius:var(--r);font-size:11px;color:#a5b4fc;line-height:1.5;
+}
+.info-box.visible{display:flex;}
+.info-box svg{flex-shrink:0;margin-top:1px;}
+
+/* ── REELS: info de duração/legenda ── */
+.reels-tip{
+  display:flex;align-items:flex-start;gap:8px;padding:10px 12px;
+  background:rgba(239,68,68,.07);border:1px solid rgba(239,68,68,.2);
+  border-radius:var(--r);font-size:11px;color:#fca5a5;line-height:1.5;
+}
+
+/* ── PAGE VISIBILITY ── */
+.page{display:none;flex-direction:column;gap:12px;}
+.page.active{display:flex;}
+
+/* ── MOBILE ── */
 @media(max-width:480px){
-  .hdr-left { justify-content:center; }
-  .hdr-right { justify-content:center; }
-  .tog { font-size: 9px; padding: 8px 2px; line-height:1.2; white-space:normal; }
-  .card-hdr { flex-direction:column; align-items:flex-start; }
-  .hdr-actions { width:100%; justify-content:flex-end; }
-  .sw { width: 22px; height: 22px; }
-  .color-picker-wrap { width: 24px; height: 24px; }
+  .hdr-left{justify-content:center;}
+  .hdr-right{justify-content:center;}
+  .tog{font-size:9px;padding:8px 2px;line-height:1.2;white-space:normal;}
+  .card-hdr{flex-direction:column;align-items:flex-start;}
+  .hdr-actions{width:100%;justify-content:flex-end;}
+  .sw{width:22px;height:22px;}
+  .color-picker-wrap{width:24px;height:24px;}
+  .psw-btn{padding:8px 12px;font-size:10px;}
 }
 </style>
 </head>
 <body>
 
 <div class="app">
-<input type="file" id="imgInput" style="opacity:0; position:absolute; z-index:-1; width:1px; height:1px;" accept="image/*" onchange="loadImg(event)">
 
+<!-- Inputs hidden para compatibilidade do draw() no modo Reels (efeitos sempre desativados via transparentBg) -->
+<input type="hidden" id="r-gop" value="65">
+<input type="hidden" id="r-gnum" value="65">
+<input type="hidden" id="r-indOp" value="85">
+<input type="hidden" id="r-indOpN" value="85">
+<input type="hidden" id="r-sbop" value="52">
+<input type="hidden" id="r-sbnum" value="52">
+
+<!-- File inputs (um para cada modo) -->
+<input type="file" id="imgInput"  accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'img')">
+<input type="file" id="rImgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'reels')">
+
+<!-- ── HEADER ── -->
 <div class="hdr">
   <div class="hdr-left">
     <span class="logo-name">Post Builder</span>
@@ -213,7 +285,6 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
       @valle.xp
     </a>
   </div>
-
   <div class="hdr-right">
     <div class="accent-picker">
       <div class="ac-dot sel" data-c="#6b6b6b" style="background:#6b6b6b" onclick="setAccent('#6b6b6b',this)"></div>
@@ -234,14 +305,32 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
   </div>
 </div>
 
-<div class="workspace" id="wsImg">
+<!-- ── PAGE SWITCHER ── -->
+<div style="display:flex;justify-content:center;">
+  <div class="page-switcher">
+    <button class="psw-btn active" id="pswImg" onclick="switchPage('img')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+      Imagem / Feed
+    </button>
+    <button class="psw-btn" id="pswReels" onclick="switchPage('reels')">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+      Reels / TikTok
+    </button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════
+     PAGE 1 — IMAGEM / FEED
+══════════════════════════════════════ -->
+<div class="page active" id="pageImg">
+<div class="workspace">
   <div class="pcol">
     <div class="card">
       <div class="card-hdr">
         <span class="card-label">Preview Visual</span>
         <div class="hdr-actions">
-          <button class="cbtn cbtn-outline" id="btnMove" onclick="toggleMove()">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="5 9 2 12 5 15"></polyline><polyline points="9 5 12 2 15 5"></polyline><polyline points="19 9 22 12 19 15"></polyline><polyline points="9 19 12 22 15 19"></polyline><line x1="2" y1="12" x2="22" y2="12"></line><line x1="12" y1="2" x2="12" y2="22"></line></svg>
+          <button class="cbtn cbtn-outline" id="btnMove" onclick="toggleMove('img')" style="display:none">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 9 2 12 5 15"></polyline><polyline points="9 5 12 2 15 5"></polyline><polyline points="19 9 22 12 19 15"></polyline><polyline points="9 19 12 22 15 19"></polyline><line x1="2" y1="12" x2="22" y2="12"></line><line x1="12" y1="2" x2="12" y2="22"></line></svg>
             Ajustar
           </button>
           <button class="cbtn cbtn-outline" id="btnChange" onclick="document.getElementById('imgInput').click()" style="display:none">
@@ -253,33 +342,29 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
       <div class="card-body" style="padding:10px">
         <div class="prev-placeholder" id="prevPlaceholder" onclick="document.getElementById('imgInput').click()">
           <div class="prev-placeholder-icon">+</div>
-          <span id="phText">Importe uma Imagem para começar</span>
+          <span>Importe uma Imagem para começar</span>
         </div>
         <div class="cwrap" id="cw" style="display:none;">
-          <div class="zoom-chip" id="zpill">
-            <span id="zlbl">100%</span>
-          </div>
+          <div class="zoom-chip" id="zpill"><span id="zlbl">100%</span></div>
           <canvas id="cv"></canvas>
         </div>
       </div>
     </div>
-    <button class="dl-main" id="dlBtn" onclick="exportMedia()" disabled>BAIXAR IMAGEM</button>
+    <button class="dl-main" id="dlBtn" onclick="exportMedia('img')" disabled>BAIXAR IMAGEM</button>
   </div>
 
   <div class="ccol">
-    
     <div class="ccol-inner">
-
       <div class="card">
         <div class="card-hdr"><span class="card-label">Conteúdo do Post</span></div>
         <div class="card-body">
           <div class="field">
             <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ; para colorir)</span></span>
-            <textarea id="titulo" rows="2" placeholder="Ex: Escreva um ;título; chamativo..." oninput="markDirty()"></textarea>
+            <textarea id="titulo" rows="2" placeholder="Ex: Escreva um ;título; chamativo..." oninput="markDirty('img')"></textarea>
           </div>
           <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
             <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Enter = nova linha)</span></span>
-            <textarea id="sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty()"></textarea>
+            <textarea id="sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('img')"></textarea>
           </div>
         </div>
       </div>
@@ -290,10 +375,12 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
           <div class="field">
             <span class="field-label">Proporção da Tela</span>
             <div class="tog-row" id="ratioRow">
-              <button class="tog on" onclick="setRatio('9:16-hd',this)">3:4 FEED</button>
+              <button class="tog on" onclick="setRatio('9:16-hd',this)">3:4 Feed</button>
               <button class="tog" onclick="setRatio('4:5',this)">4:5 Feed</button>
               <button class="tog" onclick="setRatio('1:1',this)">1:1 Square</button>
             </div>
+          </div>
+          <div class="info-box" id="transpInfoBox" style="display:none!important">
           </div>
         </div>
       </div>
@@ -301,32 +388,32 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
       <div class="card">
         <div class="card-hdr"><span class="card-label">Efeitos & Extras</span></div>
         <div class="card-body">
-          <div class="slider-field">
+          <div class="slider-field" id="gopWrap">
             <span class="field-label">Gradiente Escuro de Base %</span>
             <div class="slider-row">
-              <input type="range" id="gop" min="0" max="95" value="65" oninput="sync('gop','gnum')">
-              <input class="snum" type="number" id="gnum" value="65" min="0" max="95" onchange="nsync('gnum','gop')">
+              <input type="range" id="gop" min="0" max="95" value="65" oninput="sync('gop','gnum','img')">
+              <input class="snum" type="number" id="gnum" value="65" min="0" max="95" onchange="nsync('gnum','gop','img')">
             </div>
           </div>
-          <div class="field">
+          <div class="field" id="indWrap">
             <span class="field-label">Indicador de Ação</span>
             <div class="tog-row" id="indRow">
-              <button class="tog on" onclick="setInd('none',this)">Nenhum</button>
-              <button class="tog" onclick="setInd('arrowDown',this)">Ler ↓</button>
-              <button class="tog" onclick="setInd('swipeRight',this)">Arraste ›</button>
+              <button class="tog on" onclick="setInd('none',this,'img')">Nenhum</button>
+              <button class="tog" onclick="setInd('arrowDown',this,'img')">Ler ↓</button>
+              <button class="tog" onclick="setInd('swipeRight',this,'img')">Arraste ›</button>
             </div>
           </div>
-          <div class="slider-field" id="indOpWrap" style="display:none; margin-top:8px;">
+          <div class="slider-field" id="indOpWrap" style="display:none;margin-top:8px;">
             <span class="field-label">Opacidade do Indicador %</span>
             <div class="slider-row">
-              <input type="range" id="indOp" min="0" max="100" value="85" oninput="sync('indOp','indOpN')">
-              <input class="snum" type="number" id="indOpN" value="85" min="0" max="100" onchange="nsync('indOpN','indOp')">
+              <input type="range" id="indOp" min="0" max="100" value="85" oninput="sync('indOp','indOpN','img')">
+              <input class="snum" type="number" id="indOpN" value="85" min="0" max="100" onchange="nsync('indOpN','indOp','img')">
             </div>
           </div>
         </div>
       </div>
-    </div> 
-    
+    </div>
+
     <div class="ccol-inner">
       <div class="card">
         <div class="card-hdr"><span class="card-label">Estilo dos Textos</span></div>
@@ -334,21 +421,21 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
           <div class="field">
             <span class="field-label">Posição Geral</span>
             <div class="tog-row">
-              <button class="tog on" id="posBot" onclick="setPos('bottom',this)">Em Baixo</button>
-              <button class="tog" id="posTop" onclick="setPos('top',this)">Em Cima</button>
+              <button class="tog on" id="posBot" onclick="setPos('bottom',this,'img')">Em Baixo</button>
+              <button class="tog" id="posTop" onclick="setPos('top',this,'img')">Em Cima</button>
             </div>
           </div>
           <div class="field">
             <span class="field-label">Alinhamento</span>
             <div class="tog-row" id="alignRow">
-              <button class="tog on" onclick="setAlign('center',this)">Centro</button>
-              <button class="tog" onclick="setAlign('left',this)">Esquerda</button>
-              <button class="tog" onclick="setAlign('right',this)">Direita</button>
+              <button class="tog on" onclick="setAlign('center',this,'img')">Centro</button>
+              <button class="tog" onclick="setAlign('left',this,'img')">Esquerda</button>
+              <button class="tog" onclick="setAlign('right',this,'img')">Direita</button>
             </div>
           </div>
           <div class="field">
             <span class="field-label">Família da Fonte</span>
-            <select id="fontFam" class="custom-select" onchange="markDirty()">
+            <select id="fontFam" class="custom-select" onchange="markDirty('img')">
               <option value="Montserrat">Montserrat (Padrão Bold)</option>
               <option value="Inter">Inter (Clean)</option>
               <option value="Bebas Neue">Bebas Neue (Impacto)</option>
@@ -357,757 +444,745 @@ canvas{display:block;width:100%;height:auto;pointer-events:none;aspect-ratio:3/4
               <option value="Oswald">Oswald (Condensada)</option>
             </select>
           </div>
-          
           <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
             <span class="field-label">Cor Destaque do Título</span>
             <div class="sw-row" id="colorRow">
-              <div class="sw on" data-c="#ffffff" style="background:#fff" onclick="setTC('#ffffff',this)"></div>
-              <div class="sw" data-c="#ffd600" style="background:#FFD600" onclick="setTC('#FFD600',this)"></div>
-              <div class="sw" data-c="#ff6b00" style="background:#FF6B00" onclick="setTC('#FF6B00',this)"></div>
-              <div class="sw" data-c="#ff3b3b" style="background:#FF3B3B" onclick="setTC('#FF3B3B',this)"></div>
-              <div class="sw" data-c="#00e5ff" style="background:#00E5FF" onclick="setTC('#00E5FF',this)"></div>
-              <div class="sw" data-c="#69ff47" style="background:#69FF47" onclick="setTC('#69FF47',this)"></div>
+              <div class="sw on" data-c="#ffffff" style="background:#fff" onclick="setTC('#ffffff',this,'img')"></div>
+              <div class="sw" data-c="#ffd600" style="background:#FFD600" onclick="setTC('#FFD600',this,'img')"></div>
+              <div class="sw" data-c="#ff6b00" style="background:#FF6B00" onclick="setTC('#FF6B00',this,'img')"></div>
+              <div class="sw" data-c="#ff3b3b" style="background:#FF3B3B" onclick="setTC('#FF3B3B',this,'img')"></div>
+              <div class="sw" data-c="#00e5ff" style="background:#00E5FF" onclick="setTC('#00E5FF',this,'img')"></div>
+              <div class="sw" data-c="#69ff47" style="background:#69FF47" onclick="setTC('#69FF47',this,'img')"></div>
               <div class="color-picker-wrap" id="tCPWrap">
-                <input type="color" id="tCP" value="#ffffff" oninput="setTC(this.value,null)">
+                <input type="color" id="tCP" value="#ffffff" oninput="setTC(this.value,null,'img')">
               </div>
             </div>
           </div>
           <div class="slider-field">
             <span class="field-label">Tamanho do Título</span>
             <div class="slider-row">
-              <input type="range" id="tsz" min="45" max="60" value="48" oninput="sync('tsz','tnum')">
-              <input class="snum" type="number" id="tnum" value="48" min="45" max="60" onchange="nsync('tnum','tsz')">
+              <input type="range" id="tsz" min="45" max="60" value="48" oninput="sync('tsz','tnum','img')">
+              <input class="snum" type="number" id="tnum" value="48" min="45" max="60" onchange="nsync('tnum','tsz','img')">
             </div>
           </div>
           <div class="slider-field">
             <span class="field-label">Contorno Escuro (Stroke)</span>
             <div class="slider-row">
-              <input type="range" id="tStrk" min="0" max="15" value="0" oninput="sync('tStrk','tStrkN')">
-              <input class="snum" type="number" id="tStrkN" value="0" min="0" max="15" onchange="nsync('tStrkN','tStrk')">
+              <input type="range" id="tStrk" min="0" max="15" value="0" oninput="sync('tStrk','tStrkN','img')">
+              <input class="snum" type="number" id="tStrkN" value="0" min="0" max="15" onchange="nsync('tStrkN','tStrk','img')">
             </div>
           </div>
           <div class="slider-field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
             <span class="field-label">Tamanho do Subtítulo</span>
             <div class="slider-row">
-              <input type="range" id="ssz" min="25" max="40" value="25" oninput="sync('ssz','snum2')">
-              <input class="snum" type="number" id="snum2" value="25" min="25" max="40" onchange="nsync('snum2','ssz')">
+              <input type="range" id="ssz" min="25" max="40" value="25" oninput="sync('ssz','snum2','img')">
+              <input class="snum" type="number" id="snum2" value="25" min="25" max="40" onchange="nsync('snum2','ssz','img')">
             </div>
           </div>
           <div class="field">
             <span class="field-label">Fundo de Leitura do Subtítulo</span>
             <div class="tog-row">
-              <button class="tog on" id="sbOn" onclick="setSubBg(true)">Ativado</button>
-              <button class="tog" id="sbOff" onclick="setSubBg(false)">Desativado</button>
+              <button class="tog on" id="sbOn" onclick="setSubBg(true,'img')">Ativado</button>
+              <button class="tog" id="sbOff" onclick="setSubBg(false,'img')">Desativado</button>
             </div>
           </div>
           <div id="sbSlider" class="slider-field">
             <span class="field-label">Opacidade do Fundo %</span>
             <div class="slider-row">
-              <input type="range" id="sbop" min="0" max="90" value="52" oninput="sync('sbop','sbnum');markDirty()">
-              <input class="snum" type="number" id="sbnum" value="52" min="0" max="90" onchange="nsync('sbnum','sbop');markDirty()">
+              <input type="range" id="sbop" min="0" max="90" value="52" oninput="sync('sbop','sbnum','img')">
+              <input class="snum" type="number" id="sbnum" value="52" min="0" max="90" onchange="nsync('sbnum','sbop','img')">
             </div>
           </div>
         </div>
       </div>
-    </div> 
+    </div>
   </div>
 </div>
+</div><!-- /pageImg -->
 
+
+<!-- ══════════════════════════════════════
+     PAGE 2 — REELS / TIKTOK
+══════════════════════════════════════ -->
+<div class="page" id="pageReels">
+<div class="workspace">
+  <div class="pcol">
+    <div class="card">
+      <div class="card-hdr">
+        <span class="card-label">Preview Reels / TikTok</span>
+        <div class="hdr-actions">
+          <button class="cbtn cbtn-outline" id="r-btnMove" onclick="toggleMove('reels')" style="display:none">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 9 2 12 5 15"></polyline><polyline points="9 5 12 2 15 5"></polyline><polyline points="19 9 22 12 19 15"></polyline><polyline points="9 19 12 22 15 19"></polyline><line x1="2" y1="12" x2="22" y2="12"></line><line x1="12" y1="2" x2="12" y2="22"></line></svg>
+            Ajustar
+          </button>
+          <button class="cbtn cbtn-outline" id="r-btnChange" onclick="document.getElementById('rImgInput').click()" style="display:none">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+            Trocar
+          </button>
+        </div>
+      </div>
+      <div class="card-body" style="padding:10px">
+        <div class="cwrap transparent-mode" id="r-cw">
+          <div class="zoom-chip" id="r-zpill"><span id="r-zlbl">100%</span></div>
+          <div class="res-badge">1080 × 1920</div>
+          <canvas id="r-cv" style="aspect-ratio:9/16"></canvas>
+        </div>
+      </div>
+    </div>
+    <button class="dl-main" id="r-dlBtn" onclick="exportMedia('reels')">BAIXAR REELS PNG</button>
+  </div>
+
+  <!-- Controles Reels: coluna única -->
+  <div class="ccol reels-ccol">
+    <div class="card">
+      <div class="card-hdr"><span class="card-label">Conteúdo do Reels</span></div>
+      <div class="card-body">
+        <div class="field">
+          <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ; para colorir)</span></span>
+          <textarea id="r-titulo" rows="2" placeholder="Ex: ;Novidade; chegou..." oninput="markDirty('reels')"></textarea>
+        </div>
+        <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+          <span class="field-label">Subtítulo / Legenda <span style="font-weight:400;color:var(--t3);text-transform:none">(Enter = nova linha)</span></span>
+          <textarea id="r-sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('reels')"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-hdr"><span class="card-label">Estilo dos Textos</span></div>
+      <div class="card-body">
+        <div class="field">
+          <span class="field-label">Posição Geral</span>
+          <div class="tog-row">
+            <button class="tog on" id="r-posBot" onclick="setPos('bottom',this,'reels')">Em Baixo</button>
+            <button class="tog" id="r-posTop" onclick="setPos('top',this,'reels')">Em Cima</button>
+            <button class="tog" id="r-posMid" onclick="setPos('middle',this,'reels')">Centro</button>
+          </div>
+        </div>
+        <div class="field">
+          <span class="field-label">Alinhamento</span>
+          <div class="tog-row" id="r-alignRow">
+            <button class="tog on" onclick="setAlign('center',this,'reels')">Centro</button>
+            <button class="tog" onclick="setAlign('left',this,'reels')">Esquerda</button>
+            <button class="tog" onclick="setAlign('right',this,'reels')">Direita</button>
+          </div>
+        </div>
+        <div class="field">
+          <span class="field-label">Família da Fonte</span>
+          <select id="r-fontFam" class="custom-select" onchange="markDirty('reels')">
+            <option value="Montserrat">Montserrat (Padrão Bold)</option>
+            <option value="Inter">Inter (Clean)</option>
+            <option value="Bebas Neue">Bebas Neue (Impacto)</option>
+            <option value="Poppins">Poppins (Redonda)</option>
+            <option value="Playfair Display">Playfair Display (Clássica)</option>
+            <option value="Oswald">Oswald (Condensada)</option>
+          </select>
+        </div>
+        <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+          <span class="field-label">Cor Destaque do Título</span>
+          <div class="sw-row" id="r-colorRow">
+            <div class="sw on" data-c="#ffffff" style="background:#fff" onclick="setTC('#ffffff',this,'reels')"></div>
+            <div class="sw" data-c="#ffd600" style="background:#FFD600" onclick="setTC('#FFD600',this,'reels')"></div>
+            <div class="sw" data-c="#ff6b00" style="background:#FF6B00" onclick="setTC('#FF6B00',this,'reels')"></div>
+            <div class="sw" data-c="#ff3b3b" style="background:#FF3B3B" onclick="setTC('#FF3B3B',this,'reels')"></div>
+            <div class="sw" data-c="#00e5ff" style="background:#00E5FF" onclick="setTC('#00E5FF',this,'reels')"></div>
+            <div class="sw" data-c="#69ff47" style="background:#69FF47" onclick="setTC('#69FF47',this,'reels')"></div>
+            <div class="color-picker-wrap" id="r-tCPWrap">
+              <input type="color" id="r-tCP" value="#ffffff" oninput="setTC(this.value,null,'reels')">
+            </div>
+          </div>
+        </div>
+        <div class="slider-field">
+          <span class="field-label">Tamanho do Título</span>
+          <div class="slider-row">
+            <input type="range" id="r-tsz" min="40" max="80" value="55" oninput="sync('r-tsz','r-tnum','reels')">
+            <input class="snum" type="number" id="r-tnum" value="55" min="40" max="80" onchange="nsync('r-tnum','r-tsz','reels')">
+          </div>
+        </div>
+        <div class="slider-field">
+          <span class="field-label">Contorno Escuro (Stroke)</span>
+          <div class="slider-row">
+            <input type="range" id="r-tStrk" min="0" max="15" value="0" oninput="sync('r-tStrk','r-tStrkN','reels')">
+            <input class="snum" type="number" id="r-tStrkN" value="0" min="0" max="15" onchange="nsync('r-tStrkN','r-tStrk','reels')">
+          </div>
+        </div>
+        <div class="slider-field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+          <span class="field-label">Tamanho do Subtítulo</span>
+          <div class="slider-row">
+            <input type="range" id="r-ssz" min="20" max="45" value="28" oninput="sync('r-ssz','r-snum2','reels')">
+            <input class="snum" type="number" id="r-snum2" value="28" min="20" max="45" onchange="nsync('r-snum2','r-ssz','reels')">
+          </div>
+        </div>
+        <div class="field">
+          <span class="field-label">Fundo de Leitura do Subtítulo</span>
+          <div class="tog-row">
+            <button class="tog on" id="r-sbOn" onclick="setSubBg(true,'reels')">Ativado</button>
+            <button class="tog" id="r-sbOff" onclick="setSubBg(false,'reels')">Desativado</button>
+          </div>
+        </div>
+        <div id="r-sbSlider" class="slider-field">
+          <span class="field-label">Opacidade do Fundo %</span>
+          <div class="slider-row">
+            <input type="range" id="r-sbop" min="0" max="90" value="52" oninput="sync('r-sbop','r-sbnum','reels')">
+            <input class="snum" type="number" id="r-sbnum" value="52" min="0" max="90" onchange="nsync('r-sbnum','r-sbop','reels')">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+</div><!-- /pageReels -->
+
+</div><!-- /app -->
 
 <script>
 'use strict';
 
-// ═══════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════
-let mediaFile   = null;
-const imgO = new Image();
+// ═══════════════════════════════════
+// STATE POR MODO
+// ═══════════════════════════════════
+const S = {
+  img: {
+    mediaFile:null, imgO:new Image(), transparentBg:false,
+    ratio:'9:16-hd', pos:'bottom', align:'center', tColor:'#ffffff', showSubBg:true, indicator:'none',
+    canMove:false, panX:.5, panY:.5, zoom:1,
+    rafId:null, dirty:false,
+    panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null
+  },
+  reels: {
+    mediaFile:null, imgO:new Image(), transparentBg:true,
+    ratio:'9:16-reels', pos:'bottom', align:'center', tColor:'#ffffff', showSubBg:true, indicator:'none',
+    canMove:false, panX:.5, panY:.5, zoom:1,
+    rafId:null, dirty:false,
+    panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null
+  }
+};
 
-// Parâmetros visuais globais
-let ratio      = '9:16-hd';
-let pos        = 'bottom';
-let align      = 'center';
-let tColor     = '#ffffff';
-let showSubBg  = true;
-let indicator  = 'none';
+const DIMS = {
+  '4:5'        :{W:1080,H:1350},
+  '1:1'        :{W:1080,H:1080},
+  '9:16-hd'    :{W:3240,H:4320},
+  '9:16-reels' :{W:1080,H:1920}
+};
 
-// Mover (Pan & Zoom Livre)
-let canMove    = false;
-let panX = 0.5, panY = 0.5, zoom = 1;
+let currentPage = 'img';
 
-let rafId = null, dirty = false;
-
-const DIMS = { '4:5':{W:1080,H:1350}, '1:1':{W:1080,H:1080}, '9:16-hd':{W:3240,H:4320} };
-const D = () => DIMS[ratio] || DIMS['9:16-hd'];
-
+// ═══════════════════════════════════
+// HELPERS
+// ═══════════════════════════════════
 const $ = id => document.getElementById(id);
-const cv = $('cv');
-const cw = $('cw');
+const p  = (mode,id) => mode==='img' ? $(id) : $('r-'+id);  // prefixado ou não
 
-// Carregar estado salvo antes de iniciar a UI
-loadState();
+function D(mode){ return DIMS[S[mode].ratio] || DIMS['9:16-hd']; }
 
-updateCanvasAspect();
-updatePlaceholderAspect();
+function cvEl(mode){ return mode==='img' ? $('cv') : $('r-cv'); }
+function cwEl(mode){ return mode==='img' ? $('cw') : $('r-cw'); }
 
-// ═══════════════════════════════════════════════
-// UTILS
-// ═══════════════════════════════════════════════
 function contrastColor(hex){
-  hex = hex.replace('#','');
-  if(hex.length===3) hex = hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
-  const r=parseInt(hex.substr(0,2),16), g=parseInt(hex.substr(2,2),16), b=parseInt(hex.substr(4,2),16);
-  return ((r*299+g*587+b*114)/1000) >= 140 ? '#111827' : '#ffffff';
+  hex=hex.replace('#','');
+  if(hex.length===3) hex=hex[0]+hex[0]+hex[1]+hex[1]+hex[2]+hex[2];
+  const r=parseInt(hex.substr(0,2),16),g=parseInt(hex.substr(2,2),16),b=parseInt(hex.substr(4,2),16);
+  return ((r*299+g*587+b*114)/1000)>=140?'#111827':'#ffffff';
 }
 
-function wrapText(ctx, text, maxW){
-  const result = [];
+function wrapText(ctx,text,maxW){
+  const result=[];
   for(const para of text.split('\n')){
-    if(!para.trim()){ result.push(''); continue; }
-    const words = para.split(' ');
-    let line = '';
-    for(let i=0; i<words.length; i++){
-      const test = line + words[i] + ' ';
-      if(ctx.measureText(test).width > maxW && i > 0){
-        result.push(line.trimEnd());
-        line = words[i] + ' ';
-      } else {
-        line = test;
-      }
+    if(!para.trim()){result.push('');continue;}
+    const words=para.split(' '); let line='';
+    for(let i=0;i<words.length;i++){
+      const test=line+words[i]+' ';
+      if(ctx.measureText(test).width>maxW&&i>0){result.push(line.trimEnd());line=words[i]+' ';}
+      else{line=test;}
     }
     result.push(line.trimEnd());
   }
-  while(result.length && !result[0]) result.shift();
-  while(result.length && !result[result.length-1]) result.pop();
+  while(result.length&&!result[0])result.shift();
+  while(result.length&&!result[result.length-1])result.pop();
   return result;
 }
 
-// Quebra texto com suporte a cores inline usando ';'
-function formatTitLines(ctx, text, maxW) {
-  const paras = text.split('\n');
-  const lines = [];
-  
-  for (const para of paras) {
-      if (!para.trim()) { lines.push([]); continue; }
-      const parts = para.split(';');
-      let currentLine = [];
-      let currentW = 0;
-
-      for (let i = 0; i < parts.length; i++) {
-          const isColored = (i % 2 !== 0);
-          const partText = parts[i];
-          if (!partText) continue;
-
-          // Divide mantendo os espaços visíveis
-          const tokens = partText.split(/(\s+)/);
-
-          for (let j = 0; j < tokens.length; j++) {
-              const token = tokens[j];
-              if (!token) continue;
-
-              const w = ctx.measureText(token).width;
-
-              if (currentW + w > maxW && currentLine.length > 0 && token.trim() !== '') {
-                  lines.push(currentLine);
-                  currentLine = [];
-                  currentW = 0;
-              }
-
-              if (currentW === 0 && token.trim() === '') {
-                  continue;
-              }
-
-              currentLine.push({ text: token, colored: isColored });
-              currentW += w;
-          }
+function formatTitLines(ctx,text,maxW){
+  const paras=text.split('\n'); const lines=[];
+  for(const para of paras){
+    if(!para.trim()){lines.push([]);continue;}
+    const parts=para.split(';'); let cur=[],curW=0;
+    for(let i=0;i<parts.length;i++){
+      const isC=(i%2!==0),pt=parts[i]; if(!pt) continue;
+      const tokens=pt.split(/(\s+)/);
+      for(let j=0;j<tokens.length;j++){
+        const tok=tokens[j]; if(!tok) continue;
+        const w=ctx.measureText(tok).width;
+        if(curW+w>maxW&&cur.length>0&&tok.trim()!==''){lines.push(cur);cur=[];curW=0;}
+        if(curW===0&&tok.trim()==='') continue;
+        cur.push({text:tok,colored:isC}); curW+=w;
       }
-      
-      if (currentLine.length > 0) {
-          lines.push(currentLine);
-      }
+    }
+    if(cur.length>0) lines.push(cur);
   }
   return lines;
 }
 
-function markDirty(){
-  dirty = true;
-  if(!rafId) rafId = requestAnimationFrame(renderLoop);
-}
-
-function renderLoop(){
-  rafId = null;
-  if(dirty){
-    dirty = false;
-    draw();
-    saveState(); // Salva toda vez que a tela é renderizada com novas informações
-  }
-}
-
-// ═══════════════════════════════════════════════
-// LOCAL STORAGE (SALVAR E CARREGAR)
-// ═══════════════════════════════════════════════
-function saveState() {
-  const state = {
-    ratio, pos, align, tColor, showSubBg, indicator,
-    accentColor: $('acCustom').value,
-    fontFam: $('fontFam').value,
-    tsz: $('tsz').value,
-    tStrk: $('tStrk').value,
-    ssz: $('ssz').value,
-    sbop: $('sbop').value,
-    gop: $('gop').value,
-    indOp: $('indOp') ? $('indOp').value : 85
-  };
-  localStorage.setItem('postBuilderState', JSON.stringify(state));
-}
-
-function loadState() {
-  const saved = localStorage.getItem('postBuilderState');
-  if(!saved) return;
-  try {
-    const state = JSON.parse(saved);
-    
-    if(state.accentColor) setAccent(state.accentColor, null);
-
-    if(state.fontFam) $('fontFam').value = state.fontFam;
-    
-    if(state.tsz) { 
-      let val = Math.max(45, Math.min(60, +state.tsz));
-      $('tsz').value = val; $('tnum').value = val; 
-    }
-    if(state.tStrk) { $('tStrk').value = state.tStrk; $('tStrkN').value = state.tStrk; }
-    
-    if(state.ssz) { 
-      let val = Math.max(25, Math.min(40, +state.ssz));
-      $('ssz').value = val; $('snum2').value = val; 
-    }
-    if(state.sbop) { $('sbop').value = state.sbop; $('sbnum').value = state.sbop; }
-    if(state.gop) { $('gop').value = state.gop; $('gnum').value = state.gop; }
-    if(state.indOp) { $('indOp').value = state.indOp; $('indOpN').value = state.indOp; }
-    
-    if(state.ratio) {
-      const btn = document.querySelector(`#ratioRow button[onclick="setRatio('${state.ratio}',this)"]`);
-      if(btn) setRatio(state.ratio, btn);
-    }
-    if(state.pos) {
-      const btn = document.getElementById(state.pos==='bottom'?'posBot':'posTop');
-      if(btn) setPos(state.pos, btn);
-    }
-    if(state.align) {
-      const btn = document.querySelector(`#alignRow button[onclick="setAlign('${state.align}',this)"]`);
-      if(btn) setAlign(state.align, btn);
-    }
-    if(state.tColor) {
-      const sw = document.querySelector(`#colorRow .sw[data-c="${state.tColor.toLowerCase()}"]`);
-      setTC(state.tColor, sw || null);
-    }
-    if(state.showSubBg !== undefined) setSubBg(state.showSubBg);
-    if(state.indicator) {
-      let ind = state.indicator === 'dots' ? 'none' : state.indicator;
-      const btn = document.querySelector(`#indRow button[onclick="setInd('${ind}',this)"]`);
-      if(btn) setInd(ind, btn);
-    }
-  } catch(e) { console.error("Erro ao carregar os dados salvos", e); }
-}
-
-// ═══════════════════════════════════════════════
-// UI CONTROLS
-// ═══════════════════════════════════════════════
-function setAccent(c, el){
-  document.documentElement.style.setProperty('--ac', c);
-  document.documentElement.style.setProperty('--ac-tx', contrastColor(c));
-  document.querySelectorAll('.accent-picker .ac-dot').forEach(d => d.classList.remove('sel'));
-  
-  const cp = $('acCustomWrap');
-  cp.classList.remove('sel');
-
-  if(!el) {
-    el = document.querySelector(`.accent-picker .ac-dot[data-c="${c.toLowerCase()}"]`);
-  }
-
-  if(el) {
-    el.classList.add('sel');
-    cp.style.background = 'conic-gradient(red, yellow, lime, aqua, blue, magenta, red)';
-  } else {
-    cp.classList.add('sel');
-    cp.style.background = c;
-  }
-  $('acCustom').value = c;
-  markDirty();
-}
-
-function toggleMove(){
-  canMove = !canMove;
-  $('btnMove').classList.toggle('active', canMove);
-  cw.style.cursor = canMove ? 'grab' : 'default';
-  cw.classList.toggle('is-moving', canMove);
-}
-
-function toggleTheme(){ document.body.classList.toggle('lt'); }
-function resetAll(){ 
-  if(confirm('Tem certeza que deseja limpar tudo?')) {
-    localStorage.removeItem('postBuilderState');
-    location.reload(); 
-  }
-}
-
-function sync(rid,nid){ $(nid).value = $(rid).value; markDirty(); }
-function nsync(nid,rid){
-  const el=$(nid); let v=parseFloat(el.value); if(isNaN(v)) return;
-  v = Math.max(+el.min, Math.min(+el.max, v)); el.value = v; $(rid).value = v; markDirty();
-}
-
-function setRatio(r,btn){
-  ratio = r;
-  document.querySelectorAll('#ratioRow .tog').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  updateCanvasAspect();
-  updatePlaceholderAspect();
-  markDirty();
-}
-
-function updatePlaceholderAspect(){
-  const {W,H} = D();
-  const ph = document.getElementById('prevPlaceholder');
-  if(ph) ph.style.aspectRatio = W + '/' + H;
-}
-
-function updateCanvasAspect(){
-  const {W,H} = D();
-  cv.style.aspectRatio = W + '/' + H;
-  cv.width  = W;
-  cv.height = H;
-}
-
-function setPos(p,btn){
-  pos = p;
-  $('posBot').classList.toggle('on', p==='bottom');
-  $('posTop').classList.toggle('on', p==='top');
-  markDirty();
-}
-
-function setAlign(a,btn){
-  align = a;
-  document.querySelectorAll('#alignRow .tog').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  markDirty();
-}
-
-function setTC(c,el){
-  tColor = c; 
-  const cp = $('tCPWrap');
-  $('tCP').value = c;
-  
-  document.querySelectorAll('#colorRow .sw').forEach(s => s.classList.remove('on'));
-  cp.classList.remove('on');
-  
-  if(!el) {
-    el = Array.from(document.querySelectorAll('#colorRow .sw:not(.color-picker-wrap)')).find(d => {
-      return d.dataset.c && d.dataset.c.toLowerCase() === c.toLowerCase();
-    });
-  }
-
-  if(el) {
-    el.classList.add('on');
-    cp.style.background = 'conic-gradient(red, yellow, lime, aqua, blue, magenta, red)';
-  } else {
-    cp.classList.add('on');
-    cp.style.background = c;
-  }
-  markDirty();
-}
-
-function rgbToHex(val) {
-  if(!val) return '';
-  if(val.startsWith('#')) return val;
-  const rgb = val.match(/\d+/g);
-  if(!rgb) return '';
-  return '#' + rgb.slice(0,3).map(x => parseInt(x).toString(16).padStart(2,'0')).join('');
-}
-
-function setSubBg(v){
-  showSubBg = v;
-  $('sbOn').classList.toggle('on', v);
-  $('sbOff').classList.toggle('on', !v);
-  const sl = $('sbSlider');
-  if(sl) sl.style.display = v ? 'flex' : 'none';
-  markDirty();
-}
-
-function setInd(val,btn){
-  indicator = val;
-  document.querySelectorAll('#indRow .tog').forEach(b => b.classList.remove('on'));
-  if(btn) btn.classList.add('on');
-  $('indOpWrap').style.display = val === 'none' ? 'none' : 'flex';
-  markDirty();
-}
-
-// ═══════════════════════════════════════════════
-// IMAGEM — LOAD
-// ═══════════════════════════════════════════════
-function loadImg(e){
-  const f = e.target.files[0]; if(!f) return;
-  mediaFile = f;
-  if(imgO._blobURL){ URL.revokeObjectURL(imgO._blobURL); }
-  const blobURL = URL.createObjectURL(f);
-  imgO._blobURL = blobURL;
-
-  $('prevPlaceholder').style.display = 'none';
-  $('cw').style.display = 'flex';
-  $('btnChange').style.display = 'flex';
-  $('dlBtn').disabled = false;
-
-  imgO.onload = () => {
-    panX=0.5; panY=0.5; zoom=1;
-    $('zlbl').textContent = '100%';
-    $('zpill').style.display = 'flex';
-    updateCanvasAspect();
-    markDirty();
-  };
-  imgO.onerror = () => alert('Erro ao carregar imagem.');
-  imgO.src = blobURL;
-  e.target.value = '';
-}
-
-// ═══════════════════════════════════════════════
-// DRAG (APENAS PARA PAN & ZOOM DO FUNDO)
-// ═══════════════════════════════════════════════
-function getPointerPos(e){
-  const src = e.touches ? e.touches[0] : e;
-  return { rawX: src.clientX, rawY: src.clientY };
-}
-
-let panDragging = false;
-let panLastRaw = {x:0,y:0};
-
-function onPointerDown(e){
-  if(!mediaFile || !canMove) return;
-  const {rawX, rawY} = getPointerPos(e);
-  
-  panDragging = true;
-  panLastRaw = {x: rawX, y: rawY};
-  
-  cw.style.cursor = 'grabbing';
-  if(!e.touches) e.preventDefault();
-}
-
-function onPointerMove(e){
-  if(!panDragging || !canMove) return;
-  const {rawX, rawY} = getPointerPos(e);
-  const dx = rawX - panLastRaw.x;
-  const dy = rawY - panLastRaw.y;
-  applyPan(dx, dy);
-  panLastRaw = {x: rawX, y: rawY};
-  markDirty();
-
-  if(e.touches) e.preventDefault();
-}
-
-function onPointerUp(){
-  panDragging = false;
-  if(canMove) cw.style.cursor = 'grab';
-}
-
-function applyPan(dxViewport, dyViewport){
-  if(!imgO.width) return;
-  const rect = cw.getBoundingClientRect();
-  const iw = imgO.naturalWidth, ih = imgO.naturalHeight;
-  const {W,H} = D();
-  const ir = iw/ih, cr = W/H;
-
-  let bw, bh;
-  if(ir > cr){ bh = ih; bw = bh*cr; } else { bw = iw; bh = bw/cr; }
-
-  const sw = bw/zoom, sh = bh/zoom;
-  const maxPX = iw - sw, maxPY = ih - sh;
-
-  const scX = (sw / rect.width);
-  const scY = (sh / rect.height);
-
-  if(maxPX > 0) panX = Math.max(0, Math.min(1, panX - (dxViewport * scX) / maxPX));
-  if(maxPY > 0) panY = Math.max(0, Math.min(1, panY - (dyViewport * scY) / maxPY));
-}
-
-let lTouches = [], lPinchDist = null;
-
-cw.addEventListener('mousedown', onPointerDown);
-window.addEventListener('mousemove', onPointerMove);
-window.addEventListener('mouseup', onPointerUp);
-
-cw.addEventListener('touchstart', e => {
-  if(!canMove) return;
-  lTouches = [...e.touches];
-  lPinchDist = e.touches.length===2 ? pinchDist(e.touches) : null;
-  if(e.touches.length===1) onPointerDown(e);
-}, {passive:false});
-
-cw.addEventListener('touchmove', e => {
-  if(!canMove) return;
-  if(e.touches.length===1){
-    onPointerMove(e);
-  } else if(e.touches.length===2){
-    panDragging = false;
-    const d = pinchDist(e.touches);
-    if(lPinchDist){ zoom = Math.max(1, Math.min(6, zoom*(d/lPinchDist))); if(zoom===1){panX=0.5;panY=0.5;} }
-    lPinchDist = d;
-    if(lTouches.length===2){
-      applyPan(
-        (e.touches[0].clientX+e.touches[1].clientX)/2 - (lTouches[0].clientX+lTouches[1].clientX)/2,
-        (e.touches[0].clientY+e.touches[1].clientY)/2 - (lTouches[0].clientY+lTouches[1].clientY)/2
-      );
-    }
-    $('zlbl').textContent = Math.round(zoom*100)+'%';
-    markDirty();
-  }
-  lTouches = [...e.touches];
-  e.preventDefault();
-}, {passive:false});
-
-cw.addEventListener('touchend', e => {
-  if(!canMove) return;
-  onPointerUp();
-  lTouches = [...e.touches];
-  if(e.touches.length < 2) lPinchDist = null;
-}, {passive:true});
-
-cw.addEventListener('wheel', e => {
-  if(!canMove) return;
-  e.preventDefault();
-  zoom = Math.max(1, Math.min(6, zoom + (e.deltaY<0 ? 0.07 : -0.07)));
-  if(zoom===1){panX=0.5;panY=0.5;}
-  $('zlbl').textContent = Math.round(zoom*100)+'%';
-  markDirty();
-}, {passive:false});
-
-function pinchDist(t){ const dx=t[0].clientX-t[1].clientX, dy=t[0].clientY-t[1].clientY; return Math.sqrt(dx*dx+dy*dy); }
-
-// ═══════════════════════════════════════════════
-// RENDER 
-// ═══════════════════════════════════════════════
 function rrect(ctx,x,y,w,h,r){
-  const rr = Math.min(r, w/2, h/2);
+  const rr=Math.min(r,w/2,h/2);
   ctx.beginPath();
-  ctx.moveTo(x+rr,y);
-  ctx.arcTo(x+w,y,x+w,y+h,rr); ctx.arcTo(x+w,y+h,x,y+h,rr);
-  ctx.arcTo(x,y+h,x,y,rr);     ctx.arcTo(x,y,x+w,y,rr);
-  ctx.closePath();
+  ctx.moveTo(x+rr,y); ctx.arcTo(x+w,y,x+w,y+h,rr); ctx.arcTo(x+w,y+h,x,y+h,rr);
+  ctx.arcTo(x,y+h,x,y,rr); ctx.arcTo(x,y,x+w,y,rr); ctx.closePath();
 }
 
-function draw(){
-  const {W,H} = D();
+// ═══════════════════════════════════
+// PAGE SWITCH
+// ═══════════════════════════════════
+function switchPage(mode){
+  currentPage = mode;
+  $('pageImg').classList.toggle('active', mode==='img');
+  $('pageReels').classList.toggle('active', mode==='reels');
+  $('pswImg').classList.toggle('active', mode==='img');
+  $('pswReels').classList.toggle('active', mode==='reels');
+  // Garante render da página que acabou de abrir
+  markDirty(mode);
+}
 
-  if(cv.width !== W || cv.height !== H){
-    cv.width  = W;
-    cv.height = H;
-  }
+// ═══════════════════════════════════
+// RENDER LOOP
+// ═══════════════════════════════════
+function markDirty(mode){
+  const s=S[mode]; s.dirty=true;
+  if(!s.rafId) s.rafId=requestAnimationFrame(()=>renderLoop(mode));
+}
+function renderLoop(mode){
+  const s=S[mode]; s.rafId=null;
+  if(s.dirty){ s.dirty=false; draw(mode); }
+}
+
+// ═══════════════════════════════════
+// DRAW
+// ═══════════════════════════════════
+function draw(mode){
+  const s  = S[mode];
+  const cv = cvEl(mode);
+  const {W,H} = D(mode);
+  if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H;}
+
+  const pfx = mode==='reels' ? 'r-' : '';
+  const g = id => $(pfx+id);
 
   const ctx = cv.getContext('2d');
   ctx.clearRect(0,0,W,H);
 
-  // 1. FUNDO / MÍDIA (Modo Cover Livre)
-  if(mediaFile){
-    const src  = imgO;
-    const sW   = src.naturalWidth;
-    const sH   = src.naturalHeight;
-
-    if(sW > 0 && sH > 0){
-      const ir = sW/sH, cr = W/H;
-      let bw, bh;
-      if(ir > cr){ bh=sH; bw=bh*cr; } else { bw=sW; bh=bw/cr; }
-      const z  = zoom;
-      const px = panX;
-      const py = panY;
-      const sw = bw/z, sh = bh/z;
-      const mpx = sW - sw, mpy = sH - sh;
-      const dx  = mpx>0 ? mpx*px : (sW-sw)/2;
-      const dy  = mpy>0 ? mpy*py : (sH-sh)/2;
-      ctx.drawImage(src, dx, dy, sw, sh, 0, 0, W, H);
+  // 1. FUNDO
+  if(s.transparentBg){
+    // transparente — sem preencher
+  } else if(s.mediaFile){
+    const src=s.imgO, sW=src.naturalWidth, sH=src.naturalHeight;
+    if(sW>0&&sH>0){
+      const ir=sW/sH,cr=W/H;
+      let bw,bh;
+      if(ir>cr){bh=sH;bw=bh*cr;}else{bw=sW;bh=bw/cr;}
+      const sw=bw/s.zoom,sh=bh/s.zoom;
+      const mpx=sW-sw,mpy=sH-sh;
+      const dx=mpx>0?mpx*s.panX:(sW-sw)/2;
+      const dy=mpy>0?mpy*s.panY:(sH-sh)/2;
+      ctx.drawImage(src,dx,dy,sw,sh,0,0,W,H);
     }
   } else {
-    ctx.fillStyle = '#06070a';
-    ctx.fillRect(0,0,W,H);
+    ctx.fillStyle='#06070a'; ctx.fillRect(0,0,W,H);
   }
 
-  // 2. GRADIENTE ESCURO
-  const gopVal = +$('gop').value / 100;
-  const isTop  = pos === 'top';
-  const gH     = H * 0.6;
-  const gY0    = isTop ? 0 : H - gH;
-  const grad   = ctx.createLinearGradient(0, isTop ? gH : gY0, 0, isTop ? 0 : H);
-  grad.addColorStop(0,   'rgba(0,0,0,0)');
-  grad.addColorStop(0.4, `rgba(0,0,0,${gopVal*0.6})`);
-  grad.addColorStop(1,   `rgba(0,0,0,${gopVal})`);
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, gY0, W, gH);
+  // 2. GRADIENTE
+  if(!s.transparentBg){
+    const gopVal=+g('gop').value/100;
+    const isTop=s.pos==='top';
+    const gH=H*0.6, gY0=isTop?0:H-gH;
+    const grad=ctx.createLinearGradient(0,isTop?gH:gY0,0,isTop?0:H);
+    grad.addColorStop(0,'rgba(0,0,0,0)');
+    grad.addColorStop(0.4,`rgba(0,0,0,${gopVal*0.6})`);
+    grad.addColorStop(1,`rgba(0,0,0,${gopVal})`);
+    ctx.fillStyle=grad;
+    ctx.fillRect(0,gY0,W,gH);
+  }
 
-  // 3. TEXTOS 
-  const sc       = W / 1080;
-  const pad      = 80 * sc;
-  const maxTxtW  = W - pad*2;
+  // 3. TEXTOS
+  const sc=W/1080, pad=80*sc, maxTxtW=W-pad*2;
+  const baseAX=s.align==='left'?pad:s.align==='right'?W-pad:W/2;
+  const textAlign=s.align==='right'?'right':s.align==='left'?'left':'center';
+  const fontFam=g('fontFam').value||'Montserrat';
+  const titSzPx=+g('tsz').value*sc;
+  const subSzPx=+g('ssz').value*sc;
+  const strokeW=+g('tStrk').value*sc;
+  const titTxt=g('titulo').value.trim();
+  const subTxt=g('sub').value.trim();
 
-  const baseAX   = align==='left' ? pad : align==='right' ? W-pad : W/2;
-  const textAlign= align==='right' ? 'right' : align==='left' ? 'left' : 'center';
+  ctx.font=`800 ${titSzPx}px '${fontFam}',sans-serif`;
+  const titLines=titTxt?formatTitLines(ctx,titTxt,maxTxtW):[];
+  const titLH=titSzPx*1.22;
+  const titBlockH=titLines.length*titLH;
 
-  const fontFam  = $('fontFam').value || 'Montserrat';
-  const titSzPx  = +$('tsz').value * sc;
-  const subSzPx  = +$('ssz').value * sc;
-  const strokeW  = +$('tStrk').value * sc;
+  ctx.font=`400 ${subSzPx}px 'Inter',sans-serif`;
+  const subLines=subTxt?wrapText(ctx,subTxt,maxTxtW):[];
+  const subMet=ctx.measureText('Ag');
+  const tH2=subMet.actualBoundingBoxAscent+subMet.actualBoundingBoxDescent;
+  const spx2=18*sc,spy=9*sc,lg=6*sc,bLH=tH2+spy*2,stp=tH2+lg;
+  const subBlockH=subLines.length>0?(subLines.length-1)*stp+bLH:0;
+  const gap=(titTxt&&subTxt)?28*sc:0;
+  const totalH=titBlockH+gap+subBlockH;
 
-  const titTxt   = $('titulo').value.trim();
-  const subTxt   = $('sub').value.trim();
+  let baseTY;
+  if(s.pos==='top')    baseTY=100*sc;
+  else if(s.pos==='middle') baseTY=(H-totalH)/2;
+  else                 baseTY=H-100*sc-totalH;
+  const baseSY=baseTY+titBlockH+gap;
 
-  // Título com formatação Inline de cores usando ';'
-  ctx.font = `800 ${titSzPx}px '${fontFam}',sans-serif`;
-  const titLines  = titTxt ? formatTitLines(ctx, titTxt, maxTxtW) : [];
-  const titLH     = titSzPx * 1.22;
-  const titBlockH = titLines.length * titLH;
-
-  // Subtítulo
-  ctx.font = `400 ${subSzPx}px 'Inter',sans-serif`;
-  const subLines  = subTxt ? wrapText(ctx, subTxt, maxTxtW) : [];
-  const subMet    = ctx.measureText('Ag');
-  const tH2       = subMet.actualBoundingBoxAscent + subMet.actualBoundingBoxDescent;
-  const spx2      = 18*sc;   
-  const spy       = 9*sc;    
-  const lg        = 6*sc;    
-  const bLH       = tH2 + spy*2;   
-  const stp       = tH2 + lg;      
-  const subBlockH = subLines.length > 0 ? (subLines.length - 1)*stp + bLH : 0;
-
-  const gap       = (titTxt && subTxt) ? 28*sc : 0;
-  const totalH    = titBlockH + gap + subBlockH;
-  
-  const baseTY = isTop ? 100*sc : H - 100*sc - totalH;
-  const baseSY = baseTY + titBlockH + gap;
-
-  // RENDER: Título Colorido
-  if(titLines.length > 0){
+  // Título
+  if(titLines.length>0){
     ctx.save();
-    ctx.font      = `800 ${titSzPx}px '${fontFam}',sans-serif`;
-    ctx.textAlign = 'left'; 
-    ctx.textBaseline = 'top';
-
-    titLines.forEach((lineArr, i) => {
-      let lineW = lineArr.reduce((sum, chunk) => sum + ctx.measureText(chunk.text).width, 0);
-      
-      let currentX = baseAX;
-      if(textAlign === 'center') currentX -= lineW / 2;
-      if(textAlign === 'right')  currentX -= lineW;
-
-      const posY = baseTY + i*titLH;
-
-      // Primeiro Passo: Stroke / Sombra
-      if(strokeW > 0){
-        ctx.strokeStyle = 'rgba(0,0,0,0.9)';
-        ctx.lineWidth   = strokeW * 2;
-        ctx.lineJoin    = 'round';
-        let tempX = currentX;
-        lineArr.forEach(chunk => {
-          ctx.strokeText(chunk.text, tempX, posY);
-          tempX += ctx.measureText(chunk.text).width;
-        });
+    ctx.font=`800 ${titSzPx}px '${fontFam}',sans-serif`;
+    ctx.textAlign='left'; ctx.textBaseline='top';
+    titLines.forEach((lineArr,i)=>{
+      let lineW=lineArr.reduce((sum,chunk)=>sum+ctx.measureText(chunk.text).width,0);
+      let curX=baseAX;
+      if(textAlign==='center') curX-=lineW/2;
+      if(textAlign==='right')  curX-=lineW;
+      const posY=baseTY+i*titLH;
+      if(strokeW>0){
+        ctx.strokeStyle='rgba(0,0,0,0.9)'; ctx.lineWidth=strokeW*2; ctx.lineJoin='round';
+        let tx=curX;
+        lineArr.forEach(chunk=>{ctx.strokeText(chunk.text,tx,posY);tx+=ctx.measureText(chunk.text).width;});
       } else {
-        ctx.shadowColor   = 'rgba(0,0,0,0.75)';
-        ctx.shadowBlur    = 18*sc;
-        ctx.shadowOffsetY = 3*sc;
+        ctx.shadowColor=s.transparentBg?'rgba(0,0,0,0.35)':'rgba(0,0,0,0.75)';
+        ctx.shadowBlur=s.transparentBg?8*sc:18*sc; ctx.shadowOffsetY=3*sc;
       }
-
-      // Segundo Passo: Fill com cores dinâmicas
-      let tempX2 = currentX;
-      lineArr.forEach(chunk => {
-        ctx.fillStyle = chunk.colored ? tColor : '#ffffff';
-        ctx.fillText(chunk.text, tempX2, posY);
-        tempX2 += ctx.measureText(chunk.text).width;
+      let tx2=curX;
+      lineArr.forEach(chunk=>{
+        ctx.fillStyle=chunk.colored?s.tColor:'#ffffff';
+        ctx.fillText(chunk.text,tx2,posY); tx2+=ctx.measureText(chunk.text).width;
       });
     });
-
     ctx.restore();
   }
 
-  if(subLines.length > 0){
-    ctx.font         = `400 ${subSzPx}px 'Inter',sans-serif`;
-    ctx.textAlign    = textAlign;
-    ctx.textBaseline = 'top';
-
-    const posX = baseAX;
-    const posY = baseSY;
-
-    if(showSubBg){
-      const sbopVal = $('sbop') ? parseInt($('sbop').value)/100 : 0.52;
-      const off = document.createElement('canvas');
-      off.width = W; off.height = H;
-      const oc = off.getContext('2d');
-      oc.font = `400 ${subSzPx}px 'Inter',sans-serif`;
-      oc.fillStyle = '#000';
-      subLines.forEach((l,i) => {
+  // Subtítulo
+  if(subLines.length>0){
+    ctx.font=`400 ${subSzPx}px 'Inter',sans-serif`;
+    ctx.textAlign=textAlign; ctx.textBaseline='top';
+    const posX=baseAX,posY=baseSY;
+    if(s.showSubBg){
+      const sbopVal=parseInt(g('sbop').value)/100;
+      const off=document.createElement('canvas'); off.width=W; off.height=H;
+      const oc=off.getContext('2d');
+      oc.font=`400 ${subSzPx}px 'Inter',sans-serif`; oc.fillStyle='#000';
+      subLines.forEach((l,i)=>{
         if(!l) return;
-        const lw = oc.measureText(l).width, bw = lw + spx2*2;
-        const bx = textAlign==='left'  ? posX - spx2
-                 : textAlign==='right' ? posX - lw - spx2
-                 :                       posX - bw/2;
-        rrect(oc, bx, posY - spy + i*stp, bw, bLH, 10*sc);
-        oc.fill();
+        const lw=oc.measureText(l).width,bw=lw+spx2*2;
+        const bx=textAlign==='left'?posX-spx2:textAlign==='right'?posX-lw-spx2:posX-bw/2;
+        rrect(oc,bx,posY-spy+i*stp,bw,bLH,10*sc); oc.fill();
       });
-      ctx.globalAlpha = sbopVal;
-      ctx.drawImage(off, 0, 0);
-      ctx.globalAlpha = 1;
+      ctx.globalAlpha=sbopVal; ctx.drawImage(off,0,0); ctx.globalAlpha=1;
     } else {
-      ctx.shadowColor   = 'rgba(0,0,0,0.7)';
-      ctx.shadowBlur    = 10*sc;
-      ctx.shadowOffsetY = 2*sc;
+      ctx.shadowColor='rgba(0,0,0,0.7)'; ctx.shadowBlur=10*sc; ctx.shadowOffsetY=2*sc;
     }
-
-    ctx.fillStyle = 'rgba(255,255,255,.93)';
-    
-    // Centralização vertical garantida dentro da caixa
-    const textOffsetY = (bLH - subSzPx) / 2;
-    subLines.forEach((l,i) => { if(l) ctx.fillText(l, posX, posY - spy + i*stp + textOffsetY); });
-    
-    ctx.shadowColor = 'transparent'; ctx.shadowBlur = 0; ctx.shadowOffsetY = 0;
+    ctx.fillStyle='rgba(255,255,255,.93)';
+    const textOffsetY=(bLH-subSzPx)/2;
+    subLines.forEach((l,i)=>{if(l) ctx.fillText(l,posX,posY-spy+i*stp+textOffsetY);});
+    ctx.shadowColor='transparent'; ctx.shadowBlur=0; ctx.shadowOffsetY=0;
   }
 
   // 4. INDICADOR
-  if(indicator !== 'none'){
+  if(s.indicator!=='none'&&!s.transparentBg){
     ctx.save();
-    const indOp = $('indOp') ? parseInt($('indOp').value)/100 : 0.85;
-    ctx.globalAlpha = indOp;
-    ctx.shadowColor = 'rgba(0,0,0,0.7)'; ctx.shadowBlur = 12*sc;
-
-    if(indicator === 'arrowDown'){
-      const aw=36*sc, ah=18*sc, ax=W/2, ay=H-60*sc;
-      ctx.fillStyle = '#fff';
-      ctx.beginPath(); ctx.moveTo(ax-aw/2,ay-ah/2); ctx.lineTo(ax+aw/2,ay-ah/2); ctx.lineTo(ax,ay+ah/2); ctx.closePath(); ctx.fill();
-    } else if(indicator === 'swipeRight'){
-      const ax=W-65*sc, ay=H/2, aw=18*sc, ah=36*sc;
-      ctx.strokeStyle='#fff'; ctx.lineWidth=6*sc; ctx.lineCap='round'; ctx.lineJoin='round';
-      ctx.beginPath(); ctx.moveTo(ax-aw/2,ay-ah/2); ctx.lineTo(ax+aw/2,ay); ctx.lineTo(ax-aw/2,ay+ah/2); ctx.stroke();
+    const indOp=parseInt(g('indOp').value)/100;
+    ctx.globalAlpha=indOp;
+    ctx.shadowColor='rgba(0,0,0,0.7)'; ctx.shadowBlur=12*sc;
+    if(s.indicator==='arrowDown'){
+      const aw=36*sc,ah=18*sc,ax=W/2,ay=H-60*sc;
+      ctx.fillStyle='#fff';
+      ctx.beginPath();ctx.moveTo(ax-aw/2,ay-ah/2);ctx.lineTo(ax+aw/2,ay-ah/2);ctx.lineTo(ax,ay+ah/2);ctx.closePath();ctx.fill();
+    } else if(s.indicator==='swipeRight'){
+      const ax=W-65*sc,ay=H/2,aw=18*sc,ah=36*sc;
+      ctx.strokeStyle='#fff';ctx.lineWidth=6*sc;ctx.lineCap='round';ctx.lineJoin='round';
+      ctx.beginPath();ctx.moveTo(ax-aw/2,ay-ah/2);ctx.lineTo(ax+aw/2,ay);ctx.lineTo(ax-aw/2,ay+ah/2);ctx.stroke();
     }
     ctx.restore();
   }
 }
 
-// ═══════════════════════════════════════════════
-// EXPORT
-// ═══════════════════════════════════════════════
-function exportMedia(){
-  if(!mediaFile) return;
-  const expC = document.createElement('canvas');
-  drawToCanvas(expC);
-  setTimeout(() => {
-    const a = document.createElement('a');
-    a.download = 'post-imagem.png';
-    a.href = expC.toDataURL('image/png');
-    a.click();
-  }, 80);
+// ═══════════════════════════════════
+// UI CONTROLES (mode-aware)
+// ═══════════════════════════════════
+function setAccent(c,el){
+  document.documentElement.style.setProperty('--ac',c);
+  document.documentElement.style.setProperty('--ac-tx',contrastColor(c));
+  document.querySelectorAll('.accent-picker .ac-dot').forEach(d=>d.classList.remove('sel'));
+  const cp=$('acCustomWrap'); cp.classList.remove('sel');
+  if(!el) el=document.querySelector(`.accent-picker .ac-dot[data-c="${c.toLowerCase()}"]`);
+  if(el){el.classList.add('sel');cp.style.background='conic-gradient(red,yellow,lime,aqua,blue,magenta,red)';}
+  else{cp.classList.add('sel');cp.style.background=c;}
+  $('acCustom').value=c;
+  markDirty('img'); markDirty('reels');
 }
 
-function drawToCanvas(targetCanvas){
-  const {W,H} = D();
-  if(targetCanvas.width!==W || targetCanvas.height!==H){ targetCanvas.width=W; targetCanvas.height=H; }
-  draw();
-  targetCanvas.getContext('2d').drawImage(cv, 0, 0, W, H);
+function toggleTheme(){document.body.classList.toggle('lt');}
+function resetAll(){
+  if(confirm('Tem certeza que deseja limpar tudo?')){localStorage.removeItem('pbState');location.reload();}
 }
+
+function sync(rid,nid,mode){ $(nid).value=$(rid).value; markDirty(mode); }
+function nsync(nid,rid,mode){
+  const el=$(nid);let v=parseFloat(el.value);if(isNaN(v))return;
+  v=Math.max(+el.min,Math.min(+el.max,v));el.value=v;$(rid).value=v;markDirty(mode);
+}
+
+function setRatio(r,btn){
+  S.img.ratio=r;
+  document.querySelectorAll('#ratioRow .tog').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  const cv=cvEl('img'); const {W,H}=D('img');
+  cv.style.aspectRatio=W+'/'+H; cv.width=W; cv.height=H;
+  const ph=$('prevPlaceholder'); if(ph) ph.style.aspectRatio=W+'/'+H;
+  markDirty('img');
+}
+
+function setPos(p,btn,mode){
+  S[mode].pos=p;
+  const pfx=mode==='reels'?'r-':'';
+  $(`${pfx}posBot`)&&$(`${pfx}posBot`).classList.toggle('on',p==='bottom');
+  $(`${pfx}posTop`)&&$(`${pfx}posTop`).classList.toggle('on',p==='top');
+  $(`${pfx}posMid`)&&$(`${pfx}posMid`).classList.toggle('on',p==='middle');
+  markDirty(mode);
+}
+
+function setAlign(a,btn,mode){
+  S[mode].align=a;
+  const row=mode==='reels'?'r-alignRow':'alignRow';
+  document.querySelectorAll(`#${row} .tog`).forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on'); markDirty(mode);
+}
+
+function setTC(c,el,mode){
+  S[mode].tColor=c;
+  const pfx=mode==='reels'?'r-':'';
+  const cp=$(`${pfx}tCPWrap`); $(`${pfx}tCP`).value=c;
+  document.querySelectorAll(`#${pfx}colorRow .sw`).forEach(s=>s.classList.remove('on'));
+  cp.classList.remove('on');
+  if(!el) el=Array.from(document.querySelectorAll(`#${pfx}colorRow .sw:not(.color-picker-wrap)`)).find(d=>d.dataset.c&&d.dataset.c.toLowerCase()===c.toLowerCase());
+  if(el){el.classList.add('on');cp.style.background='conic-gradient(red,yellow,lime,aqua,blue,magenta,red)';}
+  else{cp.classList.add('on');cp.style.background=c;}
+  markDirty(mode);
+}
+
+function setSubBg(v,mode){
+  S[mode].showSubBg=v;
+  const pfx=mode==='reels'?'r-':'';
+  $(`${pfx}sbOn`).classList.toggle('on',v);
+  $(`${pfx}sbOff`).classList.toggle('on',!v);
+  $(`${pfx}sbSlider`).style.display=v?'flex':'none';
+  markDirty(mode);
+}
+
+function setInd(val,btn,mode){
+  S[mode].indicator=val;
+  const pfx=mode==='reels'?'r-':'';
+  document.querySelectorAll(`#${pfx}indRow .tog`).forEach(b=>b.classList.remove('on'));
+  if(btn) btn.classList.add('on');
+  $(`${pfx}indOpWrap`).style.display=(val==='none'||S[mode].transparentBg)?'none':'flex';
+  markDirty(mode);
+}
+
+// ═══════════════════════════════════
+// FUNDO TRANSPARENTE
+// ═══════════════════════════════════
+function activateTransparent(e,mode){
+  if(e) e.stopPropagation();
+  const s=S[mode]; s.transparentBg=true;
+  const pfx=mode==='reels'?'r-':'';
+  const cw=cwEl(mode), ph=$(pfx==='r-'?'r-prevPlaceholder':'prevPlaceholder');
+  ph.style.display='none'; cw.style.display='flex';
+  cw.classList.add('transparent-mode');
+  $(`${pfx}transpBadge`).classList.add('visible');
+  $(`${pfx}transpInfoBox`).classList.add('visible');
+  $(`${pfx==='r-'?'r-gopWrap':'gopWrap'}`).style.opacity='.35';
+  $(`${pfx==='r-'?'r-gopWrap':'gopWrap'}`).style.pointerEvents='none';
+  $(`${pfx==='r-'?'r-indWrap':'indWrap'}`).style.opacity='.35';
+  $(`${pfx==='r-'?'r-indWrap':'indWrap'}`).style.pointerEvents='none';
+  $(pfx+'dlBtn'||'dlBtn').disabled=false;
+  const dlId=mode==='reels'?'r-dlBtn':'dlBtn'; $(dlId).disabled=false;
+  markDirty(mode);
+}
+
+function deactivateTransparent(mode){
+  const s=S[mode]; s.transparentBg=false; s.mediaFile=null;
+  const pfx=mode==='reels'?'r-':'';
+  const cw=cwEl(mode), ph=$(pfx==='r-'?'r-prevPlaceholder':'prevPlaceholder');
+  cw.classList.remove('transparent-mode');
+  $(`${pfx}transpBadge`).classList.remove('visible');
+  $(`${pfx}transpInfoBox`).classList.remove('visible');
+  $(`${pfx==='r-'?'r-gopWrap':'gopWrap'}`).style.opacity='';
+  $(`${pfx==='r-'?'r-gopWrap':'gopWrap'}`).style.pointerEvents='';
+  $(`${pfx==='r-'?'r-indWrap':'indWrap'}`).style.opacity='';
+  $(`${pfx==='r-'?'r-indWrap':'indWrap'}`).style.pointerEvents='';
+  cw.style.display='none';
+  ph.style.display='flex';
+  const dlId=mode==='reels'?'r-dlBtn':'dlBtn'; $(dlId).disabled=true;
+}
+
+// ═══════════════════════════════════
+// LOAD IMAGEM
+// ═══════════════════════════════════
+function loadImg(e,mode){
+  const f=e.target.files[0]; if(!f) return;
+  const s=S[mode]; s.mediaFile=f; s.transparentBg=false;
+  const pfx=mode==='reels'?'r-':'';
+  const cw=cwEl(mode), ph=$(pfx==='r-'?'r-prevPlaceholder':'prevPlaceholder');
+  cw.classList.remove('transparent-mode');
+  $(`${pfx}transpBadge`).classList.remove('visible');
+  $(`${pfx}transpInfoBox`).classList.remove('visible');
+  $(`${pfx==='r-'?'r-gopWrap':'gopWrap'}`).style.opacity='';
+  $(`${pfx==='r-'?'r-gopWrap':'gopWrap'}`).style.pointerEvents='';
+  $(`${pfx==='r-'?'r-indWrap':'indWrap'}`).style.opacity='';
+  $(`${pfx==='r-'?'r-indWrap':'indWrap'}`).style.pointerEvents='';
+  if(s.imgO._blobURL) URL.revokeObjectURL(s.imgO._blobURL);
+  const blobURL=URL.createObjectURL(f); s.imgO._blobURL=blobURL;
+  ph.style.display='none'; cw.style.display='flex';
+  $(pfx+'btnMove').style.display='flex';
+  $(pfx+'btnChange').style.display='flex';
+  const dlId=mode==='reels'?'r-dlBtn':'dlBtn'; $(dlId).disabled=false;
+  s.imgO.onload=()=>{
+    s.panX=.5;s.panY=.5;s.zoom=1;
+    $(pfx+'zlbl').textContent='100%';
+    $(pfx+'zpill').style.display='flex';
+    markDirty(mode);
+  };
+  s.imgO.onerror=()=>alert('Erro ao carregar imagem.');
+  s.imgO.src=blobURL;
+  e.target.value='';
+}
+
+// ═══════════════════════════════════
+// PAN & ZOOM
+// ═══════════════════════════════════
+function toggleMove(mode){
+  const s=S[mode]; s.canMove=!s.canMove;
+  const pfx=mode==='reels'?'r-':'';
+  $(pfx+'btnMove').classList.toggle('active',s.canMove);
+  const cw=cwEl(mode); cw.style.cursor=s.canMove?'grab':'default';
+  cw.classList.toggle('is-moving',s.canMove);
+}
+
+function applyPan(dxV,dyV,mode){
+  const s=S[mode]; if(!s.imgO.width) return;
+  const cw=cwEl(mode), rect=cw.getBoundingClientRect();
+  const iw=s.imgO.naturalWidth,ih=s.imgO.naturalHeight;
+  const {W,H}=D(mode); const ir=iw/ih,cr=W/H;
+  let bw,bh;
+  if(ir>cr){bh=ih;bw=bh*cr;}else{bw=iw;bh=bw/cr;}
+  const sw=bw/s.zoom,sh=bh/s.zoom,mpx=iw-sw,mpy=ih-sh;
+  const scX=sw/rect.width,scY=sh/rect.height;
+  if(mpx>0) s.panX=Math.max(0,Math.min(1,s.panX-(dxV*scX)/mpx));
+  if(mpy>0) s.panY=Math.max(0,Math.min(1,s.panY-(dyV*scY)/mpy));
+}
+
+function pinchDist(t){const dx=t[0].clientX-t[1].clientX,dy=t[0].clientY-t[1].clientY;return Math.sqrt(dx*dx+dy*dy);}
+
+function bindCanvas(mode){
+  const cw=cwEl(mode);
+  const pfx=mode==='reels'?'r-':'';
+
+  cw.addEventListener('mousedown',e=>{
+    const s=S[mode]; if(!s.mediaFile||!s.canMove) return;
+    s.panDragging=true; s.panLastRaw={x:e.clientX,y:e.clientY};
+    cw.style.cursor='grabbing'; e.preventDefault();
+  });
+
+  window.addEventListener('mousemove',e=>{
+    const s=S[mode]; if(!s.panDragging||!s.canMove) return;
+    applyPan(e.clientX-s.panLastRaw.x,e.clientY-s.panLastRaw.y,mode);
+    s.panLastRaw={x:e.clientX,y:e.clientY}; markDirty(mode);
+  });
+
+  window.addEventListener('mouseup',()=>{
+    const s=S[mode]; s.panDragging=false; if(s.canMove) cw.style.cursor='grab';
+  });
+
+  cw.addEventListener('touchstart',e=>{
+    const s=S[mode]; if(!s.canMove) return;
+    s.lTouches=[...e.touches];
+    s.lPinchDist=e.touches.length===2?pinchDist(e.touches):null;
+    if(e.touches.length===1){
+      s.panDragging=true; s.panLastRaw={x:e.touches[0].clientX,y:e.touches[0].clientY};
+    }
+  },{passive:false});
+
+  cw.addEventListener('touchmove',e=>{
+    const s=S[mode]; if(!s.canMove) return;
+    if(e.touches.length===1){
+      if(!s.panDragging) return;
+      applyPan(e.touches[0].clientX-s.panLastRaw.x,e.touches[0].clientY-s.panLastRaw.y,mode);
+      s.panLastRaw={x:e.touches[0].clientX,y:e.touches[0].clientY}; markDirty(mode);
+    } else if(e.touches.length===2){
+      s.panDragging=false;
+      const d=pinchDist(e.touches);
+      if(s.lPinchDist){s.zoom=Math.max(1,Math.min(6,s.zoom*(d/s.lPinchDist)));if(s.zoom===1){s.panX=.5;s.panY=.5;}}
+      s.lPinchDist=d;
+      if(s.lTouches.length===2){
+        applyPan(
+          (e.touches[0].clientX+e.touches[1].clientX)/2-(s.lTouches[0].clientX+s.lTouches[1].clientX)/2,
+          (e.touches[0].clientY+e.touches[1].clientY)/2-(s.lTouches[0].clientY+s.lTouches[1].clientY)/2,
+          mode
+        );
+      }
+      $(pfx+'zlbl').textContent=Math.round(s.zoom*100)+'%';
+      markDirty(mode);
+    }
+    s.lTouches=[...e.touches]; e.preventDefault();
+  },{passive:false});
+
+  cw.addEventListener('touchend',e=>{
+    const s=S[mode]; s.panDragging=false; s.lTouches=[...e.touches];
+    if(e.touches.length<2) s.lPinchDist=null;
+  },{passive:true});
+
+  cw.addEventListener('wheel',e=>{
+    const s=S[mode]; if(!s.canMove) return; e.preventDefault();
+    s.zoom=Math.max(1,Math.min(6,s.zoom+(e.deltaY<0?.07:-.07)));
+    if(s.zoom===1){s.panX=.5;s.panY=.5;}
+    $(pfx+'zlbl').textContent=Math.round(s.zoom*100)+'%'; markDirty(mode);
+  },{passive:false});
+}
+
+// ═══════════════════════════════════
+// EXPORT
+// ═══════════════════════════════════
+function exportMedia(mode){
+  const s=S[mode]; if(!s.mediaFile&&!s.transparentBg) return;
+  draw(mode);
+  const cv=cvEl(mode), {W,H}=D(mode);
+  const expC=document.createElement('canvas'); expC.width=W; expC.height=H;
+  expC.getContext('2d').drawImage(cv,0,0,W,H);
+  const suffix=s.transparentBg?'transparente':(mode==='reels'?'reels':'feed');
+  setTimeout(()=>{
+    const a=document.createElement('a');
+    a.download=`post-${suffix}.png`; a.href=expC.toDataURL('image/png'); a.click();
+  },80);
+}
+
+// ═══════════════════════════════════
+// INIT
+// ═══════════════════════════════════
+(()=>{
+  // Imagem: inicializa canvas
+  const cv=cvEl('img'), {W,H}=D('img');
+  cv.width=W;cv.height=H;cv.style.aspectRatio=W+'/'+H;
+  const ph=$('prevPlaceholder'); if(ph) ph.style.aspectRatio=W+'/'+H;
+
+  // Reels: fixo 9:16, transparente sempre ativo, renderiza imediatamente
+  const rcv=cvEl('reels');
+  rcv.width=1080;rcv.height=1920;rcv.style.aspectRatio='9/16';
+  markDirty('reels'); // dispara primeiro draw com fundo transparente
+})();
+
+// Bind eventos de canvas para ambos os modos
+bindCanvas('img');
+bindCanvas('reels');
 </script>
 </body>
 </html>

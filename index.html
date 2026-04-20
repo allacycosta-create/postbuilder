@@ -882,7 +882,7 @@ function draw(mode){
     }
     ctx.fillStyle='rgba(255,255,255,.93)';
     const textOffsetY = reelsMode ? 0 : (bLH-subSzPx)/2;
-    subLines.forEach((l,i)=>{if(l) ctx.fillText(l,posX,posY+i*subSzPx*1.3+textOffsetY);});
+    subLines.forEach((l,i)=>{if(l) ctx.fillText(l,posX,posY-spy+i*stp+textOffsetY);});
     ctx.shadowColor='transparent'; ctx.shadowBlur=0; ctx.shadowOffsetY=0;
   }
 

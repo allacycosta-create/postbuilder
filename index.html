@@ -419,10 +419,15 @@
           </div>
         </div>
         <div class="slider-field">
-          <span class="field-label">Tamanho do Subtítulo</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <span class="field-label">Tamanho do Subtítulo</span>
+            <label class="auto-cb-label">
+              <input type="checkbox" id="autoFitSub" checked onchange="markDirty('img'); saveState();" style="accent-color: var(--ac);"> AUTO (MÁX 2 LINHAS)
+            </label>
+          </div>
           <div class="slider-row">
-            <input type="range" id="ssz" min="25" max="40" value="25" oninput="sync('ssz','snum2','img')">
-            <input class="snum" type="number" id="snum2" value="25" min="25" max="40" onchange="nsync('snum2','ssz','img')">
+            <input type="range" id="ssz" min="15" max="80" value="28" oninput="sync('ssz','snum2','img')">
+            <input class="snum" type="number" id="snum2" value="28" min="15" max="80" onchange="nsync('snum2','ssz','img')">
           </div>
         </div>
         <div class="slider-field">
@@ -624,10 +629,15 @@
           </div>
         </div>
         <div class="slider-field">
-          <span class="field-label">Tamanho do Subtítulo</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <span class="field-label">Tamanho do Subtítulo</span>
+            <label class="auto-cb-label">
+              <input type="checkbox" id="c-autoFitSub" checked onchange="markDirty('car'); saveState();" style="accent-color: var(--ac);"> AUTO (MÁX 2 LINHAS)
+            </label>
+          </div>
           <div class="slider-row">
-            <input type="range" id="c-ssz" min="25" max="40" value="25" oninput="sync('c-ssz','c-snum2','car')">
-            <input class="snum" type="number" id="c-snum2" value="25" min="25" max="40" onchange="nsync('c-snum2','c-ssz','car')">
+            <input type="range" id="c-ssz" min="15" max="80" value="28" oninput="sync('c-ssz','c-snum2','car')">
+            <input class="snum" type="number" id="c-snum2" value="28" min="15" max="80" onchange="nsync('c-snum2','c-ssz','car')">
           </div>
         </div>
         <div class="slider-field">
@@ -799,10 +809,15 @@
           </div>
         </div>
         <div class="slider-field">
-          <span class="field-label">Tamanho do Subtítulo</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <span class="field-label">Tamanho do Subtítulo</span>
+            <label class="auto-cb-label">
+              <input type="checkbox" id="r-autoFitSub" checked onchange="markDirty('reels'); saveState();" style="accent-color: var(--ac);"> AUTO (MÁX 2 LINHAS)
+            </label>
+          </div>
           <div class="slider-row">
-            <input type="range" id="r-ssz" min="20" max="45" value="28" oninput="sync('r-ssz','r-snum2','reels')">
-            <input class="snum" type="number" id="r-snum2" value="28" min="20" max="45" onchange="nsync('r-snum2','r-ssz','reels')">
+            <input type="range" id="r-ssz" min="15" max="80" value="28" oninput="sync('r-ssz','r-snum2','reels')">
+            <input class="snum" type="number" id="r-snum2" value="28" min="15" max="80" onchange="nsync('r-snum2','r-ssz','reels')">
           </div>
         </div>
         <div class="slider-field">
@@ -820,14 +835,13 @@
 </div></div><script>
 'use strict';
 
-// Cria o estado básico para cada slide
 function createSlide(){
   return {
     mediaFile:null, imgO:new Image(), transparentBg:false,
     pos:'bottom', align:'center', tColor:'#ffffff', showSubBg:true, indicator:'none',
     zoom:1, panX:.5, panY:.5,
-    titulo:'', sub:'', fontFam:'Montserrat', tsz:50, autoFit:true, tStrk:0,
-    ssz:25, gop:65, sbop:52, indOp:85
+    titulo:'', sub:'', fontFam:'Montserrat', tsz:50, autoFit:true, autoFitSub:true, tStrk:0,
+    ssz:28, gop:65, sbop:52, indOp:85
   };
 }
 
@@ -835,7 +849,8 @@ const S = {
   img: {
     mediaFile:null, imgO:new Image(), transparentBg:false,
     ratio:'9:16-hd', pos:'bottom', align:'center', tColor:'#ffffff', showSubBg:true, indicator:'none',
-    canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null
+    canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
+    autoFitSub:true
   },
   car: {
     ratio:'9:16-hd', currentSlide: 0, slides: [createSlide()],
@@ -844,7 +859,8 @@ const S = {
   reels: {
     mediaFile:null, imgO:new Image(), transparentBg:true,
     ratio:'9:16-reels', pos:'bottom', align:'center', tColor:'#ffffff', showSubBg:true, indicator:'none',
-    canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null
+    canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
+    autoFitSub:true
   }
 };
 
@@ -861,7 +877,6 @@ const offCtx = offCanvas.getContext('2d');
 
 const $ = id => document.getElementById(id);
 
-// Retorna os dados corretos dependendo se estamos em imagem simples, reels ou no carrossel ativo
 function getActiveData(mode) {
   return mode === 'car' ? S.car.slides[S.car.currentSlide] : S[mode];
 }
@@ -942,7 +957,6 @@ function switchPage(mode){
   markDirty(mode);
 }
 
-// === LÓGICA DE NAVEGAÇÃO DO CARROSSEL ===
 function updateSlideUI() {
   const slide = S.car.slides[S.car.currentSlide];
   
@@ -951,20 +965,19 @@ function updateSlideUI() {
   $('c-fontFam').value = slide.fontFam || 'Montserrat';
   $('c-tsz').value = slide.tsz || 50; $('c-tnum').value = slide.tsz || 50;
   if($('c-autoFit')) $('c-autoFit').checked = slide.autoFit !== false;
+  if($('c-autoFitSub')) $('c-autoFitSub').checked = slide.autoFitSub !== false;
   $('c-tStrk').value = slide.tStrk || 0; $('c-tStrkN').value = slide.tStrk || 0;
-  $('c-ssz').value = slide.ssz || 25; $('c-snum2').value = slide.ssz || 25;
+  $('c-ssz').value = slide.ssz || 28; $('c-snum2').value = slide.ssz || 28;
   $('c-gop').value = slide.gop || 65; $('c-gnum').value = slide.gop || 65;
   $('c-sbop').value = slide.sbop || 52; $('c-sbnum').value = slide.sbop || 52;
   $('c-indOp').value = slide.indOp || 85; $('c-indOpN').value = slide.indOp || 85;
 
-  // Sincroniza Toggles Visuais sem disparar loop de save
   setPos(slide.pos, null, 'car', false);
   setAlign(slide.align, null, 'car', false);
   setTC(slide.tColor, null, 'car', false);
   setSubBg(slide.showSubBg, 'car', false);
   setInd(slide.indicator, null, 'car', false);
 
-  // Botões do ratio global (car)
   document.querySelectorAll('#c-ratioRow .tog').forEach(b => b.classList.remove('on'));
   const rBtn = document.querySelector(`#c-ratioRow button[onclick="setRatio('${S.car.ratio}',this,'car')"]`);
   if(rBtn) rBtn.classList.add('on');
@@ -972,7 +985,6 @@ function updateSlideUI() {
   cv.style.aspectRatio=W+'/'+H; cv.width=W; cv.height=H;
   if($('c-prevPlaceholder')) $('c-prevPlaceholder').style.aspectRatio=W+'/'+H;
 
-  // Header UI Image/Placeholder
   const hasImg = !!slide.mediaFile;
   $('c-prevPlaceholder').style.display = hasImg ? 'none' : 'flex';
   $('c-cw').style.display = hasImg ? 'flex' : 'none';
@@ -980,7 +992,6 @@ function updateSlideUI() {
   $('c-btnChange').style.display = hasImg ? 'flex' : 'none';
   $('c-zlbl').textContent = Math.round(slide.zoom*100)+'%';
 
-  // Navigation UI
   $('slideCounter').textContent = `Slide ${S.car.currentSlide + 1} de ${S.car.slides.length}`;
   $('btnRemSlide').style.display = S.car.slides.length > 1 ? 'flex' : 'none';
 }
@@ -1010,7 +1021,6 @@ function removeSlide() {
   }
 }
 
-// Salva o input atual do DOM no slide aberto ANTES de trocar de slide
 function saveSlideDOM() {
   if (currentPage !== 'car') return;
   const slide = S.car.slides[S.car.currentSlide];
@@ -1019,6 +1029,7 @@ function saveSlideDOM() {
   slide.fontFam = $('c-fontFam').value;
   slide.tsz = $('c-tsz').value;
   if($('c-autoFit')) slide.autoFit = $('c-autoFit').checked;
+  if($('c-autoFitSub')) slide.autoFitSub = $('c-autoFitSub').checked;
   slide.tStrk = $('c-tStrk').value;
   slide.ssz = $('c-ssz').value;
   slide.gop = $('c-gop').value;
@@ -1039,7 +1050,7 @@ function renderLoop(mode){
 
 function draw(mode){
   const s  = S[mode];
-  const activeData = getActiveData(mode); // Pega os dados do modo OU do slide ativo
+  const activeData = getActiveData(mode);
   const cv = cvEl(mode);
   const {W,H} = D(mode);
   if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H;}
@@ -1050,7 +1061,6 @@ function draw(mode){
   const ctx = cv.getContext('2d');
   ctx.clearRect(0,0,W,H);
 
-  // 1. FUNDO / IMAGEM
   if(activeData.transparentBg){
   } else if(activeData.mediaFile){
     const src=activeData.imgO, sW=src.naturalWidth, sH=src.naturalHeight;
@@ -1068,7 +1078,6 @@ function draw(mode){
     ctx.fillStyle='#06070a'; ctx.fillRect(0,0,W,H);
   }
 
-  // 2. GRADIENTE
   if(!activeData.transparentBg){
     const gopVal=+g('gop').value/100;
     const isTop=activeData.pos==='top';
@@ -1081,7 +1090,6 @@ function draw(mode){
     ctx.fillRect(0,gY0,W,gH);
   }
 
-  // 3. TEXTOS
   const sc=W/1080, pad=80*sc, maxTxtW=W-pad*2;
   const baseAX=activeData.align==='left'?pad:activeData.align==='right'?W-pad:W/2;
   const textAlign=activeData.align==='right'?'right':activeData.align==='left'?'left':'center';
@@ -1089,11 +1097,11 @@ function draw(mode){
   const strokeW=+g('tStrk').value*sc;
   const titTxt=g('titulo').value.trim();
   const subTxt=g('sub').value.trim();
-  const subSzPx=+g('ssz').value*sc;
-
+  
   let titSzPx=+g('tsz').value*sc;
+  let subSzPx=+g('ssz').value*sc;
 
-  // Lógica Auto-Fit Max 2 Linhas
+  // Lógica Auto-Fit Titulo Max 2 Linhas
   const autoFitEl = g('autoFit');
   const isAutoFit = autoFitEl ? autoFitEl.checked : false;
   if(isAutoFit && titTxt) {
@@ -1108,6 +1116,23 @@ function draw(mode){
     titSzPx = best;
     g('tsz').value = Math.round(best / sc);
     g('tnum').value = Math.round(best / sc);
+  }
+
+  // Lógica Auto-Fit Subtitulo Max 2 Linhas
+  const autoFitSubEl = g('autoFitSub');
+  const isAutoFitSub = autoFitSubEl ? autoFitSubEl.checked : false;
+  if(isAutoFitSub && subTxt) {
+    let minSzSub = 15 * sc, maxSzSub = 80 * sc, lowSub = minSzSub, highSub = maxSzSub, bestSub = minSzSub;
+    while (lowSub <= highSub) {
+      let midSub = Math.floor((lowSub + highSub) / 2);
+      ctx.font = `400 ${midSub}px 'Inter',sans-serif`;
+      let linesTestSub = wrapText(ctx, subTxt, maxTxtW);
+      if (linesTestSub.length <= 2) { bestSub = midSub; lowSub = midSub + 1; }
+      else { highSub = midSub - 1; }
+    }
+    subSzPx = bestSub;
+    g('ssz').value = Math.round(bestSub / sc);
+    g('snum2').value = Math.round(bestSub / sc);
   }
 
   ctx.font=`800 ${titSzPx}px '${fontFam}',sans-serif`;
@@ -1211,7 +1236,6 @@ function draw(mode){
   }
 }
 
-// === CONTROLES E CONFIGURAÇÕES ===
 function setAccent(c,el){
   document.documentElement.style.setProperty('--ac',c);
   document.documentElement.style.setProperty('--ac-tx',contrastColor(c));
@@ -1232,8 +1256,14 @@ function resetAll(){
 function sync(rid,nid,mode){ 
   $(nid).value=$(rid).value; 
   const pfx = mode === 'reels' ? 'r-' : mode === 'car' ? 'c-' : '';
-  const autoCb = $(pfx+'autoFit');
-  if(autoCb && autoCb.checked) autoCb.checked = false;
+  if(rid.includes('tsz')) {
+    const autoCb = $(pfx+'autoFit');
+    if(autoCb && autoCb.checked) autoCb.checked = false;
+  }
+  if(rid.includes('ssz')) {
+    const autoCbSub = $(pfx+'autoFitSub');
+    if(autoCbSub && autoCbSub.checked) autoCbSub.checked = false;
+  }
   markDirty(mode); saveState(); 
 }
 
@@ -1241,8 +1271,14 @@ function nsync(nid,rid,mode){
   const el=$(nid);let v=parseFloat(el.value);if(isNaN(v))return;
   v=Math.max(+el.min,Math.min(+el.max,v));el.value=v;$(rid).value=v;
   const pfx = mode === 'reels' ? 'r-' : mode === 'car' ? 'c-' : '';
-  const autoCb = $(pfx+'autoFit');
-  if(autoCb && autoCb.checked) autoCb.checked = false;
+  if(rid.includes('tsz')) {
+    const autoCb = $(pfx+'autoFit');
+    if(autoCb && autoCb.checked) autoCb.checked = false;
+  }
+  if(rid.includes('ssz')) {
+    const autoCbSub = $(pfx+'autoFitSub');
+    if(autoCbSub && autoCbSub.checked) autoCbSub.checked = false;
+  }
   markDirty(mode);saveState();
 }
 
@@ -1377,10 +1413,9 @@ function loadImg(e,mode){
 
 function saveState(){
   try{
-    // Extrai propriedades dos slides sem os objetos complexos de imagem
     const carData = S.car.slides.map(sl => ({
       pos: sl.pos, align: sl.align, tColor: sl.tColor, showSubBg: sl.showSubBg, indicator: sl.indicator,
-      titulo: sl.titulo, sub: sl.sub, fontFam: sl.fontFam, tsz: sl.tsz, autoFit: sl.autoFit,
+      titulo: sl.titulo, sub: sl.sub, fontFam: sl.fontFam, tsz: sl.tsz, autoFit: sl.autoFit, autoFitSub: sl.autoFitSub,
       tStrk: sl.tStrk, ssz: sl.ssz, gop: sl.gop, sbop: sl.sbop, indOp: sl.indOp
     }));
 
@@ -1395,6 +1430,7 @@ function saveState(){
       img_fontFam : $('fontFam').value,
       img_tsz     : $('tsz').value,
       img_autoFit : $('autoFit') ? $('autoFit').checked : true,
+      img_autoFitSub : $('autoFitSub') ? $('autoFitSub').checked : true,
       img_tStrk   : $('tStrk').value,
       img_ssz     : $('ssz').value,
       img_sbop    : $('sbop').value,
@@ -1409,6 +1445,7 @@ function saveState(){
       r_fontFam  : $('r-fontFam').value,
       r_tsz      : $('r-tsz').value,
       r_autoFit  : $('r-autoFit') ? $('r-autoFit').checked : true,
+      r_autoFitSub : $('r-autoFitSub') ? $('r-autoFitSub').checked : true,
       r_tStrk    : $('r-tStrk').value,
       r_ssz      : $('r-ssz').value,
       r_sbop     : $('r-sbop').value,
@@ -1424,7 +1461,6 @@ function loadState(){
 
     if(st.accent) setAccent(st.accent, null);
     
-    // IMG
     if(st.img_ratio){ const btn=document.querySelector(`#ratioRow button[onclick="setRatio('${st.img_ratio}',this,'img')"]`); if(btn) setRatio(st.img_ratio,btn,'img'); }
     if(st.img_pos){ setPos(st.img_pos, null, 'img'); }
     if(st.img_align){ setAlign(st.img_align, null, 'img'); }
@@ -1433,14 +1469,14 @@ function loadState(){
     if(st.img_indicator){ setInd(st.img_indicator, null, 'img'); }
     if(st.img_fontFam) $('fontFam').value=st.img_fontFam;
     if(st.img_autoFit!==undefined && $('autoFit')){ $('autoFit').checked = st.img_autoFit; }
+    if(st.img_autoFitSub!==undefined && $('autoFitSub')){ $('autoFitSub').checked = st.img_autoFitSub; }
     if(st.img_tsz!==undefined){ const v=Math.max(40,Math.min(180,+st.img_tsz)); $('tsz').value=v; $('tnum').value=v; }
     if(st.img_tStrk!==undefined){ $('tStrk').value=st.img_tStrk; $('tStrkN').value=st.img_tStrk; }
-    if(st.img_ssz!==undefined){ const v=Math.max(25,Math.min(40,+st.img_ssz)); $('ssz').value=v; $('snum2').value=v; }
+    if(st.img_ssz!==undefined){ const v=Math.max(15,Math.min(80,+st.img_ssz)); $('ssz').value=v; $('snum2').value=v; }
     if(st.img_sbop!==undefined){ $('sbop').value=st.img_sbop; $('sbnum').value=st.img_sbop; }
     if(st.img_gop!==undefined){ $('gop').value=st.img_gop; $('gnum').value=st.img_gop; }
     if(st.img_indOp!==undefined){ $('indOp').value=st.img_indOp; $('indOpN').value=st.img_indOp; }
 
-    // CARROSSEL
     if(st.car_settings) {
        S.car.ratio = st.car_settings.ratio;
        if(st.car_settings.slides && st.car_settings.slides.length > 0) {
@@ -1451,18 +1487,17 @@ function loadState(){
           });
        }
        S.car.currentSlide = 0;
-       // We'll call updateSlideUI later in INIT
     }
 
-    // REELS
     if(st.r_align){ setAlign(st.r_align, null, 'reels'); }
     if(st.r_tColor){ setTC(st.r_tColor, null, 'reels'); }
     if(st.r_showSubBg!==undefined) setSubBg(st.r_showSubBg,'reels');
     if(st.r_fontFam) $('r-fontFam').value=st.r_fontFam;
     if(st.r_autoFit!==undefined && $('r-autoFit')){ $('r-autoFit').checked = st.r_autoFit; }
+    if(st.r_autoFitSub!==undefined && $('r-autoFitSub')){ $('r-autoFitSub').checked = st.r_autoFitSub; }
     if(st.r_tsz!==undefined){ const v=Math.max(40,Math.min(180,+st.r_tsz)); $('r-tsz').value=v; $('r-tnum').value=v; }
     if(st.r_tStrk!==undefined){ $('r-tStrk').value=st.r_tStrk; $('r-tStrkN').value=st.r_tStrk; }
-    if(st.r_ssz!==undefined){ const v=Math.max(20,Math.min(45,+st.r_ssz)); $('r-ssz').value=v; $('r-snum2').value=v; }
+    if(st.r_ssz!==undefined){ const v=Math.max(15,Math.min(80,+st.r_ssz)); $('r-ssz').value=v; $('r-snum2').value=v; }
     if(st.r_sbop!==undefined){ $('r-sbop').value=st.r_sbop; $('r-sbnum').value=st.r_sbop; }
   }catch(e){ console.warn('loadState error',e); }
 }
@@ -1568,18 +1603,16 @@ function bindCanvas(mode){
   },{passive:false});
 }
 
-// Download Sequence
 async function exportMedia(mode){
   if(mode === 'car'){
      showToast('Iniciando o download de todos os slides...');
      const s = S.car;
      const originalSlide = s.currentSlide;
      
-     // Percorre e baixa slide por slide
      for(let i=0; i<s.slides.length; i++){
         s.currentSlide = i;
         updateSlideUI();
-        draw('car'); // Garante render do frame atual
+        draw('car'); 
         
         const cv = cvEl('car'), {W,H} = D('car');
         const expC = document.createElement('canvas'); expC.width=W; expC.height=H;
@@ -1590,11 +1623,9 @@ async function exportMedia(mode){
         a.href = expC.toDataURL('image/png');
         a.click();
         
-        // Timeout para garantir que o navegador autorize múltiplos downloads
         await new Promise(r => setTimeout(r, 600)); 
      }
      
-     // Retorna à visualização original
      s.currentSlide = originalSlide;
      updateSlideUI();
      draw('car');
@@ -1614,18 +1645,15 @@ async function exportMedia(mode){
 }
 
 (()=>{
-  // Init IMG
   const cv=cvEl('img'), {W,H}=D('img');
   cv.width=W;cv.height=H;cv.style.aspectRatio=W+'/'+H;
   const ph=$('prevPlaceholder'); if(ph) ph.style.aspectRatio=W+'/'+H;
 
-  // Init REELS
   const rcv=cvEl('reels');
   rcv.width=1080;rcv.height=1920;rcv.style.aspectRatio='9/16';
 
   loadState();
   
-  // Set carrossel initial size from loaded state
   const ccv=cvEl('car'); const cDim=D('car');
   ccv.width=cDim.W; ccv.height=cDim.H; ccv.style.aspectRatio=cDim.W+'/'+cDim.H;
   if($('c-prevPlaceholder')) $('c-prevPlaceholder').style.aspectRatio=cDim.W+'/'+cDim.H;

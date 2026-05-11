@@ -32,7 +32,6 @@
     .pcol{display:flex;flex-direction:column;gap:12px;width:100%}
     .ccol{display:flex;flex-direction:column;gap:12px;width:100%}
 
-    /* Desktop Layout - Side-by-Side Canva Style */
     @media(min-width:880px){
       body{padding:20px 14px 100px}
       .app { align-items: center; }
@@ -41,7 +40,6 @@
       .ccol { width: 420px; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; }
     }
 
-    /* ── TOAST NOTIFICATION ── */
     .toast {
       position: fixed; bottom: -60px; left: 50%; transform: translateX(-50%);
       background: #ef4444; color: #fff; padding: 12px 24px; border-radius: 20px;
@@ -50,7 +48,6 @@
     }
     .toast.show { bottom: 24px; }
 
-    /* ── PAGE SWITCHER ── */
     .page-switcher{
       display:flex;align-items:center;gap:6px;
       background:var(--s2);border:1px solid var(--b2);border-radius:40px; padding:4px;
@@ -65,7 +62,6 @@
     .psw-btn.active{ background:var(--ac);color:var(--ac-tx); box-shadow:0 4px 14px var(--ac2); }
     .psw-btn:not(.active):hover{color:var(--tx);background:var(--s3);}
 
-    /* ── HEADER ── */
     .hdr{
       display:flex;align-items:center;justify-content:space-between;
       padding:12px 16px;background:var(--s1);border:1px solid var(--b1);
@@ -101,7 +97,6 @@
     .color-picker-wrap.on{outline:2px solid var(--ac);outline-offset:3px;}
     .color-picker-wrap input[type="color"]{position:absolute;top:-10px;left:-10px;width:50px;height:50px;opacity:0;cursor:pointer;border:none;padding:0;}
 
-    /* ── CARDS & ACCORDIONS ── */
     div.card, details.card {
       background:var(--s1);border:1px solid var(--b1);border-radius:var(--r3);
       overflow:hidden;box-shadow:var(--shadow);
@@ -135,7 +130,6 @@
     .cbtn-outline{background:transparent;border:1px solid var(--ac);color:var(--ac)}
     .cbtn-outline.active{background:var(--ac);color:var(--ac-tx)}
 
-    /* ── FIELDS ── */
     .field{display:flex;flex-direction:column;gap:6px;width:100%}
     .field-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3)}
     textarea,input[type=text],.custom-select{
@@ -164,7 +158,6 @@
     .sw{width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;box-shadow:var(--shadow-sm);flex-shrink:0}
     .sw.on{outline:2px solid var(--ac);outline-offset:3px}
 
-    /* ── PREVIEW CANVAS ── */
     .cwrap{
       position:relative;width:100%;background:#06070a;
       user-select:none;overflow:hidden;border-radius:var(--r);
@@ -210,7 +203,6 @@
       font-family:'Montserrat',sans-serif;color:rgba(255,255,255,.7);letter-spacing:.5px;
     }
 
-    /* ── DOWNLOAD BTN ── */
     .dl-main{
       width:100%;background:var(--ac);color:var(--ac-tx);
       font-family:'Inter',sans-serif;font-size:14px;font-weight:800;
@@ -229,24 +221,25 @@
       .hdr-right{justify-content:center;}
       .tog{font-size:9px;padding:8px 2px;line-height:1.2;white-space:normal;}
       .card-hdr{flex-direction:column;align-items:flex-start;}
-      summary.card-hdr {flex-direction:row; align-items:center;} /* Keep summary inline on mobile */
+      summary.card-hdr {flex-direction:row; align-items:center;}
       .hdr-actions{width:100%;justify-content:flex-end;}
       .sw{width:22px;height:22px;}
       .color-picker-wrap{width:24px;height:24px;}
       .psw-btn{padding:8px 12px;font-size:10px;}
     }
+
+    /* Estilo para a caixa de Auto-Ajuste */
+    .auto-cb-label {
+      font-size: 9px; color: var(--ac); font-weight: 800; cursor: pointer;
+      display: flex; align-items: center; gap: 4px; background: var(--ac2);
+      padding: 3px 8px; border-radius: 20px; transition: all 0.2s;
+    }
+    .auto-cb-label:hover { background: var(--b2); }
   </style>
 </head>
 <body>
 
 <div class="app">
-
-<input type="hidden" id="r-gop" value="65">
-<input type="hidden" id="r-gnum" value="65">
-<input type="hidden" id="r-indOp" value="85">
-<input type="hidden" id="r-indOpN" value="85">
-<input type="hidden" id="r-sbop" value="52">
-<input type="hidden" id="r-sbnum" value="52">
 
 <input type="file" id="imgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'img')">
 <input type="file" id="rImgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'reels')">
@@ -414,10 +407,15 @@
           </div>
         </div>
         <div class="slider-field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <span class="field-label">Tamanho do Título</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <span class="field-label">Tamanho do Título</span>
+            <label class="auto-cb-label">
+              <input type="checkbox" id="autoFit" checked onchange="markDirty('img'); saveState();" style="accent-color: var(--ac);"> AUTO (MÁX 2 LINHAS)
+            </label>
+          </div>
           <div class="slider-row">
-            <input type="range" id="tsz" min="45" max="60" value="48" oninput="sync('tsz','tnum','img')">
-            <input class="snum" type="number" id="tnum" value="48" min="45" max="60" onchange="nsync('tnum','tsz','img')">
+            <input type="range" id="tsz" min="40" max="120" value="50" oninput="sync('tsz','tnum','img')">
+            <input class="snum" type="number" id="tnum" value="50" min="40" max="120" onchange="nsync('tnum','tsz','img')">
           </div>
         </div>
         <div class="slider-field">
@@ -592,10 +590,15 @@
           </div>
         </div>
         <div class="slider-field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <span class="field-label">Tamanho do Título</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <span class="field-label">Tamanho do Título</span>
+            <label class="auto-cb-label">
+              <input type="checkbox" id="r-autoFit" checked onchange="markDirty('reels'); saveState();" style="accent-color: var(--ac);"> AUTO (MÁX 2 LINHAS)
+            </label>
+          </div>
           <div class="slider-row">
-            <input type="range" id="r-tsz" min="40" max="80" value="55" oninput="sync('r-tsz','r-tnum','reels')">
-            <input class="snum" type="number" id="r-tnum" value="55" min="40" max="80" onchange="nsync('r-tnum','r-tsz','reels')">
+            <input type="range" id="r-tsz" min="40" max="140" value="65" oninput="sync('r-tsz','r-tnum','reels')">
+            <input class="snum" type="number" id="r-tnum" value="65" min="40" max="140" onchange="nsync('r-tnum','r-tsz','reels')">
           </div>
         </div>
         <div class="slider-field">
@@ -624,16 +627,12 @@ const S = {
   img: {
     mediaFile:null, imgO:new Image(), transparentBg:false,
     ratio:'9:16-hd', pos:'bottom', align:'center', tColor:'#ffffff', showSubBg:true, indicator:'none',
-    canMove:false, panX:.5, panY:.5, zoom:1,
-    rafId:null, dirty:false,
-    panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null
+    canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null
   },
   reels: {
     mediaFile:null, imgO:new Image(), transparentBg:true,
     ratio:'9:16-reels', pos:'bottom', align:'center', tColor:'#ffffff', showSubBg:true, indicator:'none',
-    canMove:false, panX:.5, panY:.5, zoom:1,
-    rafId:null, dirty:false,
-    panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null
+    canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null
   }
 };
 
@@ -728,6 +727,7 @@ function markDirty(mode){
   const s=S[mode]; s.dirty=true;
   if(!s.rafId) s.rafId=requestAnimationFrame(()=>renderLoop(mode));
 }
+
 function renderLoop(mode){
   const s=S[mode]; s.rafId=null;
   if(s.dirty){ s.dirty=false; draw(mode); saveState(); }
@@ -778,11 +778,40 @@ function draw(mode){
   const baseAX=s.align==='left'?pad:s.align==='right'?W-pad:W/2;
   const textAlign=s.align==='right'?'right':s.align==='left'?'left':'center';
   const fontFam=g('fontFam').value||'Montserrat';
-  const titSzPx=+g('tsz').value*sc;
-  const subSzPx=+g('ssz').value*sc;
   const strokeW=+g('tStrk').value*sc;
   const titTxt=g('titulo').value.trim();
   const subTxt=g('sub').value.trim();
+  const subSzPx=+g('ssz').value*sc;
+
+  let titSzPx=+g('tsz').value*sc;
+
+  // LÓGICA DE AUTO-AJUSTE DA FONTE (AUTO-FIT MAX 2 LINHAS)
+  const isAutoFit = g('autoFit') ? g('autoFit').checked : false;
+  if(isAutoFit && titTxt) {
+    let minSz = 30 * sc; // Tamanho mínimo legível
+    let maxSz = 180 * sc; // Permite ficar gigante se for uma palavra só
+    let low = minSz, high = maxSz, best = minSz;
+
+    while (low <= high) {
+      let mid = Math.floor((low + high) / 2);
+      ctx.font = `800 ${mid}px '${fontFam}',sans-serif`;
+      let linesTest = formatTitLines(ctx, titTxt, maxTxtW);
+      
+      // Se couber em 2 linhas (ou 1), podemos tentar aumentar
+      if (linesTest.length <= 2) {
+        best = mid;
+        low = mid + 1;
+      } else {
+        // Se quebrou pra 3 linhas, precisamos diminuir a fonte
+        high = mid - 1;
+      }
+    }
+    titSzPx = best;
+    
+    // Atualiza o valor do input range e number visualmente
+    g('tsz').value = Math.round(best / sc);
+    g('tnum').value = Math.round(best / sc);
+  }
 
   ctx.font=`800 ${titSzPx}px '${fontFam}',sans-serif`;
   const titLines=titTxt?formatTitLines(ctx,titTxt,maxTxtW):[];
@@ -905,10 +934,21 @@ function resetAll(){
   if(confirm('Tem certeza que deseja limpar tudo?')){localStorage.removeItem('pbState2');location.reload();}
 }
 
-function sync(rid,nid,mode){ $(nid).value=$(rid).value; markDirty(mode); saveState(); }
+function sync(rid,nid,mode){ 
+  $(nid).value=$(rid).value; 
+  // Desativa autoFit se o usuario mexer manualmente no slider
+  const autoCb = mode === 'img' ? $('autoFit') : $('r-autoFit');
+  if(autoCb && autoCb.checked) autoCb.checked = false;
+  markDirty(mode); saveState(); 
+}
+
 function nsync(nid,rid,mode){
   const el=$(nid);let v=parseFloat(el.value);if(isNaN(v))return;
-  v=Math.max(+el.min,Math.min(+el.max,v));el.value=v;$(rid).value=v;markDirty(mode);saveState();
+  v=Math.max(+el.min,Math.min(+el.max,v));el.value=v;$(rid).value=v;
+  // Desativa autoFit se o usuario mexer manualmente
+  const autoCb = mode === 'img' ? $('autoFit') : $('r-autoFit');
+  if(autoCb && autoCb.checked) autoCb.checked = false;
+  markDirty(mode);saveState();
 }
 
 function setRatio(r,btn){
@@ -1019,6 +1059,7 @@ function saveState(){
       img_indicator: S.img.indicator,
       img_fontFam : $('fontFam').value,
       img_tsz     : $('tsz').value,
+      img_autoFit : $('autoFit') ? $('autoFit').checked : true,
       img_tStrk   : $('tStrk').value,
       img_ssz     : $('ssz').value,
       img_sbop    : $('sbop').value,
@@ -1030,6 +1071,7 @@ function saveState(){
       r_showSubBg: S.reels.showSubBg,
       r_fontFam  : $('r-fontFam').value,
       r_tsz      : $('r-tsz').value,
+      r_autoFit  : $('r-autoFit') ? $('r-autoFit').checked : true,
       r_tStrk    : $('r-tStrk').value,
       r_ssz      : $('r-ssz').value,
       r_sbop     : $('r-sbop').value,
@@ -1066,7 +1108,9 @@ function loadState(){
       if(btn) setInd(st.img_indicator,btn,'img');
     }
     if(st.img_fontFam) $('fontFam').value=st.img_fontFam;
-    if(st.img_tsz!==undefined){ const v=Math.max(45,Math.min(60,+st.img_tsz)); $('tsz').value=v; $('tnum').value=v; }
+    
+    if(st.img_autoFit!==undefined && $('autoFit')){ $('autoFit').checked = st.img_autoFit; }
+    if(st.img_tsz!==undefined){ const v=Math.max(40,Math.min(180,+st.img_tsz)); $('tsz').value=v; $('tnum').value=v; }
     if(st.img_tStrk!==undefined){ $('tStrk').value=st.img_tStrk; $('tStrkN').value=st.img_tStrk; }
     if(st.img_ssz!==undefined){ const v=Math.max(25,Math.min(40,+st.img_ssz)); $('ssz').value=v; $('snum2').value=v; }
     if(st.img_sbop!==undefined){ $('sbop').value=st.img_sbop; $('sbnum').value=st.img_sbop; }
@@ -1088,7 +1132,9 @@ function loadState(){
     }
     if(st.r_showSubBg!==undefined) setSubBg(st.r_showSubBg,'reels');
     if(st.r_fontFam) $('r-fontFam').value=st.r_fontFam;
-    if(st.r_tsz!==undefined){ const v=Math.max(40,Math.min(80,+st.r_tsz)); $('r-tsz').value=v; $('r-tnum').value=v; }
+    
+    if(st.r_autoFit!==undefined && $('r-autoFit')){ $('r-autoFit').checked = st.r_autoFit; }
+    if(st.r_tsz!==undefined){ const v=Math.max(40,Math.min(180,+st.r_tsz)); $('r-tsz').value=v; $('r-tnum').value=v; }
     if(st.r_tStrk!==undefined){ $('r-tStrk').value=st.r_tStrk; $('r-tStrkN').value=st.r_tStrk; }
     if(st.r_ssz!==undefined){ const v=Math.max(20,Math.min(45,+st.r_ssz)); $('r-ssz').value=v; $('r-snum2').value=v; }
     if(st.r_sbop!==undefined){ $('r-sbop').value=st.r_sbop; $('r-sbnum').value=st.r_sbop; }

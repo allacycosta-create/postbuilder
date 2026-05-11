@@ -87,7 +87,7 @@
     .ibtn:hover{border-color:var(--ac);color:var(--ac);transform:scale(1.05)}
 
     .accent-picker{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center}
-    .ac-dot{width:18px;height:18px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;flex-shrink:0}
+    .ac-dot{width:18px;height:18px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;flex-shrink:0;box-shadow:var(--shadow-sm);}
     .ac-dot:hover{transform:scale(1.2)}
     .ac-dot.sel{border-color:#fff;transform:scale(1.2);box-shadow:0 0 0 3px var(--ac2)}
 
@@ -101,7 +101,7 @@
     .color-picker-wrap.on{outline:2px solid var(--ac);outline-offset:3px;}
     .color-picker-wrap input[type="color"]{position:absolute;top:-10px;left:-10px;width:50px;height:50px;opacity:0;cursor:pointer;border:none;padding:0;}
 
-    /* ── CARDS & ACCORDIONS (NEW) ── */
+    /* ── CARDS & ACCORDIONS ── */
     div.card, details.card {
       background:var(--s1);border:1px solid var(--b1);border-radius:var(--r3);
       overflow:hidden;box-shadow:var(--shadow);
@@ -114,7 +114,6 @@
       padding:14px 16px;border-bottom:1px solid var(--b1);flex-wrap:wrap;gap:10px;
     }
     
-    /* Summary styles for accordion headers */
     summary.card-hdr {
       cursor: pointer; background: var(--s2); list-style: none; outline: none;
       transition: background 0.2s, border-bottom 0.2s; border-bottom: 1px solid transparent;
@@ -265,11 +264,15 @@
   </div>
   <div class="hdr-right">
     <div class="accent-picker">
-      <div class="ac-dot sel" data-c="#6b6b6b" style="background:#6b6b6b" onclick="setAccent('#6b6b6b',this)"></div>
+      <div class="ac-dot sel" data-c="#ffffff" style="background:#ffffff" onclick="setAccent('#ffffff',this)"></div>
+      <div class="ac-dot" data-c="#6b6b6b" style="background:#6b6b6b" onclick="setAccent('#6b6b6b',this)"></div>
       <div class="ac-dot" data-c="#3b9eff" style="background:#3b9eff" onclick="setAccent('#3b9eff',this)"></div>
       <div class="ac-dot" data-c="#7c6af7" style="background:#7c6af7" onclick="setAccent('#7c6af7',this)"></div>
       <div class="ac-dot" data-c="#00d4aa" style="background:#00d4aa" onclick="setAccent('#00d4aa',this)"></div>
-      <div class="ac-dot" data-c="#f7a26a" style="background:#f7a26a" onclick="setAccent('#f7a26a',this)"></div>
+      <div class="ac-dot" data-c="#69ff47" style="background:#69ff47" onclick="setAccent('#69ff47',this)"></div>
+      <div class="ac-dot" data-c="#ffd600" style="background:#ffd600" onclick="setAccent('#ffd600',this)"></div>
+      <div class="ac-dot" data-c="#ff6b00" style="background:#ff6b00" onclick="setAccent('#ff6b00',this)"></div>
+      <div class="ac-dot" data-c="#ff3b3b" style="background:#ff3b3b" onclick="setAccent('#ff3b3b',this)"></div>
       <div class="color-picker-wrap" id="acCustomWrap">
         <input type="color" id="acCustom" value="#6b6b6b" oninput="setAccent(this.value,null)" aria-label="Escolher cor customizada">
       </div>
@@ -396,12 +399,15 @@
         <div class="field">
           <span class="field-label">Cor Destaque do Título</span>
           <div class="sw-row" id="colorRow">
-            <div class="sw on" data-c="#ffffff" style="background:#fff" onclick="setTC('#ffffff',this,'img')"></div>
-            <div class="sw" data-c="#ffd600" style="background:#FFD600" onclick="setTC('#FFD600',this,'img')"></div>
-            <div class="sw" data-c="#ff6b00" style="background:#FF6B00" onclick="setTC('#FF6B00',this,'img')"></div>
-            <div class="sw" data-c="#ff3b3b" style="background:#FF3B3B" onclick="setTC('#FF3B3B',this,'img')"></div>
-            <div class="sw" data-c="#00e5ff" style="background:#00E5FF" onclick="setTC('#00E5FF',this,'img')"></div>
-            <div class="sw" data-c="#69ff47" style="background:#69FF47" onclick="setTC('#69FF47',this,'img')"></div>
+            <div class="sw on" data-c="#ffffff" style="background:#ffffff" onclick="setTC('#ffffff',this,'img')"></div>
+            <div class="sw" data-c="#6b6b6b" style="background:#6b6b6b" onclick="setTC('#6b6b6b',this,'img')"></div>
+            <div class="sw" data-c="#3b9eff" style="background:#3b9eff" onclick="setTC('#3b9eff',this,'img')"></div>
+            <div class="sw" data-c="#7c6af7" style="background:#7c6af7" onclick="setTC('#7c6af7',this,'img')"></div>
+            <div class="sw" data-c="#00d4aa" style="background:#00d4aa" onclick="setTC('#00d4aa',this,'img')"></div>
+            <div class="sw" data-c="#69ff47" style="background:#69ff47" onclick="setTC('#69ff47',this,'img')"></div>
+            <div class="sw" data-c="#ffd600" style="background:#ffd600" onclick="setTC('#ffd600',this,'img')"></div>
+            <div class="sw" data-c="#ff6b00" style="background:#ff6b00" onclick="setTC('#ff6b00',this,'img')"></div>
+            <div class="sw" data-c="#ff3b3b" style="background:#ff3b3b" onclick="setTC('#ff3b3b',this,'img')"></div>
             <div class="color-picker-wrap" id="tCPWrap">
               <input type="color" id="tCP" value="#ffffff" oninput="setTC(this.value,null,'img')">
             </div>
@@ -571,12 +577,15 @@
         <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
           <span class="field-label">Cor Destaque do Título</span>
           <div class="sw-row" id="r-colorRow">
-            <div class="sw on" data-c="#ffffff" style="background:#fff" onclick="setTC('#ffffff',this,'reels')"></div>
-            <div class="sw" data-c="#ffd600" style="background:#FFD600" onclick="setTC('#FFD600',this,'reels')"></div>
-            <div class="sw" data-c="#ff6b00" style="background:#FF6B00" onclick="setTC('#FF6B00',this,'reels')"></div>
-            <div class="sw" data-c="#ff3b3b" style="background:#FF3B3B" onclick="setTC('#FF3B3B',this,'reels')"></div>
-            <div class="sw" data-c="#00e5ff" style="background:#00E5FF" onclick="setTC('#00E5FF',this,'reels')"></div>
-            <div class="sw" data-c="#69ff47" style="background:#69FF47" onclick="setTC('#69FF47',this,'reels')"></div>
+            <div class="sw on" data-c="#ffffff" style="background:#ffffff" onclick="setTC('#ffffff',this,'reels')"></div>
+            <div class="sw" data-c="#6b6b6b" style="background:#6b6b6b" onclick="setTC('#6b6b6b',this,'reels')"></div>
+            <div class="sw" data-c="#3b9eff" style="background:#3b9eff" onclick="setTC('#3b9eff',this,'reels')"></div>
+            <div class="sw" data-c="#7c6af7" style="background:#7c6af7" onclick="setTC('#7c6af7',this,'reels')"></div>
+            <div class="sw" data-c="#00d4aa" style="background:#00d4aa" onclick="setTC('#00d4aa',this,'reels')"></div>
+            <div class="sw" data-c="#69ff47" style="background:#69ff47" onclick="setTC('#69ff47',this,'reels')"></div>
+            <div class="sw" data-c="#ffd600" style="background:#ffd600" onclick="setTC('#ffd600',this,'reels')"></div>
+            <div class="sw" data-c="#ff6b00" style="background:#ff6b00" onclick="setTC('#ff6b00',this,'reels')"></div>
+            <div class="sw" data-c="#ff3b3b" style="background:#ff3b3b" onclick="setTC('#ff3b3b',this,'reels')"></div>
             <div class="color-picker-wrap" id="r-tCPWrap">
               <input type="color" id="r-tCP" value="#ffffff" oninput="setTC(this.value,null,'reels')">
             </div>

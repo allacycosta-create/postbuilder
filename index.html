@@ -32,6 +32,7 @@
     .pcol{display:flex;flex-direction:column;gap:12px;width:100%}
     .ccol{display:flex;flex-direction:column;gap:12px;width:100%}
 
+    /* Desktop Layout - Side-by-Side Canva Style */
     @media(min-width:880px){
       body{padding:20px 14px 100px}
       .app { align-items: center; }
@@ -40,6 +41,7 @@
       .ccol { width: 420px; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; }
     }
 
+    /* ── TOAST NOTIFICATION ── */
     .toast {
       position: fixed; bottom: -60px; left: 50%; transform: translateX(-50%);
       background: #ef4444; color: #fff; padding: 12px 24px; border-radius: 20px;
@@ -48,6 +50,7 @@
     }
     .toast.show { bottom: 24px; }
 
+    /* ── PAGE SWITCHER ── */
     .page-switcher{
       display:flex;align-items:center;gap:6px;
       background:var(--s2);border:1px solid var(--b2);border-radius:40px; padding:4px;
@@ -62,6 +65,7 @@
     .psw-btn.active{ background:var(--ac);color:var(--ac-tx); box-shadow:0 4px 14px var(--ac2); }
     .psw-btn:not(.active):hover{color:var(--tx);background:var(--s3);}
 
+    /* ── HEADER ── */
     .hdr{
       display:flex;align-items:center;justify-content:space-between;
       padding:12px 16px;background:var(--s1);border:1px solid var(--b1);
@@ -97,6 +101,7 @@
     .color-picker-wrap.on{outline:2px solid var(--ac);outline-offset:3px;}
     .color-picker-wrap input[type="color"]{position:absolute;top:-10px;left:-10px;width:50px;height:50px;opacity:0;cursor:pointer;border:none;padding:0;}
 
+    /* ── CARDS & ACCORDIONS ── */
     div.card, details.card {
       background:var(--s1);border:1px solid var(--b1);border-radius:var(--r3);
       overflow:hidden;box-shadow:var(--shadow);
@@ -130,6 +135,7 @@
     .cbtn-outline{background:transparent;border:1px solid var(--ac);color:var(--ac)}
     .cbtn-outline.active{background:var(--ac);color:var(--ac-tx)}
 
+    /* ── FIELDS ── */
     .field{display:flex;flex-direction:column;gap:6px;width:100%}
     .field-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3)}
     textarea,input[type=text],.custom-select{
@@ -158,6 +164,7 @@
     .sw{width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;box-shadow:var(--shadow-sm);flex-shrink:0}
     .sw.on{outline:2px solid var(--ac);outline-offset:3px}
 
+    /* ── PREVIEW CANVAS ── */
     .cwrap{
       position:relative;width:100%;background:#06070a;
       user-select:none;overflow:hidden;border-radius:var(--r);
@@ -203,6 +210,7 @@
       font-family:'Montserrat',sans-serif;color:rgba(255,255,255,.7);letter-spacing:.5px;
     }
 
+    /* ── DOWNLOAD BTN ── */
     .dl-main{
       width:100%;background:var(--ac);color:var(--ac-tx);
       font-family:'Inter',sans-serif;font-size:14px;font-weight:800;
@@ -546,14 +554,6 @@
       </summary>
       <div class="card-body">
         <div class="field">
-          <span class="field-label">Posição Geral</span>
-          <div class="tog-row">
-            <button class="tog on" id="r-posBot" onclick="setPos('bottom',this,'reels')">Em Baixo</button>
-            <button class="tog" id="r-posTop" onclick="setPos('top',this,'reels')">Em Cima</button>
-            <button class="tog" id="r-posMid" onclick="setPos('middle',this,'reels')">Centro</button>
-          </div>
-        </div>
-        <div class="field">
           <span class="field-label">Alinhamento</span>
           <div class="tog-row" id="r-alignRow">
             <button class="tog on" onclick="setAlign('center',this,'reels')">Centro</button>
@@ -561,7 +561,7 @@
             <button class="tog" onclick="setAlign('right',this,'reels')">Direita</button>
           </div>
         </div>
-        <div class="field">
+        <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
           <span class="field-label">Família da Fonte</span>
           <select id="r-fontFam" class="custom-select" onchange="markDirty('reels')">
             <option value="Montserrat">Montserrat (Padrão Bold)</option>
@@ -572,7 +572,7 @@
             <option value="Oswald">Oswald (Condensada)</option>
           </select>
         </div>
-        <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+        <div class="field">
           <span class="field-label">Cor Destaque do Título</span>
           <div class="sw-row" id="r-colorRow">
             <div class="sw on" data-c="#ffffff" style="background:#ffffff" onclick="setTC('#ffffff',this,'reels')"></div>
@@ -785,11 +785,10 @@ function draw(mode){
 
   let titSzPx=+g('tsz').value*sc;
 
-  // LÓGICA DE AUTO-AJUSTE DA FONTE (AUTO-FIT MAX 2 LINHAS)
   const isAutoFit = g('autoFit') ? g('autoFit').checked : false;
   if(isAutoFit && titTxt) {
-    let minSz = 30 * sc; // Tamanho mínimo legível
-    let maxSz = 180 * sc; // Permite ficar gigante se for uma palavra só
+    let minSz = 30 * sc;
+    let maxSz = 180 * sc;
     let low = minSz, high = maxSz, best = minSz;
 
     while (low <= high) {
@@ -797,18 +796,15 @@ function draw(mode){
       ctx.font = `800 ${mid}px '${fontFam}',sans-serif`;
       let linesTest = formatTitLines(ctx, titTxt, maxTxtW);
       
-      // Se couber em 2 linhas (ou 1), podemos tentar aumentar
       if (linesTest.length <= 2) {
         best = mid;
         low = mid + 1;
       } else {
-        // Se quebrou pra 3 linhas, precisamos diminuir a fonte
         high = mid - 1;
       }
     }
     titSzPx = best;
     
-    // Atualiza o valor do input range e number visualmente
     g('tsz').value = Math.round(best / sc);
     g('tnum').value = Math.round(best / sc);
   }
@@ -936,7 +932,6 @@ function resetAll(){
 
 function sync(rid,nid,mode){ 
   $(nid).value=$(rid).value; 
-  // Desativa autoFit se o usuario mexer manualmente no slider
   const autoCb = mode === 'img' ? $('autoFit') : $('r-autoFit');
   if(autoCb && autoCb.checked) autoCb.checked = false;
   markDirty(mode); saveState(); 
@@ -945,7 +940,6 @@ function sync(rid,nid,mode){
 function nsync(nid,rid,mode){
   const el=$(nid);let v=parseFloat(el.value);if(isNaN(v))return;
   v=Math.max(+el.min,Math.min(+el.max,v));el.value=v;$(rid).value=v;
-  // Desativa autoFit se o usuario mexer manualmente
   const autoCb = mode === 'img' ? $('autoFit') : $('r-autoFit');
   if(autoCb && autoCb.checked) autoCb.checked = false;
   markDirty(mode);saveState();
@@ -1065,7 +1059,6 @@ function saveState(){
       img_sbop    : $('sbop').value,
       img_gop     : $('gop').value,
       img_indOp   : $('indOp').value,
-      r_pos      : S.reels.pos,
       r_align    : S.reels.align,
       r_tColor   : S.reels.tColor,
       r_showSubBg: S.reels.showSubBg,
@@ -1117,11 +1110,6 @@ function loadState(){
     if(st.img_gop!==undefined){ $('gop').value=st.img_gop; $('gnum').value=st.img_gop; }
     if(st.img_indOp!==undefined){ $('indOp').value=st.img_indOp; $('indOpN').value=st.img_indOp; }
 
-    if(st.r_pos){
-      const idMap={bottom:'r-posBot',top:'r-posTop',middle:'r-posMid'};
-      const btn=$(idMap[st.r_pos]);
-      if(btn) setPos(st.r_pos,btn,'reels');
-    }
     if(st.r_align){
       const btn=document.querySelector(`#r-alignRow button[onclick="setAlign('${st.r_align}',this,'reels')"]`);
       if(btn) setAlign(st.r_align,btn,'reels');

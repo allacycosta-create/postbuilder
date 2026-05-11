@@ -48,10 +48,12 @@
     }
     .toast.show { bottom: 24px; }
 
+    .page-switcher-wrap {
+      width: 100%; display: flex; justify-content: center;
+    }
     .page-switcher{
       display:flex;align-items:center;gap:6px;
       background:var(--s2);border:1px solid var(--b2);border-radius:40px; padding:4px;
-      flex-wrap: wrap; justify-content: center;
     }
     .psw-btn{
       display:flex;align-items:center;gap:7px;
@@ -66,20 +68,15 @@
     .hdr{
       display:flex;align-items:center;justify-content:space-between;
       padding:12px 16px;background:var(--s1);border:1px solid var(--b1);
-      border-radius:var(--r3);box-shadow:var(--shadow-sm);flex-wrap:wrap;gap:12px;
+      border-radius:var(--r3);box-shadow:var(--shadow-sm);flex-wrap:wrap;gap:12px; width: 100%;
     }
-    .hdr-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;width:100%}
+    .hdr-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;}
     .logo-name{font-family:'Montserrat',sans-serif;font-weight:900;font-size:16px;color:var(--tx);text-transform:uppercase;letter-spacing:-.5px}
     .hdr-sep{color:var(--b2);font-weight:300}
     .ig-link{display:flex;align-items:center;gap:6px;color:var(--tx);text-decoration:none;font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;transition:color .2s;text-transform:uppercase;}
     .ig-link:hover{color:var(--ac);}
-    .hdr-right{display:flex;align-items:center;gap:12px;width:100%;justify-content:center;flex-wrap:wrap}
-    @media(min-width:600px){
-      .hdr{flex-wrap:nowrap;}
-      .hdr-left{width:auto;justify-content:flex-start;}
-      .hdr-right{width:auto;justify-content:flex-end;}
-    }
-
+    .hdr-right{display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap}
+    
     .ibtn{width:36px;height:36px;border-radius:50%;background:var(--s2);border:1px solid var(--b2);color:var(--t2);transition:all .2s;flex-shrink:0}
     .ibtn:hover{border-color:var(--ac);color:var(--ac);transform:scale(1.05)}
 
@@ -87,6 +84,7 @@
     .ac-dot{width:18px;height:18px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;flex-shrink:0;box-shadow:var(--shadow-sm);}
     .ac-dot:hover{transform:scale(1.2)}
     .ac-dot.sel{border-color:#fff;transform:scale(1.2);box-shadow:0 0 0 3px var(--ac2)}
+    
     .color-picker-wrap{
       position:relative;width:28px;height:28px;border:2px solid var(--b2);border-radius:50%;cursor:pointer;
       background:conic-gradient(red,yellow,lime,aqua,blue,magenta,red);
@@ -132,6 +130,8 @@
 
     .field{display:flex;flex-direction:column;gap:6px;width:100%}
     .field-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3)}
+    
+    /* Configurações base de formulários */
     textarea,input[type=text],.custom-select{
       width:100%;background:var(--bg);border:1px solid var(--b2);border-radius:var(--r);
       color:var(--tx);font-family:'Inter',sans-serif;font-size:13px;padding:12px;
@@ -208,7 +208,7 @@
     .auto-cb-label {
       font-size: 9px; color: var(--ac); font-weight: 800; cursor: pointer;
       display: flex; align-items: center; gap: 4px; background: var(--ac2);
-      padding: 3px 8px; border-radius: 20px; transition: all 0.2s;
+      padding: 3px 8px; border-radius: 20px; transition: all 0.2s; white-space: nowrap;
     }
     .auto-cb-label:hover { background: var(--b2); }
 
@@ -220,16 +220,44 @@
     .slide-counter { font-family:'Montserrat',sans-serif; font-size:12px; font-weight:800; text-transform:uppercase; color:var(--tx); }
     .slide-actions { display:flex; gap: 6px; }
 
-    @media(max-width:480px){
-      .hdr-left{justify-content:center;}
-      .hdr-right{justify-content:center;}
-      .tog{font-size:9px;padding:8px 2px;line-height:1.2;white-space:normal;}
-      .card-hdr{flex-direction:column;align-items:flex-start;}
-      summary.card-hdr {flex-direction:row; align-items:center;}
-      .hdr-actions{width:100%;justify-content:flex-end;}
-      .sw{width:22px;height:22px;}
-      .color-picker-wrap{width:24px;height:24px;}
-      .psw-btn{padding:8px 12px;font-size:10px;}
+    /* ══════════════════════════════════════
+       AJUSTES ESPECÍFICOS PARA MOBILE
+       ══════════════════════════════════════ */
+    @media(max-width:600px){
+      body { padding: 6px 6px 80px; }
+      
+      /* Solução Anti-Zoom no iOS */
+      textarea, input[type=text], input[type=number], select.custom-select {
+        font-size: 16px !important;
+      }
+      
+      /* Header mais enxuto */
+      .hdr { flex-direction: column; padding: 12px; gap: 14px; border-radius: 12px;}
+      .hdr-left, .hdr-right { width: 100%; justify-content: center; }
+      
+      /* Abas Roláveis - Impede de esmagar no mobile */
+      .page-switcher-wrap { justify-content: flex-start; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+      .page-switcher-wrap::-webkit-scrollbar { display: none; } /* Oculta scrollbar nativa */
+      .page-switcher { width: max-content; flex-wrap: nowrap; border-radius: 30px; }
+      .psw-btn { padding: 8px 16px; font-size: 10px; }
+      
+      /* Componentes dos Cards */
+      .card-hdr { padding: 12px; }
+      .card-body { padding: 12px 10px; }
+      summary.card-hdr { flex-wrap: nowrap; align-items: center; }
+      .card-label { font-size: 10px; }
+      
+      /* Botões de Ação do Header do Preview */
+      .hdr-actions { width: 100%; justify-content: flex-end; margin-top: 8px; }
+      .cbtn { padding: 8px 12px; font-size: 9px; flex: 1; justify-content: center; }
+      
+      /* Toggles e Sliders menores */
+      .tog { font-size: 9px; padding: 8px 2px; }
+      .sw { width: 22px; height: 22px; }
+      .slider-row { gap: 8px; }
+      .snum { width: 44px; padding: 6px 2px; font-size: 13px;}
+      
+      .auto-cb-label { font-size: 8px; padding: 4px 6px;}
     }
   </style>
 </head>
@@ -246,7 +274,7 @@
 <div class="hdr">
   <div class="hdr-left">
     <span class="logo-name">Post Builder</span>
-    <span class="hdr-sep">|</span>
+    <span class="hdr-sep" style="display:none;">|</span>
     <a href="https://www.instagram.com/valle.xp/" target="_blank" class="ig-link" aria-label="Instagram @valle.xp">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
       @valle.xp
@@ -276,7 +304,7 @@
   </div>
 </div>
 
-<div style="display:flex;justify-content:center;">
+<div class="page-switcher-wrap">
   <div class="page-switcher">
     <button class="psw-btn active" id="pswImg" onclick="switchPage('img')" aria-label="Mudar para edição de Imagem ou Feed">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
@@ -700,7 +728,10 @@
 
   </div>
 </div>
-</div><div class="page" id="pageReels">
+</div>
+
+
+<div class="page" id="pageReels">
 <div class="workspace">
   
   <div class="pcol">
@@ -832,7 +863,9 @@
 
   </div>
 </div>
-</div></div><script>
+</div>
+
+</div><script>
 'use strict';
 
 function createSlide(){
@@ -1101,7 +1134,6 @@ function draw(mode){
   let titSzPx=+g('tsz').value*sc;
   let subSzPx=+g('ssz').value*sc;
 
-  // Lógica Auto-Fit Titulo Max 2 Linhas
   const autoFitEl = g('autoFit');
   const isAutoFit = autoFitEl ? autoFitEl.checked : false;
   if(isAutoFit && titTxt) {
@@ -1118,7 +1150,6 @@ function draw(mode){
     g('tnum').value = Math.round(best / sc);
   }
 
-  // Lógica Auto-Fit Subtitulo Max 2 Linhas
   const autoFitSubEl = g('autoFitSub');
   const isAutoFitSub = autoFitSubEl ? autoFitSubEl.checked : false;
   if(isAutoFitSub && subTxt) {

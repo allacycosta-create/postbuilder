@@ -27,62 +27,42 @@
     }
     button{font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 
-    .app{width:100%;max-width:var(--max);display:flex;flex-direction:column;gap:12px}
-    .workspace{display:flex;flex-direction:column;gap:12px;width:100%}
+    .app{width:100%;max-width:var(--max);display:flex;flex-direction:column;gap:16px}
+    .workspace{display:flex;flex-direction:column;gap:12px;width:100%;}
     .pcol{display:flex;flex-direction:column;gap:12px;width:100%}
     .ccol{display:flex;flex-direction:column;gap:12px;width:100%}
-    .ccol-inner{display:flex;flex-direction:column;gap:12px;width:100%}
 
+    /* Desktop Layout - Side-by-Side Canva Style */
     @media(min-width:880px){
       body{padding:20px 14px 100px}
-      .app{gap:16px}
-      .workspace{flex-direction:row;align-items:flex-start;gap:24px}
-      .pcol{width:360px;flex-shrink:0;position:sticky;top:20px}
-      .ccol{flex:1;display:grid;grid-template-columns:1fr 1fr;align-items:start;gap:16px;}
-      .ccol.reels-ccol{display:flex;flex-direction:column;}
+      .app { align-items: center; }
+      .workspace { flex-direction: row; align-items: flex-start; justify-content: center; gap: 32px; }
+      .pcol { width: 420px; flex-shrink: 0; position: sticky; top: 20px; }
+      .ccol { width: 420px; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; }
     }
 
     /* ── TOAST NOTIFICATION ── */
     .toast {
-      position: fixed;
-      bottom: -60px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #ef4444;
-      color: #fff;
-      padding: 12px 24px;
-      border-radius: 20px;
-      font-family: 'Inter', sans-serif;
-      font-weight: 600;
-      font-size: 13px;
-      box-shadow: var(--shadow);
-      transition: bottom 0.3s ease;
-      z-index: 9999;
-      pointer-events: none;
+      position: fixed; bottom: -60px; left: 50%; transform: translateX(-50%);
+      background: #ef4444; color: #fff; padding: 12px 24px; border-radius: 20px;
+      font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px;
+      box-shadow: var(--shadow); transition: bottom 0.3s ease; z-index: 9999; pointer-events: none;
     }
-    .toast.show {
-      bottom: 24px;
-    }
+    .toast.show { bottom: 24px; }
 
     /* ── PAGE SWITCHER ── */
     .page-switcher{
       display:flex;align-items:center;gap:6px;
-      background:var(--s2);border:1px solid var(--b2);border-radius:40px;
-      padding:4px;
+      background:var(--s2);border:1px solid var(--b2);border-radius:40px; padding:4px;
     }
     .psw-btn{
       display:flex;align-items:center;gap:7px;
-      padding:9px 18px;border-radius:30px;border:none;
-      background:transparent;color:var(--t2);
+      padding:9px 18px;border-radius:30px;border:none; background:transparent;color:var(--t2);
       font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;
-      letter-spacing:.8px;text-transform:uppercase;
-      transition:all .22s;white-space:nowrap;cursor:pointer;
+      letter-spacing:.8px;text-transform:uppercase; transition:all .22s;white-space:nowrap;cursor:pointer;
     }
     .psw-btn svg{flex-shrink:0;transition:inherit;}
-    .psw-btn.active{
-      background:var(--ac);color:var(--ac-tx);
-      box-shadow:0 4px 14px var(--ac2);
-    }
+    .psw-btn.active{ background:var(--ac);color:var(--ac-tx); box-shadow:0 4px 14px var(--ac2); }
     .psw-btn:not(.active):hover{color:var(--tx);background:var(--s3);}
 
     /* ── HEADER ── */
@@ -121,9 +101,33 @@
     .color-picker-wrap.on{outline:2px solid var(--ac);outline-offset:3px;}
     .color-picker-wrap input[type="color"]{position:absolute;top:-10px;left:-10px;width:50px;height:50px;opacity:0;cursor:pointer;border:none;padding:0;}
 
-    /* ── CARDS ── */
-    .card{background:var(--s1);border:1px solid var(--b1);border-radius:var(--r3);overflow:hidden;box-shadow:var(--shadow);border-top:3px solid var(--ac)}
-    .card-hdr{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--b1);flex-wrap:wrap;gap:10px}
+    /* ── CARDS & ACCORDIONS (NEW) ── */
+    div.card, details.card {
+      background:var(--s1);border:1px solid var(--b1);border-radius:var(--r3);
+      overflow:hidden;box-shadow:var(--shadow);
+    }
+    div.card { border-top:3px solid var(--ac); }
+    details.card { border-top:1px solid var(--b1); }
+    
+    .card-hdr {
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 16px;border-bottom:1px solid var(--b1);flex-wrap:wrap;gap:10px;
+    }
+    
+    /* Summary styles for accordion headers */
+    summary.card-hdr {
+      cursor: pointer; background: var(--s2); list-style: none; outline: none;
+      transition: background 0.2s, border-bottom 0.2s; border-bottom: 1px solid transparent;
+      user-select: none;
+    }
+    summary.card-hdr::-webkit-details-marker { display: none; }
+    summary.card-hdr:hover { background: var(--s3); }
+    details[open] summary.card-hdr { border-bottom-color: var(--b1); background: var(--s1); }
+    
+    .hdr-left-group { display: flex; align-items: center; gap: 10px; }
+    .acc-arrow { transition: transform 0.3s ease; color: var(--t2); }
+    details[open] .acc-arrow { transform: rotate(180deg); }
+
     .card-label{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx)}
     .card-body{padding:16px;display:flex;flex-direction:column;gap:16px}
     .hdr-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
@@ -136,15 +140,15 @@
     .field{display:flex;flex-direction:column;gap:6px;width:100%}
     .field-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3)}
     textarea,input[type=text],.custom-select{
-      width:100%;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r);
+      width:100%;background:var(--bg);border:1px solid var(--b2);border-radius:var(--r);
       color:var(--tx);font-family:'Inter',sans-serif;font-size:13px;padding:12px;
       outline:none;transition:all .2s;resize:none;line-height:1.5;box-sizing:border-box;
     }
-    textarea:focus,input[type=text]:focus,.custom-select:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac2);background:var(--bg)}
+    textarea:focus,input[type=text]:focus,.custom-select:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac2);}
     #titulo,#sub,#r-titulo,#r-sub{color:var(--ac);font-weight:600;}
     #titulo::placeholder,#sub::placeholder,#r-titulo::placeholder,#r-sub::placeholder{color:var(--ac);opacity:.65;}
 
-    .tog-row{display:flex;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r);overflow:hidden;padding:2px;gap:2px;flex-wrap:wrap}
+    .tog-row{display:flex;background:var(--bg);border:1px solid var(--b2);border-radius:var(--r);overflow:hidden;padding:2px;gap:2px;flex-wrap:wrap}
     .tog{flex:1 1 auto;min-width:30%;padding:10px 4px;text-align:center;border:none;background:transparent;font-size:10px;font-weight:700;border-radius:6px;text-transform:uppercase;color:var(--t2);transition:all .2s}
     .tog.on{background:var(--ac);color:var(--ac-tx);box-shadow:var(--shadow-sm)}
 
@@ -155,7 +159,7 @@
     .slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--ac);border:2px solid var(--s1);cursor:ew-resize;box-shadow:0 2px 6px rgba(0,0,0,.3);margin-top:-8px}
     .slider-row input[type=range]::-moz-range-track{height:4px;background:var(--b2);border-radius:2px}
     .slider-row input[type=range]::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--ac);border:2px solid var(--s1);cursor:ew-resize}
-    .snum{width:52px;flex-shrink:0;background:var(--s2);border:1px solid var(--b2);border-radius:var(--r);color:var(--tx);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;padding:6px;text-align:center;outline:none}
+    .snum{width:52px;flex-shrink:0;background:var(--bg);border:1px solid var(--b2);border-radius:var(--r);color:var(--tx);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;padding:6px;text-align:center;outline:none}
 
     .sw-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
     .sw{width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;box-shadow:var(--shadow-sm);flex-shrink:0}
@@ -173,9 +177,7 @@
         linear-gradient(-45deg,#2a2a2a 25%,transparent 25%),
         linear-gradient(45deg,transparent 75%,#2a2a2a 75%),
         linear-gradient(-45deg,transparent 75%,#2a2a2a 75%);
-      background-size:16px 16px;
-      background-position:0 0,0 8px,8px -8px,-8px 0px;
-      background-color:#1a1a1a;
+      background-size:16px 16px; background-position:0 0,0 8px,8px -8px,-8px 0px; background-color:#1a1a1a;
     }
     body.lt .cwrap.transparent-mode{
       background-image:
@@ -188,30 +190,25 @@
     .cwrap.is-moving{touch-action:none;}
     canvas{display:block;width:100%;height:auto;pointer-events:none;}
 
-    /* Preview placeholder */
     .prev-placeholder{
-      width:100%;display:flex;flex-direction:column;align-items:center;
-      justify-content:center;gap:14px;color:var(--t3);font-weight:500;background:var(--s2);
+      width:100%;display:flex;flex-direction:column;align-items:center; justify-content:center;
+      gap:14px;color:var(--t3);font-weight:500;background:var(--s2);
       border-radius:var(--r);border:2px dashed var(--b2);cursor:pointer;padding:20px;
     }
     .prev-placeholder:hover{border-color:var(--ac);background:var(--s3)}
     .prev-placeholder-icon{width:54px;height:54px;border-radius:var(--r);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--t2);box-shadow:var(--shadow-sm)}
-    .prev-placeholder-sub{font-size:11px;color:var(--t3);text-align:center;line-height:1.5;}
 
     .zoom-chip{
-      position:absolute;top:8px;left:8px;z-index:20;
-      display:none;align-items:center;gap:6px;padding:4px 10px;
-      background:rgba(6,7,10,.85);border:1px solid var(--b2);border-radius:20px;
+      position:absolute;top:8px;left:8px;z-index:20; display:none;align-items:center;gap:6px;
+      padding:4px 10px;background:rgba(6,7,10,.85);border:1px solid var(--b2);border-radius:20px;
       font-size:11px;font-weight:700;font-family:'Montserrat',sans-serif;color:#fff;
     }
 
     .res-badge{
-      position:absolute;top:8px;right:8px;z-index:20;
-      display:flex;align-items:center;gap:4px;padding:4px 10px;
-      background:rgba(6,7,10,.82);border:1px solid rgba(255,255,255,.12);
+      position:absolute;top:8px;right:8px;z-index:20; display:flex;align-items:center;gap:4px;
+      padding:4px 10px;background:rgba(6,7,10,.82);border:1px solid rgba(255,255,255,.12);
       border-radius:20px;font-size:10px;font-weight:800;
-      font-family:'Montserrat',sans-serif;color:rgba(255,255,255,.7);
-      letter-spacing:.5px;
+      font-family:'Montserrat',sans-serif;color:rgba(255,255,255,.7);letter-spacing:.5px;
     }
 
     /* ── DOWNLOAD BTN ── */
@@ -219,23 +216,21 @@
       width:100%;background:var(--ac);color:var(--ac-tx);
       font-family:'Inter',sans-serif;font-size:14px;font-weight:800;
       letter-spacing:2px;text-transform:uppercase;padding:18px;border:none;border-radius:var(--r2);
-      cursor:pointer;box-shadow:var(--shadow);transition:all .2s;
-      position:sticky;bottom:14px;z-index:50;
+      cursor:pointer;box-shadow:var(--shadow);transition:all .2s; position:sticky;bottom:14px;z-index:50;
     }
     @media(min-width:880px){.dl-main{position:static}}
     .dl-main:hover:not(:disabled){filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 12px 28px var(--ac2)}
     .dl-main:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
 
-    /* ── PAGE VISIBILITY ── */
     .page{display:none;flex-direction:column;gap:12px;}
     .page.active{display:flex;}
 
-    /* ── MOBILE ── */
     @media(max-width:480px){
       .hdr-left{justify-content:center;}
       .hdr-right{justify-content:center;}
       .tog{font-size:9px;padding:8px 2px;line-height:1.2;white-space:normal;}
       .card-hdr{flex-direction:column;align-items:flex-start;}
+      summary.card-hdr {flex-direction:row; align-items:center;} /* Keep summary inline on mobile */
       .hdr-actions{width:100%;justify-content:flex-end;}
       .sw{width:22px;height:22px;}
       .color-picker-wrap{width:24px;height:24px;}
@@ -264,11 +259,7 @@
     <span class="logo-name">Post Builder</span>
     <span class="hdr-sep">|</span>
     <a href="https://www.instagram.com/valle.xp/" target="_blank" class="ig-link" aria-label="Instagram @valle.xp">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-      </svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
       @valle.xp
     </a>
   </div>
@@ -307,8 +298,9 @@
 
 <div class="page active" id="pageImg">
 <div class="workspace">
+  
   <div class="pcol">
-    <div class="card">
+    <div class="card" style="border-top: 3px solid var(--ac);">
       <div class="card-hdr">
         <span class="card-label">Preview Visual</span>
         <div class="hdr-actions">
@@ -337,152 +329,163 @@
   </div>
 
   <div class="ccol">
-    <div class="ccol-inner">
-      <div class="card">
-        <div class="card-hdr"><span class="card-label">Conteúdo do Post</span></div>
-        <div class="card-body">
-          <div class="field">
-            <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ; para colorir)</span></span>
-            <textarea id="titulo" rows="2" placeholder="Ex: Escreva um ;título; chamativo..." oninput="markDirty('img')"></textarea>
-          </div>
-          <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-            <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Enter = nova linha)</span></span>
-            <textarea id="sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('img')"></textarea>
-          </div>
+    
+    <details class="card" open>
+      <summary class="card-hdr">
+        <div class="hdr-left-group">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M12 4v16M8 20h8"/></svg>
+          <span class="card-label">1. Textos</span>
+        </div>
+        <svg class="acc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </summary>
+      <div class="card-body">
+        <div class="field">
+          <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ; para colorir)</span></span>
+          <textarea id="titulo" rows="2" placeholder="Ex: Escreva um ;título; chamativo..." oninput="markDirty('img')"></textarea>
+        </div>
+        <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+          <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Enter = nova linha)</span></span>
+          <textarea id="sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('img')"></textarea>
         </div>
       </div>
+    </details>
 
-      <div class="card">
-        <div class="card-hdr"><span class="card-label">Formato</span></div>
-        <div class="card-body">
-          <div class="field">
-            <span class="field-label">Proporção da Tela</span>
-            <div class="tog-row" id="ratioRow">
-              <button class="tog on" onclick="setRatio('9:16-hd',this)">3:4 Feed</button>
-              <button class="tog" onclick="setRatio('4:5',this)">4:5 Feed</button>
-              <button class="tog" onclick="setRatio('1:1',this)">1:1 Square</button>
+    <details class="card" open>
+      <summary class="card-hdr">
+        <div class="hdr-left-group">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><path d="M14.31 8.63L5 18a2 2 0 0 1-2-2l9.37-9.31M1 21h22"/></svg>
+          <span class="card-label">2. Estilo & Formato</span>
+        </div>
+        <svg class="acc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </summary>
+      <div class="card-body">
+        <div class="field">
+          <span class="field-label">Proporção da Tela</span>
+          <div class="tog-row" id="ratioRow">
+            <button class="tog on" onclick="setRatio('9:16-hd',this)">3:4 Feed</button>
+            <button class="tog" onclick="setRatio('4:5',this)">4:5 Feed</button>
+            <button class="tog" onclick="setRatio('1:1',this)">1:1 Square</button>
+          </div>
+        </div>
+        <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+          <span class="field-label">Posição Geral</span>
+          <div class="tog-row">
+            <button class="tog on" id="posBot" onclick="setPos('bottom',this,'img')">Em Baixo</button>
+            <button class="tog" id="posTop" onclick="setPos('top',this,'img')">Em Cima</button>
+          </div>
+        </div>
+        <div class="field">
+          <span class="field-label">Alinhamento</span>
+          <div class="tog-row" id="alignRow">
+            <button class="tog on" onclick="setAlign('center',this,'img')">Centro</button>
+            <button class="tog" onclick="setAlign('left',this,'img')">Esquerda</button>
+            <button class="tog" onclick="setAlign('right',this,'img')">Direita</button>
+          </div>
+        </div>
+        <div class="field">
+          <span class="field-label">Família da Fonte</span>
+          <select id="fontFam" class="custom-select" onchange="markDirty('img')">
+            <option value="Montserrat">Montserrat (Padrão Bold)</option>
+            <option value="Inter">Inter (Clean)</option>
+            <option value="Bebas Neue">Bebas Neue (Impacto)</option>
+            <option value="Poppins">Poppins (Redonda)</option>
+            <option value="Playfair Display">Playfair Display (Clássica)</option>
+            <option value="Oswald">Oswald (Condensada)</option>
+          </select>
+        </div>
+        <div class="field">
+          <span class="field-label">Cor Destaque do Título</span>
+          <div class="sw-row" id="colorRow">
+            <div class="sw on" data-c="#ffffff" style="background:#fff" onclick="setTC('#ffffff',this,'img')"></div>
+            <div class="sw" data-c="#ffd600" style="background:#FFD600" onclick="setTC('#FFD600',this,'img')"></div>
+            <div class="sw" data-c="#ff6b00" style="background:#FF6B00" onclick="setTC('#FF6B00',this,'img')"></div>
+            <div class="sw" data-c="#ff3b3b" style="background:#FF3B3B" onclick="setTC('#FF3B3B',this,'img')"></div>
+            <div class="sw" data-c="#00e5ff" style="background:#00E5FF" onclick="setTC('#00E5FF',this,'img')"></div>
+            <div class="sw" data-c="#69ff47" style="background:#69FF47" onclick="setTC('#69FF47',this,'img')"></div>
+            <div class="color-picker-wrap" id="tCPWrap">
+              <input type="color" id="tCP" value="#ffffff" oninput="setTC(this.value,null,'img')">
             </div>
           </div>
         </div>
+        <div class="slider-field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+          <span class="field-label">Tamanho do Título</span>
+          <div class="slider-row">
+            <input type="range" id="tsz" min="45" max="60" value="48" oninput="sync('tsz','tnum','img')">
+            <input class="snum" type="number" id="tnum" value="48" min="45" max="60" onchange="nsync('tnum','tsz','img')">
+          </div>
+        </div>
+        <div class="slider-field">
+          <span class="field-label">Tamanho do Subtítulo</span>
+          <div class="slider-row">
+            <input type="range" id="ssz" min="25" max="40" value="25" oninput="sync('ssz','snum2','img')">
+            <input class="snum" type="number" id="snum2" value="25" min="25" max="40" onchange="nsync('snum2','ssz','img')">
+          </div>
+        </div>
+        <div class="slider-field">
+          <span class="field-label">Contorno Escuro (Stroke)</span>
+          <div class="slider-row">
+            <input type="range" id="tStrk" min="0" max="15" value="0" oninput="sync('tStrk','tStrkN','img')">
+            <input class="snum" type="number" id="tStrkN" value="0" min="0" max="15" onchange="nsync('tStrkN','tStrk','img')">
+          </div>
+        </div>
       </div>
+    </details>
 
-      <div class="card">
-        <div class="card-hdr"><span class="card-label">Efeitos & Extras</span></div>
-        <div class="card-body">
-          <div class="slider-field" id="gopWrap">
-            <span class="field-label">Gradiente Escuro de Base %</span>
-            <div class="slider-row">
-              <input type="range" id="gop" min="0" max="95" value="65" oninput="sync('gop','gnum','img')">
-              <input class="snum" type="number" id="gnum" value="65" min="0" max="95" onchange="nsync('gnum','gop','img')">
-            </div>
+    <details class="card">
+      <summary class="card-hdr">
+        <div class="hdr-left-group">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span class="card-label">3. Fundo & Efeitos</span>
+        </div>
+        <svg class="acc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </summary>
+      <div class="card-body">
+        <div class="slider-field" id="gopWrap">
+          <span class="field-label">Gradiente Escuro de Base %</span>
+          <div class="slider-row">
+            <input type="range" id="gop" min="0" max="95" value="65" oninput="sync('gop','gnum','img')">
+            <input class="snum" type="number" id="gnum" value="65" min="0" max="95" onchange="nsync('gnum','gop','img')">
           </div>
-          <div class="field" id="indWrap">
-            <span class="field-label">Indicador de Ação</span>
-            <div class="tog-row" id="indRow">
-              <button class="tog on" onclick="setInd('none',this,'img')">Nenhum</button>
-              <button class="tog" onclick="setInd('arrowDown',this,'img')">Ler ↓</button>
-              <button class="tog" onclick="setInd('swipeRight',this,'img')">Arraste ›</button>
-            </div>
+        </div>
+        <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+          <span class="field-label">Fundo de Leitura do Subtítulo</span>
+          <div class="tog-row">
+            <button class="tog on" id="sbOn" onclick="setSubBg(true,'img')">Ativado</button>
+            <button class="tog" id="sbOff" onclick="setSubBg(false,'img')">Desativado</button>
           </div>
-          <div class="slider-field" id="indOpWrap" style="display:none;margin-top:8px;">
-            <span class="field-label">Opacidade do Indicador %</span>
-            <div class="slider-row">
-              <input type="range" id="indOp" min="0" max="100" value="85" oninput="sync('indOp','indOpN','img')">
-              <input class="snum" type="number" id="indOpN" value="85" min="0" max="100" onchange="nsync('indOpN','indOp','img')">
-            </div>
+        </div>
+        <div id="sbSlider" class="slider-field">
+          <span class="field-label">Opacidade do Fundo %</span>
+          <div class="slider-row">
+            <input type="range" id="sbop" min="0" max="90" value="52" oninput="sync('sbop','sbnum','img')">
+            <input class="snum" type="number" id="sbnum" value="52" min="0" max="90" onchange="nsync('sbnum','sbop','img')">
+          </div>
+        </div>
+        <div class="field" id="indWrap" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+          <span class="field-label">Indicador de Ação</span>
+          <div class="tog-row" id="indRow">
+            <button class="tog on" onclick="setInd('none',this,'img')">Nenhum</button>
+            <button class="tog" onclick="setInd('arrowDown',this,'img')">Ler ↓</button>
+            <button class="tog" onclick="setInd('swipeRight',this,'img')">Arraste ›</button>
+          </div>
+        </div>
+        <div class="slider-field" id="indOpWrap" style="display:none;margin-top:8px;">
+          <span class="field-label">Opacidade do Indicador %</span>
+          <div class="slider-row">
+            <input type="range" id="indOp" min="0" max="100" value="85" oninput="sync('indOp','indOpN','img')">
+            <input class="snum" type="number" id="indOpN" value="85" min="0" max="100" onchange="nsync('indOpN','indOp','img')">
           </div>
         </div>
       </div>
-    </div>
+    </details>
 
-    <div class="ccol-inner">
-      <div class="card">
-        <div class="card-hdr"><span class="card-label">Estilo dos Textos</span></div>
-        <div class="card-body">
-          <div class="field">
-            <span class="field-label">Posição Geral</span>
-            <div class="tog-row">
-              <button class="tog on" id="posBot" onclick="setPos('bottom',this,'img')">Em Baixo</button>
-              <button class="tog" id="posTop" onclick="setPos('top',this,'img')">Em Cima</button>
-            </div>
-          </div>
-          <div class="field">
-            <span class="field-label">Alinhamento</span>
-            <div class="tog-row" id="alignRow">
-              <button class="tog on" onclick="setAlign('center',this,'img')">Centro</button>
-              <button class="tog" onclick="setAlign('left',this,'img')">Esquerda</button>
-              <button class="tog" onclick="setAlign('right',this,'img')">Direita</button>
-            </div>
-          </div>
-          <div class="field">
-            <span class="field-label">Família da Fonte</span>
-            <select id="fontFam" class="custom-select" onchange="markDirty('img')">
-              <option value="Montserrat">Montserrat (Padrão Bold)</option>
-              <option value="Inter">Inter (Clean)</option>
-              <option value="Bebas Neue">Bebas Neue (Impacto)</option>
-              <option value="Poppins">Poppins (Redonda)</option>
-              <option value="Playfair Display">Playfair Display (Clássica)</option>
-              <option value="Oswald">Oswald (Condensada)</option>
-            </select>
-          </div>
-          <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-            <span class="field-label">Cor Destaque do Título</span>
-            <div class="sw-row" id="colorRow">
-              <div class="sw on" data-c="#ffffff" style="background:#fff" onclick="setTC('#ffffff',this,'img')"></div>
-              <div class="sw" data-c="#ffd600" style="background:#FFD600" onclick="setTC('#FFD600',this,'img')"></div>
-              <div class="sw" data-c="#ff6b00" style="background:#FF6B00" onclick="setTC('#FF6B00',this,'img')"></div>
-              <div class="sw" data-c="#ff3b3b" style="background:#FF3B3B" onclick="setTC('#FF3B3B',this,'img')"></div>
-              <div class="sw" data-c="#00e5ff" style="background:#00E5FF" onclick="setTC('#00E5FF',this,'img')"></div>
-              <div class="sw" data-c="#69ff47" style="background:#69FF47" onclick="setTC('#69FF47',this,'img')"></div>
-              <div class="color-picker-wrap" id="tCPWrap">
-                <input type="color" id="tCP" value="#ffffff" oninput="setTC(this.value,null,'img')">
-              </div>
-            </div>
-          </div>
-          <div class="slider-field">
-            <span class="field-label">Tamanho do Título</span>
-            <div class="slider-row">
-              <input type="range" id="tsz" min="45" max="60" value="48" oninput="sync('tsz','tnum','img')">
-              <input class="snum" type="number" id="tnum" value="48" min="45" max="60" onchange="nsync('tnum','tsz','img')">
-            </div>
-          </div>
-          <div class="slider-field">
-            <span class="field-label">Contorno Escuro (Stroke)</span>
-            <div class="slider-row">
-              <input type="range" id="tStrk" min="0" max="15" value="0" oninput="sync('tStrk','tStrkN','img')">
-              <input class="snum" type="number" id="tStrkN" value="0" min="0" max="15" onchange="nsync('tStrkN','tStrk','img')">
-            </div>
-          </div>
-          <div class="slider-field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-            <span class="field-label">Tamanho do Subtítulo</span>
-            <div class="slider-row">
-              <input type="range" id="ssz" min="25" max="40" value="25" oninput="sync('ssz','snum2','img')">
-              <input class="snum" type="number" id="snum2" value="25" min="25" max="40" onchange="nsync('snum2','ssz','img')">
-            </div>
-          </div>
-          <div class="field">
-            <span class="field-label">Fundo de Leitura do Subtítulo</span>
-            <div class="tog-row">
-              <button class="tog on" id="sbOn" onclick="setSubBg(true,'img')">Ativado</button>
-              <button class="tog" id="sbOff" onclick="setSubBg(false,'img')">Desativado</button>
-            </div>
-          </div>
-          <div id="sbSlider" class="slider-field">
-            <span class="field-label">Opacidade do Fundo %</span>
-            <div class="slider-row">
-              <input type="range" id="sbop" min="0" max="90" value="52" oninput="sync('sbop','sbnum','img')">
-              <input class="snum" type="number" id="sbnum" value="52" min="0" max="90" onchange="nsync('sbnum','sbop','img')">
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
   </div>
 </div>
 </div><div class="page" id="pageReels">
 <div class="workspace">
+  
   <div class="pcol">
-    <div class="card">
+    <div class="card" style="border-top: 3px solid var(--ac);">
       <div class="card-hdr">
         <span class="card-label">Preview Reels / TikTok</span>
         <div class="hdr-actions">
@@ -508,8 +511,15 @@
   </div>
 
   <div class="ccol reels-ccol">
-    <div class="card">
-      <div class="card-hdr"><span class="card-label">Conteúdo do Reels</span></div>
+    
+    <details class="card" open>
+      <summary class="card-hdr">
+        <div class="hdr-left-group">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M12 4v16M8 20h8"/></svg>
+          <span class="card-label">1. Textos</span>
+        </div>
+        <svg class="acc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </summary>
       <div class="card-body">
         <div class="field">
           <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ; para colorir)</span></span>
@@ -520,10 +530,16 @@
           <textarea id="r-sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('reels')"></textarea>
         </div>
       </div>
-    </div>
+    </details>
 
-    <div class="card">
-      <div class="card-hdr"><span class="card-label">Estilo dos Textos</span></div>
+    <details class="card" open>
+      <summary class="card-hdr">
+        <div class="hdr-left-group">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><path d="M14.31 8.63L5 18a2 2 0 0 1-2-2l9.37-9.31M1 21h22"/></svg>
+          <span class="card-label">2. Estilo Visual</span>
+        </div>
+        <svg class="acc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </summary>
       <div class="card-body">
         <div class="field">
           <span class="field-label">Posição Geral</span>
@@ -566,11 +582,18 @@
             </div>
           </div>
         </div>
-        <div class="slider-field">
+        <div class="slider-field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
           <span class="field-label">Tamanho do Título</span>
           <div class="slider-row">
             <input type="range" id="r-tsz" min="40" max="80" value="55" oninput="sync('r-tsz','r-tnum','reels')">
             <input class="snum" type="number" id="r-tnum" value="55" min="40" max="80" onchange="nsync('r-tnum','r-tsz','reels')">
+          </div>
+        </div>
+        <div class="slider-field">
+          <span class="field-label">Tamanho do Subtítulo</span>
+          <div class="slider-row">
+            <input type="range" id="r-ssz" min="20" max="45" value="28" oninput="sync('r-ssz','r-snum2','reels')">
+            <input class="snum" type="number" id="r-snum2" value="28" min="20" max="45" onchange="nsync('r-snum2','r-ssz','reels')">
           </div>
         </div>
         <div class="slider-field">
@@ -580,23 +603,14 @@
             <input class="snum" type="number" id="r-tStrkN" value="0" min="0" max="15" onchange="nsync('r-tStrkN','r-tStrk','reels')">
           </div>
         </div>
-        <div class="slider-field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <span class="field-label">Tamanho do Subtítulo</span>
-          <div class="slider-row">
-            <input type="range" id="r-ssz" min="20" max="45" value="28" oninput="sync('r-ssz','r-snum2','reels')">
-            <input class="snum" type="number" id="r-snum2" value="28" min="20" max="45" onchange="nsync('r-snum2','r-ssz','reels')">
-          </div>
-        </div>
       </div>
-    </div>
+    </details>
+
   </div>
 </div>
 </div></div><script>
 'use strict';
 
-// ═══════════════════════════════════
-// STATE POR MODO
-// ═══════════════════════════════════
 const S = {
   img: {
     mediaFile:null, imgO:new Image(), transparentBg:false,
@@ -622,19 +636,13 @@ const DIMS = {
 };
 
 let currentPage = 'img';
-
-// Canvas Off-screen Global para otimização do Fundo do Subtítulo
 const offCanvas = document.createElement('canvas');
 const offCtx = offCanvas.getContext('2d');
 
-// ═══════════════════════════════════
-// HELPERS
-// ═══════════════════════════════════
 const $ = id => document.getElementById(id);
 const p  = (mode,id) => mode==='img' ? $(id) : $('r-'+id);
 
 function D(mode){ return DIMS[S[mode].ratio] || DIMS['9:16-hd']; }
-
 function cvEl(mode){ return mode==='img' ? $('cv') : $('r-cv'); }
 function cwEl(mode){ return mode==='img' ? $('cw') : $('r-cw'); }
 
@@ -690,9 +698,6 @@ function rrect(ctx,x,y,w,h,r){
   ctx.arcTo(x,y+h,x,y,rr); ctx.arcTo(x,y,x+w,y,rr); ctx.closePath();
 }
 
-// ═══════════════════════════════════
-// UI & TOAST
-// ═══════════════════════════════════
 function showToast(msg) {
   const t = $('toast');
   if(!t) return;
@@ -701,9 +706,6 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ═══════════════════════════════════
-// PAGE SWITCH
-// ═══════════════════════════════════
 function switchPage(mode){
   currentPage = mode;
   $('pageImg').classList.toggle('active', mode==='img');
@@ -713,9 +715,6 @@ function switchPage(mode){
   markDirty(mode);
 }
 
-// ═══════════════════════════════════
-// RENDER LOOP
-// ═══════════════════════════════════
 function markDirty(mode){
   const s=S[mode]; s.dirty=true;
   if(!s.rafId) s.rafId=requestAnimationFrame(()=>renderLoop(mode));
@@ -725,9 +724,6 @@ function renderLoop(mode){
   if(s.dirty){ s.dirty=false; draw(mode); saveState(); }
 }
 
-// ═══════════════════════════════════
-// DRAW
-// ═══════════════════════════════════
 function draw(mode){
   const s  = S[mode];
   const cv = cvEl(mode);
@@ -740,9 +736,7 @@ function draw(mode){
   const ctx = cv.getContext('2d');
   ctx.clearRect(0,0,W,H);
 
-  // 1. FUNDO
   if(s.transparentBg){
-    // transparente
   } else if(s.mediaFile){
     const src=s.imgO, sW=src.naturalWidth, sH=src.naturalHeight;
     if(sW>0&&sH>0){
@@ -759,7 +753,6 @@ function draw(mode){
     ctx.fillStyle='#06070a'; ctx.fillRect(0,0,W,H);
   }
 
-  // 2. GRADIENTE
   if(!s.transparentBg){
     const gopVal=+g('gop').value/100;
     const isTop=s.pos==='top';
@@ -772,7 +765,6 @@ function draw(mode){
     ctx.fillRect(0,gY0,W,gH);
   }
 
-  // 3. TEXTOS
   const sc=W/1080, pad=80*sc, maxTxtW=W-pad*2;
   const baseAX=s.align==='left'?pad:s.align==='right'?W-pad:W/2;
   const textAlign=s.align==='right'?'right':s.align==='left'?'left':'center';
@@ -810,7 +802,6 @@ function draw(mode){
     baseSY=baseTY+titBlockH+gap;
   }
 
-  // Título
   if(titLines.length>0){
     ctx.save();
     ctx.font=`800 ${titSzPx}px '${fontFam}',sans-serif`;
@@ -838,7 +829,6 @@ function draw(mode){
     ctx.restore();
   }
 
-  // Subtítulo
   const reelsMode = (mode==='reels');
   if(subLines.length>0){
     ctx.font=`400 ${subSzPx}px 'Inter',sans-serif`;
@@ -846,7 +836,6 @@ function draw(mode){
     const posX=baseAX, posY=baseSY;
     
     if(s.showSubBg && !reelsMode){
-      // Usa o Canvas global para otimização de performance
       const sbopVal=parseInt(g('sbop').value)/100;
       if (offCanvas.width !== W || offCanvas.height !== H) {
           offCanvas.width = W; 
@@ -872,7 +861,6 @@ function draw(mode){
     ctx.shadowColor='transparent'; ctx.shadowBlur=0; ctx.shadowOffsetY=0;
   }
 
-  // 4. INDICADOR
   if(s.indicator!=='none'&&!s.transparentBg){
     ctx.save();
     const indOp=parseInt(g('indOp').value)/100;
@@ -891,9 +879,6 @@ function draw(mode){
   }
 }
 
-// ═══════════════════════════════════
-// UI CONTROLES (mode-aware)
-// ═══════════════════════════════════
 function setAccent(c,el){
   document.documentElement.style.setProperty('--ac',c);
   document.documentElement.style.setProperty('--ac-tx',contrastColor(c));
@@ -974,9 +959,6 @@ function setInd(val,btn,mode){
   markDirty(mode); saveState();
 }
 
-// ═══════════════════════════════════
-// LOAD IMAGEM
-// ═══════════════════════════════════
 function loadImg(e,mode){
   const f=e.target.files[0]; if(!f) return;
   const s=S[mode]; s.mediaFile=f;
@@ -1011,16 +993,11 @@ function loadImg(e,mode){
     saveState();
   };
   
-  // Tratamento de erro via Toast
   s.imgO.onerror = () => showToast('Erro ao carregar a imagem. Tente outro arquivo.');
-  
   s.imgO.src=blobURL;
   e.target.value='';
 }
 
-// ═══════════════════════════════════
-// SAVE / LOAD STATE (localStorage)
-// ═══════════════════════════════════
 function saveState(){
   try{
     const st={
@@ -1109,9 +1086,6 @@ function loadState(){
   }catch(e){ console.warn('loadState error',e); }
 }
 
-// ═══════════════════════════════════
-// PAN & ZOOM
-// ═══════════════════════════════════
 function toggleMove(mode){
   const s=S[mode]; s.canMove=!s.canMove;
   const pfx=mode==='reels'?'r-':'';
@@ -1201,9 +1175,6 @@ function bindCanvas(mode){
   },{passive:false});
 }
 
-// ═══════════════════════════════════
-// EXPORT
-// ═══════════════════════════════════
 function exportMedia(mode){
   const s=S[mode]; if(!s.mediaFile&&!s.transparentBg) return;
   draw(mode);
@@ -1217,9 +1188,6 @@ function exportMedia(mode){
   },80);
 }
 
-// ═══════════════════════════════════
-// INIT
-// ═══════════════════════════════════
 (()=>{
   const cv=cvEl('img'), {W,H}=D('img');
   cv.width=W;cv.height=H;cv.style.aspectRatio=W+'/'+H;

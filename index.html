@@ -54,7 +54,6 @@
     .page-switcher{
       display:flex;align-items:center;gap:6px;
       background:var(--s2);border:1px solid var(--b2);border-radius:40px; padding:4px;
-      flex-wrap: wrap; justify-content: center;
     }
     .psw-btn{
       display:flex;align-items:center;gap:7px;
@@ -85,6 +84,7 @@
     .ac-dot{width:18px;height:18px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;flex-shrink:0;box-shadow:var(--shadow-sm);}
     .ac-dot:hover{transform:scale(1.2)}
     .ac-dot.sel{border-color:#fff;transform:scale(1.2);box-shadow:0 0 0 3px var(--ac2)}
+    
     .color-picker-wrap{
       position:relative;width:28px;height:28px;border:2px solid var(--b2);border-radius:50%;cursor:pointer;
       background:conic-gradient(red,yellow,lime,aqua,blue,magenta,red);
@@ -131,6 +131,7 @@
     .field{display:flex;flex-direction:column;gap:6px;width:100%}
     .field-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3)}
     
+    /* Configurações base de formulários */
     textarea,input[type=text],.custom-select{
       width:100%;background:var(--bg);border:1px solid var(--b2);border-radius:var(--r);
       color:var(--tx);font-family:'Inter',sans-serif;font-size:13px;padding:12px;
@@ -211,6 +212,7 @@
     }
     .auto-cb-label:hover { background: var(--b2); }
 
+    /* ── CAROUSEL NAV ── */
     .slide-nav {
       display:flex; align-items:center; justify-content:space-between; padding: 10px 14px;
       background:var(--s2); border-radius:var(--r); border:1px solid var(--b2); margin-bottom: 8px;
@@ -218,25 +220,43 @@
     .slide-counter { font-family:'Montserrat',sans-serif; font-size:12px; font-weight:800; text-transform:uppercase; color:var(--tx); }
     .slide-actions { display:flex; gap: 6px; }
 
+    /* ══════════════════════════════════════
+       AJUSTES ESPECÍFICOS PARA MOBILE
+       ══════════════════════════════════════ */
     @media(max-width:600px){
       body { padding: 6px 6px 80px; }
-      textarea, input[type=text], input[type=number], select.custom-select { font-size: 16px !important; }
+      
+      /* Solução Anti-Zoom no iOS */
+      textarea, input[type=text], input[type=number], select.custom-select {
+        font-size: 16px !important;
+      }
+      
+      /* Header mais enxuto */
       .hdr { flex-direction: column; padding: 12px; gap: 14px; border-radius: 12px;}
       .hdr-left, .hdr-right { width: 100%; justify-content: center; }
+      
+      /* Abas Roláveis - Impede de esmagar no mobile */
       .page-switcher-wrap { justify-content: flex-start; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
-      .page-switcher-wrap::-webkit-scrollbar { display: none; }
+      .page-switcher-wrap::-webkit-scrollbar { display: none; } /* Oculta scrollbar nativa */
       .page-switcher { width: max-content; flex-wrap: nowrap; border-radius: 30px; }
       .psw-btn { padding: 8px 16px; font-size: 10px; }
+      
+      /* Componentes dos Cards */
       .card-hdr { padding: 12px; }
       .card-body { padding: 12px 10px; }
       summary.card-hdr { flex-wrap: nowrap; align-items: center; }
       .card-label { font-size: 10px; }
+      
+      /* Botões de Ação do Header do Preview */
       .hdr-actions { width: 100%; justify-content: flex-end; margin-top: 8px; }
       .cbtn { padding: 8px 12px; font-size: 9px; flex: 1; justify-content: center; }
+      
+      /* Toggles e Sliders menores */
       .tog { font-size: 9px; padding: 8px 2px; }
       .sw { width: 22px; height: 22px; }
       .slider-row { gap: 8px; }
       .snum { width: 44px; padding: 6px 2px; font-size: 13px;}
+      
       .auto-cb-label { font-size: 8px; padding: 4px 6px;}
     }
   </style>
@@ -348,7 +368,7 @@
           <textarea id="titulo" rows="2" placeholder="Ex: Escreva um ;título; chamativo..." oninput="markDirty('img')"></textarea>
         </div>
         <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ;; para negrito)</span></span>
+          <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Enter = nova linha)</span></span>
           <textarea id="sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('img')"></textarea>
         </div>
       </div>
@@ -427,7 +447,12 @@
           </div>
         </div>
         <div class="slider-field">
-          <span class="field-label">Tamanho do Subtítulo</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <span class="field-label">Tamanho do Subtítulo</span>
+            <label class="auto-cb-label">
+              <input type="checkbox" id="autoFitSub" checked onchange="markDirty('img'); saveState();" style="accent-color: var(--ac);"> AUTO (MÁX 2 LINHAS)
+            </label>
+          </div>
           <div class="slider-row">
             <input type="range" id="ssz" min="15" max="80" value="28" oninput="sync('ssz','snum2','img')">
             <input class="snum" type="number" id="snum2" value="28" min="15" max="80" onchange="nsync('snum2','ssz','img')">
@@ -553,7 +578,7 @@
           <textarea id="c-titulo" rows="2" placeholder="Ex: Escreva um ;título; chamativo..." oninput="markDirty('car')"></textarea>
         </div>
         <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ;; para negrito)</span></span>
+          <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Enter = nova linha)</span></span>
           <textarea id="c-sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('car')"></textarea>
         </div>
       </div>
@@ -632,7 +657,12 @@
           </div>
         </div>
         <div class="slider-field">
-          <span class="field-label">Tamanho do Subtítulo</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <span class="field-label">Tamanho do Subtítulo</span>
+            <label class="auto-cb-label">
+              <input type="checkbox" id="c-autoFitSub" checked onchange="markDirty('car'); saveState();" style="accent-color: var(--ac);"> AUTO (MÁX 2 LINHAS)
+            </label>
+          </div>
           <div class="slider-row">
             <input type="range" id="c-ssz" min="15" max="80" value="28" oninput="sync('c-ssz','c-snum2','car')">
             <input class="snum" type="number" id="c-snum2" value="28" min="15" max="80" onchange="nsync('c-snum2','c-ssz','car')">
@@ -746,7 +776,7 @@
           <textarea id="r-titulo" rows="2" placeholder="Ex: ;Novidade; chegou..." oninput="markDirty('reels')"></textarea>
         </div>
         <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <span class="field-label">Subtítulo / Legenda <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ;; para negrito)</span></span>
+          <span class="field-label">Subtítulo / Legenda <span style="font-weight:400;color:var(--t3);text-transform:none">(Enter = nova linha)</span></span>
           <textarea id="r-sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('reels')"></textarea>
         </div>
       </div>
@@ -810,7 +840,12 @@
           </div>
         </div>
         <div class="slider-field">
-          <span class="field-label">Tamanho do Subtítulo</span>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <span class="field-label">Tamanho do Subtítulo</span>
+            <label class="auto-cb-label">
+              <input type="checkbox" id="r-autoFitSub" checked onchange="markDirty('reels'); saveState();" style="accent-color: var(--ac);"> AUTO (MÁX 2 LINHAS)
+            </label>
+          </div>
           <div class="slider-row">
             <input type="range" id="r-ssz" min="15" max="80" value="28" oninput="sync('r-ssz','r-snum2','reels')">
             <input class="snum" type="number" id="r-snum2" value="28" min="15" max="80" onchange="nsync('r-snum2','r-ssz','reels')">
@@ -838,7 +873,7 @@ function createSlide(){
     mediaFile:null, imgO:new Image(), transparentBg:false,
     pos:'bottom', align:'center', tColor:'#ffffff', showSubBg:true, indicator:'none',
     zoom:1, panX:.5, panY:.5,
-    titulo:'', sub:'', fontFam:'Montserrat', tsz:50, autoFit:true, tStrk:0,
+    titulo:'', sub:'', fontFam:'Montserrat', tsz:50, autoFit:true, autoFitSub:true, tStrk:0,
     ssz:28, gop:65, sbop:52, indOp:85
   };
 }
@@ -847,7 +882,8 @@ const S = {
   img: {
     mediaFile:null, imgO:new Image(), transparentBg:false,
     ratio:'9:16-hd', pos:'bottom', align:'center', tColor:'#ffffff', showSubBg:true, indicator:'none',
-    canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null
+    canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
+    autoFitSub:true
   },
   car: {
     ratio:'9:16-hd', currentSlide: 0, slides: [createSlide()],
@@ -856,7 +892,8 @@ const S = {
   reels: {
     mediaFile:null, imgO:new Image(), transparentBg:true,
     ratio:'9:16-reels', pos:'bottom', align:'center', tColor:'#ffffff', showSubBg:true, indicator:'none',
-    canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null
+    canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
+    autoFitSub:true
   }
 };
 
@@ -888,30 +925,14 @@ function contrastColor(hex){
   return ((r*299+g*587+b*114)/1000)>=140?'#111827':'#ffffff';
 }
 
-// Helper para calcular tamanho considerando negrito no subtítulo
-function measureBold(ctx, text) {
-  if(!text.includes(';;')) return ctx.measureText(text).width;
-  const parts = text.split(';;');
-  let w = 0;
-  const baseFont = ctx.font;
-  const boldFont = baseFont.replace('400', '800');
-  for(let i=0; i<parts.length; i++){
-      ctx.font = (i%2!==0) ? boldFont : baseFont;
-      w += ctx.measureText(parts[i]).width;
-  }
-  ctx.font = baseFont;
-  return w;
-}
-
-function wrapText(ctx,text,maxW,isSub=false){
+function wrapText(ctx,text,maxW){
   const result=[];
   for(const para of text.split('\n')){
     if(!para.trim()){result.push('');continue;}
     const words=para.split(' '); let line='';
     for(let i=0;i<words.length;i++){
       const test=line+words[i]+' ';
-      const w = isSub ? measureBold(ctx, test) : ctx.measureText(test).width;
-      if(w>maxW&&i>0){result.push(line.trimEnd());line=words[i]+' ';}
+      if(ctx.measureText(test).width>maxW&&i>0){result.push(line.trimEnd());line=words[i]+' ';}
       else{line=test;}
     }
     result.push(line.trimEnd());
@@ -977,6 +998,7 @@ function updateSlideUI() {
   $('c-fontFam').value = slide.fontFam || 'Montserrat';
   $('c-tsz').value = slide.tsz || 50; $('c-tnum').value = slide.tsz || 50;
   if($('c-autoFit')) $('c-autoFit').checked = slide.autoFit !== false;
+  if($('c-autoFitSub')) $('c-autoFitSub').checked = slide.autoFitSub !== false;
   $('c-tStrk').value = slide.tStrk || 0; $('c-tStrkN').value = slide.tStrk || 0;
   $('c-ssz').value = slide.ssz || 28; $('c-snum2').value = slide.ssz || 28;
   $('c-gop').value = slide.gop || 65; $('c-gnum').value = slide.gop || 65;
@@ -1040,6 +1062,7 @@ function saveSlideDOM() {
   slide.fontFam = $('c-fontFam').value;
   slide.tsz = $('c-tsz').value;
   if($('c-autoFit')) slide.autoFit = $('c-autoFit').checked;
+  if($('c-autoFitSub')) slide.autoFitSub = $('c-autoFitSub').checked;
   slide.tStrk = $('c-tStrk').value;
   slide.ssz = $('c-ssz').value;
   slide.gop = $('c-gop').value;
@@ -1107,9 +1130,9 @@ function draw(mode){
   const strokeW=+g('tStrk').value*sc;
   const titTxt=g('titulo').value.trim();
   const subTxt=g('sub').value.trim();
-  const subSzPx=+g('ssz').value*sc;
-
+  
   let titSzPx=+g('tsz').value*sc;
+  let subSzPx=+g('ssz').value*sc;
 
   const autoFitEl = g('autoFit');
   const isAutoFit = autoFitEl ? autoFitEl.checked : false;
@@ -1127,13 +1150,29 @@ function draw(mode){
     g('tnum').value = Math.round(best / sc);
   }
 
+  const autoFitSubEl = g('autoFitSub');
+  const isAutoFitSub = autoFitSubEl ? autoFitSubEl.checked : false;
+  if(isAutoFitSub && subTxt) {
+    let minSzSub = 15 * sc, maxSzSub = 80 * sc, lowSub = minSzSub, highSub = maxSzSub, bestSub = minSzSub;
+    while (lowSub <= highSub) {
+      let midSub = Math.floor((lowSub + highSub) / 2);
+      ctx.font = `400 ${midSub}px 'Inter',sans-serif`;
+      let linesTestSub = wrapText(ctx, subTxt, maxTxtW);
+      if (linesTestSub.length <= 2) { bestSub = midSub; lowSub = midSub + 1; }
+      else { highSub = midSub - 1; }
+    }
+    subSzPx = bestSub;
+    g('ssz').value = Math.round(bestSub / sc);
+    g('snum2').value = Math.round(bestSub / sc);
+  }
+
   ctx.font=`800 ${titSzPx}px '${fontFam}',sans-serif`;
   const titLines=titTxt?formatTitLines(ctx,titTxt,maxTxtW):[];
   const titLH=titSzPx*1.22;
   const titBlockH=titLines.length*titLH;
 
   ctx.font=`400 ${subSzPx}px 'Inter',sans-serif`;
-  const subLines=subTxt?wrapText(ctx,subTxt,maxTxtW,true):[];
+  const subLines=subTxt?wrapText(ctx,subTxt,maxTxtW):[];
   const subMet=ctx.measureText('Ag');
   const tH2=subMet.actualBoundingBoxAscent+subMet.actualBoundingBoxDescent;
   const spx2=18*sc,spy=9*sc,lg=6*sc,bLH=tH2+spy*2,stp=tH2+lg;
@@ -1183,6 +1222,7 @@ function draw(mode){
 
   const reelsMode = (mode==='reels');
   if(subLines.length>0){
+    ctx.font=`400 ${subSzPx}px 'Inter',sans-serif`;
     ctx.textAlign=textAlign; ctx.textBaseline='top';
     const posX=baseAX, posY=baseSY;
     
@@ -1190,12 +1230,11 @@ function draw(mode){
       const sbopVal=parseInt(g('sbop').value)/100;
       if (offCanvas.width !== W || offCanvas.height !== H) { offCanvas.width = W; offCanvas.height = H; }
       offCtx.clearRect(0, 0, W, H);
+      offCtx.font=`400 ${subSzPx}px 'Inter',sans-serif`; offCtx.fillStyle='#000';
       
       subLines.forEach((l,i)=>{
         if(!l) return;
-        offCtx.font=`400 ${subSzPx}px 'Inter',sans-serif`;
-        const lw = measureBold(offCtx, l);
-        const bw = lw+spx2*2;
+        const lw=offCtx.measureText(l).width,bw=lw+spx2*2;
         const bx=textAlign==='left'?posX-spx2:textAlign==='right'?posX-lw-spx2:posX-bw/2;
         rrect(offCtx,bx,posY-spy+i*stp,bw,bLH,10*sc); offCtx.fill();
       });
@@ -1206,27 +1245,7 @@ function draw(mode){
     
     ctx.fillStyle='rgba(255,255,255,.93)';
     const textOffsetY = reelsMode ? 0 : (bLH-subSzPx)/2;
-    subLines.forEach((l,i)=>{
-      if(!l) return;
-      ctx.font=`400 ${subSzPx}px 'Inter',sans-serif`;
-      const lw = measureBold(ctx, l);
-      let curX = posX;
-      if(textAlign==='center') curX -= lw/2;
-      if(textAlign==='right') curX -= lw;
-      const textY = posY-spy+i*stp+textOffsetY;
-      
-      if(l.includes(';;')) {
-         const parts = l.split(';;');
-         parts.forEach((chunk, idx) => {
-             ctx.font = (idx%2!==0) ? `800 ${subSzPx}px 'Inter',sans-serif` : `400 ${subSzPx}px 'Inter',sans-serif`;
-             ctx.fillText(chunk, curX, textY);
-             curX += ctx.measureText(chunk).width;
-         });
-         ctx.font = `400 ${subSzPx}px 'Inter',sans-serif`;
-      } else {
-         ctx.fillText(l, curX, textY);
-      }
-    });
+    subLines.forEach((l,i)=>{if(l) ctx.fillText(l,posX,posY-spy+i*stp+textOffsetY);});
     ctx.shadowColor='transparent'; ctx.shadowBlur=0; ctx.shadowOffsetY=0;
   }
 
@@ -1272,6 +1291,10 @@ function sync(rid,nid,mode){
     const autoCb = $(pfx+'autoFit');
     if(autoCb && autoCb.checked) autoCb.checked = false;
   }
+  if(rid.includes('ssz')) {
+    const autoCbSub = $(pfx+'autoFitSub');
+    if(autoCbSub && autoCbSub.checked) autoCbSub.checked = false;
+  }
   markDirty(mode); saveState(); 
 }
 
@@ -1282,6 +1305,10 @@ function nsync(nid,rid,mode){
   if(rid.includes('tsz')) {
     const autoCb = $(pfx+'autoFit');
     if(autoCb && autoCb.checked) autoCb.checked = false;
+  }
+  if(rid.includes('ssz')) {
+    const autoCbSub = $(pfx+'autoFitSub');
+    if(autoCbSub && autoCbSub.checked) autoCbSub.checked = false;
   }
   markDirty(mode);saveState();
 }
@@ -1419,7 +1446,7 @@ function saveState(){
   try{
     const carData = S.car.slides.map(sl => ({
       pos: sl.pos, align: sl.align, tColor: sl.tColor, showSubBg: sl.showSubBg, indicator: sl.indicator,
-      titulo: sl.titulo, sub: sl.sub, fontFam: sl.fontFam, tsz: sl.tsz, autoFit: sl.autoFit,
+      titulo: sl.titulo, sub: sl.sub, fontFam: sl.fontFam, tsz: sl.tsz, autoFit: sl.autoFit, autoFitSub: sl.autoFitSub,
       tStrk: sl.tStrk, ssz: sl.ssz, gop: sl.gop, sbop: sl.sbop, indOp: sl.indOp
     }));
 
@@ -1434,6 +1461,7 @@ function saveState(){
       img_fontFam : $('fontFam').value,
       img_tsz     : $('tsz').value,
       img_autoFit : $('autoFit') ? $('autoFit').checked : true,
+      img_autoFitSub : $('autoFitSub') ? $('autoFitSub').checked : true,
       img_tStrk   : $('tStrk').value,
       img_ssz     : $('ssz').value,
       img_sbop    : $('sbop').value,
@@ -1448,6 +1476,7 @@ function saveState(){
       r_fontFam  : $('r-fontFam').value,
       r_tsz      : $('r-tsz').value,
       r_autoFit  : $('r-autoFit') ? $('r-autoFit').checked : true,
+      r_autoFitSub : $('r-autoFitSub') ? $('r-autoFitSub').checked : true,
       r_tStrk    : $('r-tStrk').value,
       r_ssz      : $('r-ssz').value,
       r_sbop     : $('r-sbop').value,
@@ -1471,6 +1500,7 @@ function loadState(){
     if(st.img_indicator){ setInd(st.img_indicator, null, 'img'); }
     if(st.img_fontFam) $('fontFam').value=st.img_fontFam;
     if(st.img_autoFit!==undefined && $('autoFit')){ $('autoFit').checked = st.img_autoFit; }
+    if(st.img_autoFitSub!==undefined && $('autoFitSub')){ $('autoFitSub').checked = st.img_autoFitSub; }
     if(st.img_tsz!==undefined){ const v=Math.max(40,Math.min(180,+st.img_tsz)); $('tsz').value=v; $('tnum').value=v; }
     if(st.img_tStrk!==undefined){ $('tStrk').value=st.img_tStrk; $('tStrkN').value=st.img_tStrk; }
     if(st.img_ssz!==undefined){ const v=Math.max(15,Math.min(80,+st.img_ssz)); $('ssz').value=v; $('snum2').value=v; }
@@ -1495,6 +1525,7 @@ function loadState(){
     if(st.r_showSubBg!==undefined) setSubBg(st.r_showSubBg,'reels');
     if(st.r_fontFam) $('r-fontFam').value=st.r_fontFam;
     if(st.r_autoFit!==undefined && $('r-autoFit')){ $('r-autoFit').checked = st.r_autoFit; }
+    if(st.r_autoFitSub!==undefined && $('r-autoFitSub')){ $('r-autoFitSub').checked = st.r_autoFitSub; }
     if(st.r_tsz!==undefined){ const v=Math.max(40,Math.min(180,+st.r_tsz)); $('r-tsz').value=v; $('r-tnum').value=v; }
     if(st.r_tStrk!==undefined){ $('r-tStrk').value=st.r_tStrk; $('r-tStrkN').value=st.r_tStrk; }
     if(st.r_ssz!==undefined){ const v=Math.max(15,Math.min(80,+st.r_ssz)); $('r-ssz').value=v; $('r-snum2').value=v; }

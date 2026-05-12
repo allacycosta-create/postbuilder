@@ -54,6 +54,7 @@
     .page-switcher{
       display:flex;align-items:center;gap:6px;
       background:var(--s2);border:1px solid var(--b2);border-radius:40px; padding:4px;
+      flex-wrap: wrap; justify-content: center;
     }
     .psw-btn{
       display:flex;align-items:center;gap:7px;
@@ -131,7 +132,6 @@
     .field{display:flex;flex-direction:column;gap:6px;width:100%}
     .field-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3)}
     
-    /* Configurações base de formulários */
     textarea,input[type=text],.custom-select{
       width:100%;background:var(--bg);border:1px solid var(--b2);border-radius:var(--r);
       color:var(--tx);font-family:'Inter',sans-serif;font-size:13px;padding:12px;
@@ -220,43 +220,25 @@
     .slide-counter { font-family:'Montserrat',sans-serif; font-size:12px; font-weight:800; text-transform:uppercase; color:var(--tx); }
     .slide-actions { display:flex; gap: 6px; }
 
-    /* ══════════════════════════════════════
-       AJUSTES ESPECÍFICOS PARA MOBILE
-       ══════════════════════════════════════ */
     @media(max-width:600px){
       body { padding: 6px 6px 80px; }
-      
-      /* Solução Anti-Zoom no iOS */
-      textarea, input[type=text], input[type=number], select.custom-select {
-        font-size: 16px !important;
-      }
-      
-      /* Header mais enxuto */
+      textarea, input[type=text], input[type=number], select.custom-select { font-size: 16px !important; }
       .hdr { flex-direction: column; padding: 12px; gap: 14px; border-radius: 12px;}
       .hdr-left, .hdr-right { width: 100%; justify-content: center; }
-      
-      /* Abas Roláveis - Impede de esmagar no mobile */
       .page-switcher-wrap { justify-content: flex-start; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
-      .page-switcher-wrap::-webkit-scrollbar { display: none; } /* Oculta scrollbar nativa */
+      .page-switcher-wrap::-webkit-scrollbar { display: none; }
       .page-switcher { width: max-content; flex-wrap: nowrap; border-radius: 30px; }
       .psw-btn { padding: 8px 16px; font-size: 10px; }
-      
-      /* Componentes dos Cards */
       .card-hdr { padding: 12px; }
       .card-body { padding: 12px 10px; }
       summary.card-hdr { flex-wrap: nowrap; align-items: center; }
       .card-label { font-size: 10px; }
-      
-      /* Botões de Ação do Header do Preview */
       .hdr-actions { width: 100%; justify-content: flex-end; margin-top: 8px; }
       .cbtn { padding: 8px 12px; font-size: 9px; flex: 1; justify-content: center; }
-      
-      /* Toggles e Sliders menores */
       .tog { font-size: 9px; padding: 8px 2px; }
       .sw { width: 22px; height: 22px; }
       .slider-row { gap: 8px; }
       .snum { width: 44px; padding: 6px 2px; font-size: 13px;}
-      
       .auto-cb-label { font-size: 8px; padding: 4px 6px;}
     }
   </style>
@@ -368,7 +350,7 @@
           <textarea id="titulo" rows="2" placeholder="Ex: Escreva um ;título; chamativo..." oninput="markDirty('img')"></textarea>
         </div>
         <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Enter = nova linha)</span></span>
+          <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ; para negrito)</span></span>
           <textarea id="sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('img')"></textarea>
         </div>
       </div>
@@ -578,7 +560,7 @@
           <textarea id="c-titulo" rows="2" placeholder="Ex: Escreva um ;título; chamativo..." oninput="markDirty('car')"></textarea>
         </div>
         <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Enter = nova linha)</span></span>
+          <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ; para negrito)</span></span>
           <textarea id="c-sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('car')"></textarea>
         </div>
       </div>
@@ -776,7 +758,7 @@
           <textarea id="r-titulo" rows="2" placeholder="Ex: ;Novidade; chegou..." oninput="markDirty('reels')"></textarea>
         </div>
         <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <span class="field-label">Subtítulo / Legenda <span style="font-weight:400;color:var(--t3);text-transform:none">(Enter = nova linha)</span></span>
+          <span class="field-label">Subtítulo / Legenda <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ; para negrito)</span></span>
           <textarea id="r-sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('reels')"></textarea>
         </div>
       </div>
@@ -925,23 +907,6 @@ function contrastColor(hex){
   return ((r*299+g*587+b*114)/1000)>=140?'#111827':'#ffffff';
 }
 
-function wrapText(ctx,text,maxW){
-  const result=[];
-  for(const para of text.split('\n')){
-    if(!para.trim()){result.push('');continue;}
-    const words=para.split(' '); let line='';
-    for(let i=0;i<words.length;i++){
-      const test=line+words[i]+' ';
-      if(ctx.measureText(test).width>maxW&&i>0){result.push(line.trimEnd());line=words[i]+' ';}
-      else{line=test;}
-    }
-    result.push(line.trimEnd());
-  }
-  while(result.length&&!result[0])result.shift();
-  while(result.length&&!result[result.length-1])result.pop();
-  return result;
-}
-
 function formatTitLines(ctx,text,maxW){
   const paras=text.split('\n'); const lines=[];
   for(const para of paras){
@@ -955,10 +920,42 @@ function formatTitLines(ctx,text,maxW){
         const w=ctx.measureText(tok).width;
         if(curW+w>maxW&&cur.length>0&&tok.trim()!==''){lines.push(cur);cur=[];curW=0;}
         if(curW===0&&tok.trim()==='') continue;
-        cur.push({text:tok,colored:isC}); curW+=w;
+        cur.push({text:tok,colored:isC,width:w}); curW+=w;
       }
     }
     if(cur.length>0) lines.push(cur);
+  }
+  for(let line of lines){
+    while(line.length>0 && line[line.length-1].text.trim()===''){ line.pop(); }
+  }
+  return lines;
+}
+
+function formatSubLines(ctx,text,maxW,fontSizePx){
+  const paras=text.split('\n'); const lines=[];
+  const nFont=`400 ${fontSizePx}px 'Inter',sans-serif`;
+  const bFont=`800 ${fontSizePx}px 'Inter',sans-serif`;
+  
+  for(const para of paras){
+    if(!para.trim()){lines.push([]);continue;}
+    const parts=para.split(';'); let cur=[],curW=0;
+    for(let i=0;i<parts.length;i++){
+      const isB=(i%2!==0),pt=parts[i]; if(!pt) continue;
+      ctx.font=isB?bFont:nFont;
+      const tokens=pt.split(/(\s+)/);
+      for(let j=0;j<tokens.length;j++){
+        const tok=tokens[j]; if(!tok) continue;
+        ctx.font=isB?bFont:nFont;
+        const w=ctx.measureText(tok).width;
+        if(curW+w>maxW&&cur.length>0&&tok.trim()!==''){lines.push(cur);cur=[];curW=0;}
+        if(curW===0&&tok.trim()==='') continue;
+        cur.push({text:tok,isBold:isB,width:w}); curW+=w;
+      }
+    }
+    if(cur.length>0) lines.push(cur);
+  }
+  for(let line of lines){
+    while(line.length>0 && line[line.length-1].text.trim()===''){ line.pop(); }
   }
   return lines;
 }
@@ -1135,8 +1132,7 @@ function draw(mode){
   let subSzPx=+g('ssz').value*sc;
 
   const autoFitEl = g('autoFit');
-  const isAutoFit = autoFitEl ? autoFitEl.checked : false;
-  if(isAutoFit && titTxt) {
+  if(autoFitEl && autoFitEl.checked && titTxt) {
     let minSz = 30 * sc, maxSz = 180 * sc, low = minSz, high = maxSz, best = minSz;
     while (low <= high) {
       let mid = Math.floor((low + high) / 2);
@@ -1151,13 +1147,11 @@ function draw(mode){
   }
 
   const autoFitSubEl = g('autoFitSub');
-  const isAutoFitSub = autoFitSubEl ? autoFitSubEl.checked : false;
-  if(isAutoFitSub && subTxt) {
+  if(autoFitSubEl && autoFitSubEl.checked && subTxt) {
     let minSzSub = 15 * sc, maxSzSub = 80 * sc, lowSub = minSzSub, highSub = maxSzSub, bestSub = minSzSub;
     while (lowSub <= highSub) {
       let midSub = Math.floor((lowSub + highSub) / 2);
-      ctx.font = `400 ${midSub}px 'Inter',sans-serif`;
-      let linesTestSub = wrapText(ctx, subTxt, maxTxtW);
+      let linesTestSub = formatSubLines(ctx, subTxt, maxTxtW, midSub);
       if (linesTestSub.length <= 2) { bestSub = midSub; lowSub = midSub + 1; }
       else { highSub = midSub - 1; }
     }
@@ -1171,8 +1165,8 @@ function draw(mode){
   const titLH=titSzPx*1.22;
   const titBlockH=titLines.length*titLH;
 
+  const subLines=subTxt?formatSubLines(ctx,subTxt,maxTxtW,subSzPx):[];
   ctx.font=`400 ${subSzPx}px 'Inter',sans-serif`;
-  const subLines=subTxt?wrapText(ctx,subTxt,maxTxtW):[];
   const subMet=ctx.measureText('Ag');
   const tH2=subMet.actualBoundingBoxAscent+subMet.actualBoundingBoxDescent;
   const spx2=18*sc,spy=9*sc,lg=6*sc,bLH=tH2+spy*2,stp=tH2+lg;
@@ -1198,7 +1192,7 @@ function draw(mode){
     ctx.font=`800 ${titSzPx}px '${fontFam}',sans-serif`;
     ctx.textAlign='left'; ctx.textBaseline='top';
     titLines.forEach((lineArr,i)=>{
-      let lineW=lineArr.reduce((sum,chunk)=>sum+ctx.measureText(chunk.text).width,0);
+      let lineW=lineArr.reduce((sum,chunk)=>sum+chunk.width,0);
       let curX=baseAX;
       if(textAlign==='center') curX-=lineW/2;
       if(textAlign==='right')  curX-=lineW;
@@ -1206,7 +1200,7 @@ function draw(mode){
       if(strokeW>0){
         ctx.strokeStyle='rgba(0,0,0,0.9)'; ctx.lineWidth=strokeW*2; ctx.lineJoin='round';
         let tx=curX;
-        lineArr.forEach(chunk=>{ctx.strokeText(chunk.text,tx,posY);tx+=ctx.measureText(chunk.text).width;});
+        lineArr.forEach(chunk=>{ctx.strokeText(chunk.text,tx,posY);tx+=chunk.width;});
       } else {
         ctx.shadowColor=activeData.transparentBg?'rgba(0,0,0,0.35)':'rgba(0,0,0,0.75)';
         ctx.shadowBlur=activeData.transparentBg?8*sc:18*sc; ctx.shadowOffsetY=3*sc;
@@ -1214,7 +1208,7 @@ function draw(mode){
       let tx2=curX;
       lineArr.forEach(chunk=>{
         ctx.fillStyle=chunk.colored?activeData.tColor:'#ffffff';
-        ctx.fillText(chunk.text,tx2,posY); tx2+=ctx.measureText(chunk.text).width;
+        ctx.fillText(chunk.text,tx2,posY); tx2+=chunk.width;
       });
     });
     ctx.restore();
@@ -1222,7 +1216,6 @@ function draw(mode){
 
   const reelsMode = (mode==='reels');
   if(subLines.length>0){
-    ctx.font=`400 ${subSzPx}px 'Inter',sans-serif`;
     ctx.textAlign=textAlign; ctx.textBaseline='top';
     const posX=baseAX, posY=baseSY;
     
@@ -1230,11 +1223,12 @@ function draw(mode){
       const sbopVal=parseInt(g('sbop').value)/100;
       if (offCanvas.width !== W || offCanvas.height !== H) { offCanvas.width = W; offCanvas.height = H; }
       offCtx.clearRect(0, 0, W, H);
-      offCtx.font=`400 ${subSzPx}px 'Inter',sans-serif`; offCtx.fillStyle='#000';
+      offCtx.fillStyle='#000';
       
-      subLines.forEach((l,i)=>{
-        if(!l) return;
-        const lw=offCtx.measureText(l).width,bw=lw+spx2*2;
+      subLines.forEach((lineArr,i)=>{
+        if(!lineArr || lineArr.length===0) return;
+        const lw=lineArr.reduce((sum,chunk)=>sum+chunk.width,0);
+        const bw=lw+spx2*2;
         const bx=textAlign==='left'?posX-spx2:textAlign==='right'?posX-lw-spx2:posX-bw/2;
         rrect(offCtx,bx,posY-spy+i*stp,bw,bLH,10*sc); offCtx.fill();
       });
@@ -1245,7 +1239,19 @@ function draw(mode){
     
     ctx.fillStyle='rgba(255,255,255,.93)';
     const textOffsetY = reelsMode ? 0 : (bLH-subSzPx)/2;
-    subLines.forEach((l,i)=>{if(l) ctx.fillText(l,posX,posY-spy+i*stp+textOffsetY);});
+    subLines.forEach((lineArr,i)=>{
+      if(!lineArr || lineArr.length===0) return;
+      const lw=lineArr.reduce((sum,chunk)=>sum+chunk.width,0);
+      let curX=posX;
+      if(textAlign==='center') curX-=lw/2;
+      if(textAlign==='right') curX-=lw;
+      const textY=posY-spy+i*stp+textOffsetY;
+      
+      lineArr.forEach(chunk=>{
+        ctx.font = chunk.isBold ? `800 ${subSzPx}px 'Inter',sans-serif` : `400 ${subSzPx}px 'Inter',sans-serif`;
+        ctx.fillText(chunk.text,curX,textY); curX+=chunk.width;
+      });
+    });
     ctx.shadowColor='transparent'; ctx.shadowBlur=0; ctx.shadowOffsetY=0;
   }
 

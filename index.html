@@ -85,7 +85,6 @@
     .ac-dot{width:18px;height:18px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;flex-shrink:0;box-shadow:var(--shadow-sm);}
     .ac-dot:hover{transform:scale(1.2)}
     .ac-dot.sel{border-color:#fff;transform:scale(1.2);box-shadow:0 0 0 3px var(--ac2)}
-    
     .color-picker-wrap{
       position:relative;width:28px;height:28px;border:2px solid var(--b2);border-radius:50%;cursor:pointer;
       background:conic-gradient(red,yellow,lime,aqua,blue,magenta,red);
@@ -212,7 +211,6 @@
     }
     .auto-cb-label:hover { background: var(--b2); }
 
-    /* ── CAROUSEL NAV ── */
     .slide-nav {
       display:flex; align-items:center; justify-content:space-between; padding: 10px 14px;
       background:var(--s2); border-radius:var(--r); border:1px solid var(--b2); margin-bottom: 8px;
@@ -350,7 +348,7 @@
           <textarea id="titulo" rows="2" placeholder="Ex: Escreva um ;título; chamativo..." oninput="markDirty('img')"></textarea>
         </div>
         <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ; para negrito)</span></span>
+          <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ;; para negrito)</span></span>
           <textarea id="sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('img')"></textarea>
         </div>
       </div>
@@ -429,12 +427,7 @@
           </div>
         </div>
         <div class="slider-field">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-            <span class="field-label">Tamanho do Subtítulo</span>
-            <label class="auto-cb-label">
-              <input type="checkbox" id="autoFitSub" checked onchange="markDirty('img'); saveState();" style="accent-color: var(--ac);"> AUTO (MÁX 2 LINHAS)
-            </label>
-          </div>
+          <span class="field-label">Tamanho do Subtítulo</span>
           <div class="slider-row">
             <input type="range" id="ssz" min="15" max="80" value="28" oninput="sync('ssz','snum2','img')">
             <input class="snum" type="number" id="snum2" value="28" min="15" max="80" onchange="nsync('snum2','ssz','img')">
@@ -560,7 +553,7 @@
           <textarea id="c-titulo" rows="2" placeholder="Ex: Escreva um ;título; chamativo..." oninput="markDirty('car')"></textarea>
         </div>
         <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ; para negrito)</span></span>
+          <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ;; para negrito)</span></span>
           <textarea id="c-sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('car')"></textarea>
         </div>
       </div>
@@ -639,12 +632,7 @@
           </div>
         </div>
         <div class="slider-field">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-            <span class="field-label">Tamanho do Subtítulo</span>
-            <label class="auto-cb-label">
-              <input type="checkbox" id="c-autoFitSub" checked onchange="markDirty('car'); saveState();" style="accent-color: var(--ac);"> AUTO (MÁX 2 LINHAS)
-            </label>
-          </div>
+          <span class="field-label">Tamanho do Subtítulo</span>
           <div class="slider-row">
             <input type="range" id="c-ssz" min="15" max="80" value="28" oninput="sync('c-ssz','c-snum2','car')">
             <input class="snum" type="number" id="c-snum2" value="28" min="15" max="80" onchange="nsync('c-snum2','c-ssz','car')">
@@ -758,7 +746,7 @@
           <textarea id="r-titulo" rows="2" placeholder="Ex: ;Novidade; chegou..." oninput="markDirty('reels')"></textarea>
         </div>
         <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <span class="field-label">Subtítulo / Legenda <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ; para negrito)</span></span>
+          <span class="field-label">Subtítulo / Legenda <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ;; para negrito)</span></span>
           <textarea id="r-sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('reels')"></textarea>
         </div>
       </div>
@@ -822,12 +810,7 @@
           </div>
         </div>
         <div class="slider-field">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-            <span class="field-label">Tamanho do Subtítulo</span>
-            <label class="auto-cb-label">
-              <input type="checkbox" id="r-autoFitSub" checked onchange="markDirty('reels'); saveState();" style="accent-color: var(--ac);"> AUTO (MÁX 2 LINHAS)
-            </label>
-          </div>
+          <span class="field-label">Tamanho do Subtítulo</span>
           <div class="slider-row">
             <input type="range" id="r-ssz" min="15" max="80" value="28" oninput="sync('r-ssz','r-snum2','reels')">
             <input class="snum" type="number" id="r-snum2" value="28" min="15" max="80" onchange="nsync('r-snum2','r-ssz','reels')">
@@ -855,7 +838,7 @@ function createSlide(){
     mediaFile:null, imgO:new Image(), transparentBg:false,
     pos:'bottom', align:'center', tColor:'#ffffff', showSubBg:true, indicator:'none',
     zoom:1, panX:.5, panY:.5,
-    titulo:'', sub:'', fontFam:'Montserrat', tsz:50, autoFit:true, autoFitSub:true, tStrk:0,
+    titulo:'', sub:'', fontFam:'Montserrat', tsz:50, autoFit:true, tStrk:0,
     ssz:28, gop:65, sbop:52, indOp:85
   };
 }
@@ -864,8 +847,7 @@ const S = {
   img: {
     mediaFile:null, imgO:new Image(), transparentBg:false,
     ratio:'9:16-hd', pos:'bottom', align:'center', tColor:'#ffffff', showSubBg:true, indicator:'none',
-    canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
-    autoFitSub:true
+    canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null
   },
   car: {
     ratio:'9:16-hd', currentSlide: 0, slides: [createSlide()],
@@ -874,8 +856,7 @@ const S = {
   reels: {
     mediaFile:null, imgO:new Image(), transparentBg:true,
     ratio:'9:16-reels', pos:'bottom', align:'center', tColor:'#ffffff', showSubBg:true, indicator:'none',
-    canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
-    autoFitSub:true
+    canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null
   }
 };
 
@@ -907,6 +888,39 @@ function contrastColor(hex){
   return ((r*299+g*587+b*114)/1000)>=140?'#111827':'#ffffff';
 }
 
+// Helper para calcular tamanho considerando negrito no subtítulo
+function measureBold(ctx, text) {
+  if(!text.includes(';;')) return ctx.measureText(text).width;
+  const parts = text.split(';;');
+  let w = 0;
+  const baseFont = ctx.font;
+  const boldFont = baseFont.replace('400', '800');
+  for(let i=0; i<parts.length; i++){
+      ctx.font = (i%2!==0) ? boldFont : baseFont;
+      w += ctx.measureText(parts[i]).width;
+  }
+  ctx.font = baseFont;
+  return w;
+}
+
+function wrapText(ctx,text,maxW,isSub=false){
+  const result=[];
+  for(const para of text.split('\n')){
+    if(!para.trim()){result.push('');continue;}
+    const words=para.split(' '); let line='';
+    for(let i=0;i<words.length;i++){
+      const test=line+words[i]+' ';
+      const w = isSub ? measureBold(ctx, test) : ctx.measureText(test).width;
+      if(w>maxW&&i>0){result.push(line.trimEnd());line=words[i]+' ';}
+      else{line=test;}
+    }
+    result.push(line.trimEnd());
+  }
+  while(result.length&&!result[0])result.shift();
+  while(result.length&&!result[result.length-1])result.pop();
+  return result;
+}
+
 function formatTitLines(ctx,text,maxW){
   const paras=text.split('\n'); const lines=[];
   for(const para of paras){
@@ -920,42 +934,10 @@ function formatTitLines(ctx,text,maxW){
         const w=ctx.measureText(tok).width;
         if(curW+w>maxW&&cur.length>0&&tok.trim()!==''){lines.push(cur);cur=[];curW=0;}
         if(curW===0&&tok.trim()==='') continue;
-        cur.push({text:tok,colored:isC,width:w}); curW+=w;
+        cur.push({text:tok,colored:isC}); curW+=w;
       }
     }
     if(cur.length>0) lines.push(cur);
-  }
-  for(let line of lines){
-    while(line.length>0 && line[line.length-1].text.trim()===''){ line.pop(); }
-  }
-  return lines;
-}
-
-function formatSubLines(ctx,text,maxW,fontSizePx){
-  const paras=text.split('\n'); const lines=[];
-  const nFont=`400 ${fontSizePx}px 'Inter',sans-serif`;
-  const bFont=`800 ${fontSizePx}px 'Inter',sans-serif`;
-  
-  for(const para of paras){
-    if(!para.trim()){lines.push([]);continue;}
-    const parts=para.split(';'); let cur=[],curW=0;
-    for(let i=0;i<parts.length;i++){
-      const isB=(i%2!==0),pt=parts[i]; if(!pt) continue;
-      ctx.font=isB?bFont:nFont;
-      const tokens=pt.split(/(\s+)/);
-      for(let j=0;j<tokens.length;j++){
-        const tok=tokens[j]; if(!tok) continue;
-        ctx.font=isB?bFont:nFont;
-        const w=ctx.measureText(tok).width;
-        if(curW+w>maxW&&cur.length>0&&tok.trim()!==''){lines.push(cur);cur=[];curW=0;}
-        if(curW===0&&tok.trim()==='') continue;
-        cur.push({text:tok,isBold:isB,width:w}); curW+=w;
-      }
-    }
-    if(cur.length>0) lines.push(cur);
-  }
-  for(let line of lines){
-    while(line.length>0 && line[line.length-1].text.trim()===''){ line.pop(); }
   }
   return lines;
 }
@@ -995,7 +977,6 @@ function updateSlideUI() {
   $('c-fontFam').value = slide.fontFam || 'Montserrat';
   $('c-tsz').value = slide.tsz || 50; $('c-tnum').value = slide.tsz || 50;
   if($('c-autoFit')) $('c-autoFit').checked = slide.autoFit !== false;
-  if($('c-autoFitSub')) $('c-autoFitSub').checked = slide.autoFitSub !== false;
   $('c-tStrk').value = slide.tStrk || 0; $('c-tStrkN').value = slide.tStrk || 0;
   $('c-ssz').value = slide.ssz || 28; $('c-snum2').value = slide.ssz || 28;
   $('c-gop').value = slide.gop || 65; $('c-gnum').value = slide.gop || 65;
@@ -1059,7 +1040,6 @@ function saveSlideDOM() {
   slide.fontFam = $('c-fontFam').value;
   slide.tsz = $('c-tsz').value;
   if($('c-autoFit')) slide.autoFit = $('c-autoFit').checked;
-  if($('c-autoFitSub')) slide.autoFitSub = $('c-autoFitSub').checked;
   slide.tStrk = $('c-tStrk').value;
   slide.ssz = $('c-ssz').value;
   slide.gop = $('c-gop').value;
@@ -1127,12 +1107,13 @@ function draw(mode){
   const strokeW=+g('tStrk').value*sc;
   const titTxt=g('titulo').value.trim();
   const subTxt=g('sub').value.trim();
-  
+  const subSzPx=+g('ssz').value*sc;
+
   let titSzPx=+g('tsz').value*sc;
-  let subSzPx=+g('ssz').value*sc;
 
   const autoFitEl = g('autoFit');
-  if(autoFitEl && autoFitEl.checked && titTxt) {
+  const isAutoFit = autoFitEl ? autoFitEl.checked : false;
+  if(isAutoFit && titTxt) {
     let minSz = 30 * sc, maxSz = 180 * sc, low = minSz, high = maxSz, best = minSz;
     while (low <= high) {
       let mid = Math.floor((low + high) / 2);
@@ -1146,27 +1127,13 @@ function draw(mode){
     g('tnum').value = Math.round(best / sc);
   }
 
-  const autoFitSubEl = g('autoFitSub');
-  if(autoFitSubEl && autoFitSubEl.checked && subTxt) {
-    let minSzSub = 15 * sc, maxSzSub = 80 * sc, lowSub = minSzSub, highSub = maxSzSub, bestSub = minSzSub;
-    while (lowSub <= highSub) {
-      let midSub = Math.floor((lowSub + highSub) / 2);
-      let linesTestSub = formatSubLines(ctx, subTxt, maxTxtW, midSub);
-      if (linesTestSub.length <= 2) { bestSub = midSub; lowSub = midSub + 1; }
-      else { highSub = midSub - 1; }
-    }
-    subSzPx = bestSub;
-    g('ssz').value = Math.round(bestSub / sc);
-    g('snum2').value = Math.round(bestSub / sc);
-  }
-
   ctx.font=`800 ${titSzPx}px '${fontFam}',sans-serif`;
   const titLines=titTxt?formatTitLines(ctx,titTxt,maxTxtW):[];
   const titLH=titSzPx*1.22;
   const titBlockH=titLines.length*titLH;
 
-  const subLines=subTxt?formatSubLines(ctx,subTxt,maxTxtW,subSzPx):[];
   ctx.font=`400 ${subSzPx}px 'Inter',sans-serif`;
+  const subLines=subTxt?wrapText(ctx,subTxt,maxTxtW,true):[];
   const subMet=ctx.measureText('Ag');
   const tH2=subMet.actualBoundingBoxAscent+subMet.actualBoundingBoxDescent;
   const spx2=18*sc,spy=9*sc,lg=6*sc,bLH=tH2+spy*2,stp=tH2+lg;
@@ -1192,7 +1159,7 @@ function draw(mode){
     ctx.font=`800 ${titSzPx}px '${fontFam}',sans-serif`;
     ctx.textAlign='left'; ctx.textBaseline='top';
     titLines.forEach((lineArr,i)=>{
-      let lineW=lineArr.reduce((sum,chunk)=>sum+chunk.width,0);
+      let lineW=lineArr.reduce((sum,chunk)=>sum+ctx.measureText(chunk.text).width,0);
       let curX=baseAX;
       if(textAlign==='center') curX-=lineW/2;
       if(textAlign==='right')  curX-=lineW;
@@ -1200,7 +1167,7 @@ function draw(mode){
       if(strokeW>0){
         ctx.strokeStyle='rgba(0,0,0,0.9)'; ctx.lineWidth=strokeW*2; ctx.lineJoin='round';
         let tx=curX;
-        lineArr.forEach(chunk=>{ctx.strokeText(chunk.text,tx,posY);tx+=chunk.width;});
+        lineArr.forEach(chunk=>{ctx.strokeText(chunk.text,tx,posY);tx+=ctx.measureText(chunk.text).width;});
       } else {
         ctx.shadowColor=activeData.transparentBg?'rgba(0,0,0,0.35)':'rgba(0,0,0,0.75)';
         ctx.shadowBlur=activeData.transparentBg?8*sc:18*sc; ctx.shadowOffsetY=3*sc;
@@ -1208,7 +1175,7 @@ function draw(mode){
       let tx2=curX;
       lineArr.forEach(chunk=>{
         ctx.fillStyle=chunk.colored?activeData.tColor:'#ffffff';
-        ctx.fillText(chunk.text,tx2,posY); tx2+=chunk.width;
+        ctx.fillText(chunk.text,tx2,posY); tx2+=ctx.measureText(chunk.text).width;
       });
     });
     ctx.restore();
@@ -1223,12 +1190,12 @@ function draw(mode){
       const sbopVal=parseInt(g('sbop').value)/100;
       if (offCanvas.width !== W || offCanvas.height !== H) { offCanvas.width = W; offCanvas.height = H; }
       offCtx.clearRect(0, 0, W, H);
-      offCtx.fillStyle='#000';
       
-      subLines.forEach((lineArr,i)=>{
-        if(!lineArr || lineArr.length===0) return;
-        const lw=lineArr.reduce((sum,chunk)=>sum+chunk.width,0);
-        const bw=lw+spx2*2;
+      subLines.forEach((l,i)=>{
+        if(!l) return;
+        offCtx.font=`400 ${subSzPx}px 'Inter',sans-serif`;
+        const lw = measureBold(offCtx, l);
+        const bw = lw+spx2*2;
         const bx=textAlign==='left'?posX-spx2:textAlign==='right'?posX-lw-spx2:posX-bw/2;
         rrect(offCtx,bx,posY-spy+i*stp,bw,bLH,10*sc); offCtx.fill();
       });
@@ -1239,18 +1206,26 @@ function draw(mode){
     
     ctx.fillStyle='rgba(255,255,255,.93)';
     const textOffsetY = reelsMode ? 0 : (bLH-subSzPx)/2;
-    subLines.forEach((lineArr,i)=>{
-      if(!lineArr || lineArr.length===0) return;
-      const lw=lineArr.reduce((sum,chunk)=>sum+chunk.width,0);
-      let curX=posX;
-      if(textAlign==='center') curX-=lw/2;
-      if(textAlign==='right') curX-=lw;
-      const textY=posY-spy+i*stp+textOffsetY;
+    subLines.forEach((l,i)=>{
+      if(!l) return;
+      ctx.font=`400 ${subSzPx}px 'Inter',sans-serif`;
+      const lw = measureBold(ctx, l);
+      let curX = posX;
+      if(textAlign==='center') curX -= lw/2;
+      if(textAlign==='right') curX -= lw;
+      const textY = posY-spy+i*stp+textOffsetY;
       
-      lineArr.forEach(chunk=>{
-        ctx.font = chunk.isBold ? `800 ${subSzPx}px 'Inter',sans-serif` : `400 ${subSzPx}px 'Inter',sans-serif`;
-        ctx.fillText(chunk.text,curX,textY); curX+=chunk.width;
-      });
+      if(l.includes(';;')) {
+         const parts = l.split(';;');
+         parts.forEach((chunk, idx) => {
+             ctx.font = (idx%2!==0) ? `800 ${subSzPx}px 'Inter',sans-serif` : `400 ${subSzPx}px 'Inter',sans-serif`;
+             ctx.fillText(chunk, curX, textY);
+             curX += ctx.measureText(chunk).width;
+         });
+         ctx.font = `400 ${subSzPx}px 'Inter',sans-serif`;
+      } else {
+         ctx.fillText(l, curX, textY);
+      }
     });
     ctx.shadowColor='transparent'; ctx.shadowBlur=0; ctx.shadowOffsetY=0;
   }
@@ -1297,10 +1272,6 @@ function sync(rid,nid,mode){
     const autoCb = $(pfx+'autoFit');
     if(autoCb && autoCb.checked) autoCb.checked = false;
   }
-  if(rid.includes('ssz')) {
-    const autoCbSub = $(pfx+'autoFitSub');
-    if(autoCbSub && autoCbSub.checked) autoCbSub.checked = false;
-  }
   markDirty(mode); saveState(); 
 }
 
@@ -1311,10 +1282,6 @@ function nsync(nid,rid,mode){
   if(rid.includes('tsz')) {
     const autoCb = $(pfx+'autoFit');
     if(autoCb && autoCb.checked) autoCb.checked = false;
-  }
-  if(rid.includes('ssz')) {
-    const autoCbSub = $(pfx+'autoFitSub');
-    if(autoCbSub && autoCbSub.checked) autoCbSub.checked = false;
   }
   markDirty(mode);saveState();
 }
@@ -1452,7 +1419,7 @@ function saveState(){
   try{
     const carData = S.car.slides.map(sl => ({
       pos: sl.pos, align: sl.align, tColor: sl.tColor, showSubBg: sl.showSubBg, indicator: sl.indicator,
-      titulo: sl.titulo, sub: sl.sub, fontFam: sl.fontFam, tsz: sl.tsz, autoFit: sl.autoFit, autoFitSub: sl.autoFitSub,
+      titulo: sl.titulo, sub: sl.sub, fontFam: sl.fontFam, tsz: sl.tsz, autoFit: sl.autoFit,
       tStrk: sl.tStrk, ssz: sl.ssz, gop: sl.gop, sbop: sl.sbop, indOp: sl.indOp
     }));
 
@@ -1467,7 +1434,6 @@ function saveState(){
       img_fontFam : $('fontFam').value,
       img_tsz     : $('tsz').value,
       img_autoFit : $('autoFit') ? $('autoFit').checked : true,
-      img_autoFitSub : $('autoFitSub') ? $('autoFitSub').checked : true,
       img_tStrk   : $('tStrk').value,
       img_ssz     : $('ssz').value,
       img_sbop    : $('sbop').value,
@@ -1482,7 +1448,6 @@ function saveState(){
       r_fontFam  : $('r-fontFam').value,
       r_tsz      : $('r-tsz').value,
       r_autoFit  : $('r-autoFit') ? $('r-autoFit').checked : true,
-      r_autoFitSub : $('r-autoFitSub') ? $('r-autoFitSub').checked : true,
       r_tStrk    : $('r-tStrk').value,
       r_ssz      : $('r-ssz').value,
       r_sbop     : $('r-sbop').value,
@@ -1506,7 +1471,6 @@ function loadState(){
     if(st.img_indicator){ setInd(st.img_indicator, null, 'img'); }
     if(st.img_fontFam) $('fontFam').value=st.img_fontFam;
     if(st.img_autoFit!==undefined && $('autoFit')){ $('autoFit').checked = st.img_autoFit; }
-    if(st.img_autoFitSub!==undefined && $('autoFitSub')){ $('autoFitSub').checked = st.img_autoFitSub; }
     if(st.img_tsz!==undefined){ const v=Math.max(40,Math.min(180,+st.img_tsz)); $('tsz').value=v; $('tnum').value=v; }
     if(st.img_tStrk!==undefined){ $('tStrk').value=st.img_tStrk; $('tStrkN').value=st.img_tStrk; }
     if(st.img_ssz!==undefined){ const v=Math.max(15,Math.min(80,+st.img_ssz)); $('ssz').value=v; $('snum2').value=v; }
@@ -1531,7 +1495,6 @@ function loadState(){
     if(st.r_showSubBg!==undefined) setSubBg(st.r_showSubBg,'reels');
     if(st.r_fontFam) $('r-fontFam').value=st.r_fontFam;
     if(st.r_autoFit!==undefined && $('r-autoFit')){ $('r-autoFit').checked = st.r_autoFit; }
-    if(st.r_autoFitSub!==undefined && $('r-autoFitSub')){ $('r-autoFitSub').checked = st.r_autoFitSub; }
     if(st.r_tsz!==undefined){ const v=Math.max(40,Math.min(180,+st.r_tsz)); $('r-tsz').value=v; $('r-tnum').value=v; }
     if(st.r_tStrk!==undefined){ $('r-tStrk').value=st.r_tStrk; $('r-tStrkN').value=st.r_tStrk; }
     if(st.r_ssz!==undefined){ const v=Math.max(15,Math.min(80,+st.r_ssz)); $('r-ssz').value=v; $('r-snum2').value=v; }

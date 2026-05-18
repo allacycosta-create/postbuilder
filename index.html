@@ -137,7 +137,6 @@
       border-radius:var(--r3);overflow:hidden;
       box-shadow:var(--shadow-sm);
     }
-    div.card{border-top:3px solid var(--ac);}
     details.card{border-top:1px solid var(--b1);}
 
     .card-hdr{
@@ -273,7 +272,6 @@
     }
 
     /* ── Download Button ── */
-    .dl-row{display:flex;gap:8px;width:100%;}
     .dl-main{
       flex:1;background:var(--ac);color:#fff;
       font-family:'Inter',sans-serif;font-size:14px;font-weight:600;
@@ -282,18 +280,9 @@
       display:flex;align-items:center;justify-content:center;gap:8px;
       position:sticky;bottom:14px;z-index:50;
     }
-    .dl-ig{
-      flex:2;background:linear-gradient(135deg,#833ab4,#fd1d1d,#fcb045);color:#fff;
-      font-family:'Inter',sans-serif;font-size:14px;font-weight:600;
-      letter-spacing:.3px;padding:14px 12px;border:none;border-radius:24px;
-      cursor:pointer;transition:all .2s;
-      display:flex;align-items:center;justify-content:center;gap:8px;
-      position:sticky;bottom:14px;z-index:50;
-    }
-    @media(min-width:880px){.dl-main,.dl-ig{position:static;border-radius:20px;}}
+    @media(min-width:880px){.dl-main{position:static;border-radius:20px;}}
     .dl-main:hover:not(:disabled){filter:brightness(1.08);transform:translateY(-1px);box-shadow:0 6px 20px var(--ac2);}
-    .dl-ig:hover:not(:disabled){filter:brightness(1.08);transform:translateY(-1px);}
-    .dl-main:disabled,.dl-ig:disabled{opacity:.4;cursor:not-allowed;box-shadow:none;transform:none;}
+    .dl-main:disabled{opacity:.4;cursor:not-allowed;box-shadow:none;transform:none;}
 
     /* ── Pages ── */
     .page{display:none;flex-direction:column;gap:12px;}
@@ -371,8 +360,7 @@
       .card-label{font-size:11px;}
       .hdr-actions{gap:6px;margin-top:0;}
       .cbtn{padding:6px 10px;font-size:11px;}
-      .dl-row{gap:6px;}
-      .dl-main,.dl-ig{position:static;border-radius:20px;padding:12px 10px;font-size:12px;letter-spacing:.2px;margin-top:2px;}
+      .dl-main{position:static;border-radius:20px;padding:12px 10px;font-size:13px;letter-spacing:.2px;margin-top:2px;}
       .tool-bar{border-radius:14px;padding:5px;gap:4px;}
       .tool-btn{padding:10px 6px;gap:3px;border-radius:10px;}
       .tool-btn span{font-size:10px;}
@@ -459,7 +447,7 @@
 <div class="workspace">
   
   <div class="pcol">
-    <div class="card" style="border-top: 3px solid var(--ac);">
+    <div class="card">
       <div class="card-hdr">
         <span class="card-label">Preview Visual</span>
         <div class="hdr-actions">
@@ -484,16 +472,7 @@
         </div>
       </div>
     </div>
-    <div class="dl-row">
-      <button class="dl-main" id="dlBtn" onclick="exportMedia('img')" disabled>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Baixar
-      </button>
-      <button class="dl-ig" id="igBtn" onclick="exportAndOpenIG('img')" disabled>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-        Postar no Instagram
-      </button>
-    </div>
+    <button class="dl-main" id="dlBtn" onclick="exportMedia('img')" disabled>BAIXAR IMAGEM</button>
   </div>
 
   <div class="ccol">
@@ -663,7 +642,7 @@
 <div class="workspace">
   
   <div class="pcol">
-    <div class="card" style="border-top: 3px solid var(--ac);">
+    <div class="card">
       <div class="card-hdr">
         <span class="card-label">Preview Reels / TikTok</span>
         <div class="hdr-actions">
@@ -685,16 +664,7 @@
         </div>
       </div>
     </div>
-    <div class="dl-row">
-      <button class="dl-main" id="r-dlBtn" onclick="exportMedia('reels')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-        Baixar
-      </button>
-      <button class="dl-ig" id="r-igBtn" onclick="exportAndOpenIG('reels')">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-        Postar no Instagram
-      </button>
-    </div>
+    <button class="dl-main" id="r-dlBtn" onclick="exportMedia('reels')">BAIXAR REELS PNG</button>
   </div>
 
   <div class="ccol reels-ccol">
@@ -1315,7 +1285,7 @@ function loadImg(e,mode){
     cw.style.display='flex';
     $(`${pfx}btnMove`).style.display='flex';
     $(`${pfx}btnChange`).style.display='flex';
-    if(mode === 'img') { $('dlBtn').disabled=false; $('igBtn').disabled=false; }
+    if(mode === 'img') $('dlBtn').disabled=false;
   } else {
     cw.classList.remove('transparent-mode');
     $('r-btnMove').style.display='flex';
@@ -1340,35 +1310,39 @@ function loadImg(e,mode){
 
 function saveState(){
   try{
+    const g = id => { const el=$(id); return el ? el.value : null; };
+    const gc = id => { const el=$(id); return el ? el.checked : true; };
     const st={
-      accent: $('acCustom').value,
+      accent: g('acCustom'),
       img_ratio   : S.img.ratio,
       img_pos     : S.img.pos,
       img_align   : S.img.align,
       img_tColor  : S.img.tColor,
       img_showSubBg: S.img.showSubBg,
       img_indicator: S.img.indicator,
-      img_fontFam : $('fontFam').value,
-      img_tsz     : $('tsz').value,
-      img_autoFit : $('autoFit') ? $('autoFit').checked : true,
-      img_autoFitSub : $('autoFitSub') ? $('autoFitSub').checked : true,
-      img_tStrk   : $('tStrk').value,
-      img_ssz     : $('ssz').value,
-      img_sbop    : $('sbop').value,
-      img_gop     : $('gop').value,
-      img_indOp   : $('indOp').value,
+      img_fontFam : g('fontFam'),
+      img_tsz     : g('tsz'),
+      img_autoFit : gc('autoFit'),
+      img_autoFitSub : gc('autoFitSub'),
+      img_tStrk   : g('tStrk'),
+      img_ssz     : g('ssz'),
+      img_sbop    : g('sbop'),
+      img_gop     : g('gop'),
+      img_indOp   : g('indOp'),
       
       r_align    : S.reels.align,
       r_tColor   : S.reels.tColor,
       r_showSubBg: S.reels.showSubBg,
-      r_fontFam  : $('r-fontFam').value,
-      r_tsz      : $('r-tsz').value,
-      r_autoFit  : $('r-autoFit') ? $('r-autoFit').checked : true,
-      r_autoFitSub : $('r-autoFitSub') ? $('r-autoFitSub').checked : true,
-      r_tStrk    : $('r-tStrk').value,
-      r_ssz      : $('r-ssz').value,
-      r_sbop     : $('r-sbop').value,
+      r_fontFam  : g('r-fontFam'),
+      r_tsz      : g('r-tsz'),
+      r_autoFit  : gc('r-autoFit'),
+      r_autoFitSub : gc('r-autoFitSub'),
+      r_tStrk    : g('r-tStrk'),
+      r_ssz      : g('r-ssz'),
+      r_sbop     : g('r-sbop'),
     };
+    // Remove nulls before saving
+    Object.keys(st).forEach(k => { if(st[k] === null) delete st[k]; });
     localStorage.setItem('pbState3', JSON.stringify(st));
   }catch(e){}
 }
@@ -1510,23 +1484,6 @@ function bindCanvas(mode){
   },{passive:false});
 }
 
-async function exportAndOpenIG(mode){
-  const s = S[mode]; if(!s.mediaFile&&!s.transparentBg) return;
-  draw(mode);
-  const cv=cvEl(mode), {W,H}=D(mode);
-  const expC=document.createElement('canvas'); expC.width=W; expC.height=H;
-  expC.getContext('2d').drawImage(cv,0,0,W,H);
-  const suffix=mode==='reels'?'reels':'feed';
-  // Download first
-  const a=document.createElement('a');
-  a.download=`post-${suffix}.png`; a.href=expC.toDataURL('image/png'); a.click();
-  // Then open Instagram after short delay
-  setTimeout(()=>{
-    showToast('Imagem salva! Abrindo Instagram...');
-    setTimeout(()=>{ window.location.href='instagram://camera'; },800);
-  },400);
-}
-
 async function exportMedia(mode){
   const s = S[mode]; if(!s.mediaFile&&!s.transparentBg) return;
   draw(mode);
@@ -1548,9 +1505,14 @@ async function exportMedia(mode){
   const rcv=cvEl('reels');
   rcv.width=1080;rcv.height=1920;rcv.style.aspectRatio='9/16';
 
-  // Default: Google Blue
-  setAccent('#1a73e8', document.querySelector('.ac-dot[data-c="#1a73e8"]'));
+  // Aplica azul padrão SEM salvar (loadState vai sobrescrever se tiver backup)
+  document.documentElement.style.setProperty('--ac','#1a73e8');
+  document.documentElement.style.setProperty('--ac-tx','#ffffff');
+  const defaultDot = document.querySelector('.ac-dot[data-c="#1a73e8"]');
+  if(defaultDot){ defaultDot.classList.add('sel'); }
+  $('acCustom').value='#1a73e8';
 
+  // Carrega estado salvo (sobrescreve defaults acima)
   loadState();
   checkMobile();
   

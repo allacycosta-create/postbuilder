@@ -6,258 +6,353 @@
   <title>Post Builder Pro</title>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@400;700;800;900&family=Oswald:wght@600&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <style>
+    /* ── Google Chat-inspired Design System ── */
     :root{
-      --bg:#0e0f13;--s1:#16181f;--s2:#1c1f29;--s3:#252936;
-      --b1:#232635;--b2:#2c3048;--tx:#eceef5;--t2:#8b90a8;--t3:#5a5f7a;
-      --ac:#6b6b6b;--ac-tx:#ffffff;--ac2:rgba(107,107,107,0.25);
-      --r:8px;--r2:12px;--r3:16px;--max:1200px;
-      --shadow:0 8px 24px rgba(0,0,0,0.3);--shadow-sm:0 2px 8px rgba(0,0,0,0.2);
+      --bg:#1b1b1b;
+      --s1:#2d2d2d;
+      --s2:#242424;
+      --s3:#333333;
+      --b1:#3a3a3a;
+      --b2:#444444;
+      --tx:#e8eaed;
+      --t2:#9aa0a6;
+      --t3:#5f6368;
+      --ac:#1a73e8;
+      --ac-tx:#ffffff;
+      --ac2:rgba(26,115,232,0.18);
+      --r:10px;--r2:20px;--r3:16px;--max:1200px;
+      --shadow:0 4px 16px rgba(0,0,0,0.35);
+      --shadow-sm:0 1px 4px rgba(0,0,0,0.25);
     }
     body.lt{
-      --bg:#f4f5f7;--s1:#ffffff;--s2:#f0f1f4;--s3:#e5e7eb;
-      --b1:#e3e5ee;--b2:#d5d8e8;--tx:#111827;--t2:#6b7280;--t3:#9ca3af;
-      --shadow:0 8px 24px rgba(0,0,0,0.06);--shadow-sm:0 2px 8px rgba(0,0,0,0.04);
+      --bg:#f1f3f4;
+      --s1:#ffffff;
+      --s2:#f8f9fa;
+      --s3:#e8eaed;
+      --b1:#dadce0;
+      --b2:#bdc1c6;
+      --tx:#202124;
+      --t2:#5f6368;
+      --t3:#9aa0a6;
+      --shadow:0 4px 16px rgba(0,0,0,0.08);
+      --shadow-sm:0 1px 4px rgba(0,0,0,0.06);
     }
+
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
     html{scroll-behavior:smooth}
     body{
-      background:var(--bg);color:var(--tx);font-family:'Inter',sans-serif;font-size:14px;
+      background:var(--bg);color:var(--tx);
+      font-family:'Inter',sans-serif;font-size:14px;font-weight:400;
       line-height:1.5;min-height:100vh;display:flex;flex-direction:column;align-items:center;
-      padding:10px 8px 80px;transition:background-color .3s;overflow-x:hidden;
+      padding:10px 8px 80px;transition:background-color .3s,color .3s;overflow-x:hidden;
     }
     button{font-family:'Inter',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;}
 
-    .app{width:100%;max-width:var(--max);display:flex;flex-direction:column;gap:16px}
+    .app{width:100%;max-width:var(--max);display:flex;flex-direction:column;gap:14px}
     .workspace{display:flex;flex-direction:column;gap:12px;width:100%;}
-    .pcol{display:flex;flex-direction:column;gap:12px;width:100%}
-    .ccol{display:flex;flex-direction:column;gap:12px;width:100%}
+    .pcol{display:flex;flex-direction:column;gap:10px;width:100%}
+    .ccol{display:flex;flex-direction:column;gap:10px;width:100%}
 
     @media(min-width:880px){
       body{padding:20px 14px 100px}
-      .app { align-items: center; }
-      .workspace { flex-direction: row; align-items: flex-start; justify-content: center; gap: 32px; }
-      .pcol { width: 420px; flex-shrink: 0; position: sticky; top: 20px; }
-      .ccol { width: 420px; flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; }
+      .app{align-items:center;}
+      .workspace{flex-direction:row;align-items:flex-start;justify-content:center;gap:28px;}
+      .pcol{width:420px;flex-shrink:0;position:sticky;top:20px;}
+      .ccol{width:420px;flex-shrink:0;display:flex;flex-direction:column;gap:10px;}
     }
 
-    .toast {
-      position: fixed; bottom: -60px; left: 50%; transform: translateX(-50%);
-      background: #ef4444; color: #fff; padding: 12px 24px; border-radius: 20px;
-      font-family: 'Inter', sans-serif; font-weight: 600; font-size: 13px;
-      box-shadow: var(--shadow); transition: bottom 0.3s ease; z-index: 9999; pointer-events: none;
+    /* ── Toast ── */
+    .toast{
+      position:fixed;bottom:-60px;left:50%;transform:translateX(-50%);
+      background:#323232;color:#fff;padding:10px 20px;border-radius:24px;
+      font-weight:500;font-size:13px;letter-spacing:.2px;
+      box-shadow:0 4px 12px rgba(0,0,0,0.4);transition:bottom .3s ease;z-index:9999;pointer-events:none;
     }
-    .toast.show { bottom: 24px; }
+    .toast.show{bottom:24px;}
 
-    .page-switcher-wrap {
-      width: 100%; display: flex; justify-content: center;
-    }
+    /* ── Page Switcher / Tabs ── */
+    .page-switcher-wrap{width:100%;display:flex;justify-content:center;}
     .page-switcher{
-      display:flex;align-items:center;gap:6px;
-      background:var(--s2);border:1px solid var(--b2);border-radius:40px; padding:4px;
+      display:flex;align-items:center;gap:4px;
+      background:var(--s2);border:1px solid var(--b1);border-radius:40px;padding:4px;
     }
     .psw-btn{
       display:flex;align-items:center;gap:7px;
-      padding:9px 18px;border-radius:30px;border:none; background:transparent;color:var(--t2);
-      font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;
-      letter-spacing:.8px;text-transform:uppercase; transition:all .22s;white-space:nowrap;cursor:pointer;
+      padding:9px 20px;border-radius:30px;border:none;background:transparent;color:var(--t2);
+      font-family:'Inter',sans-serif;font-size:13px;font-weight:500;
+      letter-spacing:.1px;transition:all .2s;white-space:nowrap;cursor:pointer;
     }
     .psw-btn svg{flex-shrink:0;transition:inherit;}
-    .psw-btn.active{ background:var(--ac);color:var(--ac-tx); box-shadow:0 4px 14px var(--ac2); }
+    .psw-btn.active{background:var(--ac);color:#fff;box-shadow:0 2px 10px var(--ac2);}
     .psw-btn:not(.active):hover{color:var(--tx);background:var(--s3);}
 
+    /* ── Header ── */
     .hdr{
       display:flex;align-items:center;justify-content:space-between;
       padding:12px 16px;background:var(--s1);border:1px solid var(--b1);
-      border-radius:var(--r3);box-shadow:var(--shadow-sm);flex-wrap:wrap;gap:12px; width: 100%;
+      border-radius:var(--r3);box-shadow:var(--shadow-sm);flex-wrap:wrap;gap:12px;width:100%;
     }
-    .hdr-left{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center;}
-    .logo-name{font-family:'Montserrat',sans-serif;font-weight:900;font-size:16px;color:var(--tx);text-transform:uppercase;letter-spacing:-.5px}
+    .hdr-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;}
+    .logo-name{
+      font-family:'Google Sans',Inter,sans-serif;font-weight:600;font-size:17px;
+      color:var(--tx);letter-spacing:-.2px;
+    }
     .hdr-sep{color:var(--b2);font-weight:300}
-    .ig-link{display:flex;align-items:center;gap:6px;color:var(--tx);text-decoration:none;font-family:'Montserrat',sans-serif;font-size:15px;font-weight:800;transition:color .2s;text-transform:uppercase;}
+    .ig-link{
+      display:flex;align-items:center;gap:6px;color:var(--t2);text-decoration:none;
+      font-size:13px;font-weight:500;transition:color .2s;
+    }
     .ig-link:hover{color:var(--ac);}
-    .hdr-right{display:flex;align-items:center;gap:12px;justify-content:center;flex-wrap:wrap}
-    
-    .ibtn{width:36px;height:36px;border-radius:50%;background:var(--s2);border:1px solid var(--b2);color:var(--t2);transition:all .2s;flex-shrink:0}
-    .ibtn:hover{border-color:var(--ac);color:var(--ac);transform:scale(1.05)}
+    .hdr-right{display:flex;align-items:center;gap:10px;justify-content:center;flex-wrap:wrap}
 
+    /* ── Icon Buttons ── */
+    .ibtn{
+      width:36px;height:36px;border-radius:50%;background:transparent;
+      border:none;color:var(--t2);transition:all .2s;flex-shrink:0;
+    }
+    .ibtn:hover{background:var(--s3);color:var(--tx);}
+
+    /* ── Accent / Color Picker ── */
     .accent-picker{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:center}
-    .ac-dot{width:18px;height:18px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;flex-shrink:0;box-shadow:var(--shadow-sm);}
+    .ac-dot{
+      width:18px;height:18px;border-radius:50%;cursor:pointer;
+      border:2px solid transparent;transition:all .2s;flex-shrink:0;
+    }
     .ac-dot:hover{transform:scale(1.2)}
-    .ac-dot.sel{border-color:#fff;transform:scale(1.2);box-shadow:0 0 0 3px var(--ac2)}
-    
+    .ac-dot.sel{border-color:#fff;transform:scale(1.15);box-shadow:0 0 0 2px var(--ac)}
+
     .color-picker-wrap{
-      position:relative;width:28px;height:28px;border:2px solid var(--b2);border-radius:50%;cursor:pointer;
+      position:relative;width:26px;height:26px;border:2px solid var(--b2);border-radius:50%;cursor:pointer;
       background:conic-gradient(red,yellow,lime,aqua,blue,magenta,red);
-      transition:transform .2s,border-color .2s,box-shadow .2s,outline .2s;overflow:hidden;flex-shrink:0;
+      transition:transform .2s,border-color .2s,box-shadow .2s;overflow:hidden;flex-shrink:0;
     }
     .color-picker-wrap:hover{transform:scale(1.15);border-color:var(--ac);}
-    .color-picker-wrap.sel{border-color:#fff;transform:scale(1.2);box-shadow:0 0 0 3px var(--ac2);}
-    .color-picker-wrap.on{outline:2px solid var(--ac);outline-offset:3px;}
+    .color-picker-wrap.sel{border-color:#fff;transform:scale(1.15);box-shadow:0 0 0 2px var(--ac);}
+    .color-picker-wrap.on{outline:2px solid var(--ac);outline-offset:2px;}
     .color-picker-wrap input[type="color"]{position:absolute;top:-10px;left:-10px;width:50px;height:50px;opacity:0;cursor:pointer;border:none;padding:0;}
 
-    div.card, details.card {
-      background:var(--s1);border:1px solid var(--b1);border-radius:var(--r3);
-      overflow:hidden;box-shadow:var(--shadow);
+    /* ── Cards ── */
+    div.card, details.card{
+      background:var(--s1);border:1px solid var(--b1);
+      border-radius:var(--r3);overflow:hidden;
+      box-shadow:var(--shadow-sm);
     }
-    div.card { border-top:3px solid var(--ac); }
-    details.card { border-top:1px solid var(--b1); }
-    
-    .card-hdr {
-      display:flex;align-items:center;justify-content:space-between;
-      padding:14px 16px;border-bottom:1px solid var(--b1);flex-wrap:wrap;gap:10px;
-    }
-    
-    summary.card-hdr {
-      cursor: pointer; background: var(--s2); list-style: none; outline: none;
-      transition: background 0.2s, border-bottom 0.2s; border-bottom: 1px solid transparent;
-      user-select: none;
-    }
-    summary.card-hdr::-webkit-details-marker { display: none; }
-    summary.card-hdr:hover { background: var(--s3); }
-    details[open] summary.card-hdr { border-bottom-color: var(--b1); background: var(--s1); }
-    
-    .hdr-left-group { display: flex; align-items: center; gap: 10px; }
-    .acc-arrow { transition: transform 0.3s ease; color: var(--t2); }
-    details[open] .acc-arrow { transform: rotate(180deg); }
+    div.card{border-top:3px solid var(--ac);}
+    details.card{border-top:1px solid var(--b1);}
 
-    .card-label{font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--tx)}
+    .card-hdr{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:13px 16px;border-bottom:1px solid var(--b1);flex-wrap:wrap;gap:10px;
+    }
+    summary.card-hdr{
+      cursor:pointer;background:var(--s2);list-style:none;outline:none;
+      transition:background .2s;border-bottom:1px solid transparent;user-select:none;
+    }
+    summary.card-hdr::-webkit-details-marker{display:none;}
+    summary.card-hdr:hover{background:var(--s3);}
+    details[open] summary.card-hdr{border-bottom-color:var(--b1);background:var(--s1);}
+
+    .hdr-left-group{display:flex;align-items:center;gap:10px;}
+    .acc-arrow{transition:transform .3s;color:var(--t2);}
+    details[open] .acc-arrow{transform:rotate(180deg);}
+
+    .card-label{font-size:12px;font-weight:500;letter-spacing:.2px;color:var(--tx);}
     .card-body{padding:16px;display:flex;flex-direction:column;gap:16px}
     .hdr-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 
-    .cbtn{font-size:10px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(--ac-tx);background:var(--ac);border:none;padding:6px 14px;border-radius:20px;transition:all .2s;box-shadow:var(--shadow-sm);gap:6px;white-space:nowrap}
-    .cbtn-outline{background:transparent;border:1px solid var(--ac);color:var(--ac)}
-    .cbtn-outline.active{background:var(--ac);color:var(--ac-tx)}
+    /* ── Buttons ── */
+    .cbtn{
+      font-size:13px;font-weight:500;color:var(--ac-tx);background:var(--ac);
+      border:none;padding:7px 16px;border-radius:20px;
+      transition:all .2s;box-shadow:none;gap:6px;white-space:nowrap;letter-spacing:.1px;
+    }
+    .cbtn:hover{filter:brightness(1.1);}
+    .cbtn-outline{background:transparent;border:1px solid var(--ac);color:var(--ac);}
+    .cbtn-outline:hover{background:var(--ac2);}
+    .cbtn-outline.active{background:var(--ac);color:#fff;}
 
+    /* ── Fields ── */
     .field{display:flex;flex-direction:column;gap:6px;width:100%}
-    .field-label{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--t3)}
-    
-    /* Configurações base de formulários */
+    .field-label{font-size:11px;font-weight:500;letter-spacing:.4px;text-transform:uppercase;color:var(--t2);}
+
     textarea,input[type=text],.custom-select{
-      width:100%;background:var(--bg);border:1px solid var(--b2);border-radius:var(--r);
-      color:var(--tx);font-family:'Inter',sans-serif;font-size:13px;padding:12px;
+      width:100%;background:var(--s2);border:1px solid var(--b1);border-radius:var(--r);
+      color:var(--tx);font-family:'Inter',sans-serif;font-size:13px;padding:11px 14px;
       outline:none;transition:all .2s;resize:none;line-height:1.5;box-sizing:border-box;
     }
-    textarea:focus,input[type=text]:focus,.custom-select:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac2);}
-    textarea::placeholder{color:var(--ac);opacity:.65;}
+    textarea:focus,input[type=text]:focus,.custom-select:focus{
+      border-color:var(--ac);box-shadow:0 0 0 2px var(--ac2);background:var(--s1);
+    }
+    textarea::placeholder{color:var(--t3);opacity:1;}
+    .custom-select{cursor:pointer;}
 
-    .tog-row{display:flex;background:var(--bg);border:1px solid var(--b2);border-radius:var(--r);overflow:hidden;padding:2px;gap:2px;flex-wrap:wrap}
-    .tog{flex:1 1 auto;min-width:30%;padding:10px 4px;text-align:center;border:none;background:transparent;font-size:10px;font-weight:700;border-radius:6px;text-transform:uppercase;color:var(--t2);transition:all .2s}
-    .tog.on{background:var(--ac);color:var(--ac-tx);box-shadow:var(--shadow-sm)}
+    /* ── Toggles ── */
+    .tog-row{
+      display:flex;background:var(--s2);border:1px solid var(--b1);
+      border-radius:24px;overflow:hidden;padding:3px;gap:2px;flex-wrap:wrap;
+    }
+    .tog{
+      flex:1 1 auto;min-width:30%;padding:8px 4px;text-align:center;border:none;
+      background:transparent;font-size:12px;font-weight:500;border-radius:20px;
+      color:var(--t2);transition:all .2s;letter-spacing:.1px;
+    }
+    .tog.on{background:var(--ac);color:#fff;box-shadow:0 1px 4px rgba(26,115,232,.35);}
 
+    /* ── Sliders ── */
     .slider-field{display:flex;flex-direction:column;gap:8px;width:100%}
     .slider-row{display:flex;align-items:center;gap:12px;width:100%}
     .slider-row input[type=range]{flex:1;height:24px;-webkit-appearance:none;background:transparent;outline:none;min-width:0}
     .slider-row input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--b2);border-radius:2px}
-    .slider-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--ac);border:2px solid var(--s1);cursor:ew-resize;box-shadow:0 2px 6px rgba(0,0,0,.3);margin-top:-8px}
-    .snum{width:52px;flex-shrink:0;background:var(--bg);border:1px solid var(--b2);border-radius:var(--r);color:var(--tx);font-family:'Inter',sans-serif;font-size:12px;font-weight:600;padding:6px;text-align:center;outline:none}
+    .slider-row input[type=range]::-webkit-slider-thumb{
+      -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+      background:var(--ac);border:2px solid var(--s1);cursor:ew-resize;
+      box-shadow:0 1px 4px rgba(0,0,0,.3);margin-top:-7px;
+    }
+    .snum{
+      width:52px;flex-shrink:0;background:var(--s2);border:1px solid var(--b1);
+      border-radius:var(--r);color:var(--tx);font-family:'Inter',sans-serif;
+      font-size:12px;font-weight:500;padding:6px;text-align:center;outline:none;
+      transition:border-color .2s;
+    }
+    .snum:focus{border-color:var(--ac);}
 
+    /* ── Color Swatches ── */
     .sw-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-    .sw{width:26px;height:26px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;box-shadow:var(--shadow-sm);flex-shrink:0}
-    .sw.on{outline:2px solid var(--ac);outline-offset:3px}
+    .sw{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;flex-shrink:0;}
+    .sw.on{outline:2px solid var(--ac);outline-offset:2px;transform:scale(1.1);}
 
+    /* ── Canvas ── */
     .cwrap{
-      position:relative;width:100%;background:#06070a;
+      position:relative;width:100%;background:#111;
       user-select:none;overflow:hidden;border-radius:var(--r);
       display:flex;align-items:center;justify-content:center;
     }
     .cwrap.transparent-mode{
-      background-image: linear-gradient(45deg,#2a2a2a 25%,transparent 25%), linear-gradient(-45deg,#2a2a2a 25%,transparent 25%), linear-gradient(45deg,transparent 75%,#2a2a2a 75%), linear-gradient(-45deg,transparent 75%,#2a2a2a 75%);
-      background-size:16px 16px; background-position:0 0,0 8px,8px -8px,-8px 0px; background-color:#1a1a1a;
+      background-image:linear-gradient(45deg,#2a2a2a 25%,transparent 25%),
+        linear-gradient(-45deg,#2a2a2a 25%,transparent 25%),
+        linear-gradient(45deg,transparent 75%,#2a2a2a 75%),
+        linear-gradient(-45deg,transparent 75%,#2a2a2a 75%);
+      background-size:16px 16px;background-position:0 0,0 8px,8px -8px,-8px 0px;background-color:#1a1a1a;
     }
     body.lt .cwrap.transparent-mode{
-      background-image: linear-gradient(45deg,#ccc 25%,transparent 25%), linear-gradient(-45deg,#ccc 25%,transparent 25%), linear-gradient(45deg,transparent 75%,#ccc 75%), linear-gradient(-45deg,transparent 75%,#ccc 75%);
+      background-image:linear-gradient(45deg,#ccc 25%,transparent 25%),
+        linear-gradient(-45deg,#ccc 25%,transparent 25%),
+        linear-gradient(45deg,transparent 75%,#ccc 75%),
+        linear-gradient(-45deg,transparent 75%,#ccc 75%);
       background-color:#e0e0e0;
     }
     .cwrap.is-moving{touch-action:none;}
     canvas{display:block;width:100%;height:auto;pointer-events:none;}
 
+    /* ── Upload Placeholder ── */
     .prev-placeholder{
-      width:100%;display:flex;flex-direction:column;align-items:center; justify-content:center;
-      gap:14px;color:var(--t3);font-weight:500;background:var(--s2);
-      border-radius:var(--r);border:2px dashed var(--b2);cursor:pointer;padding:20px;
+      width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:14px;color:var(--t2);font-weight:400;font-size:13px;background:var(--s2);
+      border-radius:var(--r);border:2px dashed var(--b2);cursor:pointer;padding:28px 20px;
+      transition:all .2s;
     }
-    .prev-placeholder:hover{border-color:var(--ac);background:var(--s3)}
-    .prev-placeholder-icon{width:54px;height:54px;border-radius:var(--r);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--t2);box-shadow:var(--shadow-sm)}
+    .prev-placeholder:hover{border-color:var(--ac);background:var(--s3);color:var(--ac);}
+    .prev-placeholder-icon{
+      width:52px;height:52px;border-radius:50%;background:var(--ac2);
+      display:flex;align-items:center;justify-content:center;
+      font-size:26px;color:var(--ac);
+    }
 
+    /* ── Chips ── */
     .zoom-chip{
-      position:absolute;top:8px;left:8px;z-index:20; display:none;align-items:center;gap:6px;
-      padding:4px 10px;background:rgba(6,7,10,.85);border:1px solid var(--b2);border-radius:20px;
-      font-size:11px;font-weight:700;font-family:'Montserrat',sans-serif;color:#fff;
+      position:absolute;top:8px;left:8px;z-index:20;display:none;align-items:center;gap:5px;
+      padding:4px 10px;background:rgba(0,0,0,.72);border-radius:20px;
+      font-size:11px;font-weight:500;font-family:'Inter',sans-serif;color:#e8eaed;
+      backdrop-filter:blur(4px);
     }
-
     .res-badge{
-      position:absolute;top:8px;right:8px;z-index:20; display:flex;align-items:center;gap:4px;
-      padding:4px 10px;background:rgba(6,7,10,.82);border:1px solid rgba(255,255,255,.12);
-      border-radius:20px;font-size:10px;font-weight:800;
-      font-family:'Montserrat',sans-serif;color:rgba(255,255,255,.7);letter-spacing:.5px;
+      position:absolute;top:8px;right:8px;z-index:20;display:flex;align-items:center;gap:4px;
+      padding:4px 10px;background:rgba(0,0,0,.65);border-radius:20px;
+      font-size:10px;font-weight:600;font-family:'Inter',sans-serif;
+      color:rgba(255,255,255,.75);letter-spacing:.3px;backdrop-filter:blur(4px);
     }
 
+    /* ── Download Button ── */
     .dl-main{
-      width:100%;background:var(--ac);color:var(--ac-tx);
-      font-family:'Inter',sans-serif;font-size:14px;font-weight:800;
-      letter-spacing:2px;text-transform:uppercase;padding:18px;border:none;border-radius:var(--r2);
-      cursor:pointer;box-shadow:var(--shadow);transition:all .2s; position:sticky;bottom:14px;z-index:50;
+      width:100%;background:var(--ac);color:#fff;
+      font-family:'Inter',sans-serif;font-size:14px;font-weight:600;
+      letter-spacing:.5px;padding:16px;border:none;border-radius:24px;
+      cursor:pointer;box-shadow:0 2px 12px var(--ac2);transition:all .2s;
+      position:sticky;bottom:14px;z-index:50;
     }
-    @media(min-width:880px){.dl-main{position:static}}
-    .dl-main:hover:not(:disabled){filter:brightness(1.1);transform:translateY(-2px);box-shadow:0 12px 28px var(--ac2)}
-    .dl-main:disabled{opacity:.4;cursor:not-allowed;box-shadow:none}
+    @media(min-width:880px){.dl-main{position:static;border-radius:20px;}}
+    .dl-main:hover:not(:disabled){filter:brightness(1.08);transform:translateY(-1px);box-shadow:0 6px 20px var(--ac2);}
+    .dl-main:disabled{opacity:.4;cursor:not-allowed;box-shadow:none;transform:none;}
 
+    /* ── Pages ── */
     .page{display:none;flex-direction:column;gap:12px;}
     .page.active{display:flex;}
 
-    .auto-cb-label {
-      font-size: 9px; color: var(--ac); font-weight: 800; cursor: pointer;
-      display: flex; align-items: center; gap: 4px; background: var(--ac2);
-      padding: 3px 8px; border-radius: 20px; transition: all 0.2s; white-space: nowrap;
+    /* ── Auto Label ── */
+    .auto-cb-label{
+      font-size:10px;color:var(--ac);font-weight:500;cursor:pointer;
+      display:flex;align-items:center;gap:4px;background:var(--ac2);
+      padding:3px 10px;border-radius:20px;transition:all .2s;white-space:nowrap;
     }
-    .auto-cb-label:hover { background: var(--b2); }
-
-    /* ── CAROUSEL NAV ── */
-    .slide-nav {
-      display:flex; align-items:center; justify-content:space-between; padding: 10px 14px;
-      background:var(--s2); border-radius:var(--r); border:1px solid var(--b2); margin-bottom: 8px;
-    }
-    .slide-counter { font-family:'Montserrat',sans-serif; font-size:12px; font-weight:800; text-transform:uppercase; color:var(--tx); }
-    .slide-actions { display:flex; gap: 6px; }
+    .auto-cb-label:hover{background:var(--b1);}
 
     /* ══════════════════════════════════════
-       AJUSTES ESPECÍFICOS PARA MOBILE
+       MOBILE
        ══════════════════════════════════════ */
     @media(max-width:600px){
-      body { padding: 6px 6px 80px; }
-      
-      /* Solução Anti-Zoom no iOS */
-      textarea, input[type=text], input[type=number], select.custom-select {
-        font-size: 16px !important;
-      }
-      
-      /* Header mais enxuto */
-      .hdr { flex-direction: column; padding: 12px; gap: 14px; border-radius: 12px;}
-      .hdr-left, .hdr-right { width: 100%; justify-content: center; }
-      
-      /* Abas Roláveis - Impede de esmagar no mobile */
-      .page-switcher-wrap { justify-content: flex-start; overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
-      .page-switcher-wrap::-webkit-scrollbar { display: none; } /* Oculta scrollbar nativa */
-      .page-switcher { width: max-content; flex-wrap: nowrap; border-radius: 30px; }
-      .psw-btn { padding: 8px 16px; font-size: 10px; }
-      
-      /* Componentes dos Cards */
-      .card-hdr { padding: 12px; }
-      .card-body { padding: 12px 10px; }
-      summary.card-hdr { flex-wrap: nowrap; align-items: center; }
-      .card-label { font-size: 10px; }
-      
-      /* Botões de Ação do Header do Preview */
-      .hdr-actions { width: 100%; justify-content: flex-end; margin-top: 8px; }
-      .cbtn { padding: 8px 12px; font-size: 9px; flex: 1; justify-content: center; }
-      
-      /* Toggles e Sliders menores */
-      .tog { font-size: 9px; padding: 8px 2px; }
-      .sw { width: 22px; height: 22px; }
-      .slider-row { gap: 8px; }
-      .snum { width: 44px; padding: 6px 2px; font-size: 13px;}
-      
-      .auto-cb-label { font-size: 8px; padding: 4px 6px;}
+      body{padding:6px 6px 80px;}
+      textarea,input[type=text],input[type=number],select.custom-select{font-size:16px !important;}
+      .hdr{flex-direction:column;padding:12px;gap:14px;border-radius:14px;}
+      .hdr-left,.hdr-right{width:100%;justify-content:center;}
+      .page-switcher-wrap{justify-content:flex-start;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px;}
+      .page-switcher-wrap::-webkit-scrollbar{display:none;}
+      .page-switcher{width:max-content;flex-wrap:nowrap;}
+      .psw-btn{padding:8px 16px;font-size:12px;}
+      .card-hdr{padding:12px;}
+      .card-body{padding:12px 10px;}
+      summary.card-hdr{flex-wrap:nowrap;align-items:center;}
+      .card-label{font-size:11px;}
+      .hdr-actions{width:100%;justify-content:flex-end;margin-top:8px;}
+      .cbtn{padding:8px 12px;font-size:12px;flex:1;justify-content:center;}
+      .tog{font-size:11px;padding:8px 2px;}
+      .sw{width:22px;height:22px;}
+      .slider-row{gap:8px;}
+      .snum{width:44px;padding:6px 2px;font-size:13px;}
+      .auto-cb-label{font-size:9px;padding:4px 8px;}
+    }
+    /* ── Tool Toolbar + Panels ── */
+    .tool-bar{
+      display:flex;gap:6px;background:var(--s1);border:1px solid var(--b1);
+      border-radius:var(--r3);padding:6px;
+    }
+    .tool-btn{
+      flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+      gap:5px;padding:10px 8px;border:none;border-radius:12px;
+      background:transparent;color:var(--t2);cursor:pointer;transition:all .2s;
+    }
+    .tool-btn span{font-size:10px;font-weight:500;letter-spacing:.3px;}
+    .tool-btn:hover{background:var(--s3);color:var(--tx);}
+    .tool-btn.active{background:var(--ac2);color:var(--ac);}
+
+    .tool-panel{
+      display:none;background:var(--s1);border:1px solid var(--b1);
+      border-radius:var(--r3);overflow:hidden;
+      animation:fadeSlideIn .18s ease;
+    }
+    .tool-panel.active{display:block;}
+    @keyframes fadeSlideIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── Mobile: layout stacked, preview shrinks ── */
+    @media(max-width:879px){
+      .workspace{gap:10px;}
+      .pcol .card-body{padding:8px;}
+      /* Preview mais compacto no mobile */
+      .pcol{order:1;}
+      .ccol{order:2;}
+      /* Toolbar ocupa tela toda */
+      .tool-bar{border-radius:16px;}
+      .tool-btn{padding:12px 8px;gap:4px;}
+      .tool-btn span{font-size:11px;}
     }
   </style>
 </head>
@@ -267,7 +362,6 @@
 
 <input type="file" id="imgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'img')">
 <input type="file" id="rImgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'reels')">
-<input type="file" id="cImgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'car')">
 
 <div id="toast" class="toast"></div>
 
@@ -282,17 +376,17 @@
   </div>
   <div class="hdr-right">
     <div class="accent-picker">
-      <div class="ac-dot sel" data-c="#ffffff" style="background:#ffffff" onclick="setAccent('#ffffff',this)"></div>
-      <div class="ac-dot" data-c="#6b6b6b" style="background:#6b6b6b" onclick="setAccent('#6b6b6b',this)"></div>
-      <div class="ac-dot" data-c="#3b9eff" style="background:#3b9eff" onclick="setAccent('#3b9eff',this)"></div>
-      <div class="ac-dot" data-c="#7c6af7" style="background:#7c6af7" onclick="setAccent('#7c6af7',this)"></div>
-      <div class="ac-dot" data-c="#00d4aa" style="background:#00d4aa" onclick="setAccent('#00d4aa',this)"></div>
-      <div class="ac-dot" data-c="#69ff47" style="background:#69ff47" onclick="setAccent('#69ff47',this)"></div>
-      <div class="ac-dot" data-c="#ffd600" style="background:#ffd600" onclick="setAccent('#ffd600',this)"></div>
-      <div class="ac-dot" data-c="#ff6b00" style="background:#ff6b00" onclick="setAccent('#ff6b00',this)"></div>
-      <div class="ac-dot" data-c="#ff3b3b" style="background:#ff3b3b" onclick="setAccent('#ff3b3b',this)"></div>
+      <div class="ac-dot" data-c="#ffffff" style="background:#ffffff" onclick="setAccent('#ffffff',this)"></div>
+      <div class="ac-dot" data-c="#9aa0a6" style="background:#9aa0a6" onclick="setAccent('#9aa0a6',this)"></div>
+      <div class="ac-dot sel" data-c="#1a73e8" style="background:#1a73e8" onclick="setAccent('#1a73e8',this)"></div>
+      <div class="ac-dot" data-c="#7c4dff" style="background:#7c4dff" onclick="setAccent('#7c4dff',this)"></div>
+      <div class="ac-dot" data-c="#00bfa5" style="background:#00bfa5" onclick="setAccent('#00bfa5',this)"></div>
+      <div class="ac-dot" data-c="#34a853" style="background:#34a853" onclick="setAccent('#34a853',this)"></div>
+      <div class="ac-dot" data-c="#fbbc04" style="background:#fbbc04" onclick="setAccent('#fbbc04',this)"></div>
+      <div class="ac-dot" data-c="#fa7b17" style="background:#fa7b17" onclick="setAccent('#fa7b17',this)"></div>
+      <div class="ac-dot" data-c="#ea4335" style="background:#ea4335" onclick="setAccent('#ea4335',this)"></div>
       <div class="color-picker-wrap" id="acCustomWrap">
-        <input type="color" id="acCustom" value="#6b6b6b" oninput="setAccent(this.value,null)" aria-label="Escolher cor customizada">
+        <input type="color" id="acCustom" value="#1a73e8" oninput="setAccent(this.value,null)" aria-label="Escolher cor customizada">
       </div>
     </div>
     <button class="ibtn" onclick="resetAll()" title="Resetar Tudo" aria-label="Resetar Tudo">
@@ -309,10 +403,6 @@
     <button class="psw-btn active" id="pswImg" onclick="switchPage('img')" aria-label="Mudar para edição de Imagem ou Feed">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
       Imagem Simples
-    </button>
-    <button class="psw-btn" id="pswCar" onclick="switchPage('car')" aria-label="Mudar para edição de Carrossel">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-      Carrossel
     </button>
     <button class="psw-btn" id="pswReels" onclick="switchPage('reels')" aria-label="Mudar para edição de Reels ou TikTok">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
@@ -354,34 +444,39 @@
   </div>
 
   <div class="ccol">
-    <details class="card" open>
-      <summary class="card-hdr">
-        <div class="hdr-left-group">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M12 4v16M8 20h8"/></svg>
-          <span class="card-label">1. Textos</span>
-        </div>
-        <svg class="acc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-      </summary>
+
+    <!-- Icon Toolbar -->
+    <div class="tool-bar" id="img-toolbar">
+      <button class="tool-btn active" data-panel="img-p1" onclick="openPanel('img','img-p1',this)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+        <span>Textos</span>
+      </button>
+      <button class="tool-btn" data-panel="img-p2" onclick="openPanel('img','img-p2',this)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+        <span>Estilo</span>
+      </button>
+      <button class="tool-btn" data-panel="img-p3" onclick="openPanel('img','img-p3',this)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span>Fundo</span>
+      </button>
+    </div>
+
+    <!-- Panel 1: Textos -->
+    <div class="tool-panel active" id="img-p1">
       <div class="card-body">
         <div class="field">
           <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ; para colorir)</span></span>
           <textarea id="titulo" rows="2" placeholder="Ex: Escreva um ;título; chamativo..." oninput="markDirty('img')"></textarea>
         </div>
-        <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+        <div class="field" style="margin-top:4px;border-top:1px solid var(--b1);padding-top:16px">
           <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Enter = nova linha)</span></span>
           <textarea id="sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('img')"></textarea>
         </div>
       </div>
-    </details>
+    </div>
 
-    <details class="card" open>
-      <summary class="card-hdr">
-        <div class="hdr-left-group">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><path d="M14.31 8.63L5 18a2 2 0 0 1-2-2l9.37-9.31M1 21h22"/></svg>
-          <span class="card-label">2. Estilo & Formato</span>
-        </div>
-        <svg class="acc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-      </summary>
+    <!-- Panel 2: Estilo -->
+    <div class="tool-panel" id="img-p2">
       <div class="card-body">
         <div class="field">
           <span class="field-label">Proporção da Tela</span>
@@ -391,7 +486,7 @@
             <button class="tog" onclick="setRatio('1:1',this,'img')">1:1 Square</button>
           </div>
         </div>
-        <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+        <div class="field" style="margin-top:4px;border-top:1px solid var(--b1);padding-top:16px">
           <span class="field-label">Posição Geral</span>
           <div class="tog-row">
             <button class="tog on" id="posBot" onclick="setPos('bottom',this,'img')">Em Baixo</button>
@@ -434,12 +529,10 @@
             </div>
           </div>
         </div>
-        <div class="slider-field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        <div class="slider-field" style="margin-top:4px;border-top:1px solid var(--b1);padding-top:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
             <span class="field-label">Tamanho do Título</span>
-            <label class="auto-cb-label">
-              <input type="checkbox" id="autoFit" checked onchange="markDirty('img'); saveState();" style="accent-color: var(--ac);"> AUTO (MÁX 2 LINHAS)
-            </label>
+            <label class="auto-cb-label"><input type="checkbox" id="autoFit" checked onchange="markDirty('img');saveState();" style="accent-color:var(--ac)"> AUTO</label>
           </div>
           <div class="slider-row">
             <input type="range" id="tsz" min="40" max="120" value="50" oninput="sync('tsz','tnum','img')">
@@ -447,11 +540,9 @@
           </div>
         </div>
         <div class="slider-field">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
             <span class="field-label">Tamanho do Subtítulo</span>
-            <label class="auto-cb-label">
-              <input type="checkbox" id="autoFitSub" checked onchange="markDirty('img'); saveState();" style="accent-color: var(--ac);"> AUTO (MÁX 2 LINHAS)
-            </label>
+            <label class="auto-cb-label"><input type="checkbox" id="autoFitSub" checked onchange="markDirty('img');saveState();" style="accent-color:var(--ac)"> AUTO</label>
           </div>
           <div class="slider-row">
             <input type="range" id="ssz" min="15" max="80" value="28" oninput="sync('ssz','snum2','img')">
@@ -466,16 +557,10 @@
           </div>
         </div>
       </div>
-    </details>
+    </div>
 
-    <details class="card">
-      <summary class="card-hdr">
-        <div class="hdr-left-group">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-          <span class="card-label">3. Fundo & Efeitos</span>
-        </div>
-        <svg class="acc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-      </summary>
+    <!-- Panel 3: Fundo & Efeitos -->
+    <div class="tool-panel" id="img-p3">
       <div class="card-body">
         <div class="slider-field" id="gopWrap">
           <span class="field-label">Gradiente Escuro de Base %</span>
@@ -484,7 +569,7 @@
             <input class="snum" type="number" id="gnum" value="65" min="0" max="95" onchange="nsync('gnum','gop','img')">
           </div>
         </div>
-        <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+        <div class="field" style="margin-top:4px;border-top:1px solid var(--b1);padding-top:16px">
           <span class="field-label">Fundo de Leitura do Subtítulo</span>
           <div class="tog-row">
             <button class="tog on" id="sbOn" onclick="setSubBg(true,'img')">Ativado</button>
@@ -498,7 +583,7 @@
             <input class="snum" type="number" id="sbnum" value="52" min="0" max="90" onchange="nsync('sbnum','sbop','img')">
           </div>
         </div>
-        <div class="field" id="indWrap" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+        <div class="field" id="indWrap" style="margin-top:4px;border-top:1px solid var(--b1);padding-top:16px">
           <span class="field-label">Indicador de Ação</span>
           <div class="tog-row" id="indRow">
             <button class="tog on" onclick="setInd('none',this,'img')">Nenhum</button>
@@ -514,217 +599,7 @@
           </div>
         </div>
       </div>
-    </details>
-
-  </div>
-</div>
-</div>
-
-<div class="page" id="pageCar">
-<div class="workspace">
-  
-  <div class="pcol">
-    <div class="card" style="border-top: 3px solid var(--ac);">
-      <div class="card-hdr">
-        <span class="card-label">Preview do Slide</span>
-        <div class="hdr-actions">
-          <button class="cbtn cbtn-outline" id="c-btnMove" onclick="toggleMove('car')" style="display:none">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 9 2 12 5 15"></polyline><polyline points="9 5 12 2 15 5"></polyline><polyline points="19 9 22 12 19 15"></polyline><polyline points="9 19 12 22 15 19"></polyline><line x1="2" y1="12" x2="22" y2="12"></line><line x1="12" y1="2" x2="12" y2="22"></line></svg>
-            Ajustar
-          </button>
-          <button class="cbtn cbtn-outline" id="c-btnChange" onclick="document.getElementById('cImgInput').click()" style="display:none">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
-            Trocar
-          </button>
-        </div>
-      </div>
-      <div class="card-body" style="padding:10px">
-        <div class="prev-placeholder" id="c-prevPlaceholder" onclick="document.getElementById('cImgInput').click()">
-          <div class="prev-placeholder-icon">+</div>
-          <span>Importe uma Imagem para este Slide</span>
-        </div>
-        <div class="cwrap" id="c-cw" style="display:none;">
-          <div class="zoom-chip" id="c-zpill"><span id="c-zlbl">100%</span></div>
-          <canvas id="c-cv"></canvas>
-        </div>
-      </div>
     </div>
-    <button class="dl-main" id="c-dlBtn" onclick="exportMedia('car')">BAIXAR CARROSSEL INTEIRO</button>
-  </div>
-
-  <div class="ccol">
-    
-    <div class="slide-nav">
-      <button class="ibtn" onclick="prevSlide()" title="Slide Anterior">❮</button>
-      <span class="slide-counter" id="slideCounter">Slide 1 de 1</span>
-      <button class="ibtn" onclick="nextSlide()" title="Próximo Slide">❯</button>
-      <div class="slide-actions">
-        <button class="cbtn cbtn-outline" onclick="addSlide()" style="background:var(--s1)">+ Novo</button>
-        <button class="cbtn cbtn-outline" onclick="removeSlide()" id="btnRemSlide" style="display:none; color:#ef4444; border-color:#ef4444; background:var(--s1)">- Excluir</button>
-      </div>
-    </div>
-
-    <details class="card" open>
-      <summary class="card-hdr">
-        <div class="hdr-left-group">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M12 4v16M8 20h8"/></svg>
-          <span class="card-label">1. Textos Deste Slide</span>
-        </div>
-        <svg class="acc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-      </summary>
-      <div class="card-body">
-        <div class="field">
-          <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ; para colorir)</span></span>
-          <textarea id="c-titulo" rows="2" placeholder="Ex: Escreva um ;título; chamativo..." oninput="markDirty('car')"></textarea>
-        </div>
-        <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t3);text-transform:none">(Enter = nova linha)</span></span>
-          <textarea id="c-sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('car')"></textarea>
-        </div>
-      </div>
-    </details>
-
-    <details class="card" open>
-      <summary class="card-hdr">
-        <div class="hdr-left-group">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><path d="M14.31 8.63L5 18a2 2 0 0 1-2-2l9.37-9.31M1 21h22"/></svg>
-          <span class="card-label">2. Estilo Deste Slide</span>
-        </div>
-        <svg class="acc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-      </summary>
-      <div class="card-body">
-        <div class="field">
-          <span class="field-label">Proporção (Aplica a todo o Carrossel)</span>
-          <div class="tog-row" id="c-ratioRow">
-            <button class="tog on" onclick="setRatio('9:16-hd',this,'car')">3:4 Feed</button>
-            <button class="tog" onclick="setRatio('4:5',this,'car')">4:5 Feed</button>
-            <button class="tog" onclick="setRatio('1:1',this,'car')">1:1 Square</button>
-          </div>
-        </div>
-        <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <span class="field-label">Posição Geral</span>
-          <div class="tog-row">
-            <button class="tog on" id="c-posBot" onclick="setPos('bottom',this,'car')">Em Baixo</button>
-            <button class="tog" id="c-posTop" onclick="setPos('top',this,'car')">Em Cima</button>
-          </div>
-        </div>
-        <div class="field">
-          <span class="field-label">Alinhamento</span>
-          <div class="tog-row" id="c-alignRow">
-            <button class="tog on" onclick="setAlign('center',this,'car')">Centro</button>
-            <button class="tog" onclick="setAlign('left',this,'car')">Esquerda</button>
-            <button class="tog" onclick="setAlign('right',this,'car')">Direita</button>
-          </div>
-        </div>
-        <div class="field">
-          <span class="field-label">Família da Fonte</span>
-          <select id="c-fontFam" class="custom-select" onchange="markDirty('car')">
-            <option value="Montserrat">Montserrat (Padrão Bold)</option>
-            <option value="Inter">Inter (Clean)</option>
-            <option value="Bebas Neue">Bebas Neue (Impacto)</option>
-            <option value="Poppins">Poppins (Redonda)</option>
-            <option value="Playfair Display">Playfair Display (Clássica)</option>
-            <option value="Oswald">Oswald (Condensada)</option>
-          </select>
-        </div>
-        <div class="field">
-          <span class="field-label">Cor Destaque do Título</span>
-          <div class="sw-row" id="c-colorRow">
-            <div class="sw on" data-c="#ffffff" style="background:#ffffff" onclick="setTC('#ffffff',this,'car')"></div>
-            <div class="sw" data-c="#6b6b6b" style="background:#6b6b6b" onclick="setTC('#6b6b6b',this,'car')"></div>
-            <div class="sw" data-c="#3b9eff" style="background:#3b9eff" onclick="setTC('#3b9eff',this,'car')"></div>
-            <div class="sw" data-c="#7c6af7" style="background:#7c6af7" onclick="setTC('#7c6af7',this,'car')"></div>
-            <div class="sw" data-c="#00d4aa" style="background:#00d4aa" onclick="setTC('#00d4aa',this,'car')"></div>
-            <div class="sw" data-c="#69ff47" style="background:#69ff47" onclick="setTC('#69ff47',this,'car')"></div>
-            <div class="sw" data-c="#ffd600" style="background:#ffd600" onclick="setTC('#ffd600',this,'car')"></div>
-            <div class="sw" data-c="#ff6b00" style="background:#ff6b00" onclick="setTC('#ff6b00',this,'car')"></div>
-            <div class="sw" data-c="#ff3b3b" style="background:#ff3b3b" onclick="setTC('#ff3b3b',this,'car')"></div>
-            <div class="color-picker-wrap" id="c-tCPWrap">
-              <input type="color" id="c-tCP" value="#ffffff" oninput="setTC(this.value,null,'car')">
-            </div>
-          </div>
-        </div>
-        <div class="slider-field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-            <span class="field-label">Tamanho do Título</span>
-            <label class="auto-cb-label">
-              <input type="checkbox" id="c-autoFit" checked onchange="markDirty('car'); saveState();" style="accent-color: var(--ac);"> AUTO (MÁX 2 LINHAS)
-            </label>
-          </div>
-          <div class="slider-row">
-            <input type="range" id="c-tsz" min="40" max="120" value="50" oninput="sync('c-tsz','c-tnum','car')">
-            <input class="snum" type="number" id="c-tnum" value="50" min="40" max="120" onchange="nsync('c-tnum','c-tsz','car')">
-          </div>
-        </div>
-        <div class="slider-field">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
-            <span class="field-label">Tamanho do Subtítulo</span>
-            <label class="auto-cb-label">
-              <input type="checkbox" id="c-autoFitSub" checked onchange="markDirty('car'); saveState();" style="accent-color: var(--ac);"> AUTO (MÁX 2 LINHAS)
-            </label>
-          </div>
-          <div class="slider-row">
-            <input type="range" id="c-ssz" min="15" max="80" value="28" oninput="sync('c-ssz','c-snum2','car')">
-            <input class="snum" type="number" id="c-snum2" value="28" min="15" max="80" onchange="nsync('c-snum2','c-ssz','car')">
-          </div>
-        </div>
-        <div class="slider-field">
-          <span class="field-label">Contorno Escuro (Stroke)</span>
-          <div class="slider-row">
-            <input type="range" id="c-tStrk" min="0" max="15" value="0" oninput="sync('c-tStrk','c-tStrkN','car')">
-            <input class="snum" type="number" id="c-tStrkN" value="0" min="0" max="15" onchange="nsync('c-tStrkN','c-tStrk','car')">
-          </div>
-        </div>
-      </div>
-    </details>
-
-    <details class="card">
-      <summary class="card-hdr">
-        <div class="hdr-left-group">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
-          <span class="card-label">3. Fundo & Efeitos Deste Slide</span>
-        </div>
-        <svg class="acc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-      </summary>
-      <div class="card-body">
-        <div class="slider-field" id="c-gopWrap">
-          <span class="field-label">Gradiente Escuro de Base %</span>
-          <div class="slider-row">
-            <input type="range" id="c-gop" min="0" max="95" value="65" oninput="sync('c-gop','c-gnum','car')">
-            <input class="snum" type="number" id="c-gnum" value="65" min="0" max="95" onchange="nsync('c-gnum','c-gop','car')">
-          </div>
-        </div>
-        <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <span class="field-label">Fundo de Leitura do Subtítulo</span>
-          <div class="tog-row">
-            <button class="tog on" id="c-sbOn" onclick="setSubBg(true,'car')">Ativado</button>
-            <button class="tog" id="c-sbOff" onclick="setSubBg(false,'car')">Desativado</button>
-          </div>
-        </div>
-        <div id="c-sbSlider" class="slider-field">
-          <span class="field-label">Opacidade do Fundo %</span>
-          <div class="slider-row">
-            <input type="range" id="c-sbop" min="0" max="90" value="52" oninput="sync('c-sbop','c-sbnum','car')">
-            <input class="snum" type="number" id="c-sbnum" value="52" min="0" max="90" onchange="nsync('c-sbnum','c-sbop','car')">
-          </div>
-        </div>
-        <div class="field" id="c-indWrap" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <span class="field-label">Indicador de Ação</span>
-          <div class="tog-row" id="c-indRow">
-            <button class="tog on" onclick="setInd('none',this,'car')">Nenhum</button>
-            <button class="tog" onclick="setInd('arrowDown',this,'car')">Ler ↓</button>
-            <button class="tog" onclick="setInd('swipeRight',this,'car')">Arraste ›</button>
-          </div>
-        </div>
-        <div class="slider-field" id="c-indOpWrap" style="display:none;margin-top:8px;">
-          <span class="field-label">Opacidade do Indicador %</span>
-          <div class="slider-row">
-            <input type="range" id="c-indOp" min="0" max="100" value="85" oninput="sync('c-indOp','c-indOpN','car')">
-            <input class="snum" type="number" id="c-indOpN" value="85" min="0" max="100" onchange="nsync('c-indOpN','c-indOp','car')">
-          </div>
-        </div>
-      </div>
-    </details>
 
   </div>
 </div>
@@ -761,35 +636,35 @@
   </div>
 
   <div class="ccol reels-ccol">
-    
-    <details class="card" open>
-      <summary class="card-hdr">
-        <div class="hdr-left-group">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M12 4v16M8 20h8"/></svg>
-          <span class="card-label">1. Textos</span>
-        </div>
-        <svg class="acc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-      </summary>
+
+    <!-- Icon Toolbar -->
+    <div class="tool-bar" id="reels-toolbar">
+      <button class="tool-btn active" data-panel="reels-p1" onclick="openPanel('reels','reels-p1',this)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+        <span>Textos</span>
+      </button>
+      <button class="tool-btn" data-panel="reels-p2" onclick="openPanel('reels','reels-p2',this)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+        <span>Estilo</span>
+      </button>
+    </div>
+
+    <!-- Panel 1: Textos -->
+    <div class="tool-panel active" id="reels-p1">
       <div class="card-body">
         <div class="field">
           <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t3);text-transform:none">(Use ; para colorir)</span></span>
           <textarea id="r-titulo" rows="2" placeholder="Ex: ;Novidade; chegou..." oninput="markDirty('reels')"></textarea>
         </div>
-        <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+        <div class="field" style="margin-top:4px;border-top:1px solid var(--b1);padding-top:16px">
           <span class="field-label">Subtítulo / Legenda <span style="font-weight:400;color:var(--t3);text-transform:none">(Enter = nova linha)</span></span>
           <textarea id="r-sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('reels')"></textarea>
         </div>
       </div>
-    </details>
+    </div>
 
-    <details class="card" open>
-      <summary class="card-hdr">
-        <div class="hdr-left-group">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="13.5" cy="6.5" r="2.5"/><path d="M14.31 8.63L5 18a2 2 0 0 1-2-2l9.37-9.31M1 21h22"/></svg>
-          <span class="card-label">2. Estilo Visual</span>
-        </div>
-        <svg class="acc-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
-      </summary>
+    <!-- Panel 2: Estilo -->
+    <div class="tool-panel" id="reels-p2">
       <div class="card-body">
         <div class="field">
           <span class="field-label">Alinhamento</span>
@@ -799,7 +674,7 @@
             <button class="tog" onclick="setAlign('right',this,'reels')">Direita</button>
           </div>
         </div>
-        <div class="field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
+        <div class="field" style="margin-top:4px;border-top:1px solid var(--b1);padding-top:16px">
           <span class="field-label">Família da Fonte</span>
           <select id="r-fontFam" class="custom-select" onchange="markDirty('reels')">
             <option value="Montserrat">Montserrat (Padrão Bold)</option>
@@ -827,12 +702,10 @@
             </div>
           </div>
         </div>
-        <div class="slider-field" style="margin-top:4px;border-top:1px solid var(--b2);padding-top:16px">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        <div class="slider-field" style="margin-top:4px;border-top:1px solid var(--b1);padding-top:16px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
             <span class="field-label">Tamanho do Título</span>
-            <label class="auto-cb-label">
-              <input type="checkbox" id="r-autoFit" checked onchange="markDirty('reels'); saveState();" style="accent-color: var(--ac);"> AUTO (MÁX 2 LINHAS)
-            </label>
+            <label class="auto-cb-label"><input type="checkbox" id="r-autoFit" checked onchange="markDirty('reels');saveState();" style="accent-color:var(--ac)"> AUTO</label>
           </div>
           <div class="slider-row">
             <input type="range" id="r-tsz" min="40" max="140" value="65" oninput="sync('r-tsz','r-tnum','reels')">
@@ -840,11 +713,9 @@
           </div>
         </div>
         <div class="slider-field">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
             <span class="field-label">Tamanho do Subtítulo</span>
-            <label class="auto-cb-label">
-              <input type="checkbox" id="r-autoFitSub" checked onchange="markDirty('reels'); saveState();" style="accent-color: var(--ac);"> AUTO (MÁX 2 LINHAS)
-            </label>
+            <label class="auto-cb-label"><input type="checkbox" id="r-autoFitSub" checked onchange="markDirty('reels');saveState();" style="accent-color:var(--ac)"> AUTO</label>
           </div>
           <div class="slider-row">
             <input type="range" id="r-ssz" min="15" max="80" value="28" oninput="sync('r-ssz','r-snum2','reels')">
@@ -859,7 +730,7 @@
           </div>
         </div>
       </div>
-    </details>
+    </div>
 
   </div>
 </div>
@@ -868,26 +739,12 @@
 </div><script>
 'use strict';
 
-function createSlide(){
-  return {
-    mediaFile:null, imgO:new Image(), transparentBg:false,
-    pos:'bottom', align:'center', tColor:'#ffffff', showSubBg:true, indicator:'none',
-    zoom:1, panX:.5, panY:.5,
-    titulo:'', sub:'', fontFam:'Montserrat', tsz:50, autoFit:true, autoFitSub:true, tStrk:0,
-    ssz:28, gop:65, sbop:52, indOp:85
-  };
-}
-
 const S = {
   img: {
     mediaFile:null, imgO:new Image(), transparentBg:false,
     ratio:'9:16-hd', pos:'bottom', align:'center', tColor:'#ffffff', showSubBg:true, indicator:'none',
     canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
     autoFitSub:true
-  },
-  car: {
-    ratio:'9:16-hd', currentSlide: 0, slides: [createSlide()],
-    canMove:false, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null
   },
   reels: {
     mediaFile:null, imgO:new Image(), transparentBg:true,
@@ -910,13 +767,11 @@ const offCtx = offCanvas.getContext('2d');
 
 const $ = id => document.getElementById(id);
 
-function getActiveData(mode) {
-  return mode === 'car' ? S.car.slides[S.car.currentSlide] : S[mode];
-}
+function getActiveData(mode) { return S[mode]; }
 
-function D(mode){ return DIMS[mode === 'car' ? S.car.ratio : S[mode].ratio] || DIMS['9:16-hd']; }
-function cvEl(mode){ return mode==='img' ? $('cv') : mode==='car' ? $('c-cv') : $('r-cv'); }
-function cwEl(mode){ return mode==='img' ? $('cw') : mode==='car' ? $('c-cw') : $('r-cw'); }
+function D(mode){ return DIMS[S[mode].ratio] || DIMS['9:16-hd']; }
+function cvEl(mode){ return mode==='img' ? $('cv') : $('r-cv'); }
+function cwEl(mode){ return mode==='img' ? $('cw') : $('r-cw'); }
 
 function contrastColor(hex){
   hex=hex.replace('#','');
@@ -981,97 +836,24 @@ function showToast(msg) {
 function switchPage(mode){
   currentPage = mode;
   $('pageImg').classList.toggle('active', mode==='img');
-  $('pageCar').classList.toggle('active', mode==='car');
   $('pageReels').classList.toggle('active', mode==='reels');
   $('pswImg').classList.toggle('active', mode==='img');
-  $('pswCar').classList.toggle('active', mode==='car');
   $('pswReels').classList.toggle('active', mode==='reels');
-  if(mode === 'car') updateSlideUI();
   markDirty(mode);
 }
 
-function updateSlideUI() {
-  const slide = S.car.slides[S.car.currentSlide];
-  
-  $('c-titulo').value = slide.titulo || '';
-  $('c-sub').value = slide.sub || '';
-  $('c-fontFam').value = slide.fontFam || 'Montserrat';
-  $('c-tsz').value = slide.tsz || 50; $('c-tnum').value = slide.tsz || 50;
-  if($('c-autoFit')) $('c-autoFit').checked = slide.autoFit !== false;
-  if($('c-autoFitSub')) $('c-autoFitSub').checked = slide.autoFitSub !== false;
-  $('c-tStrk').value = slide.tStrk || 0; $('c-tStrkN').value = slide.tStrk || 0;
-  $('c-ssz').value = slide.ssz || 28; $('c-snum2').value = slide.ssz || 28;
-  $('c-gop').value = slide.gop || 65; $('c-gnum').value = slide.gop || 65;
-  $('c-sbop').value = slide.sbop || 52; $('c-sbnum').value = slide.sbop || 52;
-  $('c-indOp').value = slide.indOp || 85; $('c-indOpN').value = slide.indOp || 85;
-
-  setPos(slide.pos, null, 'car', false);
-  setAlign(slide.align, null, 'car', false);
-  setTC(slide.tColor, null, 'car', false);
-  setSubBg(slide.showSubBg, 'car', false);
-  setInd(slide.indicator, null, 'car', false);
-
-  document.querySelectorAll('#c-ratioRow .tog').forEach(b => b.classList.remove('on'));
-  const rBtn = document.querySelector(`#c-ratioRow button[onclick="setRatio('${S.car.ratio}',this,'car')"]`);
-  if(rBtn) rBtn.classList.add('on');
-  const cv=cvEl('car'); const {W,H}=D('car');
-  cv.style.aspectRatio=W+'/'+H; cv.width=W; cv.height=H;
-  if($('c-prevPlaceholder')) $('c-prevPlaceholder').style.aspectRatio=W+'/'+H;
-
-  const hasImg = !!slide.mediaFile;
-  $('c-prevPlaceholder').style.display = hasImg ? 'none' : 'flex';
-  $('c-cw').style.display = hasImg ? 'flex' : 'none';
-  $('c-btnMove').style.display = hasImg ? 'flex' : 'none';
-  $('c-btnChange').style.display = hasImg ? 'flex' : 'none';
-  $('c-zlbl').textContent = Math.round(slide.zoom*100)+'%';
-
-  $('slideCounter').textContent = `Slide ${S.car.currentSlide + 1} de ${S.car.slides.length}`;
-  $('btnRemSlide').style.display = S.car.slides.length > 1 ? 'flex' : 'none';
+function openPanel(mode, panelId, btn) {
+  // Hide all panels and deactivate all buttons for this mode
+  const prefix = mode === 'img' ? 'img' : 'reels';
+  document.querySelectorAll(`#${prefix}-toolbar .tool-btn`).forEach(b => b.classList.remove('active'));
+  document.querySelectorAll(`[id^="${prefix}-p"]`).forEach(p => p.classList.remove('active'));
+  // Activate clicked
+  btn.classList.add('active');
+  $(panelId).classList.add('active');
 }
 
-function nextSlide() {
-  if (S.car.currentSlide < S.car.slides.length - 1) {
-    saveSlideDOM(); S.car.currentSlide++; updateSlideUI(); markDirty('car');
-  }
-}
-function prevSlide() {
-  if (S.car.currentSlide > 0) {
-    saveSlideDOM(); S.car.currentSlide--; updateSlideUI(); markDirty('car');
-  }
-}
-function addSlide() {
-  saveSlideDOM();
-  S.car.slides.push(createSlide());
-  S.car.currentSlide = S.car.slides.length - 1;
-  updateSlideUI(); markDirty('car');
-}
-function removeSlide() {
-  if (S.car.slides.length > 1) {
-    if(!confirm("Remover este slide?")) return;
-    S.car.slides.splice(S.car.currentSlide, 1);
-    S.car.currentSlide = Math.max(0, S.car.currentSlide - 1);
-    updateSlideUI(); markDirty('car');
-  }
-}
-
-function saveSlideDOM() {
-  if (currentPage !== 'car') return;
-  const slide = S.car.slides[S.car.currentSlide];
-  slide.titulo = $('c-titulo').value;
-  slide.sub = $('c-sub').value;
-  slide.fontFam = $('c-fontFam').value;
-  slide.tsz = $('c-tsz').value;
-  if($('c-autoFit')) slide.autoFit = $('c-autoFit').checked;
-  if($('c-autoFitSub')) slide.autoFitSub = $('c-autoFitSub').checked;
-  slide.tStrk = $('c-tStrk').value;
-  slide.ssz = $('c-ssz').value;
-  slide.gop = $('c-gop').value;
-  slide.sbop = $('c-sbop').value;
-  slide.indOp = $('c-indOp').value;
-}
 
 function markDirty(mode){
-  if(mode === 'car') saveSlideDOM();
   const s=S[mode]; s.dirty=true;
   if(!s.rafId) s.rafId=requestAnimationFrame(()=>renderLoop(mode));
 }
@@ -1088,7 +870,7 @@ function draw(mode){
   const {W,H} = D(mode);
   if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H;}
 
-  const pfx = mode==='reels' ? 'r-' : mode==='car' ? 'c-' : '';
+  const pfx = mode==='reels' ? 'r-' : '';
   const g = id => $(pfx+id);
 
   const ctx = cv.getContext('2d');
@@ -1276,17 +1058,17 @@ function setAccent(c,el){
   if(el){el.classList.add('sel');cp.style.background='conic-gradient(red,yellow,lime,aqua,blue,magenta,red)';}
   else{cp.classList.add('sel');cp.style.background=c;}
   $('acCustom').value=c;
-  markDirty('img'); markDirty('car'); markDirty('reels'); saveState();
+  markDirty('img'); markDirty('reels'); saveState();
 }
 
 function toggleTheme(){document.body.classList.toggle('lt');}
 function resetAll(){
-  if(confirm('Tem certeza que deseja limpar tudo?')){localStorage.removeItem('pbState2');location.reload();}
+  if(confirm('Tem certeza que deseja limpar tudo?')){localStorage.removeItem('pbState3');location.reload();}
 }
 
 function sync(rid,nid,mode){ 
   $(nid).value=$(rid).value; 
-  const pfx = mode === 'reels' ? 'r-' : mode === 'car' ? 'c-' : '';
+  const pfx = mode === 'reels' ? 'r-' : '';
   if(rid.includes('tsz')) {
     const autoCb = $(pfx+'autoFit');
     if(autoCb && autoCb.checked) autoCb.checked = false;
@@ -1301,7 +1083,7 @@ function sync(rid,nid,mode){
 function nsync(nid,rid,mode){
   const el=$(nid);let v=parseFloat(el.value);if(isNaN(v))return;
   v=Math.max(+el.min,Math.min(+el.max,v));el.value=v;$(rid).value=v;
-  const pfx = mode === 'reels' ? 'r-' : mode === 'car' ? 'c-' : '';
+  const pfx = mode === 'reels' ? 'r-' : '';
   if(rid.includes('tsz')) {
     const autoCb = $(pfx+'autoFit');
     if(autoCb && autoCb.checked) autoCb.checked = false;
@@ -1314,10 +1096,9 @@ function nsync(nid,rid,mode){
 }
 
 function setRatio(r,btn,mode){
-  if(mode === 'car') S.car.ratio = r;
-  else S[mode].ratio = r;
+  S[mode].ratio = r;
   
-  const pfx=mode==='reels'?'r-':mode==='car'?'c-':'';
+  const pfx=mode==='reels'?'r-':'';
   document.querySelectorAll(`#${pfx}ratioRow .tog`).forEach(b=>b.classList.remove('on'));
   if(btn) btn.classList.add('on');
   
@@ -1332,7 +1113,7 @@ function setPos(p,btn,mode,updateState=true){
     const data = getActiveData(mode); data.pos = p;
     markDirty(mode); saveState();
   }
-  const pfx=mode==='reels'?'r-':mode==='car'?'c-':'';
+  const pfx=mode==='reels'?'r-':'';
   $(`${pfx}posBot`)&&$(`${pfx}posBot`).classList.toggle('on',p==='bottom');
   $(`${pfx}posTop`)&&$(`${pfx}posTop`).classList.toggle('on',p==='top');
   $(`${pfx}posMid`)&&$(`${pfx}posMid`).classList.toggle('on',p==='middle');
@@ -1343,7 +1124,7 @@ function setAlign(a,btn,mode,updateState=true){
     const data = getActiveData(mode); data.align = a;
     markDirty(mode); saveState();
   }
-  const pfx=mode==='reels'?'r-':mode==='car'?'c-':'';
+  const pfx=mode==='reels'?'r-':'';
   document.querySelectorAll(`#${pfx}alignRow .tog`).forEach(b=>b.classList.remove('on'));
   if(btn) btn.classList.add('on');
   else {
@@ -1357,7 +1138,7 @@ function setTC(c,el,mode,updateState=true){
     const data = getActiveData(mode); data.tColor = c;
     markDirty(mode); saveState();
   }
-  const pfx=mode==='reels'?'r-':mode==='car'?'c-':'';
+  const pfx=mode==='reels'?'r-':'';
   const cp=$(`${pfx}tCPWrap`); $(`${pfx}tCP`).value=c;
   document.querySelectorAll(`#${pfx}colorRow .sw`).forEach(s=>s.classList.remove('on'));
   cp.classList.remove('on');
@@ -1374,7 +1155,7 @@ function setSubBg(v,mode,updateState=true){
     const data = getActiveData(mode); data.showSubBg = v;
     markDirty(mode); saveState();
   }
-  const pfx=mode==='reels'?'r-':mode==='car'?'c-':'';
+  const pfx=mode==='reels'?'r-':'';
   const elOn=$(`${pfx}sbOn`), elOff=$(`${pfx}sbOff`), elSlider=$(`${pfx}sbSlider`);
   if(elOn) elOn.classList.toggle('on',v);
   if(elOff) elOff.classList.toggle('on',!v);
@@ -1386,7 +1167,7 @@ function setInd(val,btn,mode,updateState=true){
     const data = getActiveData(mode); data.indicator = val;
     markDirty(mode); saveState();
   }
-  const pfx=mode==='reels'?'r-':mode==='car'?'c-':'';
+  const pfx=mode==='reels'?'r-':'';
   document.querySelectorAll(`#${pfx}indRow .tog`).forEach(b=>b.classList.remove('on'));
   
   if(btn) btn.classList.add('on');
@@ -1410,7 +1191,7 @@ function loadImg(e,mode){
   if(mode !== 'reels') activeData.transparentBg = false;
 
   const cw = cwEl(mode);
-  const pfx = mode==='reels' ? 'r-' : mode==='car' ? 'c-' : '';
+  const pfx = mode==='reels' ? 'r-' : '';
 
   if(mode !== 'reels'){
     const ph=$(`${pfx}prevPlaceholder`);
@@ -1444,12 +1225,6 @@ function loadImg(e,mode){
 
 function saveState(){
   try{
-    const carData = S.car.slides.map(sl => ({
-      pos: sl.pos, align: sl.align, tColor: sl.tColor, showSubBg: sl.showSubBg, indicator: sl.indicator,
-      titulo: sl.titulo, sub: sl.sub, fontFam: sl.fontFam, tsz: sl.tsz, autoFit: sl.autoFit, autoFitSub: sl.autoFitSub,
-      tStrk: sl.tStrk, ssz: sl.ssz, gop: sl.gop, sbop: sl.sbop, indOp: sl.indOp
-    }));
-
     const st={
       accent: $('acCustom').value,
       img_ratio   : S.img.ratio,
@@ -1468,8 +1243,6 @@ function saveState(){
       img_gop     : $('gop').value,
       img_indOp   : $('indOp').value,
       
-      car_settings : { ratio: S.car.ratio, slides: carData },
-
       r_align    : S.reels.align,
       r_tColor   : S.reels.tColor,
       r_showSubBg: S.reels.showSubBg,
@@ -1481,13 +1254,13 @@ function saveState(){
       r_ssz      : $('r-ssz').value,
       r_sbop     : $('r-sbop').value,
     };
-    localStorage.setItem('pbState2', JSON.stringify(st));
+    localStorage.setItem('pbState3', JSON.stringify(st));
   }catch(e){}
 }
 
 function loadState(){
   try{
-    const raw=localStorage.getItem('pbState2'); if(!raw) return;
+    const raw=localStorage.getItem('pbState3'); if(!raw) return;
     const st=JSON.parse(raw);
 
     if(st.accent) setAccent(st.accent, null);
@@ -1508,18 +1281,6 @@ function loadState(){
     if(st.img_gop!==undefined){ $('gop').value=st.img_gop; $('gnum').value=st.img_gop; }
     if(st.img_indOp!==undefined){ $('indOp').value=st.img_indOp; $('indOpN').value=st.img_indOp; }
 
-    if(st.car_settings) {
-       S.car.ratio = st.car_settings.ratio;
-       if(st.car_settings.slides && st.car_settings.slides.length > 0) {
-          S.car.slides = st.car_settings.slides.map(sl => {
-             const newSl = createSlide();
-             Object.assign(newSl, sl);
-             return newSl;
-          });
-       }
-       S.car.currentSlide = 0;
-    }
-
     if(st.r_align){ setAlign(st.r_align, null, 'reels'); }
     if(st.r_tColor){ setTC(st.r_tColor, null, 'reels'); }
     if(st.r_showSubBg!==undefined) setSubBg(st.r_showSubBg,'reels');
@@ -1534,9 +1295,9 @@ function loadState(){
 }
 
 function toggleMove(mode){
-  const s = mode === 'car' ? S.car : S[mode];
+  const s = S[mode];
   s.canMove = !s.canMove;
-  const pfx = mode==='reels' ? 'r-' : mode==='car' ? 'c-' : '';
+  const pfx = mode==='reels' ? 'r-' : '';
   $(`${pfx}btnMove`).classList.toggle('active',s.canMove);
   const cw=cwEl(mode); cw.style.cursor=s.canMove?'grab':'default';
   cw.classList.toggle('is-moving',s.canMove);
@@ -1560,10 +1321,10 @@ function pinchDist(t){const dx=t[0].clientX-t[1].clientX,dy=t[0].clientY-t[1].cl
 
 function bindCanvas(mode){
   const cw=cwEl(mode);
-  const pfx=mode==='reels' ? 'r-' : mode==='car' ? 'c-' : '';
+  const pfx=mode==='reels' ? 'r-' : '';
 
   cw.addEventListener('mousedown',e=>{
-    const globalState = mode === 'car' ? S.car : S[mode];
+    const globalState = S[mode];
     const slide = getActiveData(mode);
     if(!slide.mediaFile||!globalState.canMove) return;
     globalState.panDragging=true; globalState.panLastRaw={x:e.clientX,y:e.clientY};
@@ -1571,19 +1332,19 @@ function bindCanvas(mode){
   });
 
   window.addEventListener('mousemove',e=>{
-    const globalState = mode === 'car' ? S.car : S[mode];
+    const globalState = S[mode];
     if(!globalState.panDragging||!globalState.canMove) return;
     applyPan(e.clientX-globalState.panLastRaw.x,e.clientY-globalState.panLastRaw.y,mode);
     globalState.panLastRaw={x:e.clientX,y:e.clientY}; markDirty(mode);
   });
 
   window.addEventListener('mouseup',()=>{
-    const globalState = mode === 'car' ? S.car : S[mode];
+    const globalState = S[mode];
     globalState.panDragging=false; if(globalState.canMove) cw.style.cursor='grab';
   });
 
   cw.addEventListener('touchstart',e=>{
-    const globalState = mode === 'car' ? S.car : S[mode];
+    const globalState = S[mode];
     if(!globalState.canMove) return;
     globalState.lTouches=[...e.touches];
     globalState.lPinchDist=e.touches.length===2?pinchDist(e.touches):null;
@@ -1593,7 +1354,7 @@ function bindCanvas(mode){
   },{passive:false});
 
   cw.addEventListener('touchmove',e=>{
-    const globalState = mode === 'car' ? S.car : S[mode];
+    const globalState = S[mode];
     const slide = getActiveData(mode);
     if(!globalState.canMove) return;
     if(e.touches.length===1){
@@ -1619,13 +1380,13 @@ function bindCanvas(mode){
   },{passive:false});
 
   cw.addEventListener('touchend',e=>{
-    const globalState = mode === 'car' ? S.car : S[mode];
+    const globalState = S[mode];
     globalState.panDragging=false; globalState.lTouches=[...e.touches];
     if(e.touches.length<2) globalState.lPinchDist=null;
   },{passive:true});
 
   cw.addEventListener('wheel',e=>{
-    const globalState = mode === 'car' ? S.car : S[mode];
+    const globalState = S[mode];
     const slide = getActiveData(mode);
     if(!globalState.canMove) return; e.preventDefault();
     slide.zoom=Math.max(1,Math.min(6,slide.zoom+(e.deltaY<0?.07:-.07)));
@@ -1635,34 +1396,6 @@ function bindCanvas(mode){
 }
 
 async function exportMedia(mode){
-  if(mode === 'car'){
-     showToast('Iniciando o download de todos os slides...');
-     const s = S.car;
-     const originalSlide = s.currentSlide;
-     
-     for(let i=0; i<s.slides.length; i++){
-        s.currentSlide = i;
-        updateSlideUI();
-        draw('car'); 
-        
-        const cv = cvEl('car'), {W,H} = D('car');
-        const expC = document.createElement('canvas'); expC.width=W; expC.height=H;
-        expC.getContext('2d').drawImage(cv,0,0,W,H);
-        
-        const a = document.createElement('a');
-        a.download = `carrossel-slide-${i+1}.png`;
-        a.href = expC.toDataURL('image/png');
-        a.click();
-        
-        await new Promise(r => setTimeout(r, 600)); 
-     }
-     
-     s.currentSlide = originalSlide;
-     updateSlideUI();
-     draw('car');
-     return;
-  }
-
   const s = S[mode]; if(!s.mediaFile&&!s.transparentBg) return;
   draw(mode);
   const cv=cvEl(mode), {W,H}=D(mode);
@@ -1683,18 +1416,16 @@ async function exportMedia(mode){
   const rcv=cvEl('reels');
   rcv.width=1080;rcv.height=1920;rcv.style.aspectRatio='9/16';
 
+  // Default: Google Blue
+  setAccent('#1a73e8', document.querySelector('.ac-dot[data-c="#1a73e8"]'));
+
   loadState();
   
-  const ccv=cvEl('car'); const cDim=D('car');
-  ccv.width=cDim.W; ccv.height=cDim.H; ccv.style.aspectRatio=cDim.W+'/'+cDim.H;
-  if($('c-prevPlaceholder')) $('c-prevPlaceholder').style.aspectRatio=cDim.W+'/'+cDim.H;
-
   markDirty('img');
   markDirty('reels');
 })();
 
 bindCanvas('img');
-bindCanvas('car');
 bindCanvas('reels');
 </script>
 </body>

@@ -342,17 +342,50 @@
     .tool-panel.active{display:block;}
     @keyframes fadeSlideIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
-    /* ── Mobile: layout stacked, preview shrinks ── */
+    /* ══ MOBILE COMPACTO ══ */
     @media(max-width:879px){
-      .workspace{gap:10px;}
-      .pcol .card-body{padding:8px;}
-      /* Preview mais compacto no mobile */
+      body{padding:6px 6px 16px;}
+      .app{gap:8px;}
+      .workspace{gap:8px;}
+      .hdr{flex-direction:row;flex-wrap:nowrap;padding:8px 12px;gap:8px;border-radius:14px;align-items:center;justify-content:space-between;}
+      .hdr-left{flex-wrap:nowrap;gap:6px;justify-content:flex-start;flex:1;min-width:0;}
+      .logo-name{font-size:15px;white-space:nowrap;}
+      .ig-link{font-size:12px;gap:4px;}
+      .ig-link svg{width:13px;height:13px;}
+      .accent-picker{display:none;}
+      .accent-picker.mobile-open{display:flex;position:fixed;bottom:0;left:0;right:0;flex-wrap:wrap;justify-content:center;gap:12px;padding:16px 20px 32px;background:var(--s1);border-top:1px solid var(--b1);border-radius:20px 20px 0 0;z-index:200;box-shadow:0 -8px 32px rgba(0,0,0,.4);animation:slideUp .22s ease;}
+      @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+      .accent-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:199;}
+      .accent-overlay.show{display:block;}
+      .ac-dot{width:26px;height:26px;}
+      .color-picker-wrap{width:32px;height:32px;}
+      .hdr-right{gap:6px;flex-wrap:nowrap;flex-shrink:0;}
+      .ibtn{width:32px;height:32px;}
+      .ibtn-desktop{display:none !important;}
+      .page-switcher-wrap{justify-content:center;}
+      .page-switcher{padding:3px;gap:3px;}
+      .psw-btn{padding:8px 14px;font-size:12px;gap:5px;}
       .pcol{order:1;}
       .ccol{order:2;}
-      /* Toolbar ocupa tela toda */
-      .tool-bar{border-radius:16px;}
-      .tool-btn{padding:12px 8px;gap:4px;}
-      .tool-btn span{font-size:11px;}
+      .pcol>.card>.card-hdr{padding:10px 12px;}
+      .pcol>.card>.card-body{padding:8px;}
+      .card-label{font-size:11px;}
+      .hdr-actions{gap:6px;margin-top:0;}
+      .cbtn{padding:6px 10px;font-size:11px;}
+      .dl-main{position:static;border-radius:20px;padding:13px;font-size:13px;letter-spacing:.3px;margin-top:2px;}
+      .tool-bar{border-radius:14px;padding:5px;gap:4px;}
+      .tool-btn{padding:10px 6px;gap:3px;border-radius:10px;}
+      .tool-btn span{font-size:10px;}
+      .tool-panel .card-body{padding:12px 10px;gap:12px;}
+      .field-label{font-size:10px;}
+      textarea,input[type=text],input[type=number],select.custom-select{font-size:16px !important;}
+      .tog-row{border-radius:20px;}
+      .tog{font-size:11px;padding:8px 4px;}
+      .slider-row{gap:8px;}
+      .snum{width:44px;padding:5px 2px;font-size:13px;}
+      .sw{width:22px;height:22px;}
+      .sw-row{gap:6px;}
+      .auto-cb-label{font-size:9px;padding:3px 8px;}
     }
   </style>
 </head>
@@ -364,6 +397,7 @@
 <input type="file" id="rImgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'reels')">
 
 <div id="toast" class="toast"></div>
+<div class="accent-overlay" id="accentOverlay" onclick="togglePalette()"></div>
 
 <div class="hdr">
   <div class="hdr-left">
@@ -389,7 +423,10 @@
         <input type="color" id="acCustom" value="#1a73e8" oninput="setAccent(this.value,null)" aria-label="Escolher cor customizada">
       </div>
     </div>
-    <button class="ibtn" onclick="resetAll()" title="Resetar Tudo" aria-label="Resetar Tudo">
+    <button class="ibtn" id="btnPalette" onclick="togglePalette()" title="Cores" aria-label="Escolher cor de destaque" style="display:none">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 0 0 20c1.1 0 2-.9 2-2v-.5c0-.28.22-.5.5-.5H17a5 5 0 0 0 5-5C22 7.26 17.52 2 12 2z"/><circle cx="7.5" cy="11.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="10.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="14.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="17" cy="11" r="1.5" fill="currentColor" stroke="none"/></svg>
+    </button>
+    <button class="ibtn ibtn-desktop" onclick="resetAll()" title="Resetar Tudo" aria-label="Resetar Tudo">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
     </button>
     <button class="ibtn" onclick="toggleTheme()" title="Tema" aria-label="Alternar Tema Claro e Escuro">
@@ -1058,10 +1095,31 @@ function setAccent(c,el){
   if(el){el.classList.add('sel');cp.style.background='conic-gradient(red,yellow,lime,aqua,blue,magenta,red)';}
   else{cp.classList.add('sel');cp.style.background=c;}
   $('acCustom').value=c;
+  // Close mobile palette
+  const picker=document.querySelector('.accent-picker');
+  const overlay=$('accentOverlay');
+  if(picker&&picker.classList.contains('mobile-open')){
+    picker.classList.remove('mobile-open');
+    overlay.classList.remove('show');
+  }
   markDirty('img'); markDirty('reels'); saveState();
 }
 
 function toggleTheme(){document.body.classList.toggle('lt');}
+
+function togglePalette(){
+  const picker = document.querySelector('.accent-picker');
+  const overlay = $('accentOverlay');
+  picker.classList.toggle('mobile-open');
+  overlay.classList.toggle('show');
+}
+
+function checkMobile(){
+  const isMobile = window.innerWidth < 880;
+  const btn = $('btnPalette');
+  if(btn) btn.style.display = isMobile ? 'flex' : 'none';
+}
+window.addEventListener('resize', checkMobile);
 function resetAll(){
   if(confirm('Tem certeza que deseja limpar tudo?')){localStorage.removeItem('pbState3');location.reload();}
 }
@@ -1420,6 +1478,7 @@ async function exportMedia(mode){
   setAccent('#1a73e8', document.querySelector('.ac-dot[data-c="#1a73e8"]'));
 
   loadState();
+  checkMobile();
   
   markDirty('img');
   markDirty('reels');

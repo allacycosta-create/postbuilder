@@ -8,31 +8,32 @@
   <style>
     /* ── Design System ── */
     :root {
-      --bg:  #0b0620;
-      --s1:  #130c2e;
-      --s2:  #0f0926;
-      --s3:  #1e1445;
-      --b1:  rgba(6,214,200,0.18);
-      --b2:  rgba(6,214,200,0.36);
-      --tx:  #ffffff;
-      --t2:  #aaaaaa;
-      --t3:  #555555;
-      --ac:  #06d6c8;
-      --ac-tx: #04000f;
-      --ac2: rgba(6,214,200,0.18);
-      --gend: #7c3aed;
+      --bg:  #1a1918;
+      --s1:  #262524;
+      --s2:  #201f1e;
+      --s3:  #2f2e2c;
+      --b1:  rgba(217,119,87,0.16);
+      --b2:  rgba(217,119,87,0.32);
+      --tx:  #faf9f5;
+      --t2:  rgba(250,249,245,0.65);
+      --t3:  rgba(250,249,245,0.40);
+      --ac:  #d97757;
+      --ac-tx: #ffffff;
+      --ac2: rgba(217,119,87,0.18);
+      --inset: inset 0 1px 4px rgba(0,0,0,.35);
       --r: 10px; --r2: 20px; --r3: 16px;
     }
     body.lt {
-      --bg:  #eeeaff;
+      --bg:  #faf9f5;
       --s1:  #ffffff;
-      --s2:  #f5f2ff;
-      --s3:  #ece7ff;
-      --b1:  rgba(6,214,200,0.20);
-      --b2:  rgba(6,214,200,0.38);
-      --tx:  #000000;
-      --t2:  #555555;
-      --t3:  #aaaaaa;
+      --s2:  #f4f2ec;
+      --s3:  #ece9e1;
+      --b1:  rgba(217,119,87,0.18);
+      --b2:  rgba(217,119,87,0.34);
+      --tx:  #1a1918;
+      --t2:  #6e6c66;
+      --t3:  #a8a59c;
+      --inset: inset 0 1px 4px rgba(0,0,0,.06);
     }
 
     *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -45,10 +46,8 @@
     }
     body::before{
       content:'';position:fixed;inset:0;pointer-events:none;z-index:0;
-      background:
-        radial-gradient(ellipse 80% 50% at 5% 0%,  rgba(6,214,200,0.11) 0%,transparent 60%),
-        radial-gradient(ellipse 60% 40% at 95% 100%,rgba(124,58,237,0.14) 0%,transparent 55%),
-        radial-gradient(ellipse 40% 30% at 50% 50%, rgba(6,214,200,0.04) 0%,transparent 70%);
+      background:radial-gradient(ellipse 70% 45% at 50% 0%, var(--ac2) 0%,transparent 70%);
+      opacity:.35;
     }
     body>*{position:relative;z-index:1}
     button{font-family:'DM Sans',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;}
@@ -69,7 +68,7 @@
     .toast{
       position:fixed;bottom:-60px;left:50%;transform:translateX(-50%);
       background:var(--s3);color:var(--tx);padding:9px 18px;border-radius:6px;
-      font-weight:500;font-size:12px;letter-spacing:.2px;border:1px solid var(--b2);
+      font-weight:500;font-size:12px;letter-spacing:.2px;
       box-shadow:0 8px 32px rgba(0,0,0,.5);transition:bottom .3s ease;z-index:9999;pointer-events:none;
       font-family:'DM Mono',monospace;
     }
@@ -79,8 +78,8 @@
     .page-switcher-wrap{width:100%;display:flex;justify-content:center}
     .page-switcher{
       display:flex;align-items:center;gap:2px;
-      background:var(--s1);border:1px solid var(--b1);border-radius:14px;padding:3px;
-      box-shadow:0 4px 20px rgba(0,0,0,.35),inset 0 1px 0 var(--b1);
+      background:var(--s1);border-radius:14px;padding:3px;
+      box-shadow:0 4px 20px rgba(0,0,0,.35);
     }
     .psw-btn{
       display:flex;align-items:center;gap:6px;
@@ -88,7 +87,7 @@
       font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;
       letter-spacing:.1px;transition:all .15s;white-space:nowrap;cursor:pointer;
     }
-    .psw-btn.active{background:linear-gradient(135deg,var(--ac),var(--gend));color:#fff;box-shadow:0 2px 14px var(--ac2)}
+    .psw-btn.active{background:var(--ac);color:#fff;box-shadow:0 2px 14px var(--ac2)}
     .psw-btn:not(.active):hover{color:var(--tx);background:var(--s3)}
 
     /* ── Header ── */
@@ -96,9 +95,8 @@
       display:flex;align-items:center;justify-content:space-between;
       padding:10px 14px;
       background:linear-gradient(135deg,var(--s3) 0%,var(--s1) 100%);
-      border:1px solid var(--b1);
       border-radius:var(--r3);gap:12px;width:100%;
-      box-shadow:0 4px 24px rgba(0,0,0,.4),inset 0 1px 0 var(--b1);
+      box-shadow:0 4px 24px rgba(0,0,0,.4);
     }
     .hdr-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
     .logo-name{
@@ -124,60 +122,74 @@
     }
     .ibtn:hover{background:var(--ac2);color:var(--ac)}
 
-    /* ── Accent Picker ── */
-    .accent-picker{display:flex;flex-direction:column;gap:5px;align-items:flex-start}
-    .picker-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
-    .picker-label{
-      font-family:'DM Mono',monospace;font-size:9px;font-weight:500;
-      letter-spacing:.5px;text-transform:uppercase;color:var(--t3);
-      width:30px;flex-shrink:0;user-select:none;
+    /* ── Color Picker Popover ── */
+    .accent-picker{display:none}
+    .accent-picker.open{
+      display:flex;flex-direction:column;gap:18px;
+      position:fixed;bottom:0;left:0;right:0;margin:0 auto;width:100%;max-width:420px;
+      padding:20px 20px 32px;
+      background:linear-gradient(160deg,var(--s3) 0%,var(--s1) 60%,var(--s2) 100%);
+      border-radius:20px 20px 0 0;z-index:200;
+      box-shadow:0 -12px 48px rgba(0,0,0,.6);animation:slideUp .25s ease;
     }
-    .ac-dot{
-      width:14px;height:14px;border-radius:50%;cursor:pointer;
-      border:2px solid transparent;transition:all .15s;flex-shrink:0;
+    @media(min-width:880px){
+      .accent-picker.open{
+        bottom:auto;left:auto;top:64px;right:16px;margin:0;
+        border-radius:16px;max-width:340px;
+        box-shadow:0 16px 48px rgba(0,0,0,.5);
+      }
     }
-    .ac-dot:hover{transform:scale(1.2)}
-    .ac-dot.sel{border-color:var(--tx);transform:scale(1.15)}
-    /* Header title color swatches */
-    .sw-hdr{
-      width:14px;height:14px;border-radius:50%;cursor:pointer;
-      border:2px solid transparent;transition:all .15s;flex-shrink:0;
-    }
-    .sw-hdr:hover{transform:scale(1.2)}
-    .sw-hdr.on{border-color:var(--tx);transform:scale(1.15)}
+    @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+    .accent-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:199;backdrop-filter:blur(2px)}
+    .accent-overlay.show{display:block}
 
-    .color-picker-wrap{
-      position:relative;width:22px;height:22px;border:2px solid var(--b2);border-radius:50%;cursor:pointer;
-      background:
-        radial-gradient(circle, var(--s1) 28%, transparent 30%),
-        conic-gradient(#ff0040,#ff8800,#ffee00,#44ff00,#00ffcc,#0088ff,#8800ff,#ff0040);
-      transition:transform .15s,border-color .15s,box-shadow .15s;
-      overflow:hidden;flex-shrink:0;
+    .picker-head{display:flex;align-items:center;justify-content:space-between}
+    .picker-title{
+      font-family:'DM Mono',monospace;font-size:11px;font-weight:600;
+      letter-spacing:1px;text-transform:uppercase;color:var(--tx);
     }
-    .color-picker-wrap:hover{transform:scale(1.2);border-color:var(--ac);box-shadow:0 0 8px var(--ac2)}
-    .color-picker-wrap.sel{border-color:var(--tx);transform:scale(1.15);box-shadow:0 0 10px var(--ac2)}
-    .color-picker-wrap.on{outline:2px solid var(--ac);outline-offset:2px;box-shadow:0 0 8px var(--ac2)}
-    .color-picker-wrap input[type="color"]{position:absolute;top:-10px;left:-10px;width:50px;height:50px;opacity:0;cursor:pointer;border:none;padding:0}
+    .picker-close{
+      width:26px;height:26px;border-radius:50%;border:none;
+      background:var(--s3);color:var(--t2);font-size:16px;line-height:1;
+      transition:all .15s;
+    }
+    .picker-close:hover{background:var(--ac2);color:var(--ac)}
+
+    .picker-section{display:flex;flex-direction:column;gap:10px}
+    .sw-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;justify-items:center}
+
+    .ac-dot{
+      width:26px;height:26px;border-radius:50%;cursor:pointer;position:relative;
+      border:2px solid transparent;transition:all .15s;flex-shrink:0;
+    }
+    .ac-dot:hover{transform:scale(1.15)}
+    .ac-dot.sel{border-color:var(--tx);transform:scale(1.1);box-shadow:0 0 0 2px var(--bg)}
+
+    /* Selected checkmark (contrast via blend-mode) */
+    .sw.on::after, .ac-dot.sel::after{
+      content:'';position:absolute;inset:0;border-radius:50%;
+      background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E") center/52% no-repeat;
+      mix-blend-mode:difference;
+    }
 
     /* ── Cards ── */
     div.card,details.card{
       background:linear-gradient(160deg,var(--s3) 0%,var(--s1) 60%,var(--s2) 100%);
-      border:1px solid var(--b1);
       border-radius:var(--r3);overflow:hidden;
-      box-shadow:0 8px 32px rgba(0,0,0,.45),inset 0 1px 0 var(--b1);
+      box-shadow:0 8px 32px rgba(0,0,0,.45);
     }
 
     .card-hdr{
       display:flex;align-items:center;justify-content:space-between;
-      padding:11px 14px;border-bottom:1px solid var(--b1);flex-wrap:wrap;gap:8px;
+      padding:11px 14px;flex-wrap:wrap;gap:8px;
     }
     summary.card-hdr{
       cursor:pointer;background:var(--s2);list-style:none;outline:none;
-      transition:background .15s;border-bottom:1px solid transparent;user-select:none;
+      transition:background .15s;user-select:none;
     }
     summary.card-hdr::-webkit-details-marker{display:none}
     summary.card-hdr:hover{background:var(--s3)}
-    details[open] summary.card-hdr{border-bottom-color:var(--b1);background:var(--s1)}
+    details[open] summary.card-hdr{background:var(--s1)}
 
     .hdr-left-group{display:flex;align-items:center;gap:8px}
     .acc-arrow{transition:transform .25s;color:var(--t3)}
@@ -193,15 +205,15 @@
     /* ── Buttons ── */
     .cbtn{
       font-size:12px;font-weight:600;color:#fff;
-      background:linear-gradient(135deg,var(--ac),var(--gend));
+      background:var(--ac);
       border:none;padding:6px 14px;border-radius:8px;
       transition:all .15s;gap:5px;white-space:nowrap;letter-spacing:.1px;
       box-shadow:0 2px 12px var(--ac2);
     }
     .cbtn:hover{filter:brightness(1.12);box-shadow:0 4px 18px var(--ac2);transform:translateY(-1px)}
-    .cbtn-outline{background:transparent;border:1px solid var(--b2);color:var(--t2)}
+    .cbtn-outline{background:var(--s2);border:none;color:var(--t2)}
     .cbtn-outline:hover{background:var(--s3);color:var(--tx)}
-    .cbtn-outline.active{background:var(--ac2);border-color:var(--ac);color:var(--ac)}
+    .cbtn-outline.active{background:var(--ac2);color:var(--ac)}
 
     /* ── Fields ── */
     .field{display:flex;flex-direction:column;gap:7px;width:100%}
@@ -209,15 +221,26 @@
       font-family:'DM Mono',monospace;
       font-size:10px;font-weight:500;letter-spacing:.6px;text-transform:uppercase;color:var(--t3);
     }
-    .sep{padding-top:14px;border-top:1px solid var(--b1)}
+    .sep{padding-top:18px}
+
+    /* ── Field label row with clear button ── */
+    .field-label-row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .clear-btn{
+      font-family:'DM Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.4px;
+      color:var(--t3);background:var(--s2);border:none;
+      border-radius:6px;padding:6px 12px;cursor:pointer;transition:all .15s;
+      white-space:nowrap;flex-shrink:0;text-transform:uppercase;
+    }
+    .clear-btn:hover{color:var(--ac);background:var(--ac2)}
 
     textarea,input[type=text],.custom-select{
-      width:100%;background:var(--s2);border:1px solid var(--b1);border-radius:var(--r);
+      width:100%;background:var(--s2);border:none;border-radius:var(--r);
       color:var(--tx);font-family:'DM Sans',sans-serif;font-size:13px;padding:10px 12px;
       outline:none;transition:all .15s;resize:none;line-height:1.5;box-sizing:border-box;
+      box-shadow:var(--inset);
     }
     textarea:focus,input[type=text]:focus,.custom-select:focus{
-      border-color:rgba(139,92,246,.45);box-shadow:0 0 0 3px var(--ac2);background:var(--s1);
+      box-shadow:var(--inset),0 0 0 3px var(--ac2);background:var(--s1);
     }
     textarea::placeholder{color:var(--t3);opacity:1}
     .custom-select{
@@ -228,7 +251,7 @@
 
     /* ── Toggles ── */
     .tog-row{
-      display:flex;background:var(--s2);border:1px solid var(--b1);
+      display:flex;background:var(--s2);box-shadow:var(--inset);
       border-radius:8px;overflow:hidden;padding:2px;gap:2px;
     }
     .tog{
@@ -236,7 +259,7 @@
       background:transparent;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;border-radius:6px;
       color:var(--t2);transition:all .15s;
     }
-    .tog.on{background:linear-gradient(135deg,var(--ac),var(--gend));color:#fff;box-shadow:0 1px 10px var(--ac2)}
+    .tog.on{background:var(--ac);color:#fff;box-shadow:0 1px 10px var(--ac2)}
 
     /* ── Sliders ── */
     .slider-field{display:flex;flex-direction:column;gap:8px;width:100%}
@@ -249,17 +272,17 @@
       box-shadow:0 0 8px var(--ac2);margin-top:-6px;
     }
     .snum{
-      width:46px;flex-shrink:0;background:var(--s2);border:1px solid var(--b1);
+      width:46px;flex-shrink:0;background:var(--s2);box-shadow:var(--inset);
       border-radius:6px;color:var(--tx);font-family:'DM Mono',monospace;
       font-size:11px;font-weight:400;padding:5px;text-align:center;outline:none;
-      transition:border-color .15s;
+      transition:box-shadow .15s;border:none;
     }
-    .snum:focus{border-color:var(--ac)}
+    .snum:focus{box-shadow:var(--inset),0 0 0 2px var(--ac2)}
 
     /* ── Color Swatches ── */
-    .sw-row{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
-    .sw{width:22px;height:22px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .15s;flex-shrink:0}
-    .sw.on{outline:2px solid var(--ac);outline-offset:2px;transform:scale(1.1)}
+    .sw-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .sw{width:24px;height:24px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .15s;flex-shrink:0;position:relative}
+    .sw.on{outline:2px solid var(--ac);outline-offset:2px;transform:scale(1.08)}
 
     /* ── Canvas ── */
     .cwrap{
@@ -268,11 +291,11 @@
       display:flex;align-items:center;justify-content:center;
     }
     .cwrap.transparent-mode{
-      background-image:linear-gradient(45deg,#1c1438 25%,transparent 25%),
-        linear-gradient(-45deg,#1c1438 25%,transparent 25%),
-        linear-gradient(45deg,transparent 75%,#1c1438 75%),
-        linear-gradient(-45deg,transparent 75%,#1c1438 75%);
-      background-size:14px 14px;background-position:0 0,0 7px,7px -7px,-7px 0px;background-color:#130c2e;
+      background-image:linear-gradient(45deg,#2a2826 25%,transparent 25%),
+        linear-gradient(-45deg,#2a2826 25%,transparent 25%),
+        linear-gradient(45deg,transparent 75%,#2a2826 75%),
+        linear-gradient(-45deg,transparent 75%,#2a2826 75%);
+      background-size:14px 14px;background-position:0 0,0 7px,7px -7px,-7px 0px;background-color:#1f1e1c;
     }
     body.lt .cwrap.transparent-mode{
       background-image:linear-gradient(45deg,#d0d0d0 25%,transparent 25%),
@@ -314,16 +337,16 @@
 
     /* ── Download Button ── */
     .dl-main{
-      flex:1;background:linear-gradient(135deg,var(--ac) 0%,var(--gend) 100%);color:#fff;
+      flex:1;background:var(--ac);color:#fff;
       font-family:'DM Mono',monospace;font-size:12px;font-weight:600;
       letter-spacing:1.5px;padding:14px 12px;border:none;border-radius:12px;
       cursor:pointer;transition:all .2s;
       display:flex;align-items:center;justify-content:center;gap:8px;
       position:sticky;bottom:14px;z-index:50;
-      box-shadow:0 4px 24px var(--ac2),0 8px 40px rgba(124,58,237,0.3);
+      box-shadow:0 4px 24px var(--ac2);
     }
     @media(min-width:880px){.dl-main{position:static}}
-    .dl-main:hover:not(:disabled){filter:brightness(1.12);transform:translateY(-2px);box-shadow:0 8px 32px var(--ac2),0 12px 48px rgba(124,58,237,0.4)}
+    .dl-main:hover:not(:disabled){filter:brightness(1.12);transform:translateY(-2px);box-shadow:0 8px 32px var(--ac2)}
     .dl-main:disabled{opacity:.3;cursor:not-allowed;transform:none;box-shadow:none}
 
     /* ── Pages ── */
@@ -332,8 +355,8 @@
 
     /* ── Autofit toggle ── */
     .autofit-tog{
-      display:flex;gap:1px;background:var(--s2);
-      border:1px solid var(--b1);border-radius:6px;padding:2px;flex-shrink:0;
+      display:flex;gap:1px;background:var(--s2);box-shadow:var(--inset);
+      border-radius:6px;padding:2px;flex-shrink:0;
     }
     .aft{
       padding:3px 7px;border:none;border-radius:4px;
@@ -347,9 +370,8 @@
     .tool-bar{
       display:flex;gap:2px;
       background:linear-gradient(135deg,var(--s3) 0%,var(--s1) 100%);
-      border:1px solid var(--b1);
       border-radius:var(--r3);padding:4px;
-      box-shadow:0 4px 20px rgba(0,0,0,.35),inset 0 1px 0 var(--b1);
+      box-shadow:0 4px 20px rgba(0,0,0,.35);
     }
     .tool-btn{
       flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
@@ -366,10 +388,9 @@
     .tool-panel{
       display:none;
       background:linear-gradient(160deg,var(--s3) 0%,var(--s1) 60%,var(--s2) 100%);
-      border:1px solid var(--b1);
       border-radius:var(--r3);overflow:hidden;
       animation:fadeSlideIn .15s ease;
-      box-shadow:0 8px 32px rgba(0,0,0,.4),inset 0 1px 0 var(--b1);
+      box-shadow:0 8px 32px rgba(0,0,0,.4);
     }
     .tool-panel.active{display:block}
     @keyframes fadeSlideIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
@@ -389,21 +410,6 @@
       .logo-name{font-size:11px;white-space:nowrap}
       .ig-link{font-size:11px;gap:4px}
       .ig-link svg{width:12px;height:12px}
-      .accent-picker{display:none}
-      .accent-picker.mobile-open{
-        display:flex;flex-direction:column;gap:14px;
-        position:fixed;bottom:0;left:0;right:0;
-        padding:20px 20px 36px;background:var(--s1);
-        border-top:1px solid var(--b1);border-radius:16px 16px 0 0;z-index:200;
-        box-shadow:0 -8px 40px rgba(0,0,0,.6);animation:slideUp .2s ease;
-        align-items:flex-start;
-      }
-      @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
-      .accent-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:199}
-      .accent-overlay.show{display:block}
-      .picker-row{flex-wrap:wrap;gap:10px}
-      .sw-hdr{width:22px;height:22px}
-      .ac-dot{width:22px;height:22px}
       .hdr-right{gap:4px;flex-wrap:nowrap;flex-shrink:0;margin-left:auto}
       .ibtn{width:28px;height:28px}
       .ibtn-desktop{display:none !important}
@@ -450,43 +456,29 @@
     </a>
   </div>
   <div class="hdr-right">
-    <div class="accent-picker">
-      <!-- Row 1: UI Accent -->
-      <div class="picker-row">
-        <span class="picker-label">ACCENT</span>
-        <div class="ac-dot" data-c="#ffffff" style="background:#ffffff" onclick="setAccent('#ffffff',this)"></div>
-        <div class="ac-dot" data-c="#a3a3a3" style="background:#a3a3a3" onclick="setAccent('#a3a3a3',this)"></div>
-        <div class="ac-dot sel" data-c="#06d6c8" style="background:#06d6c8" onclick="setAccent('#06d6c8',this)"></div>
-        <div class="ac-dot" data-c="#8b5cf6" style="background:#8b5cf6" onclick="setAccent('#8b5cf6',this)"></div>
-        <div class="ac-dot" data-c="#3b82f6" style="background:#3b82f6" onclick="setAccent('#3b82f6',this)"></div>
-        <div class="ac-dot" data-c="#22c55e" style="background:#22c55e" onclick="setAccent('#22c55e',this)"></div>
-        <div class="ac-dot" data-c="#f59e0b" style="background:#f59e0b" onclick="setAccent('#f59e0b',this)"></div>
-        <div class="ac-dot" data-c="#f97316" style="background:#f97316" onclick="setAccent('#f97316',this)"></div>
-        <div class="ac-dot" data-c="#ef4444" style="background:#ef4444" onclick="setAccent('#ef4444',this)"></div>
-        <div class="color-picker-wrap" id="acCustomWrap">
-          <input type="color" id="acCustom" value="#06d6c8" oninput="setAccent(this.value,null)" aria-label="Escolher cor customizada">
-        </div>
+    <div class="accent-picker" id="accentPicker">
+      <div class="picker-head">
+        <span class="picker-title">Cor da Ferramenta</span>
+        <button class="picker-close" onclick="togglePalette()" aria-label="Fechar">×</button>
       </div>
-      <!-- Row 2: Title Color -->
-      <div class="picker-row">
-        <span class="picker-label">TÍTULO</span>
-        <div id="hdrColorRow" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
-          <div class="sw-hdr on" data-c="#ffffff" style="background:#ffffff" onclick="setTitBase('#ffffff',null,currentPage)"></div>
-          <div class="sw-hdr" data-c="#6b6b6b" style="background:#6b6b6b" onclick="setTitBase('#6b6b6b',null,currentPage)"></div>
-          <div class="sw-hdr" data-c="#3b9eff" style="background:#3b9eff" onclick="setTitBase('#3b9eff',null,currentPage)"></div>
-          <div class="sw-hdr" data-c="#7c6af7" style="background:#7c6af7" onclick="setTitBase('#7c6af7',null,currentPage)"></div>
-          <div class="sw-hdr" data-c="#00d4aa" style="background:#00d4aa" onclick="setTitBase('#00d4aa',null,currentPage)"></div>
-          <div class="sw-hdr" data-c="#69ff47" style="background:#69ff47" onclick="setTitBase('#69ff47',null,currentPage)"></div>
-          <div class="sw-hdr" data-c="#ffd600" style="background:#ffd600" onclick="setTitBase('#ffd600',null,currentPage)"></div>
-          <div class="sw-hdr" data-c="#ff6b00" style="background:#ff6b00" onclick="setTitBase('#ff6b00',null,currentPage)"></div>
-          <div class="sw-hdr" data-c="#ff3b3b" style="background:#ff3b3b" onclick="setTitBase('#ff3b3b',null,currentPage)"></div>
-          <div class="color-picker-wrap" id="hdrTCPWrap">
-            <input type="color" id="hdrTCP" value="#ffffff" oninput="setTitBase(this.value,null,currentPage)">
-          </div>
+      <div class="picker-section">
+        <div class="sw-grid" id="accentGrid">
+          <div class="ac-dot sel" data-c="#d97757" style="background:#d97757" onclick="setAccent('#d97757',this)"></div>
+          <div class="ac-dot" data-c="#f97316" style="background:#f97316" onclick="setAccent('#f97316',this)"></div>
+          <div class="ac-dot" data-c="#ef4444" style="background:#ef4444" onclick="setAccent('#ef4444',this)"></div>
+          <div class="ac-dot" data-c="#eab308" style="background:#eab308" onclick="setAccent('#eab308',this)"></div>
+          <div class="ac-dot" data-c="#22c55e" style="background:#22c55e" onclick="setAccent('#22c55e',this)"></div>
+          <div class="ac-dot" data-c="#14b8a6" style="background:#14b8a6" onclick="setAccent('#14b8a6',this)"></div>
+          <div class="ac-dot" data-c="#06d6c8" style="background:#06d6c8" onclick="setAccent('#06d6c8',this)"></div>
+          <div class="ac-dot" data-c="#3b82f6" style="background:#3b82f6" onclick="setAccent('#3b82f6',this)"></div>
+          <div class="ac-dot" data-c="#6366f1" style="background:#6366f1" onclick="setAccent('#6366f1',this)"></div>
+          <div class="ac-dot" data-c="#8b5cf6" style="background:#8b5cf6" onclick="setAccent('#8b5cf6',this)"></div>
+          <div class="ac-dot" data-c="#ec4899" style="background:#ec4899" onclick="setAccent('#ec4899',this)"></div>
+          <div class="ac-dot" data-c="#a3a3a3" style="background:#a3a3a3" onclick="setAccent('#a3a3a3',this)"></div>
         </div>
       </div>
     </div>
-    <button class="ibtn" id="btnPalette" onclick="togglePalette()" title="Cores" aria-label="Escolher cor de destaque" style="display:none">
+    <button class="ibtn" id="btnPalette" onclick="togglePalette()" title="Cores" aria-label="Escolher cores">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 0 0 20c1.1 0 2-.9 2-2v-.5c0-.28.22-.5.5-.5H17a5 5 0 0 0 5-5C22 7.26 17.52 2 12 2z"/><circle cx="7.5" cy="11.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="10.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="14.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="17" cy="11" r="1.5" fill="currentColor" stroke="none"/></svg>
     </button>
     <button class="ibtn ibtn-desktop" onclick="resetAll()" title="Resetar Tudo" aria-label="Resetar Tudo">
@@ -574,11 +566,17 @@
     <div class="tool-panel active" id="img-p1">
       <div class="card-body">
         <div class="field">
-          <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Use ; para colorir)</span></span>
+          <div class="field-label-row">
+            <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Use ; para colorir)</span></span>
+            <button class="clear-btn" onclick="clearText('titulo','img')">Limpar</button>
+          </div>
           <textarea id="titulo" rows="2" placeholder="Ex: Escreva um ;título; chamativo..." oninput="markDirty('img')"></textarea>
         </div>
         <div class="field sep">
-          <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Enter = nova linha)</span></span>
+          <div class="field-label-row">
+            <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Enter = nova linha)</span></span>
+            <button class="clear-btn" onclick="clearText('sub','img')">Limpar</button>
+          </div>
           <textarea id="sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('img')"></textarea>
         </div>
       </div>
@@ -651,9 +649,9 @@
             <div class="sw" data-c="#ffd600" style="background:#ffd600" onclick="setTitBase('#ffd600',this,'img')"></div>
             <div class="sw" data-c="#ff6b00" style="background:#ff6b00" onclick="setTitBase('#ff6b00',this,'img')"></div>
             <div class="sw" data-c="#ff3b3b" style="background:#ff3b3b" onclick="setTitBase('#ff3b3b',this,'img')"></div>
-            <div class="color-picker-wrap" id="titCPWrap">
-              <input type="color" id="titCP" value="#ffffff" oninput="setTitBase(this.value,null,'img')">
-            </div>
+            <div class="sw" data-c="#ff3b9e" style="background:#ff3b9e" onclick="setTitBase('#ff3b9e',this,'img')"></div>
+            <div class="sw" data-c="#06d6c8" style="background:#06d6c8" onclick="setTitBase('#06d6c8',this,'img')"></div>
+            <div class="sw" data-c="#b347ff" style="background:#b347ff" onclick="setTitBase('#b347ff',this,'img')"></div>
           </div>
         </div>
         <div class="field">
@@ -668,9 +666,9 @@
             <div class="sw" data-c="#ffd600" style="background:#ffd600" onclick="setTC('#ffd600',this,'img')"></div>
             <div class="sw" data-c="#ff6b00" style="background:#ff6b00" onclick="setTC('#ff6b00',this,'img')"></div>
             <div class="sw" data-c="#ff3b3b" style="background:#ff3b3b" onclick="setTC('#ff3b3b',this,'img')"></div>
-            <div class="color-picker-wrap" id="tCPWrap">
-              <input type="color" id="tCP" value="#ffffff" oninput="setTC(this.value,null,'img')">
-            </div>
+            <div class="sw" data-c="#ff3b9e" style="background:#ff3b9e" onclick="setTC('#ff3b9e',this,'img')"></div>
+            <div class="sw" data-c="#06d6c8" style="background:#06d6c8" onclick="setTC('#06d6c8',this,'img')"></div>
+            <div class="sw" data-c="#b347ff" style="background:#b347ff" onclick="setTC('#b347ff',this,'img')"></div>
           </div>
         </div>
         <div class="slider-field sep">
@@ -825,11 +823,17 @@
     <div class="tool-panel active" id="reels-p1">
       <div class="card-body">
         <div class="field">
-          <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Use ; para colorir)</span></span>
+          <div class="field-label-row">
+            <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Use ; para colorir)</span></span>
+            <button class="clear-btn" onclick="clearText('r-titulo','reels')">Limpar</button>
+          </div>
           <textarea id="r-titulo" rows="2" placeholder="Ex: ;Novidade; chegou..." oninput="markDirty('reels')"></textarea>
         </div>
         <div class="field sep">
-          <span class="field-label">Subtítulo / Legenda <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Enter = nova linha)</span></span>
+          <div class="field-label-row">
+            <span class="field-label">Subtítulo / Legenda <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Enter = nova linha)</span></span>
+            <button class="clear-btn" onclick="clearText('r-sub','reels')">Limpar</button>
+          </div>
           <textarea id="r-sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('reels')"></textarea>
         </div>
       </div>
@@ -887,9 +891,9 @@
             <div class="sw" data-c="#ffd600" style="background:#ffd600" onclick="setTitBase('#ffd600',this,'reels')"></div>
             <div class="sw" data-c="#ff6b00" style="background:#ff6b00" onclick="setTitBase('#ff6b00',this,'reels')"></div>
             <div class="sw" data-c="#ff3b3b" style="background:#ff3b3b" onclick="setTitBase('#ff3b3b',this,'reels')"></div>
-            <div class="color-picker-wrap" id="r-titCPWrap">
-              <input type="color" id="r-titCP" value="#ffffff" oninput="setTitBase(this.value,null,'reels')">
-            </div>
+            <div class="sw" data-c="#ff3b9e" style="background:#ff3b9e" onclick="setTitBase('#ff3b9e',this,'reels')"></div>
+            <div class="sw" data-c="#06d6c8" style="background:#06d6c8" onclick="setTitBase('#06d6c8',this,'reels')"></div>
+            <div class="sw" data-c="#b347ff" style="background:#b347ff" onclick="setTitBase('#b347ff',this,'reels')"></div>
           </div>
         </div>
         <div class="field">
@@ -904,9 +908,9 @@
             <div class="sw" data-c="#ffd600" style="background:#ffd600" onclick="setTC('#ffd600',this,'reels')"></div>
             <div class="sw" data-c="#ff6b00" style="background:#ff6b00" onclick="setTC('#ff6b00',this,'reels')"></div>
             <div class="sw" data-c="#ff3b3b" style="background:#ff3b3b" onclick="setTC('#ff3b3b',this,'reels')"></div>
-            <div class="color-picker-wrap" id="r-tCPWrap">
-              <input type="color" id="r-tCP" value="#ffffff" oninput="setTC(this.value,null,'reels')">
-            </div>
+            <div class="sw" data-c="#ff3b9e" style="background:#ff3b9e" onclick="setTC('#ff3b9e',this,'reels')"></div>
+            <div class="sw" data-c="#06d6c8" style="background:#06d6c8" onclick="setTC('#06d6c8',this,'reels')"></div>
+            <div class="sw" data-c="#b347ff" style="background:#b347ff" onclick="setTC('#b347ff',this,'reels')"></div>
           </div>
         </div>
         <div class="slider-field sep">
@@ -1075,7 +1079,6 @@ function switchPage(mode){
   $('pageReels').classList.toggle('active', mode==='reels');
   $('pswImg').classList.toggle('active', mode==='img');
   $('pswReels').classList.toggle('active', mode==='reels');
-  syncHdrTitBase(S[mode].titBaseColor || '#ffffff');
   markDirty(mode);
 }
 
@@ -1087,19 +1090,6 @@ function openPanel(mode, panelId, btn) {
   $(panelId).classList.add('active');
 }
 
-/* ── Header title BASE color sync ── */
-function syncHdrTitBase(c){
-  const hdrRow = $('hdrColorRow');
-  const hcp = $('hdrTCPWrap');
-  if(!hdrRow || !hcp) return;
-  hdrRow.querySelectorAll('.sw-hdr').forEach(s => s.classList.remove('on'));
-  hcp.classList.remove('on');
-  const target = Array.from(hdrRow.querySelectorAll('.sw-hdr')).find(d => d.dataset.c && d.dataset.c.toLowerCase() === c.toLowerCase());
-  if(target){ target.classList.add('on'); hcp.style.background='conic-gradient(red,yellow,lime,aqua,blue,magenta,red)'; }
-  else{ hcp.classList.add('on'); hcp.style.background=c; }
-  const htp = $('hdrTCP'); if(htp) htp.value = c;
-}
-
 /* ── Title base color ── */
 function setTitBase(c, el, mode, updateState=true){
   if(updateState){
@@ -1107,15 +1097,10 @@ function setTitBase(c, el, mode, updateState=true){
     markDirty(mode); saveState();
   }
   const pfx = mode==='reels' ? 'r-' : '';
-  const cp = $(`${pfx}titCPWrap`);
-  if(cp) { cp.classList.remove('on'); }
-  $(`${pfx}titCP`).value = c;
   document.querySelectorAll(`#${pfx}titColorRow .sw`).forEach(s => s.classList.remove('on'));
   let target = el;
-  if(!target) target = Array.from(document.querySelectorAll(`#${pfx}titColorRow .sw:not(.color-picker-wrap)`)).find(d => d.dataset.c && d.dataset.c.toLowerCase() === c.toLowerCase());
-  if(target){ target.classList.add('on'); if(cp) cp.style.background='conic-gradient(red,yellow,lime,aqua,blue,magenta,red)'; }
-  else{ if(cp){ cp.classList.add('on'); cp.style.background=c; } }
-  if(mode === currentPage) syncHdrTitBase(c);
+  if(!target) target = Array.from(document.querySelectorAll(`#${pfx}titColorRow .sw`)).find(d => d.dataset.c && d.dataset.c.toLowerCase() === c.toLowerCase());
+  if(target) target.classList.add('on');
 }
 
 /* ── Autofit 3-button toggle ── */
@@ -1377,18 +1362,9 @@ function setAccent(c,el){
   document.documentElement.style.setProperty('--ac2',`rgba(${r},${g},${b},0.20)`);
   document.documentElement.style.setProperty('--b1', `rgba(${r},${g},${b},0.18)`);
   document.documentElement.style.setProperty('--b2', `rgba(${r},${g},${b},0.35)`);
-  document.querySelectorAll('.accent-picker .ac-dot').forEach(d=>d.classList.remove('sel'));
-  const cp=$('acCustomWrap'); cp.classList.remove('sel');
-  if(!el) el=document.querySelector(`.accent-picker .ac-dot[data-c="${c.toLowerCase()}"]`);
-  if(el){el.classList.add('sel');cp.style.background='conic-gradient(red,yellow,lime,aqua,blue,magenta,red)';}
-  else{cp.classList.add('sel');cp.style.background=c;}
-  $('acCustom').value=c;
-  const picker=document.querySelector('.accent-picker');
-  const overlay=$('accentOverlay');
-  if(picker&&picker.classList.contains('mobile-open')){
-    picker.classList.remove('mobile-open');
-    overlay.classList.remove('show');
-  }
+  document.querySelectorAll('#accentGrid .ac-dot').forEach(d=>d.classList.remove('sel'));
+  if(!el) el=document.querySelector(`#accentGrid .ac-dot[data-c="${c.toLowerCase()}"]`);
+  if(el) el.classList.add('sel');
   markDirty('img'); markDirty('reels'); saveState();
 }
 
@@ -1426,18 +1402,11 @@ function importBackup(e){
 function toggleTheme(){document.body.classList.toggle('lt');}
 
 function togglePalette(){
-  const picker = document.querySelector('.accent-picker');
+  const picker = $('accentPicker');
   const overlay = $('accentOverlay');
-  picker.classList.toggle('mobile-open');
+  picker.classList.toggle('open');
   overlay.classList.toggle('show');
 }
-
-function checkMobile(){
-  const isMobile = window.innerWidth < 880;
-  const btn = $('btnPalette');
-  if(btn) btn.style.display = isMobile ? 'flex' : 'none';
-}
-window.addEventListener('resize', checkMobile);
 
 function resetAll(){
   if(confirm('Tem certeza que deseja limpar tudo?')){localStorage.removeItem('pbState3');location.reload();}
@@ -1510,13 +1479,10 @@ function setTC(c,el,mode,updateState=true){
     markDirty(mode); saveState();
   }
   const pfx=mode==='reels'?'r-':'';
-  const cp=$(`${pfx}tCPWrap`); $(`${pfx}tCP`).value=c;
   document.querySelectorAll(`#${pfx}colorRow .sw`).forEach(s=>s.classList.remove('on'));
-  cp.classList.remove('on');
   let target = el;
-  if(!target) target=Array.from(document.querySelectorAll(`#${pfx}colorRow .sw:not(.color-picker-wrap)`)).find(d=>d.dataset.c&&d.dataset.c.toLowerCase()===c.toLowerCase());
-  if(target){target.classList.add('on');cp.style.background='conic-gradient(red,yellow,lime,aqua,blue,magenta,red)';}
-  else{cp.classList.add('on');cp.style.background=c;}
+  if(!target) target=Array.from(document.querySelectorAll(`#${pfx}colorRow .sw`)).find(d=>d.dataset.c&&d.dataset.c.toLowerCase()===c.toLowerCase());
+  if(target) target.classList.add('on');
 }
 
 function setSubBg(v,mode,updateState=true){
@@ -1584,12 +1550,22 @@ function loadImg(e,mode){
   e.target.value = '';
 }
 
+/* ── Clear title/subtitle text ── */
+function clearText(id, mode){
+  const el = $(id); if(!el) return;
+  el.value = '';
+  markDirty(mode); saveState();
+  el.focus();
+}
+
 function saveState(){
   try{
     const g = id => { const el=$(id); return el ? el.value : null; };
     const gc = id => { const el=$(id); return el ? el.checked : true; };
     const st={
-      accent: g('acCustom'),
+      accent: getComputedStyle(document.documentElement).getPropertyValue('--ac').trim(),
+      img_titulo  : g('titulo'),
+      img_sub     : g('sub'),
       img_ratio   : S.img.ratio,
       img_pos     : S.img.pos,
       img_align   : S.img.align,
@@ -1611,6 +1587,8 @@ function saveState(){
       img_gop     : g('gop'),
       img_indOp   : g('indOp'),
       r_align    : S.reels.align,
+      r_titulo   : g('r-titulo'),
+      r_sub      : g('r-sub'),
       r_tColor   : S.reels.tColor,
       r_titBaseColor: S.reels.titBaseColor,
       r_titWeight  : S.reels.titWeight,
@@ -1636,6 +1614,8 @@ function loadState(){
     const raw=localStorage.getItem('pbState3'); if(!raw) return;
     const st=JSON.parse(raw);
     if(st.accent) setAccent(st.accent, null);
+    if(st.img_titulo!==undefined) $('titulo').value = st.img_titulo;
+    if(st.img_sub!==undefined) $('sub').value = st.img_sub;
     if(st.img_ratio){ const btn=document.querySelector(`#ratioRow button[onclick="setRatio('${st.img_ratio}',this,'img')"]`); if(btn) setRatio(st.img_ratio,btn,'img'); }
     if(st.img_pos){ setPos(st.img_pos, null, 'img'); }
     if(st.img_align){ setAlign(st.img_align, null, 'img'); }
@@ -1666,6 +1646,8 @@ function loadState(){
     if(st.img_gop!==undefined){ $('gop').value=st.img_gop; $('gnum').value=st.img_gop; }
     if(st.img_indOp!==undefined){ $('indOp').value=st.img_indOp; $('indOpN').value=st.img_indOp; }
     if(st.r_align){ setAlign(st.r_align, null, 'reels'); }
+    if(st.r_titulo!==undefined) $('r-titulo').value = st.r_titulo;
+    if(st.r_sub!==undefined) $('r-sub').value = st.r_sub;
     if(st.r_tColor){ setTC(st.r_tColor, null, 'reels'); }
     if(st.r_titBaseColor){ setTitBase(st.r_titBaseColor, null, 'reels'); }
     if(st.r_titWeight !== undefined){ S.reels.titWeight = st.r_titWeight; applyFontProp('titWeight', st.r_titWeight, 'r-titWeightRow'); }
@@ -1804,18 +1786,15 @@ async function exportMedia(mode){
   const rcv=cvEl('reels');
   rcv.width=1080;rcv.height=1920;rcv.style.aspectRatio='9/16';
 
-  document.documentElement.style.setProperty('--ac','#06d6c8');
-  document.documentElement.style.setProperty('--ac-tx','#04000f');
-  document.documentElement.style.setProperty('--ac2','rgba(6,214,200,0.18)');
-  document.documentElement.style.setProperty('--b1', 'rgba(6,214,200,0.18)');
-  document.documentElement.style.setProperty('--b2', 'rgba(6,214,200,0.36)');
-  const defaultDot = document.querySelector('.ac-dot[data-c="#06d6c8"]');
+  document.documentElement.style.setProperty('--ac','#d97757');
+  document.documentElement.style.setProperty('--ac-tx','#ffffff');
+  document.documentElement.style.setProperty('--ac2','rgba(217,119,87,0.18)');
+  document.documentElement.style.setProperty('--b1', 'rgba(217,119,87,0.16)');
+  document.documentElement.style.setProperty('--b2', 'rgba(217,119,87,0.32)');
+  const defaultDot = document.querySelector('#accentGrid .ac-dot[data-c="#d97757"]');
   if(defaultDot){ defaultDot.classList.add('sel'); }
-  $('acCustom').value='#06d6c8';
 
   loadState();
-  syncHdrTitBase(S['img'].titBaseColor || '#ffffff');
-  checkMobile();
 
   markDirty('img');
   markDirty('reels');

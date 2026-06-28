@@ -440,6 +440,7 @@
 
 <div class="app">
 
+<input type="file" id="sImgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'sub')">
 <input type="file" id="imgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'img')">
 <input type="file" id="rImgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'reels')">
 
@@ -503,6 +504,10 @@
     <button class="psw-btn active" id="pswImg" onclick="switchPage('img')" aria-label="Imagem ou Feed">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
       Imagem Simples
+    </button>
+    <button class="psw-btn" id="pswSub" onclick="switchPage('sub')" aria-label="Conteúdo para Assinantes">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+      Assinantes
     </button>
     <button class="psw-btn" id="pswReels" onclick="switchPage('reels')" aria-label="Reels ou TikTok">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
@@ -758,6 +763,7 @@
             <button class="tog on" onclick="setInd('none',this,'img')">Nenhum</button>
             <button class="tog" onclick="setInd('arrowDown',this,'img')">Ler ↓</button>
             <button class="tog" onclick="setInd('swipeRight',this,'img')">Arraste ›</button>
+            <button class="tog" onclick="setInd('dots',this,'img')">⬤ Bolinhas</button>
           </div>
         </div>
         <div class="slider-field" id="indOpWrap" style="display:none">
@@ -767,12 +773,310 @@
             <input class="snum" type="number" id="indOpN" value="85" min="0" max="100" onchange="nsync('indOpN','indOp','img')">
           </div>
         </div>
+        <div class="card-body" id="indDotsWrap" style="display:none;padding-top:4px;gap:12px">
+          <div class="slider-field">
+            <span class="field-label">Quantidade de Imagens</span>
+            <div class="slider-row">
+              <input type="range" id="dotCount" min="2" max="10" value="5" oninput="sync('dotCount','dotCountN','img');clampActive('dotCount','dotActive','dotActiveN','img')">
+              <input class="snum" type="number" id="dotCountN" value="5" min="2" max="10" onchange="nsync('dotCountN','dotCount','img');clampActive('dotCount','dotActive','dotActiveN','img')">
+            </div>
+          </div>
+          <div class="slider-field">
+            <span class="field-label">Imagem Atual (bolinha preenchida)</span>
+            <div class="slider-row">
+              <input type="range" id="dotActive" min="1" max="5" value="1" oninput="sync('dotActive','dotActiveN','img')">
+              <input class="snum" type="number" id="dotActiveN" value="1" min="1" max="5" onchange="nsync('dotActiveN','dotActive','img')">
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
   </div>
 </div>
 </div>
+
+
+<!-- ═══════════════════ PAGE: ASSINANTES ═══════════════════ -->
+<div class="page" id="pageSub">
+<div class="workspace">
+
+  <div class="pcol">
+    <div class="card">
+      <div class="card-hdr">
+        <span class="card-label">Assinantes</span>
+        <div class="hdr-actions">
+          <button class="cbtn cbtn-outline" id="s-btnMove" onclick="toggleMove('sub')" style="display:none">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="19 9 22 12 19 15"/><polyline points="9 19 12 22 15 19"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
+            Ajustar
+          </button>
+          <button class="cbtn cbtn-outline" id="s-btnChange" onclick="document.getElementById('sImgInput').click()" style="display:none">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
+            Trocar
+          </button>
+        </div>
+      </div>
+      <div class="card-body" style="padding:10px">
+        <div class="prev-placeholder" id="s-prevPlaceholder" onclick="document.getElementById('sImgInput').click()">
+          <div class="prev-placeholder-icon">+</div>
+          <span>Importe uma imagem para começar</span>
+        </div>
+        <div class="cwrap" id="s-cw" style="display:none">
+          <div class="zoom-chip" id="s-zpill"><span id="s-zlbl">100%</span></div>
+          <canvas id="s-cv"></canvas>
+        </div>
+      </div>
+    </div>
+    <button class="dl-main" id="s-dlBtn" onclick="exportMedia('sub')" disabled>BAIXAR ASSINANTES</button>
+  </div>
+
+  <div class="ccol">
+
+    <!-- Toolbar -->
+    <div class="tool-bar" id="s-toolbar">
+      <button class="tool-btn active" data-panel="s-p1" onclick="openPanel('sub','s-p1',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+        <span>Textos</span>
+      </button>
+      <button class="tool-btn" data-panel="s-p2" onclick="openPanel('sub','s-p2',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
+        <span>Estilo</span>
+      </button>
+      <button class="tool-btn" data-panel="s-p3" onclick="openPanel('sub','s-p3',this)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        <span>Fundo</span>
+      </button>
+    </div>
+
+    <!-- Panel 1: Textos -->
+    <div class="tool-panel active" id="s-p1">
+      <div class="card-body">
+        <div class="field">
+          <div class="field-label-row">
+            <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Use ; para colorir)</span></span>
+            <button class="clear-btn" onclick="clearText('s-titulo','sub')">Limpar</button>
+          </div>
+          <textarea id="s-titulo" rows="2" placeholder="Ex: Escreva um ;título; chamativo..." oninput="markDirty('sub')"></textarea>
+        </div>
+        <div class="field sep">
+          <div class="field-label-row">
+            <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Enter = nova linha)</span></span>
+            <button class="clear-btn" onclick="clearText('s-sub','sub')">Limpar</button>
+          </div>
+          <textarea id="s-sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('sub')"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 2: Estilo -->
+    <div class="tool-panel" id="s-p2">
+      <div class="card-body">
+        <div class="field">
+          <span class="field-label">Proporção da Tela</span>
+          <div class="tog-row" id="s-ratioRow">
+            <button class="tog on" onclick="setRatio('9:16-hd',this,'sub')">3:4 Feed</button>
+            <button class="tog" onclick="setRatio('4:5',this,'sub')">4:5 Feed</button>
+            <button class="tog" onclick="setRatio('1:1',this,'sub')">1:1 Square</button>
+          </div>
+        </div>
+        <div class="field sep">
+          <span class="field-label">Posição Geral</span>
+          <div class="tog-row">
+            <button class="tog on" id="s-posBot" onclick="setPos('bottom',this,'sub')">Em Baixo</button>
+            <button class="tog" id="s-posTop" onclick="setPos('top',this,'sub')">Em Cima</button>
+          </div>
+        </div>
+        <div class="field">
+          <span class="field-label">Alinhamento</span>
+          <div class="tog-row" id="s-alignRow">
+            <button class="tog on" onclick="setAlign('center',this,'sub')">Centro</button>
+            <button class="tog" onclick="setAlign('left',this,'sub')">Esquerda</button>
+            <button class="tog" onclick="setAlign('right',this,'sub')">Direita</button>
+          </div>
+        </div>
+        <div class="field">
+          <span class="field-label">Família da Fonte</span>
+          <select id="s-fontFam" class="custom-select" onchange="markDirty('sub')">
+            <option value="Montserrat">Montserrat (Padrão Bold)</option>
+            <option value="Inter">Inter (Clean)</option>
+            <option value="Bebas Neue">Bebas Neue (Impacto)</option>
+            <option value="Poppins">Poppins (Redonda)</option>
+            <option value="Playfair Display">Playfair Display (Clássica)</option>
+            <option value="Oswald">Oswald (Condensada)</option>
+          </select>
+        </div>
+        <div class="field">
+          <span class="field-label">Peso & Estilo do Título</span>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <div class="autofit-tog" id="s-titWeightRow">
+              <button class="aft" data-val="300" onclick="setFontProp('titWeight',300,'titWeightRow','sub')">300</button>
+              <button class="aft" data-val="400" onclick="setFontProp('titWeight',400,'titWeightRow','sub')">400</button>
+              <button class="aft" data-val="500" onclick="setFontProp('titWeight',500,'titWeightRow','sub')">500</button>
+              <button class="aft" data-val="600" onclick="setFontProp('titWeight',600,'titWeightRow','sub')">600</button>
+              <button class="aft" data-val="700" onclick="setFontProp('titWeight',700,'titWeightRow','sub')">700</button>
+              <button class="aft on" data-val="800" onclick="setFontProp('titWeight',800,'titWeightRow','sub')">800</button>
+              <button class="aft" data-val="900" onclick="setFontProp('titWeight',900,'titWeightRow','sub')">900</button>
+            </div>
+            <div class="autofit-tog" id="s-titItalicRow">
+              <button class="aft on" data-val="false" onclick="setFontProp('titItalic',false,'titItalicRow','sub')">N</button>
+              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('titItalic',true,'titItalicRow','sub')">I</button>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <span class="field-label">Cor do Título</span>
+          <div class="sw-row" id="s-titColorRow">
+            <div class="sw on" data-c="#ffffff" style="background:#ffffff" onclick="setTitBase('#ffffff',this,'sub')"></div>
+            <div class="sw" data-c="#6b6b6b" style="background:#6b6b6b" onclick="setTitBase('#6b6b6b',this,'sub')"></div>
+            <div class="sw" data-c="#3b9eff" style="background:#3b9eff" onclick="setTitBase('#3b9eff',this,'sub')"></div>
+            <div class="sw" data-c="#7c6af7" style="background:#7c6af7" onclick="setTitBase('#7c6af7',this,'sub')"></div>
+            <div class="sw" data-c="#00d4aa" style="background:#00d4aa" onclick="setTitBase('#00d4aa',this,'sub')"></div>
+            <div class="sw" data-c="#69ff47" style="background:#69ff47" onclick="setTitBase('#69ff47',this,'sub')"></div>
+            <div class="sw" data-c="#ffd600" style="background:#ffd600" onclick="setTitBase('#ffd600',this,'sub')"></div>
+            <div class="sw" data-c="#ff6b00" style="background:#ff6b00" onclick="setTitBase('#ff6b00',this,'sub')"></div>
+            <div class="sw" data-c="#ff3b3b" style="background:#ff3b3b" onclick="setTitBase('#ff3b3b',this,'sub')"></div>
+            <div class="sw" data-c="#ff3b9e" style="background:#ff3b9e" onclick="setTitBase('#ff3b9e',this,'sub')"></div>
+            <div class="sw" data-c="#06d6c8" style="background:#06d6c8" onclick="setTitBase('#06d6c8',this,'sub')"></div>
+            <div class="sw" data-c="#b347ff" style="background:#b347ff" onclick="setTitBase('#b347ff',this,'sub')"></div>
+          </div>
+        </div>
+        <div class="field">
+          <span class="field-label">Cor Destaque do Título</span>
+          <div class="sw-row" id="s-colorRow">
+            <div class="sw on" data-c="#ffffff" style="background:#ffffff" onclick="setTC('#ffffff',this,'sub')"></div>
+            <div class="sw" data-c="#6b6b6b" style="background:#6b6b6b" onclick="setTC('#6b6b6b',this,'sub')"></div>
+            <div class="sw" data-c="#3b9eff" style="background:#3b9eff" onclick="setTC('#3b9eff',this,'sub')"></div>
+            <div class="sw" data-c="#7c6af7" style="background:#7c6af7" onclick="setTC('#7c6af7',this,'sub')"></div>
+            <div class="sw" data-c="#00d4aa" style="background:#00d4aa" onclick="setTC('#00d4aa',this,'sub')"></div>
+            <div class="sw" data-c="#69ff47" style="background:#69ff47" onclick="setTC('#69ff47',this,'sub')"></div>
+            <div class="sw" data-c="#ffd600" style="background:#ffd600" onclick="setTC('#ffd600',this,'sub')"></div>
+            <div class="sw" data-c="#ff6b00" style="background:#ff6b00" onclick="setTC('#ff6b00',this,'sub')"></div>
+            <div class="sw" data-c="#ff3b3b" style="background:#ff3b3b" onclick="setTC('#ff3b3b',this,'sub')"></div>
+            <div class="sw" data-c="#ff3b9e" style="background:#ff3b9e" onclick="setTC('#ff3b9e',this,'sub')"></div>
+            <div class="sw" data-c="#06d6c8" style="background:#06d6c8" onclick="setTC('#06d6c8',this,'sub')"></div>
+            <div class="sw" data-c="#b347ff" style="background:#b347ff" onclick="setTC('#b347ff',this,'sub')"></div>
+          </div>
+        </div>
+        <div class="slider-field sep">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <span class="field-label">Tamanho do Título</span>
+            <div class="autofit-tog" id="s-autoFitRow">
+              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'autoFitMode','autoFitRow','sub')">OFF</button>
+              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'autoFitMode','autoFitRow','sub')">2 lin</button>
+              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'autoFitMode','autoFitRow','sub')">3 lin</button>
+            </div>
+          </div>
+          <input type="hidden" id="s-autoFitMode" value="2">
+          <div class="slider-row">
+            <input type="range" id="s-tsz" min="40" max="120" value="50" oninput="sync('s-tsz','s-tnum','sub')">
+            <input class="snum" type="number" id="s-tnum" value="50" min="40" max="120" onchange="nsync('s-tnum','s-tsz','sub')">
+          </div>
+        </div>
+        <div class="slider-field">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+            <span class="field-label">Tamanho do Subtítulo</span>
+            <div class="autofit-tog" id="s-autoFitSubRow">
+              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'autoFitSubMode','autoFitSubRow','sub')">OFF</button>
+              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'autoFitSubMode','autoFitSubRow','sub')">2 lin</button>
+              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'autoFitSubMode','autoFitSubRow','sub')">3 lin</button>
+            </div>
+          </div>
+          <input type="hidden" id="s-autoFitSubMode" value="2">
+          <div class="slider-row">
+            <input type="range" id="s-ssz" min="15" max="80" value="28" oninput="sync('s-ssz','s-snum2','sub')">
+            <input class="snum" type="number" id="s-snum2" value="28" min="15" max="80" onchange="nsync('s-snum2','s-ssz','sub')">
+          </div>
+        </div>
+        <div class="field">
+          <span class="field-label">Peso & Estilo do Subtítulo</span>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+            <div class="autofit-tog" id="s-subWeightRow">
+              <button class="aft" data-val="300" onclick="setFontProp('subWeight',300,'subWeightRow','sub')">300</button>
+              <button class="aft on" data-val="400" onclick="setFontProp('subWeight',400,'subWeightRow','sub')">400</button>
+              <button class="aft" data-val="500" onclick="setFontProp('subWeight',500,'subWeightRow','sub')">500</button>
+              <button class="aft" data-val="600" onclick="setFontProp('subWeight',600,'subWeightRow','sub')">600</button>
+              <button class="aft" data-val="700" onclick="setFontProp('subWeight',700,'subWeightRow','sub')">700</button>
+              <button class="aft" data-val="800" onclick="setFontProp('subWeight',800,'subWeightRow','sub')">800</button>
+            </div>
+            <div class="autofit-tog" id="s-subItalicRow">
+              <button class="aft on" data-val="false" onclick="setFontProp('subItalic',false,'subItalicRow','sub')">N</button>
+              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('subItalic',true,'subItalicRow','sub')">I</button>
+            </div>
+          </div>
+        </div>
+        <div class="slider-field">
+          <span class="field-label">Contorno Escuro (Stroke)</span>
+          <div class="slider-row">
+            <input type="range" id="s-tStrk" min="0" max="15" value="0" oninput="sync('s-tStrk','s-tStrkN','sub')">
+            <input class="snum" type="number" id="s-tStrkN" value="0" min="0" max="15" onchange="nsync('s-tStrkN','s-tStrk','sub')">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel 3: Fundo & Efeitos -->
+    <div class="tool-panel" id="s-p3">
+      <div class="card-body">
+        <div class="slider-field" id="s-gopWrap">
+          <span class="field-label">Gradiente Escuro de Base %</span>
+          <div class="slider-row">
+            <input type="range" id="s-gop" min="0" max="95" value="65" oninput="sync('s-gop','s-gnum','sub')">
+            <input class="snum" type="number" id="s-gnum" value="65" min="0" max="95" onchange="nsync('s-gnum','s-gop','sub')">
+          </div>
+        </div>
+        <div class="field sep">
+          <span class="field-label">Fundo de Leitura do Subtítulo</span>
+          <div class="tog-row">
+            <button class="tog on" id="s-sbOn" onclick="setSubBg(true,'sub')">Ativado</button>
+            <button class="tog" id="s-sbOff" onclick="setSubBg(false,'sub')">Desativado</button>
+          </div>
+        </div>
+        <div id="s-sbSlider" class="slider-field">
+          <span class="field-label">Opacidade do Fundo %</span>
+          <div class="slider-row">
+            <input type="range" id="s-sbop" min="0" max="90" value="52" oninput="sync('s-sbop','s-sbnum','sub')">
+            <input class="snum" type="number" id="s-sbnum" value="52" min="0" max="90" onchange="nsync('s-sbnum','s-sbop','sub')">
+          </div>
+        </div>
+        <div class="field sep" id="s-indWrap">
+          <span class="field-label">Indicador de Ação</span>
+          <div class="tog-row" id="s-indRow">
+            <button class="tog on" onclick="setInd('none',this,'sub')">Nenhum</button>
+            <button class="tog" onclick="setInd('arrowDown',this,'sub')">Ler ↓</button>
+            <button class="tog" onclick="setInd('swipeRight',this,'sub')">Arraste ›</button>
+            <button class="tog" onclick="setInd('dots',this,'sub')">⬤ Bolinhas</button>
+          </div>
+        </div>
+        <div class="slider-field" id="s-indOpWrap" style="display:none">
+          <span class="field-label">Opacidade do Indicador %</span>
+          <div class="slider-row">
+            <input type="range" id="s-indOp" min="0" max="100" value="85" oninput="sync('s-indOp','s-indOpN','sub')">
+            <input class="snum" type="number" id="s-indOpN" value="85" min="0" max="100" onchange="nsync('s-indOpN','s-indOp','sub')">
+          </div>
+        </div>
+        <div class="card-body" id="s-indDotsWrap" style="display:none;padding-top:4px;gap:12px">
+          <div class="slider-field">
+            <span class="field-label">Quantidade de Imagens</span>
+            <div class="slider-row">
+              <input type="range" id="s-dotCount" min="2" max="10" value="5" oninput="sync('s-dotCount','s-dotCountN','sub');clampActive('s-dotCount','s-dotActive','s-dotActiveN','sub')">
+              <input class="snum" type="number" id="s-dotCountN" value="5" min="2" max="10" onchange="nsync('s-dotCountN','s-dotCount','sub');clampActive('s-dotCount','s-dotActive','s-dotActiveN','sub')">
+            </div>
+          </div>
+          <div class="slider-field">
+            <span class="field-label">Imagem Atual (bolinha preenchida)</span>
+            <div class="slider-row">
+              <input type="range" id="s-dotActive" min="1" max="5" value="1" oninput="sync('s-dotActive','s-dotActiveN','sub')">
+              <input class="snum" type="number" id="s-dotActiveN" value="1" min="1" max="5" onchange="nsync('s-dotActiveN','s-dotActive','sub')">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
 
 
 <!-- ═══════════════════ PAGE: REELS ═══════════════════ -->
@@ -991,6 +1295,13 @@ const S = {
     titWeight:800, titItalic:false, subWeight:400, subItalic:false,
     canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
     autoFitSub:true
+  },
+  sub: {
+    mediaFile:null, imgO:new Image(), transparentBg:false,
+    ratio:'9:16-hd', pos:'bottom', align:'center', tColor:'#ffffff', titBaseColor:'#ffffff', showSubBg:true, indicator:'none',
+    titWeight:800, titItalic:false, subWeight:400, subItalic:false,
+    canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
+    autoFitSub:true
   }
 };
 
@@ -1010,8 +1321,8 @@ const $ = id => document.getElementById(id);
 function getActiveData(mode) { return S[mode]; }
 
 function D(mode){ return DIMS[S[mode].ratio] || DIMS['9:16-hd']; }
-function cvEl(mode){ return mode==='img' ? $('cv') : $('r-cv'); }
-function cwEl(mode){ return mode==='img' ? $('cw') : $('r-cw'); }
+function cvEl(mode){ return mode==='reels' ? $('r-cv') : mode==='sub' ? $('s-cv') : $('cv'); }
+function cwEl(mode){ return mode==='reels' ? $('r-cw') : mode==='sub' ? $('s-cw') : $('cw'); }
 
 function contrastColor(hex){
   hex=hex.replace('#','');
@@ -1076,16 +1387,20 @@ function showToast(msg) {
 function switchPage(mode){
   currentPage = mode;
   $('pageImg').classList.toggle('active', mode==='img');
+  $('pageSub').classList.toggle('active', mode==='sub');
   $('pageReels').classList.toggle('active', mode==='reels');
   $('pswImg').classList.toggle('active', mode==='img');
+  $('pswSub').classList.toggle('active', mode==='sub');
   $('pswReels').classList.toggle('active', mode==='reels');
   markDirty(mode);
 }
 
 function openPanel(mode, panelId, btn) {
-  const prefix = mode === 'img' ? 'img' : 'reels';
-  document.querySelectorAll(`#${prefix}-toolbar .tool-btn`).forEach(b => b.classList.remove('active'));
-  document.querySelectorAll(`[id^="${prefix}-p"]`).forEach(p => p.classList.remove('active'));
+  const toolbarId = mode === 'img' ? 'img-toolbar' : mode === 'sub' ? 's-toolbar' : 'reels-toolbar';
+  const panels = mode === 'img' ? ['img-p1','img-p2','img-p3'] :
+                 mode === 'sub' ? ['s-p1','s-p2','s-p3'] : ['reels-p1','reels-p2'];
+  document.querySelectorAll(`#${toolbarId} .tool-btn`).forEach(b => b.classList.remove('active'));
+  panels.forEach(id => { const el=$(id); if(el) el.classList.remove('active'); });
   btn.classList.add('active');
   $(panelId).classList.add('active');
 }
@@ -1096,7 +1411,7 @@ function setTitBase(c, el, mode, updateState=true){
     const data = getActiveData(mode); data.titBaseColor = c;
     markDirty(mode); saveState();
   }
-  const pfx = mode==='reels' ? 'r-' : '';
+  const pfx = mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
   document.querySelectorAll(`#${pfx}titColorRow .sw`).forEach(s => s.classList.remove('on'));
   let target = el;
   if(!target) target = Array.from(document.querySelectorAll(`#${pfx}titColorRow .sw`)).find(d => d.dataset.c && d.dataset.c.toLowerCase() === c.toLowerCase());
@@ -1129,6 +1444,16 @@ function applyFontProp(prop, val, rowId){
   row.querySelectorAll('.aft').forEach(b => b.classList.remove('on'));
   const btn = row.querySelector(`.aft[data-val="${val}"]`);
   if(btn) btn.classList.add('on');
+}
+
+/* Clamp dotActive when dotCount changes */
+function clampActive(cntId, actId, actNId, mode){
+  const v = Math.max(2, Math.min(10, parseInt($(cntId).value)||5));
+  const actEl=$(actId), actNEl=$(actNId);
+  actEl.max=v; actNEl.max=v;
+  let a=parseInt(actEl.value)||1;
+  if(a>v){ a=v; actEl.value=a; actNEl.value=a; }
+  markDirty(mode); saveState();
 }
 
 function resetAutoFitToggle(hiddenId, rowId){
@@ -1165,7 +1490,7 @@ function draw(mode){
   const {W,H} = D(mode);
   if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H;}
 
-  const pfx = mode==='reels' ? 'r-' : '';
+  const pfx = mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
   const g = id => $(pfx+id);
 
   const ctx = cv.getContext('2d');
@@ -1348,6 +1673,24 @@ function draw(mode){
       const ax=W-65*sc,ay=H/2,aw=18*sc,ah=36*sc;
       ctx.strokeStyle='#fff';ctx.lineWidth=6*sc;ctx.lineCap='round';ctx.lineJoin='round';
       ctx.beginPath();ctx.moveTo(ax-aw/2,ay-ah/2);ctx.lineTo(ax+aw/2,ay);ctx.lineTo(ax-aw/2,ay+ah/2);ctx.stroke();
+    } else if(activeData.indicator==='dots'){
+      const cnt=Math.max(2,parseInt(g('dotCount')?.value)||5);
+      const act=Math.max(1,Math.min(cnt,parseInt(g('dotActive')?.value)||1));
+      const dr=8*sc, gap=26*sc, sw=2.5*sc;
+      const totalW=(cnt-1)*gap;
+      const startX=W/2-totalW/2;
+      const dotY=H-72*sc;
+      ctx.shadowBlur=8*sc; ctx.shadowColor='rgba(0,0,0,0.6)';
+      for(let i=0;i<cnt;i++){
+        const cx=startX+i*gap;
+        const isFilled=(i+1)===act;
+        ctx.beginPath(); ctx.arc(cx,dotY,dr,0,Math.PI*2);
+        if(isFilled){
+          ctx.fillStyle='#ffffff'; ctx.fill();
+        } else {
+          ctx.strokeStyle='rgba(255,255,255,0.85)'; ctx.lineWidth=sw; ctx.stroke();
+        }
+      }
     }
     ctx.restore();
   }
@@ -1365,7 +1708,7 @@ function setAccent(c,el){
   document.querySelectorAll('#accentGrid .ac-dot').forEach(d=>d.classList.remove('sel'));
   if(!el) el=document.querySelector(`#accentGrid .ac-dot[data-c="${c.toLowerCase()}"]`);
   if(el) el.classList.add('sel');
-  markDirty('img'); markDirty('reels'); saveState();
+  markDirty('img'); markDirty('sub'); markDirty('reels'); saveState();
 }
 
 function exportBackup(){
@@ -1439,7 +1782,7 @@ function nsync(nid,rid,mode){
 
 function setRatio(r,btn,mode){
   S[mode].ratio = r;
-  const pfx=mode==='reels'?'r-':'';
+  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
   document.querySelectorAll(`#${pfx}ratioRow .tog`).forEach(b=>b.classList.remove('on'));
   if(btn) btn.classList.add('on');
   const cv=cvEl(mode); const {W,H}=D(mode);
@@ -1453,7 +1796,7 @@ function setPos(p,btn,mode,updateState=true){
     const data = getActiveData(mode); data.pos = p;
     markDirty(mode); saveState();
   }
-  const pfx=mode==='reels'?'r-':'';
+  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
   $(`${pfx}posBot`)&&$(`${pfx}posBot`).classList.toggle('on',p==='bottom');
   $(`${pfx}posTop`)&&$(`${pfx}posTop`).classList.toggle('on',p==='top');
   $(`${pfx}posMid`)&&$(`${pfx}posMid`).classList.toggle('on',p==='middle');
@@ -1464,7 +1807,7 @@ function setAlign(a,btn,mode,updateState=true){
     const data = getActiveData(mode); data.align = a;
     markDirty(mode); saveState();
   }
-  const pfx=mode==='reels'?'r-':'';
+  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
   document.querySelectorAll(`#${pfx}alignRow .tog`).forEach(b=>b.classList.remove('on'));
   if(btn) btn.classList.add('on');
   else {
@@ -1478,7 +1821,7 @@ function setTC(c,el,mode,updateState=true){
     const data = getActiveData(mode); data.tColor = c;
     markDirty(mode); saveState();
   }
-  const pfx=mode==='reels'?'r-':'';
+  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
   document.querySelectorAll(`#${pfx}colorRow .sw`).forEach(s=>s.classList.remove('on'));
   let target = el;
   if(!target) target=Array.from(document.querySelectorAll(`#${pfx}colorRow .sw`)).find(d=>d.dataset.c&&d.dataset.c.toLowerCase()===c.toLowerCase());
@@ -1490,7 +1833,7 @@ function setSubBg(v,mode,updateState=true){
     const data = getActiveData(mode); data.showSubBg = v;
     markDirty(mode); saveState();
   }
-  const pfx=mode==='reels'?'r-':'';
+  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
   const elOn=$(`${pfx}sbOn`), elOff=$(`${pfx}sbOff`), elSlider=$(`${pfx}sbSlider`);
   if(elOn) elOn.classList.toggle('on',v);
   if(elOff) elOff.classList.toggle('on',!v);
@@ -1502,7 +1845,7 @@ function setInd(val,btn,mode,updateState=true){
     const data = getActiveData(mode); data.indicator = val;
     markDirty(mode); saveState();
   }
-  const pfx=mode==='reels'?'r-':'';
+  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
   document.querySelectorAll(`#${pfx}indRow .tog`).forEach(b=>b.classList.remove('on'));
   if(btn) btn.classList.add('on');
   else {
@@ -1512,7 +1855,12 @@ function setInd(val,btn,mode,updateState=true){
   const wrap = $(`${pfx}indOpWrap`);
   if(wrap) {
     const isTrans = mode==='reels' ? true : getActiveData(mode).transparentBg;
-    wrap.style.display = (val==='none' || isTrans) ? 'none' : 'flex';
+    wrap.style.display = (val==='none' || val==='dots' || isTrans) ? 'none' : 'flex';
+  }
+  const dotsWrap = $(`${pfx}indDotsWrap`);
+  if(dotsWrap){
+    dotsWrap.style.display = (val==='dots') ? 'flex' : 'none';
+    dotsWrap.style.flexDirection = 'column';
   }
 }
 
@@ -1522,7 +1870,7 @@ function loadImg(e,mode){
   activeData.mediaFile = f;
   if(mode !== 'reels') activeData.transparentBg = false;
   const cw = cwEl(mode);
-  const pfx = mode==='reels' ? 'r-' : '';
+  const pfx = mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
   if(mode !== 'reels'){
     const ph=$(`${pfx}prevPlaceholder`);
     if(ph) ph.style.display='none';
@@ -1530,7 +1878,7 @@ function loadImg(e,mode){
     cw.style.display='flex';
     $(`${pfx}btnMove`).style.display='flex';
     $(`${pfx}btnChange`).style.display='flex';
-    if(mode === 'img') $('dlBtn').disabled=false;
+    if(mode !== 'reels') $(mode==='sub'?'s-dlBtn':'dlBtn').disabled=false;
   } else {
     cw.classList.remove('transparent-mode');
     $('r-btnMove').style.display='flex';
@@ -1586,6 +1934,32 @@ function saveState(){
       img_sbop    : g('sbop'),
       img_gop     : g('gop'),
       img_indOp   : g('indOp'),
+      img_dotCount: g('dotCount'),
+      img_dotActive: g('dotActive'),
+      sub_titulo  : g('s-titulo'),
+      sub_sub     : g('s-sub'),
+      sub_ratio   : S.sub.ratio,
+      sub_pos     : S.sub.pos,
+      sub_align   : S.sub.align,
+      sub_tColor  : S.sub.tColor,
+      sub_titBaseColor: S.sub.titBaseColor,
+      sub_showSubBg: S.sub.showSubBg,
+      sub_indicator: S.sub.indicator,
+      sub_fontFam : g('s-fontFam'),
+      sub_autoFitMode : g('s-autoFitMode'),
+      sub_autoFitSubMode : g('s-autoFitSubMode'),
+      sub_titWeight: S.sub.titWeight,
+      sub_titItalic: S.sub.titItalic,
+      sub_subWeight: S.sub.subWeight,
+      sub_subItalic: S.sub.subItalic,
+      sub_tsz     : g('s-tsz'),
+      sub_tStrk   : g('s-tStrk'),
+      sub_ssz     : g('s-ssz'),
+      sub_sbop    : g('s-sbop'),
+      sub_gop     : g('s-gop'),
+      sub_indOp   : g('s-indOp'),
+      sub_dotCount: g('s-dotCount'),
+      sub_dotActive: g('s-dotActive'),
       r_align    : S.reels.align,
       r_titulo   : g('r-titulo'),
       r_sub      : g('r-sub'),
@@ -1645,6 +2019,11 @@ function loadState(){
     if(st.img_sbop!==undefined){ $('sbop').value=st.img_sbop; $('sbnum').value=st.img_sbop; }
     if(st.img_gop!==undefined){ $('gop').value=st.img_gop; $('gnum').value=st.img_gop; }
     if(st.img_indOp!==undefined){ $('indOp').value=st.img_indOp; $('indOpN').value=st.img_indOp; }
+    if(st.img_dotCount!==undefined){
+      const dc=st.img_dotCount; $('dotCount').value=dc; $('dotCountN').value=dc;
+      $('dotActive').max=dc; $('dotActiveN').max=dc;
+    }
+    if(st.img_dotActive!==undefined){ $('dotActive').value=st.img_dotActive; $('dotActiveN').value=st.img_dotActive; }
     if(st.r_align){ setAlign(st.r_align, null, 'reels'); }
     if(st.r_titulo!==undefined) $('r-titulo').value = st.r_titulo;
     if(st.r_sub!==undefined) $('r-sub').value = st.r_sub;
@@ -1656,6 +2035,34 @@ function loadState(){
     if(st.r_subItalic !== undefined){ S.reels.subItalic = st.r_subItalic; applyFontProp('subItalic', st.r_subItalic, 'r-subItalicRow'); }
     if(st.r_showSubBg!==undefined) setSubBg(st.r_showSubBg,'reels');
     if(st.r_fontFam) $('r-fontFam').value=st.r_fontFam;
+    // sub mode restore
+    if(st.sub_titulo!==undefined) $('s-titulo').value = st.sub_titulo;
+    if(st.sub_sub!==undefined) $('s-sub').value = st.sub_sub;
+    if(st.sub_ratio){ const btn=document.querySelector(`#s-ratioRow button[onclick*="'${st.sub_ratio}'"]`); if(btn) setRatio(st.sub_ratio,btn,'sub'); }
+    if(st.sub_pos){ setPos(st.sub_pos, null, 'sub'); }
+    if(st.sub_align){ setAlign(st.sub_align, null, 'sub'); }
+    if(st.sub_tColor){ setTC(st.sub_tColor, null, 'sub'); }
+    if(st.sub_titBaseColor){ setTitBase(st.sub_titBaseColor, null, 'sub'); }
+    if(st.sub_showSubBg!==undefined) setSubBg(st.sub_showSubBg,'sub');
+    if(st.sub_indicator){ setInd(st.sub_indicator, null, 'sub'); }
+    if(st.sub_fontFam) $('s-fontFam').value=st.sub_fontFam;
+    loadAFM('sub_autoFitMode',    'img_autoFit',    's-autoFitMode',    's-autoFitRow');
+    loadAFM('sub_autoFitSubMode', 'img_autoFitSub', 's-autoFitSubMode', 's-autoFitSubRow');
+    if(st.sub_titWeight !== undefined){ S.sub.titWeight = st.sub_titWeight; applyFontProp('titWeight', st.sub_titWeight, 's-titWeightRow'); }
+    if(st.sub_titItalic !== undefined){ S.sub.titItalic = st.sub_titItalic; applyFontProp('titItalic', st.sub_titItalic, 's-titItalicRow'); }
+    if(st.sub_subWeight !== undefined){ S.sub.subWeight = st.sub_subWeight; applyFontProp('subWeight', st.sub_subWeight, 's-subWeightRow'); }
+    if(st.sub_subItalic !== undefined){ S.sub.subItalic = st.sub_subItalic; applyFontProp('subItalic', st.sub_subItalic, 's-subItalicRow'); }
+    if(st.sub_tsz!==undefined){ const v=Math.max(40,Math.min(180,+st.sub_tsz)); $('s-tsz').value=v; $('s-tnum').value=v; }
+    if(st.sub_tStrk!==undefined){ $('s-tStrk').value=st.sub_tStrk; $('s-tStrkN').value=st.sub_tStrk; }
+    if(st.sub_ssz!==undefined){ const v=Math.max(15,Math.min(80,+st.sub_ssz)); $('s-ssz').value=v; $('s-snum2').value=v; }
+    if(st.sub_sbop!==undefined){ $('s-sbop').value=st.sub_sbop; $('s-sbnum').value=st.sub_sbop; }
+    if(st.sub_gop!==undefined){ $('s-gop').value=st.sub_gop; $('s-gnum').value=st.sub_gop; }
+    if(st.sub_indOp!==undefined){ $('s-indOp').value=st.sub_indOp; $('s-indOpN').value=st.sub_indOp; }
+    if(st.sub_dotCount!==undefined){
+      const sdc=st.sub_dotCount; $('s-dotCount').value=sdc; $('s-dotCountN').value=sdc;
+      $('s-dotActive').max=sdc; $('s-dotActiveN').max=sdc;
+    }
+    if(st.sub_dotActive!==undefined){ $('s-dotActive').value=st.sub_dotActive; $('s-dotActiveN').value=st.sub_dotActive; }
     // (reels autofit handled above by loadAFM)
     if(st.r_tsz!==undefined){ const v=Math.max(40,Math.min(180,+st.r_tsz)); $('r-tsz').value=v; $('r-tnum').value=v; }
     if(st.r_tStrk!==undefined){ $('r-tStrk').value=st.r_tStrk; $('r-tStrkN').value=st.r_tStrk; }
@@ -1667,7 +2074,7 @@ function loadState(){
 function toggleMove(mode){
   const s = S[mode];
   s.canMove = !s.canMove;
-  const pfx = mode==='reels' ? 'r-' : '';
+  const pfx = mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
   $(`${pfx}btnMove`).classList.toggle('active',s.canMove);
   const cw=cwEl(mode); cw.style.cursor=s.canMove?'grab':'default';
   cw.classList.toggle('is-moving',s.canMove);
@@ -1691,7 +2098,7 @@ function pinchDist(t){const dx=t[0].clientX-t[1].clientX,dy=t[0].clientY-t[1].cl
 
 function bindCanvas(mode){
   const cw=cwEl(mode);
-  const pfx=mode==='reels' ? 'r-' : '';
+  const pfx=mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
 
   cw.addEventListener('mousedown',e=>{
     const globalState = S[mode];
@@ -1771,7 +2178,7 @@ async function exportMedia(mode){
   const cv=cvEl(mode), {W,H}=D(mode);
   const expC=document.createElement('canvas'); expC.width=W; expC.height=H;
   expC.getContext('2d').drawImage(cv,0,0,W,H);
-  const suffix=s.transparentBg?'transparente':(mode==='reels'?'reels':'feed');
+  const suffix=s.transparentBg?'transparente':(mode==='reels'?'reels':mode==='sub'?'assinantes':'feed');
   setTimeout(()=>{
     const a=document.createElement('a');
     a.download=`post-${suffix}.png`; a.href=expC.toDataURL('image/png'); a.click();
@@ -1786,6 +2193,10 @@ async function exportMedia(mode){
   const rcv=cvEl('reels');
   rcv.width=1080;rcv.height=1920;rcv.style.aspectRatio='9/16';
 
+  const subcv=cvEl('sub'),{W:sW,H:sH}=D('sub');
+  subcv.width=sW;subcv.height=sH;subcv.style.aspectRatio=sW+'/'+sH;
+  const sph=$('s-prevPlaceholder');if(sph)sph.style.aspectRatio=sW+'/'+sH;
+
   document.documentElement.style.setProperty('--ac','#d97757');
   document.documentElement.style.setProperty('--ac-tx','#ffffff');
   document.documentElement.style.setProperty('--ac2','rgba(217,119,87,0.18)');
@@ -1797,10 +2208,12 @@ async function exportMedia(mode){
   loadState();
 
   markDirty('img');
+  markDirty('sub');
   markDirty('reels');
 })();
 
 bindCanvas('img');
+bindCanvas('sub');
 bindCanvas('reels');
 </script>
 </body>

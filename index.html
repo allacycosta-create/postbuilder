@@ -909,17 +909,17 @@
           <span class="field-label">Peso & Estilo do Título</span>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
             <div class="autofit-tog" id="s-titWeightRow">
-              <button class="aft" data-val="300" onclick="setFontProp('titWeight',300,'titWeightRow','sub')">300</button>
-              <button class="aft" data-val="400" onclick="setFontProp('titWeight',400,'titWeightRow','sub')">400</button>
-              <button class="aft" data-val="500" onclick="setFontProp('titWeight',500,'titWeightRow','sub')">500</button>
-              <button class="aft" data-val="600" onclick="setFontProp('titWeight',600,'titWeightRow','sub')">600</button>
-              <button class="aft" data-val="700" onclick="setFontProp('titWeight',700,'titWeightRow','sub')">700</button>
-              <button class="aft on" data-val="800" onclick="setFontProp('titWeight',800,'titWeightRow','sub')">800</button>
-              <button class="aft" data-val="900" onclick="setFontProp('titWeight',900,'titWeightRow','sub')">900</button>
+              <button class="aft" data-val="300" onclick="setFontProp('titWeight',300,'s-titWeightRow','sub')">300</button>
+              <button class="aft" data-val="400" onclick="setFontProp('titWeight',400,'s-titWeightRow','sub')">400</button>
+              <button class="aft" data-val="500" onclick="setFontProp('titWeight',500,'s-titWeightRow','sub')">500</button>
+              <button class="aft" data-val="600" onclick="setFontProp('titWeight',600,'s-titWeightRow','sub')">600</button>
+              <button class="aft" data-val="700" onclick="setFontProp('titWeight',700,'s-titWeightRow','sub')">700</button>
+              <button class="aft on" data-val="800" onclick="setFontProp('titWeight',800,'s-titWeightRow','sub')">800</button>
+              <button class="aft" data-val="900" onclick="setFontProp('titWeight',900,'s-titWeightRow','sub')">900</button>
             </div>
             <div class="autofit-tog" id="s-titItalicRow">
-              <button class="aft on" data-val="false" onclick="setFontProp('titItalic',false,'titItalicRow','sub')">N</button>
-              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('titItalic',true,'titItalicRow','sub')">I</button>
+              <button class="aft on" data-val="false" onclick="setFontProp('titItalic',false,'s-titItalicRow','sub')">N</button>
+              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('titItalic',true,'s-titItalicRow','sub')">I</button>
             </div>
           </div>
         </div>
@@ -961,9 +961,9 @@
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
             <span class="field-label">Tamanho do Título</span>
             <div class="autofit-tog" id="s-autoFitRow">
-              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'autoFitMode','autoFitRow','sub')">OFF</button>
-              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'autoFitMode','autoFitRow','sub')">2 lin</button>
-              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'autoFitMode','autoFitRow','sub')">3 lin</button>
+              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'s-autoFitMode','s-autoFitRow','sub')">OFF</button>
+              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'s-autoFitMode','s-autoFitRow','sub')">2 lin</button>
+              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'s-autoFitMode','s-autoFitRow','sub')">3 lin</button>
             </div>
           </div>
           <input type="hidden" id="s-autoFitMode" value="2">
@@ -976,9 +976,9 @@
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
             <span class="field-label">Tamanho do Subtítulo</span>
             <div class="autofit-tog" id="s-autoFitSubRow">
-              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'autoFitSubMode','autoFitSubRow','sub')">OFF</button>
-              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'autoFitSubMode','autoFitSubRow','sub')">2 lin</button>
-              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'autoFitSubMode','autoFitSubRow','sub')">3 lin</button>
+              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'s-autoFitSubMode','s-autoFitSubRow','sub')">OFF</button>
+              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'s-autoFitSubMode','s-autoFitSubRow','sub')">2 lin</button>
+              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'s-autoFitSubMode','s-autoFitSubRow','sub')">3 lin</button>
             </div>
           </div>
           <input type="hidden" id="s-autoFitSubMode" value="2">
@@ -991,16 +991,16 @@
           <span class="field-label">Peso & Estilo do Subtítulo</span>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
             <div class="autofit-tog" id="s-subWeightRow">
-              <button class="aft" data-val="300" onclick="setFontProp('subWeight',300,'subWeightRow','sub')">300</button>
-              <button class="aft on" data-val="400" onclick="setFontProp('subWeight',400,'subWeightRow','sub')">400</button>
-              <button class="aft" data-val="500" onclick="setFontProp('subWeight',500,'subWeightRow','sub')">500</button>
-              <button class="aft" data-val="600" onclick="setFontProp('subWeight',600,'subWeightRow','sub')">600</button>
-              <button class="aft" data-val="700" onclick="setFontProp('subWeight',700,'subWeightRow','sub')">700</button>
-              <button class="aft" data-val="800" onclick="setFontProp('subWeight',800,'subWeightRow','sub')">800</button>
+              <button class="aft" data-val="300" onclick="setFontProp('subWeight',300,'s-subWeightRow','sub')">300</button>
+              <button class="aft on" data-val="400" onclick="setFontProp('subWeight',400,'s-subWeightRow','sub')">400</button>
+              <button class="aft" data-val="500" onclick="setFontProp('subWeight',500,'s-subWeightRow','sub')">500</button>
+              <button class="aft" data-val="600" onclick="setFontProp('subWeight',600,'s-subWeightRow','sub')">600</button>
+              <button class="aft" data-val="700" onclick="setFontProp('subWeight',700,'s-subWeightRow','sub')">700</button>
+              <button class="aft" data-val="800" onclick="setFontProp('subWeight',800,'s-subWeightRow','sub')">800</button>
             </div>
             <div class="autofit-tog" id="s-subItalicRow">
-              <button class="aft on" data-val="false" onclick="setFontProp('subItalic',false,'subItalicRow','sub')">N</button>
-              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('subItalic',true,'subItalicRow','sub')">I</button>
+              <button class="aft on" data-val="false" onclick="setFontProp('subItalic',false,'s-subItalicRow','sub')">N</button>
+              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('subItalic',true,'s-subItalicRow','sub')">I</button>
             </div>
           </div>
         </div>
@@ -1912,8 +1912,6 @@ function saveState(){
     const gc = id => { const el=$(id); return el ? el.checked : true; };
     const st={
       accent: getComputedStyle(document.documentElement).getPropertyValue('--ac').trim(),
-      img_titulo  : g('titulo'),
-      img_sub     : g('sub'),
       img_ratio   : S.img.ratio,
       img_pos     : S.img.pos,
       img_align   : S.img.align,
@@ -1936,8 +1934,6 @@ function saveState(){
       img_indOp   : g('indOp'),
       img_dotCount: g('dotCount'),
       img_dotActive: g('dotActive'),
-      sub_titulo  : g('s-titulo'),
-      sub_sub     : g('s-sub'),
       sub_ratio   : S.sub.ratio,
       sub_pos     : S.sub.pos,
       sub_align   : S.sub.align,
@@ -1988,8 +1984,6 @@ function loadState(){
     const raw=localStorage.getItem('pbState3'); if(!raw) return;
     const st=JSON.parse(raw);
     if(st.accent) setAccent(st.accent, null);
-    if(st.img_titulo!==undefined) $('titulo').value = st.img_titulo;
-    if(st.img_sub!==undefined) $('sub').value = st.img_sub;
     if(st.img_ratio){ const btn=document.querySelector(`#ratioRow button[onclick="setRatio('${st.img_ratio}',this,'img')"]`); if(btn) setRatio(st.img_ratio,btn,'img'); }
     if(st.img_pos){ setPos(st.img_pos, null, 'img'); }
     if(st.img_align){ setAlign(st.img_align, null, 'img'); }
@@ -2036,8 +2030,6 @@ function loadState(){
     if(st.r_showSubBg!==undefined) setSubBg(st.r_showSubBg,'reels');
     if(st.r_fontFam) $('r-fontFam').value=st.r_fontFam;
     // sub mode restore
-    if(st.sub_titulo!==undefined) $('s-titulo').value = st.sub_titulo;
-    if(st.sub_sub!==undefined) $('s-sub').value = st.sub_sub;
     if(st.sub_ratio){ const btn=document.querySelector(`#s-ratioRow button[onclick*="'${st.sub_ratio}'"]`); if(btn) setRatio(st.sub_ratio,btn,'sub'); }
     if(st.sub_pos){ setPos(st.sub_pos, null, 'sub'); }
     if(st.sub_align){ setAlign(st.sub_align, null, 'sub'); }

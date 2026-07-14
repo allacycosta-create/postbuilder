@@ -2,8 +2,8 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no,maximum-scale=1">
-  <title>Post Builder</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Post Builder — Criador de posts</title>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&family=Bebas+Neue&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@400;700;800;900&family=Oswald:wght@600&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <style>
     /* ── Design System ── */
@@ -51,6 +51,9 @@
     }
     body>*{position:relative;z-index:1}
     button{font-family:'DM Sans',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+    button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible,select:focus-visible,
+    .sw:focus-visible,.ac-dot:focus-visible{outline:2px solid var(--ac);outline-offset:3px;}
+    .cwrap.drag-over,.prev-placeholder.drag-over{outline:2px dashed var(--ac);outline-offset:-4px;background-color:var(--ac2);}
 
     .app{width:100%;max-width:1200px;display:flex;flex-direction:column;gap:12px}
     .workspace{display:flex;flex-direction:column;gap:10px;width:100%}
@@ -401,6 +404,7 @@
     @media(max-width:600px){
       textarea,input[type=text],input[type=number],select.custom-select{font-size:16px !important}
     }
+    @media(max-width:420px){.ig-link{display:none}}
     @media(max-width:879px){
       body{padding:6px 6px 16px}
       .app{gap:8px}
@@ -434,6 +438,441 @@
       .sw-row{gap:5px}
       textarea,input[type=text],input[type=number],select.custom-select{font-size:16px !important}
     }
+
+
+    /* ═══════════════════════════════════════════
+       Interface minimalista — revisão visual 2026
+       ═══════════════════════════════════════════ */
+    :root{
+      --bg:#111316;
+      --s1:#181b1f;
+      --s2:#20242a;
+      --s3:#282d34;
+      --tx:#f5f7fa;
+      --t2:#aab1bc;
+      --t3:#747d89;
+      --line:rgba(255,255,255,.075);
+      --line-strong:rgba(255,255,255,.13);
+      --hover:rgba(255,255,255,.045);
+      --inset:none;
+      --r:8px;
+      --r2:12px;
+      --r3:12px;
+    }
+    body.lt{
+      --bg:#f3f4f6;
+      --s1:#ffffff;
+      --s2:#f5f6f8;
+      --s3:#e9ebef;
+      --tx:#181b20;
+      --t2:#606873;
+      --t3:#8d949e;
+      --line:rgba(17,24,39,.09);
+      --line-strong:rgba(17,24,39,.16);
+      --hover:rgba(17,24,39,.035);
+      --inset:none;
+    }
+
+    body{
+      background:var(--bg);
+      font-family:'DM Sans',sans-serif;
+      font-size:14px;
+      line-height:1.45;
+      padding:16px 12px 48px;
+    }
+    body::before{display:none}
+    button,textarea,input,select{font-family:'DM Sans',sans-serif}
+    button:focus-visible,a:focus-visible,textarea:focus-visible,input:focus-visible,select:focus-visible,
+    [role="button"]:focus-visible{
+      outline:2px solid var(--ac);
+      outline-offset:2px;
+    }
+
+    .app{max-width:1140px;gap:14px}
+    .workspace{gap:18px}
+    .pcol,.ccol{gap:10px}
+    @media(min-width:920px){
+      body{padding:22px 18px 64px}
+      .workspace{gap:20px}
+      .pcol{width:430px;top:22px}
+      .ccol{width:520px}
+    }
+
+    .hdr{
+      min-height:52px;
+      padding:10px 12px;
+      background:var(--s1);
+      border:1px solid var(--line);
+      border-radius:12px;
+      box-shadow:none;
+    }
+    .hdr-left{gap:12px}
+    .logo-name{
+      font-family:'DM Sans',sans-serif;
+      font-size:14px;
+      font-weight:700;
+      letter-spacing:-.2px;
+    }
+    .logo-dot{width:6px;height:6px;box-shadow:none}
+    .ig-link{font-size:12px;color:var(--t3)}
+    .ig-link:hover{color:var(--tx)}
+    .hdr-right{gap:3px}
+    .ibtn{
+      width:34px;height:34px;
+      border:1px solid transparent;
+      border-radius:8px;
+      color:var(--t2);
+    }
+    .ibtn:hover{background:var(--hover);border-color:var(--line);color:var(--tx)}
+
+    .page-switcher-wrap{justify-content:flex-start}
+    .page-switcher{
+      width:100%;
+      padding:4px;
+      gap:4px;
+      background:var(--s1);
+      border:1px solid var(--line);
+      border-radius:12px;
+      box-shadow:none;
+    }
+    .psw-btn{
+      flex:1;
+      justify-content:center;
+      min-height:38px;
+      padding:8px 12px;
+      border-radius:8px;
+      font-size:13px;
+      font-weight:600;
+      color:var(--t2);
+    }
+    .psw-btn.active{
+      background:var(--ac);
+      color:var(--ac-tx);
+      box-shadow:none;
+    }
+    .psw-btn:not(.active):hover{background:var(--hover);color:var(--tx)}
+
+    div.card,details.card,.tool-panel{
+      background:var(--s1);
+      border:1px solid var(--line);
+      border-radius:12px;
+      box-shadow:none;
+    }
+    .card-hdr{
+      min-height:48px;
+      padding:10px 14px;
+      border-bottom:1px solid var(--line);
+    }
+    .card-label{
+      font-family:'DM Sans',sans-serif;
+      font-size:13px;
+      font-weight:650;
+      letter-spacing:0;
+      text-transform:none;
+      color:var(--tx);
+    }
+    .card-body{padding:16px;gap:18px}
+    .pcol .card-body{padding:12px !important}
+
+    .tool-bar{
+      padding:4px;
+      gap:4px;
+      background:var(--s1);
+      border:1px solid var(--line);
+      border-radius:12px;
+      box-shadow:none;
+    }
+    .tool-btn{
+      flex-direction:row;
+      min-height:40px;
+      gap:7px;
+      padding:8px 12px;
+      border-radius:8px;
+      color:var(--t2);
+    }
+    .tool-btn svg{width:16px;height:16px}
+    .tool-btn span{
+      font-family:'DM Sans',sans-serif;
+      font-size:12px;
+      font-weight:600;
+      letter-spacing:0;
+      text-transform:none;
+    }
+    .tool-btn:hover{background:var(--hover);color:var(--tx)}
+    .tool-btn.active{background:var(--ac2);color:var(--ac)}
+    .tool-panel{animation:none}
+
+    .field,.slider-field{gap:8px}
+    .field.sep,.slider-field.sep{
+      padding-top:18px;
+      border-top:1px solid var(--line);
+    }
+    .field-label{
+      font-family:'DM Sans',sans-serif;
+      font-size:12px;
+      font-weight:600;
+      letter-spacing:0;
+      text-transform:none;
+      color:var(--t2);
+    }
+    .field-label > span{font-size:11px !important;color:var(--t3) !important}
+    .field-label-row{align-items:center}
+    .clear-btn{
+      min-height:28px;
+      padding:4px 9px;
+      border:1px solid var(--line);
+      border-radius:7px;
+      background:transparent;
+      color:var(--t3);
+      font-family:'DM Sans',sans-serif;
+      font-size:11px;
+      font-weight:600;
+      letter-spacing:0;
+      text-transform:none;
+    }
+    .clear-btn:hover{background:var(--hover);border-color:var(--line-strong);color:var(--tx)}
+
+    textarea,input[type=text],.custom-select{
+      min-height:42px;
+      padding:10px 12px;
+      background:var(--s2);
+      border:1px solid transparent;
+      border-radius:8px;
+      box-shadow:none;
+      font-size:14px;
+      color:var(--tx);
+    }
+    textarea{min-height:70px}
+    textarea:focus,input[type=text]:focus,.custom-select:focus{
+      background:var(--s2);
+      border-color:var(--ac);
+      box-shadow:0 0 0 3px var(--ac2);
+    }
+    textarea::placeholder{color:var(--t3)}
+
+    .tog-row,.autofit-tog{
+      padding:3px;
+      gap:3px;
+      background:var(--s2);
+      border:1px solid var(--line);
+      border-radius:9px;
+      box-shadow:none;
+    }
+    .tog{
+      min-height:34px;
+      padding:7px 8px;
+      border-radius:6px;
+      font-size:12px;
+      font-weight:600;
+    }
+    .tog.on{
+      background:var(--s3);
+      color:var(--tx);
+      box-shadow:inset 0 0 0 1px var(--line-strong);
+    }
+    .aft{
+      min-height:28px;
+      padding:5px 8px;
+      border-radius:6px;
+      font-family:'DM Sans',sans-serif;
+      font-size:10px;
+      font-weight:650;
+      color:var(--t3);
+    }
+    .aft.on{background:var(--s3);color:var(--tx);box-shadow:inset 0 0 0 1px var(--line-strong)}
+
+    .slider-row{gap:12px}
+    .slider-row input[type=range]{height:24px}
+    .slider-row input[type=range]::-webkit-slider-runnable-track{height:4px;background:var(--s3);border-radius:99px}
+    .slider-row input[type=range]::-webkit-slider-thumb{
+      width:16px;height:16px;margin-top:-6px;
+      border:3px solid var(--s1);
+      box-shadow:0 0 0 1px var(--ac);
+    }
+    .snum{
+      width:54px;
+      min-height:34px;
+      padding:5px 6px;
+      background:var(--s2);
+      border:1px solid var(--line);
+      border-radius:7px;
+      box-shadow:none;
+      font-family:'DM Sans',sans-serif;
+      font-size:12px;
+    }
+    .snum:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac2)}
+
+    .sw-row{gap:7px}
+    .sw{width:22px;height:22px;border:1px solid rgba(255,255,255,.18)}
+    body.lt .sw{border-color:rgba(17,24,39,.15)}
+    .sw.on{outline:2px solid var(--ac);outline-offset:2px;transform:none}
+
+    .cbtn{
+      min-height:32px;
+      padding:6px 10px;
+      border-radius:8px;
+      box-shadow:none;
+      font-size:12px;
+      font-weight:600;
+    }
+    .cbtn:hover{filter:none;transform:none;box-shadow:none}
+    .cbtn-outline{background:transparent;border:1px solid var(--line);color:var(--t2)}
+    .cbtn-outline:hover{background:var(--hover);border-color:var(--line-strong);color:var(--tx)}
+    .cbtn-outline.active{background:var(--ac2);border-color:transparent;color:var(--ac)}
+
+    .prev-placeholder{
+      min-height:190px;
+      padding:32px 20px;
+      gap:10px;
+      border:1px dashed var(--line-strong);
+      border-radius:9px;
+      color:var(--t3);
+      font-size:13px;
+    }
+    .prev-placeholder:hover{border-color:var(--ac);background:var(--ac2);color:var(--ac)}
+    .prev-placeholder-icon{
+      width:34px;height:34px;
+      background:var(--s2);
+      color:var(--t2);
+      font-size:17px;
+    }
+    .cwrap{border-radius:9px}
+    .res-badge,.zoom-chip{border:1px solid rgba(255,255,255,.12);box-shadow:none}
+
+    .dl-main{
+      min-height:46px;
+      padding:12px 14px;
+      border-radius:10px;
+      box-shadow:none;
+      font-family:'DM Sans',sans-serif;
+      font-size:13px;
+      font-weight:700;
+      letter-spacing:0;
+      text-transform:none;
+    }
+    .dl-main:hover:not(:disabled){filter:brightness(1.06);transform:none;box-shadow:none}
+    .dl-main:disabled{opacity:.38}
+
+    .accent-picker.open{
+      gap:16px;
+      background:var(--s1);
+      border:1px solid var(--line);
+      box-shadow:0 16px 40px rgba(0,0,0,.28);
+    }
+    .picker-title{
+      font-family:'DM Sans',sans-serif;
+      font-size:13px;
+      font-weight:650;
+      letter-spacing:0;
+      text-transform:none;
+    }
+    .picker-close{background:var(--s2)}
+    .toast{
+      background:var(--tx);
+      color:var(--bg);
+      border-radius:8px;
+      box-shadow:0 10px 30px rgba(0,0,0,.25);
+      font-family:'DM Sans',sans-serif;
+      font-size:12px;
+    }
+
+    @media(max-width:879px){
+      body{padding:8px 8px 28px}
+      .app,.workspace{gap:10px}
+      .hdr{padding:8px 10px}
+      .logo-name{font-size:13px}
+      .page-switcher{overflow-x:auto;scrollbar-width:none}
+      .page-switcher::-webkit-scrollbar,.hdr-right::-webkit-scrollbar{display:none}
+      .psw-btn{min-width:max-content;padding:8px 12px;font-size:12px}
+      .pcol>.card>.card-hdr{padding:9px 12px}
+      .tool-bar{position:sticky;top:6px;z-index:45}
+      .tool-btn{padding:8px 9px}
+      .tool-btn span{font-size:11px}
+      .tool-panel .card-body{padding:14px;gap:17px}
+      .dl-main{min-height:44px;margin-top:0}
+    }
+    @media(max-width:520px){
+      .ig-link{display:none}
+      .hdr-right{overflow-x:auto;max-width:190px}
+      .psw-btn svg{display:none}
+      .page-switcher{justify-content:stretch}
+      .psw-btn{min-width:0;padding-inline:9px}
+      .field-label-row{align-items:flex-start}
+      .field-label > span{display:block;margin-top:2px}
+      .autofit-tog{max-width:100%;overflow-x:auto;scrollbar-width:none}
+    }
+
+
+    /* ── Recursos avançados ── */
+    .ibtn:disabled{opacity:.28;cursor:not-allowed;pointer-events:none}
+    .guide-btn.active{background:var(--ac2);border-color:transparent;color:var(--ac)}
+    .contrast-btn{white-space:nowrap}
+
+    .modal-overlay{
+      display:none;position:fixed;inset:0;z-index:500;
+      align-items:center;justify-content:center;padding:18px;
+      background:rgba(0,0,0,.58);backdrop-filter:blur(4px);
+    }
+    .modal-overlay.show{display:flex}
+    .export-modal{
+      width:min(460px,100%);max-height:min(760px,calc(100vh - 36px));overflow:auto;
+      background:var(--s1);border:1px solid var(--line);border-radius:16px;
+      box-shadow:0 24px 70px rgba(0,0,0,.42);
+    }
+    .export-head{
+      position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;
+      padding:16px 18px;background:var(--s1);border-bottom:1px solid var(--line);
+    }
+    .export-title{font-size:15px;font-weight:700;color:var(--tx)}
+    .export-body{display:flex;flex-direction:column;gap:18px;padding:18px}
+    .export-section{display:flex;flex-direction:column;gap:9px}
+    .export-label{font-size:12px;font-weight:650;color:var(--t2)}
+    .export-help{font-size:11px;color:var(--t3);line-height:1.45}
+    .choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+    .choice-grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .choice-btn{
+      min-height:42px;padding:9px 10px;border:1px solid var(--line);border-radius:9px;
+      background:var(--s2);color:var(--t2);font:600 12px 'DM Sans',sans-serif;cursor:pointer;
+    }
+    .choice-btn:hover{border-color:var(--line-strong);color:var(--tx)}
+    .choice-btn.on{border-color:var(--ac);background:var(--ac2);color:var(--ac)}
+    .choice-btn:disabled{opacity:.35;cursor:not-allowed}
+    .export-input{
+      width:100%;min-height:42px;padding:10px 12px;border:1px solid var(--line);border-radius:8px;
+      background:var(--s2);color:var(--tx);font:500 13px 'DM Sans',sans-serif;outline:none;
+    }
+    .export-input:focus{border-color:var(--ac);box-shadow:0 0 0 3px var(--ac2)}
+    .export-summary{
+      display:flex;justify-content:space-between;gap:12px;padding:11px 12px;
+      border:1px solid var(--line);border-radius:9px;background:var(--s2);
+      font-size:12px;color:var(--t2);
+    }
+    .export-summary strong{color:var(--tx)}
+    .export-actions{display:grid;grid-template-columns:1fr 1.25fr;gap:9px;padding:0 18px 18px}
+    .export-action{
+      min-height:44px;border:1px solid var(--line);border-radius:9px;
+      background:var(--s2);color:var(--tx);font:700 13px 'DM Sans',sans-serif;cursor:pointer;
+    }
+    .export-action.primary{border-color:transparent;background:var(--ac);color:var(--ac-tx)}
+    .export-action:disabled{opacity:.4;cursor:not-allowed}
+    .quality-wrap.disabled{opacity:.35;pointer-events:none}
+
+    .guide-legend{
+      position:absolute;left:10px;bottom:10px;z-index:22;display:none;
+      padding:4px 8px;border:1px solid rgba(255,255,255,.16);border-radius:6px;
+      background:rgba(0,0,0,.62);color:rgba(255,255,255,.84);
+      font:600 9px 'DM Sans',sans-serif;backdrop-filter:blur(4px);pointer-events:none;
+    }
+    .cwrap.guides-on .guide-legend{display:block}
+
+    @media(max-width:600px){
+      .export-modal{border-radius:14px}
+      .export-body{padding:15px;gap:16px}
+      .export-actions{padding:0 15px 15px;grid-template-columns:1fr}
+      .choice-grid.three{grid-template-columns:1fr}
+      .hdr-actions .contrast-btn span{display:none}
+    }
+
   </style>
 </head>
 <body>
@@ -444,14 +883,67 @@
 <input type="file" id="imgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'img')">
 <input type="file" id="rImgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'reels')">
 
-<div id="toast" class="toast"></div>
+<div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <div class="accent-overlay" id="accentOverlay" onclick="togglePalette()"></div>
+
+<div class="modal-overlay" id="exportOverlay" role="dialog" aria-modal="true" aria-labelledby="exportDialogTitle" onclick="closeExportDialog(event)">
+  <div class="export-modal" onclick="event.stopPropagation()">
+    <div class="export-head">
+      <span class="export-title" id="exportDialogTitle">Exportar imagem</span>
+      <button class="picker-close" onclick="closeExportDialog()" aria-label="Fechar exportação">×</button>
+    </div>
+    <div class="export-body">
+      <div class="export-section">
+        <span class="export-label">Nome do arquivo</span>
+        <input class="export-input" id="exportFilename" type="text" value="post-feed" maxlength="80" autocomplete="off">
+      </div>
+      <div class="export-section">
+        <span class="export-label">Formato</span>
+        <div class="choice-grid" id="exportFormatRow">
+          <button class="choice-btn on" data-value="png" onclick="setExportOption('format','png',this)">PNG</button>
+          <button class="choice-btn" data-value="jpeg" onclick="setExportOption('format','jpeg',this)">JPEG</button>
+        </div>
+        <span class="export-help">PNG preserva transparência. JPEG gera arquivos menores para fotografias.</span>
+      </div>
+      <div class="export-section quality-wrap" id="qualityWrap">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+          <span class="export-label">Qualidade do JPEG</span>
+          <strong id="exportQualityLabel" style="font-size:12px">90%</strong>
+        </div>
+        <input type="range" id="exportQuality" min="50" max="100" value="90" oninput="updateExportQuality()">
+      </div>
+      <div class="export-section">
+        <span class="export-label">Resolução</span>
+        <div class="choice-grid" id="exportScaleRow">
+          <button class="choice-btn on" data-value="1" onclick="setExportOption('scale',1,this)">Padrão</button>
+          <button class="choice-btn" data-value="2" onclick="setExportOption('scale',2,this)">Alta 2×</button>
+        </div>
+      </div>
+      <div class="export-section">
+        <span class="export-label">Conteúdo</span>
+        <div class="choice-grid" id="exportBackgroundRow">
+          <button class="choice-btn on" data-value="full" onclick="setExportOption('background','full',this)">Arte completa</button>
+          <button class="choice-btn" id="transparentExportBtn" data-value="transparent" onclick="setExportOption('background','transparent',this)">Somente textos</button>
+        </div>
+        <span class="export-help" id="exportBackgroundHelp">“Somente textos” cria um PNG transparente para sobrepor em vídeos ou imagens.</span>
+      </div>
+      <div class="export-summary">
+        <span>Saída</span>
+        <strong id="exportSummary">1080 × 1440 · PNG</strong>
+      </div>
+    </div>
+    <div class="export-actions">
+      <button class="export-action" id="copyExportBtn" onclick="copyExportImage()">Copiar imagem</button>
+      <button class="export-action primary" id="downloadExportBtn" onclick="downloadExportImage()">Baixar arquivo</button>
+    </div>
+  </div>
+</div>
 
 <!-- Header -->
 <div class="hdr">
   <div class="hdr-left">
-    <span class="logo-name">POST_BUILDER<span class="logo-dot"></span></span>
-    <a href="https://www.instagram.com/valle.xp/" target="_blank" class="ig-link" aria-label="Instagram @valle.xp">
+    <span class="logo-name">Post Builder<span class="logo-dot"></span></span>
+    <a href="https://www.instagram.com/valle.xp/" target="_blank" rel="noopener noreferrer" class="ig-link" aria-label="Instagram @valle.xp">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
       @valle.xp
     </a>
@@ -459,7 +951,7 @@
   <div class="hdr-right">
     <div class="accent-picker" id="accentPicker">
       <div class="picker-head">
-        <span class="picker-title">Cor da Ferramenta</span>
+        <span class="picker-title">Cor da interface</span>
         <button class="picker-close" onclick="togglePalette()" aria-label="Fechar">×</button>
       </div>
       <div class="picker-section">
@@ -479,16 +971,22 @@
         </div>
       </div>
     </div>
-    <button class="ibtn" id="btnPalette" onclick="togglePalette()" title="Cores" aria-label="Escolher cores">
+    <button class="ibtn" id="undoBtn" onclick="undoChange()" title="Desfazer ajuste" aria-label="Desfazer ajuste" disabled>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 6 6v1"/></svg>
+    </button>
+    <button class="ibtn" id="redoBtn" onclick="redoChange()" title="Refazer ajuste" aria-label="Refazer ajuste" disabled>
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 14 5-5-5-5"/><path d="M20 9H10a6 6 0 0 0-6 6v1"/></svg>
+    </button>
+    <button class="ibtn" id="btnPalette" onclick="togglePalette()" title="Cores" aria-label="Escolher cores" aria-expanded="false" aria-controls="accentPicker">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a10 10 0 0 0 0 20c1.1 0 2-.9 2-2v-.5c0-.28.22-.5.5-.5H17a5 5 0 0 0 5-5C22 7.26 17.52 2 12 2z"/><circle cx="7.5" cy="11.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="10.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="14.5" cy="7.5" r="1.5" fill="currentColor" stroke="none"/><circle cx="17" cy="11" r="1.5" fill="currentColor" stroke="none"/></svg>
     </button>
-    <button class="ibtn ibtn-desktop" onclick="resetAll()" title="Resetar Tudo" aria-label="Resetar Tudo">
+    <button class="ibtn" onclick="resetAll()" title="Restaurar padrões" aria-label="Restaurar padrões">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
     </button>
-    <button class="ibtn" onclick="exportBackup()" title="Salvar Backup" aria-label="Exportar configurações">
+    <button class="ibtn" onclick="exportBackup()" title="Salvar configurações" aria-label="Exportar configurações">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
     </button>
-    <button class="ibtn" onclick="$('backupInput').click()" title="Carregar Backup" aria-label="Importar configurações">
+    <button class="ibtn" onclick="$('backupInput').click()" title="Carregar configurações" aria-label="Importar configurações">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
     </button>
     <input type="file" id="backupInput" accept=".json" style="display:none" onchange="importBackup(event)">
@@ -500,18 +998,18 @@
 
 <!-- Page Switcher -->
 <div class="page-switcher-wrap">
-  <div class="page-switcher">
-    <button class="psw-btn active" id="pswImg" onclick="switchPage('img')" aria-label="Imagem ou Feed">
+  <div class="page-switcher" role="tablist" aria-label="Tipo de postagem">
+    <button class="psw-btn active" id="pswImg" onclick="switchPage('img')" aria-label="Criar imagem para o feed" role="tab" aria-selected="true" aria-controls="pageImg">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-      Imagem Simples
+      Feed
     </button>
-    <button class="psw-btn" id="pswSub" onclick="switchPage('sub')" aria-label="Conteúdo para Assinantes">
+    <button class="psw-btn" id="pswSub" onclick="switchPage('sub')" aria-label="Criar conteúdo para assinantes" role="tab" aria-selected="false" aria-controls="pageSub">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
       Assinantes
     </button>
-    <button class="psw-btn" id="pswReels" onclick="switchPage('reels')" aria-label="Reels ou TikTok">
+    <button class="psw-btn" id="pswReels" onclick="switchPage('reels')" aria-label="Criar sobreposição para Reels" role="tab" aria-selected="false" aria-controls="pageReels">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-      Reels / TikTok
+      Reels
     </button>
   </div>
 </div>
@@ -523,8 +1021,13 @@
   <div class="pcol">
     <div class="card">
       <div class="card-hdr">
-        <span class="card-label">Preview Visual</span>
+        <span class="card-label">Prévia</span>
         <div class="hdr-actions">
+          <button class="cbtn cbtn-outline guide-btn" id="guideBtn" onclick="toggleGuides('img')" aria-pressed="false" title="Mostrar guias do Instagram">Guias</button>
+          <button class="cbtn cbtn-outline contrast-btn" onclick="autoContrast('img')" title="Ajustar a leitura automaticamente">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z"/></svg>
+            <span>Contraste</span>
+          </button>
           <button class="cbtn cbtn-outline" id="btnMove" onclick="toggleMove('img')" style="display:none">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="19 9 22 12 19 15"/><polyline points="9 19 12 22 15 19"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
             Ajustar
@@ -538,15 +1041,16 @@
       <div class="card-body" style="padding:10px">
         <div class="prev-placeholder" id="prevPlaceholder" onclick="document.getElementById('imgInput').click()">
           <div class="prev-placeholder-icon">+</div>
-          <span>Importe uma imagem para começar</span>
+          <span>Clique ou arraste uma imagem</span>
         </div>
         <div class="cwrap" id="cw" style="display:none">
+          <div class="guide-legend">Guias de prévia</div>
           <div class="zoom-chip" id="zpill"><span id="zlbl">100%</span></div>
           <canvas id="cv"></canvas>
         </div>
       </div>
     </div>
-    <button class="dl-main" id="dlBtn" onclick="exportMedia('img')" disabled>BAIXAR IMAGEM</button>
+    <button class="dl-main" id="dlBtn" onclick="openExportDialog('img')" disabled>Exportar</button>
   </div>
 
   <div class="ccol">
@@ -555,7 +1059,7 @@
     <div class="tool-bar" id="img-toolbar">
       <button class="tool-btn active" data-panel="img-p1" onclick="openPanel('img','img-p1',this)">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
-        <span>Textos</span>
+        <span>Texto</span>
       </button>
       <button class="tool-btn" data-panel="img-p2" onclick="openPanel('img','img-p2',this)">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
@@ -563,7 +1067,7 @@
       </button>
       <button class="tool-btn" data-panel="img-p3" onclick="openPanel('img','img-p3',this)">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        <span>Fundo</span>
+        <span>Efeitos</span>
       </button>
     </div>
 
@@ -572,17 +1076,17 @@
       <div class="card-body">
         <div class="field">
           <div class="field-label-row">
-            <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Use ; para colorir)</span></span>
+            <span class="field-label">Título <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(;texto; = destaque)</span></span>
             <button class="clear-btn" onclick="clearText('titulo','img')">Limpar</button>
           </div>
-          <textarea id="titulo" rows="2" placeholder="Ex: Escreva um ;título; chamativo..." oninput="markDirty('img')"></textarea>
+          <textarea autocomplete="off" id="titulo" rows="2" placeholder="Digite o título. Use ;texto; para destacar." oninput="markDirty('img')"></textarea>
         </div>
         <div class="field sep">
           <div class="field-label-row">
-            <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Enter = nova linha)</span></span>
+            <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Enter cria nova linha)</span></span>
             <button class="clear-btn" onclick="clearText('sub','img')">Limpar</button>
           </div>
-          <textarea id="sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('img')"></textarea>
+          <textarea autocomplete="off" id="sub" rows="2" placeholder="Digite um subtítulo opcional." oninput="markDirty('img')"></textarea>
         </div>
       </div>
     </div>
@@ -591,18 +1095,18 @@
     <div class="tool-panel" id="img-p2">
       <div class="card-body">
         <div class="field">
-          <span class="field-label">Proporção da Tela</span>
+          <span class="field-label">Formato</span>
           <div class="tog-row" id="ratioRow">
-            <button class="tog on" onclick="setRatio('9:16-hd',this,'img')">3:4 Feed</button>
-            <button class="tog" onclick="setRatio('4:5',this,'img')">4:5 Feed</button>
-            <button class="tog" onclick="setRatio('1:1',this,'img')">1:1 Square</button>
+            <button class="tog on" onclick="setRatio('3:4',this,'img')">3:4</button>
+            <button class="tog" onclick="setRatio('4:5',this,'img')">4:5</button>
+            <button class="tog" onclick="setRatio('1:1',this,'img')">1:1</button>
           </div>
         </div>
         <div class="field sep">
-          <span class="field-label">Posição Geral</span>
+          <span class="field-label">Posição do texto</span>
           <div class="tog-row">
-            <button class="tog on" id="posBot" onclick="setPos('bottom',this,'img')">Em Baixo</button>
-            <button class="tog" id="posTop" onclick="setPos('top',this,'img')">Em Cima</button>
+            <button class="tog on" id="posBot" onclick="setPos('bottom',this,'img')">Embaixo</button>
+            <button class="tog" id="posTop" onclick="setPos('top',this,'img')">Em cima</button>
           </div>
         </div>
         <div class="field">
@@ -614,18 +1118,18 @@
           </div>
         </div>
         <div class="field">
-          <span class="field-label">Família da Fonte</span>
+          <span class="field-label">Fonte</span>
           <select id="fontFam" class="custom-select" onchange="markDirty('img')">
-            <option value="Montserrat">Montserrat (Padrão Bold)</option>
-            <option value="Inter">Inter (Clean)</option>
-            <option value="Bebas Neue">Bebas Neue (Impacto)</option>
-            <option value="Poppins">Poppins (Redonda)</option>
-            <option value="Playfair Display">Playfair Display (Clássica)</option>
-            <option value="Oswald">Oswald (Condensada)</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Inter">Inter</option>
+            <option value="Bebas Neue">Bebas Neue</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Playfair Display">Playfair Display</option>
+            <option value="Oswald">Oswald</option>
           </select>
         </div>
         <div class="field">
-          <span class="field-label">Peso & Estilo do Título</span>
+          <span class="field-label">Estilo do título</span>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
             <div class="autofit-tog" id="titWeightRow">
               <button class="aft" data-val="300" onclick="setFontProp('titWeight',300,'titWeightRow','img')">300</button>
@@ -637,13 +1141,16 @@
               <button class="aft" data-val="900" onclick="setFontProp('titWeight',900,'titWeightRow','img')">900</button>
             </div>
             <div class="autofit-tog" id="titItalicRow">
-              <button class="aft on" data-val="false" onclick="setFontProp('titItalic',false,'titItalicRow','img')">N</button>
-              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('titItalic',true,'titItalicRow','img')">I</button>
+              <button class="aft on" data-val="false" onclick="setFontProp('titItalic',false,'titItalicRow','img')">Normal</button>
+              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('titItalic',true,'titItalicRow','img')">Itálico</button>
+            </div>
+            <div class="autofit-tog" id="titUpperRow">
+              <button class="aft" data-val="true" aria-pressed="false" title="Transformar o título em letras maiúsculas" onclick="toggleTitleUppercase('img','titUpperRow',this)">Maiúsculas</button>
             </div>
           </div>
         </div>
         <div class="field">
-          <span class="field-label">Cor do Título</span>
+          <span class="field-label">Cor do título</span>
           <div class="sw-row" id="titColorRow">
             <div class="sw on" data-c="#ffffff" style="background:#ffffff" onclick="setTitBase('#ffffff',this,'img')"></div>
             <div class="sw" data-c="#6b6b6b" style="background:#6b6b6b" onclick="setTitBase('#6b6b6b',this,'img')"></div>
@@ -660,7 +1167,7 @@
           </div>
         </div>
         <div class="field">
-          <span class="field-label">Cor Destaque do Título</span>
+          <span class="field-label">Cor do destaque</span>
           <div class="sw-row" id="colorRow">
             <div class="sw on" data-c="#ffffff" style="background:#ffffff" onclick="setTC('#ffffff',this,'img')"></div>
             <div class="sw" data-c="#6b6b6b" style="background:#6b6b6b" onclick="setTC('#6b6b6b',this,'img')"></div>
@@ -678,11 +1185,11 @@
         </div>
         <div class="slider-field sep">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-            <span class="field-label">Tamanho do Título</span>
+            <span class="field-label">Tamanho do título</span>
             <div class="autofit-tog" id="autoFitRow">
-              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'autoFitMode','autoFitRow','img')">OFF</button>
-              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'autoFitMode','autoFitRow','img')">2 lin</button>
-              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'autoFitMode','autoFitRow','img')">3 lin</button>
+              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'autoFitMode','autoFitRow','img')">Livre</button>
+              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'autoFitMode','autoFitRow','img')">2 linhas</button>
+              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'autoFitMode','autoFitRow','img')">3 linhas</button>
             </div>
           </div>
           <input type="hidden" id="autoFitMode" value="2">
@@ -693,11 +1200,11 @@
         </div>
         <div class="slider-field">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-            <span class="field-label">Tamanho do Subtítulo</span>
+            <span class="field-label">Tamanho do subtítulo</span>
             <div class="autofit-tog" id="autoFitSubRow">
-              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'autoFitSubMode','autoFitSubRow','img')">OFF</button>
-              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'autoFitSubMode','autoFitSubRow','img')">2 lin</button>
-              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'autoFitSubMode','autoFitSubRow','img')">3 lin</button>
+              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'autoFitSubMode','autoFitSubRow','img')">Livre</button>
+              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'autoFitSubMode','autoFitSubRow','img')">2 linhas</button>
+              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'autoFitSubMode','autoFitSubRow','img')">3 linhas</button>
             </div>
           </div>
           <input type="hidden" id="autoFitSubMode" value="2">
@@ -707,7 +1214,7 @@
           </div>
         </div>
         <div class="field">
-          <span class="field-label">Peso & Estilo do Subtítulo</span>
+          <span class="field-label">Estilo do subtítulo</span>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
             <div class="autofit-tog" id="subWeightRow">
               <button class="aft" data-val="300" onclick="setFontProp('subWeight',300,'subWeightRow','img')">300</button>
@@ -718,13 +1225,13 @@
               <button class="aft" data-val="800" onclick="setFontProp('subWeight',800,'subWeightRow','img')">800</button>
             </div>
             <div class="autofit-tog" id="subItalicRow">
-              <button class="aft on" data-val="false" onclick="setFontProp('subItalic',false,'subItalicRow','img')">N</button>
-              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('subItalic',true,'subItalicRow','img')">I</button>
+              <button class="aft on" data-val="false" onclick="setFontProp('subItalic',false,'subItalicRow','img')">Normal</button>
+              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('subItalic',true,'subItalicRow','img')">Itálico</button>
             </div>
           </div>
         </div>
         <div class="slider-field">
-          <span class="field-label">Contorno Escuro (Stroke)</span>
+          <span class="field-label">Contorno do texto</span>
           <div class="slider-row">
             <input type="range" id="tStrk" min="0" max="15" value="0" oninput="sync('tStrk','tStrkN','img')">
             <input class="snum" type="number" id="tStrkN" value="0" min="0" max="15" onchange="nsync('tStrkN','tStrk','img')">
@@ -737,37 +1244,37 @@
     <div class="tool-panel" id="img-p3">
       <div class="card-body">
         <div class="slider-field" id="gopWrap">
-          <span class="field-label">Gradiente Escuro de Base %</span>
+          <span class="field-label">Sombra da imagem</span>
           <div class="slider-row">
             <input type="range" id="gop" min="0" max="95" value="65" oninput="sync('gop','gnum','img')">
             <input class="snum" type="number" id="gnum" value="65" min="0" max="95" onchange="nsync('gnum','gop','img')">
           </div>
         </div>
         <div class="field sep">
-          <span class="field-label">Fundo de Leitura do Subtítulo</span>
+          <span class="field-label">Fundo do subtítulo</span>
           <div class="tog-row">
-            <button class="tog on" id="sbOn" onclick="setSubBg(true,'img')">Ativado</button>
-            <button class="tog" id="sbOff" onclick="setSubBg(false,'img')">Desativado</button>
+            <button class="tog on" id="sbOn" onclick="setSubBg(true,'img')">Sim</button>
+            <button class="tog" id="sbOff" onclick="setSubBg(false,'img')">Não</button>
           </div>
         </div>
         <div id="sbSlider" class="slider-field">
-          <span class="field-label">Opacidade do Fundo %</span>
+          <span class="field-label">Opacidade do fundo</span>
           <div class="slider-row">
             <input type="range" id="sbop" min="0" max="90" value="52" oninput="sync('sbop','sbnum','img')">
             <input class="snum" type="number" id="sbnum" value="52" min="0" max="90" onchange="nsync('sbnum','sbop','img')">
           </div>
         </div>
         <div class="field sep" id="indWrap">
-          <span class="field-label">Indicador de Ação</span>
+          <span class="field-label">Indicador</span>
           <div class="tog-row" id="indRow">
             <button class="tog on" onclick="setInd('none',this,'img')">Nenhum</button>
             <button class="tog" onclick="setInd('arrowDown',this,'img')">Ler ↓</button>
             <button class="tog" onclick="setInd('swipeRight',this,'img')">Arraste ›</button>
-            <button class="tog" onclick="setInd('dots',this,'img')">⬤ Bolinhas</button>
+            <button class="tog" onclick="setInd('dots',this,'img')">Páginas</button>
           </div>
         </div>
         <div class="slider-field" id="indOpWrap" style="display:none">
-          <span class="field-label">Opacidade do Indicador %</span>
+          <span class="field-label">Opacidade do indicador</span>
           <div class="slider-row">
             <input type="range" id="indOp" min="0" max="100" value="85" oninput="sync('indOp','indOpN','img')">
             <input class="snum" type="number" id="indOpN" value="85" min="0" max="100" onchange="nsync('indOpN','indOp','img')">
@@ -775,14 +1282,14 @@
         </div>
         <div class="card-body" id="indDotsWrap" style="display:none;padding-top:4px;gap:12px">
           <div class="slider-field">
-            <span class="field-label">Quantidade de Imagens</span>
+            <span class="field-label">Total de páginas</span>
             <div class="slider-row">
               <input type="range" id="dotCount" min="2" max="10" value="5" oninput="sync('dotCount','dotCountN','img');clampActive('dotCount','dotActive','dotActiveN','img')">
               <input class="snum" type="number" id="dotCountN" value="5" min="2" max="10" onchange="nsync('dotCountN','dotCount','img');clampActive('dotCount','dotActive','dotActiveN','img')">
             </div>
           </div>
           <div class="slider-field">
-            <span class="field-label">Imagem Atual (bolinha preenchida)</span>
+            <span class="field-label">Página atual</span>
             <div class="slider-row">
               <input type="range" id="dotActive" min="1" max="5" value="1" oninput="sync('dotActive','dotActiveN','img')">
               <input class="snum" type="number" id="dotActiveN" value="1" min="1" max="5" onchange="nsync('dotActiveN','dotActive','img')">
@@ -804,8 +1311,13 @@
   <div class="pcol">
     <div class="card">
       <div class="card-hdr">
-        <span class="card-label">Assinantes</span>
+        <span class="card-label">Prévia para assinantes</span>
         <div class="hdr-actions">
+          <button class="cbtn cbtn-outline guide-btn" id="s-guideBtn" onclick="toggleGuides('sub')" aria-pressed="false" title="Mostrar guias do Instagram">Guias</button>
+          <button class="cbtn cbtn-outline contrast-btn" onclick="autoContrast('sub')" title="Ajustar a leitura automaticamente">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z"/></svg>
+            <span>Contraste</span>
+          </button>
           <button class="cbtn cbtn-outline" id="s-btnMove" onclick="toggleMove('sub')" style="display:none">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="19 9 22 12 19 15"/><polyline points="9 19 12 22 15 19"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
             Ajustar
@@ -819,15 +1331,16 @@
       <div class="card-body" style="padding:10px">
         <div class="prev-placeholder" id="s-prevPlaceholder" onclick="document.getElementById('sImgInput').click()">
           <div class="prev-placeholder-icon">+</div>
-          <span>Importe uma imagem para começar</span>
+          <span>Clique ou arraste uma imagem</span>
         </div>
         <div class="cwrap" id="s-cw" style="display:none">
+          <div class="guide-legend">Guias de prévia</div>
           <div class="zoom-chip" id="s-zpill"><span id="s-zlbl">100%</span></div>
           <canvas id="s-cv"></canvas>
         </div>
       </div>
     </div>
-    <button class="dl-main" id="s-dlBtn" onclick="exportMedia('sub')" disabled>BAIXAR ASSINANTES</button>
+    <button class="dl-main" id="s-dlBtn" onclick="openExportDialog('sub')" disabled>Exportar</button>
   </div>
 
   <div class="ccol">
@@ -836,7 +1349,7 @@
     <div class="tool-bar" id="s-toolbar">
       <button class="tool-btn active" data-panel="s-p1" onclick="openPanel('sub','s-p1',this)">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
-        <span>Textos</span>
+        <span>Texto</span>
       </button>
       <button class="tool-btn" data-panel="s-p2" onclick="openPanel('sub','s-p2',this)">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
@@ -844,7 +1357,7 @@
       </button>
       <button class="tool-btn" data-panel="s-p3" onclick="openPanel('sub','s-p3',this)">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-        <span>Fundo</span>
+        <span>Efeitos</span>
       </button>
     </div>
 
@@ -853,17 +1366,17 @@
       <div class="card-body">
         <div class="field">
           <div class="field-label-row">
-            <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Use ; para colorir)</span></span>
+            <span class="field-label">Título <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(;texto; = destaque)</span></span>
             <button class="clear-btn" onclick="clearText('s-titulo','sub')">Limpar</button>
           </div>
-          <textarea id="s-titulo" rows="2" placeholder="Ex: Escreva um ;título; chamativo..." oninput="markDirty('sub')"></textarea>
+          <textarea autocomplete="off" id="s-titulo" rows="2" placeholder="Digite o título. Use ;texto; para destacar." oninput="markDirty('sub')"></textarea>
         </div>
         <div class="field sep">
           <div class="field-label-row">
-            <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Enter = nova linha)</span></span>
+            <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Enter cria nova linha)</span></span>
             <button class="clear-btn" onclick="clearText('s-sub','sub')">Limpar</button>
           </div>
-          <textarea id="s-sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('sub')"></textarea>
+          <textarea autocomplete="off" id="s-sub" rows="2" placeholder="Digite um subtítulo opcional." oninput="markDirty('sub')"></textarea>
         </div>
       </div>
     </div>
@@ -872,18 +1385,18 @@
     <div class="tool-panel" id="s-p2">
       <div class="card-body">
         <div class="field">
-          <span class="field-label">Proporção da Tela</span>
+          <span class="field-label">Formato</span>
           <div class="tog-row" id="s-ratioRow">
-            <button class="tog on" onclick="setRatio('9:16-hd',this,'sub')">3:4 Feed</button>
-            <button class="tog" onclick="setRatio('4:5',this,'sub')">4:5 Feed</button>
-            <button class="tog" onclick="setRatio('1:1',this,'sub')">1:1 Square</button>
+            <button class="tog on" onclick="setRatio('3:4',this,'sub')">3:4</button>
+            <button class="tog" onclick="setRatio('4:5',this,'sub')">4:5</button>
+            <button class="tog" onclick="setRatio('1:1',this,'sub')">1:1</button>
           </div>
         </div>
         <div class="field sep">
-          <span class="field-label">Posição Geral</span>
+          <span class="field-label">Posição do texto</span>
           <div class="tog-row">
-            <button class="tog on" id="s-posBot" onclick="setPos('bottom',this,'sub')">Em Baixo</button>
-            <button class="tog" id="s-posTop" onclick="setPos('top',this,'sub')">Em Cima</button>
+            <button class="tog on" id="s-posBot" onclick="setPos('bottom',this,'sub')">Embaixo</button>
+            <button class="tog" id="s-posTop" onclick="setPos('top',this,'sub')">Em cima</button>
           </div>
         </div>
         <div class="field">
@@ -895,18 +1408,18 @@
           </div>
         </div>
         <div class="field">
-          <span class="field-label">Família da Fonte</span>
+          <span class="field-label">Fonte</span>
           <select id="s-fontFam" class="custom-select" onchange="markDirty('sub')">
-            <option value="Montserrat">Montserrat (Padrão Bold)</option>
-            <option value="Inter">Inter (Clean)</option>
-            <option value="Bebas Neue">Bebas Neue (Impacto)</option>
-            <option value="Poppins">Poppins (Redonda)</option>
-            <option value="Playfair Display">Playfair Display (Clássica)</option>
-            <option value="Oswald">Oswald (Condensada)</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Inter">Inter</option>
+            <option value="Bebas Neue">Bebas Neue</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Playfair Display">Playfair Display</option>
+            <option value="Oswald">Oswald</option>
           </select>
         </div>
         <div class="field">
-          <span class="field-label">Peso & Estilo do Título</span>
+          <span class="field-label">Estilo do título</span>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
             <div class="autofit-tog" id="s-titWeightRow">
               <button class="aft" data-val="300" onclick="setFontProp('titWeight',300,'s-titWeightRow','sub')">300</button>
@@ -918,13 +1431,16 @@
               <button class="aft" data-val="900" onclick="setFontProp('titWeight',900,'s-titWeightRow','sub')">900</button>
             </div>
             <div class="autofit-tog" id="s-titItalicRow">
-              <button class="aft on" data-val="false" onclick="setFontProp('titItalic',false,'s-titItalicRow','sub')">N</button>
-              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('titItalic',true,'s-titItalicRow','sub')">I</button>
+              <button class="aft on" data-val="false" onclick="setFontProp('titItalic',false,'s-titItalicRow','sub')">Normal</button>
+              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('titItalic',true,'s-titItalicRow','sub')">Itálico</button>
+            </div>
+            <div class="autofit-tog" id="s-titUpperRow">
+              <button class="aft" data-val="true" aria-pressed="false" title="Transformar o título em letras maiúsculas" onclick="toggleTitleUppercase('sub','s-titUpperRow',this)">Maiúsculas</button>
             </div>
           </div>
         </div>
         <div class="field">
-          <span class="field-label">Cor do Título</span>
+          <span class="field-label">Cor do título</span>
           <div class="sw-row" id="s-titColorRow">
             <div class="sw on" data-c="#ffffff" style="background:#ffffff" onclick="setTitBase('#ffffff',this,'sub')"></div>
             <div class="sw" data-c="#6b6b6b" style="background:#6b6b6b" onclick="setTitBase('#6b6b6b',this,'sub')"></div>
@@ -941,7 +1457,7 @@
           </div>
         </div>
         <div class="field">
-          <span class="field-label">Cor Destaque do Título</span>
+          <span class="field-label">Cor do destaque</span>
           <div class="sw-row" id="s-colorRow">
             <div class="sw on" data-c="#ffffff" style="background:#ffffff" onclick="setTC('#ffffff',this,'sub')"></div>
             <div class="sw" data-c="#6b6b6b" style="background:#6b6b6b" onclick="setTC('#6b6b6b',this,'sub')"></div>
@@ -959,11 +1475,11 @@
         </div>
         <div class="slider-field sep">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-            <span class="field-label">Tamanho do Título</span>
+            <span class="field-label">Tamanho do título</span>
             <div class="autofit-tog" id="s-autoFitRow">
-              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'s-autoFitMode','s-autoFitRow','sub')">OFF</button>
-              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'s-autoFitMode','s-autoFitRow','sub')">2 lin</button>
-              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'s-autoFitMode','s-autoFitRow','sub')">3 lin</button>
+              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'s-autoFitMode','s-autoFitRow','sub')">Livre</button>
+              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'s-autoFitMode','s-autoFitRow','sub')">2 linhas</button>
+              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'s-autoFitMode','s-autoFitRow','sub')">3 linhas</button>
             </div>
           </div>
           <input type="hidden" id="s-autoFitMode" value="2">
@@ -974,11 +1490,11 @@
         </div>
         <div class="slider-field">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-            <span class="field-label">Tamanho do Subtítulo</span>
+            <span class="field-label">Tamanho do subtítulo</span>
             <div class="autofit-tog" id="s-autoFitSubRow">
-              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'s-autoFitSubMode','s-autoFitSubRow','sub')">OFF</button>
-              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'s-autoFitSubMode','s-autoFitSubRow','sub')">2 lin</button>
-              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'s-autoFitSubMode','s-autoFitSubRow','sub')">3 lin</button>
+              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'s-autoFitSubMode','s-autoFitSubRow','sub')">Livre</button>
+              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'s-autoFitSubMode','s-autoFitSubRow','sub')">2 linhas</button>
+              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'s-autoFitSubMode','s-autoFitSubRow','sub')">3 linhas</button>
             </div>
           </div>
           <input type="hidden" id="s-autoFitSubMode" value="2">
@@ -988,7 +1504,7 @@
           </div>
         </div>
         <div class="field">
-          <span class="field-label">Peso & Estilo do Subtítulo</span>
+          <span class="field-label">Estilo do subtítulo</span>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
             <div class="autofit-tog" id="s-subWeightRow">
               <button class="aft" data-val="300" onclick="setFontProp('subWeight',300,'s-subWeightRow','sub')">300</button>
@@ -999,13 +1515,13 @@
               <button class="aft" data-val="800" onclick="setFontProp('subWeight',800,'s-subWeightRow','sub')">800</button>
             </div>
             <div class="autofit-tog" id="s-subItalicRow">
-              <button class="aft on" data-val="false" onclick="setFontProp('subItalic',false,'s-subItalicRow','sub')">N</button>
-              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('subItalic',true,'s-subItalicRow','sub')">I</button>
+              <button class="aft on" data-val="false" onclick="setFontProp('subItalic',false,'s-subItalicRow','sub')">Normal</button>
+              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('subItalic',true,'s-subItalicRow','sub')">Itálico</button>
             </div>
           </div>
         </div>
         <div class="slider-field">
-          <span class="field-label">Contorno Escuro (Stroke)</span>
+          <span class="field-label">Contorno do texto</span>
           <div class="slider-row">
             <input type="range" id="s-tStrk" min="0" max="15" value="0" oninput="sync('s-tStrk','s-tStrkN','sub')">
             <input class="snum" type="number" id="s-tStrkN" value="0" min="0" max="15" onchange="nsync('s-tStrkN','s-tStrk','sub')">
@@ -1018,37 +1534,37 @@
     <div class="tool-panel" id="s-p3">
       <div class="card-body">
         <div class="slider-field" id="s-gopWrap">
-          <span class="field-label">Gradiente Escuro de Base %</span>
+          <span class="field-label">Sombra da imagem</span>
           <div class="slider-row">
             <input type="range" id="s-gop" min="0" max="95" value="65" oninput="sync('s-gop','s-gnum','sub')">
             <input class="snum" type="number" id="s-gnum" value="65" min="0" max="95" onchange="nsync('s-gnum','s-gop','sub')">
           </div>
         </div>
         <div class="field sep">
-          <span class="field-label">Fundo de Leitura do Subtítulo</span>
+          <span class="field-label">Fundo do subtítulo</span>
           <div class="tog-row">
-            <button class="tog on" id="s-sbOn" onclick="setSubBg(true,'sub')">Ativado</button>
-            <button class="tog" id="s-sbOff" onclick="setSubBg(false,'sub')">Desativado</button>
+            <button class="tog on" id="s-sbOn" onclick="setSubBg(true,'sub')">Sim</button>
+            <button class="tog" id="s-sbOff" onclick="setSubBg(false,'sub')">Não</button>
           </div>
         </div>
         <div id="s-sbSlider" class="slider-field">
-          <span class="field-label">Opacidade do Fundo %</span>
+          <span class="field-label">Opacidade do fundo</span>
           <div class="slider-row">
             <input type="range" id="s-sbop" min="0" max="90" value="52" oninput="sync('s-sbop','s-sbnum','sub')">
             <input class="snum" type="number" id="s-sbnum" value="52" min="0" max="90" onchange="nsync('s-sbnum','s-sbop','sub')">
           </div>
         </div>
         <div class="field sep" id="s-indWrap">
-          <span class="field-label">Indicador de Ação</span>
+          <span class="field-label">Indicador</span>
           <div class="tog-row" id="s-indRow">
             <button class="tog on" onclick="setInd('none',this,'sub')">Nenhum</button>
             <button class="tog" onclick="setInd('arrowDown',this,'sub')">Ler ↓</button>
             <button class="tog" onclick="setInd('swipeRight',this,'sub')">Arraste ›</button>
-            <button class="tog" onclick="setInd('dots',this,'sub')">⬤ Bolinhas</button>
+            <button class="tog" onclick="setInd('dots',this,'sub')">Páginas</button>
           </div>
         </div>
         <div class="slider-field" id="s-indOpWrap" style="display:none">
-          <span class="field-label">Opacidade do Indicador %</span>
+          <span class="field-label">Opacidade do indicador</span>
           <div class="slider-row">
             <input type="range" id="s-indOp" min="0" max="100" value="85" oninput="sync('s-indOp','s-indOpN','sub')">
             <input class="snum" type="number" id="s-indOpN" value="85" min="0" max="100" onchange="nsync('s-indOpN','s-indOp','sub')">
@@ -1056,14 +1572,14 @@
         </div>
         <div class="card-body" id="s-indDotsWrap" style="display:none;padding-top:4px;gap:12px">
           <div class="slider-field">
-            <span class="field-label">Quantidade de Imagens</span>
+            <span class="field-label">Total de páginas</span>
             <div class="slider-row">
               <input type="range" id="s-dotCount" min="2" max="10" value="5" oninput="sync('s-dotCount','s-dotCountN','sub');clampActive('s-dotCount','s-dotActive','s-dotActiveN','sub')">
               <input class="snum" type="number" id="s-dotCountN" value="5" min="2" max="10" onchange="nsync('s-dotCountN','s-dotCount','sub');clampActive('s-dotCount','s-dotActive','s-dotActiveN','sub')">
             </div>
           </div>
           <div class="slider-field">
-            <span class="field-label">Imagem Atual (bolinha preenchida)</span>
+            <span class="field-label">Página atual</span>
             <div class="slider-row">
               <input type="range" id="s-dotActive" min="1" max="5" value="1" oninput="sync('s-dotActive','s-dotActiveN','sub')">
               <input class="snum" type="number" id="s-dotActiveN" value="1" min="1" max="5" onchange="nsync('s-dotActiveN','s-dotActive','sub')">
@@ -1086,27 +1602,33 @@
   <div class="pcol">
     <div class="card">
       <div class="card-hdr">
-        <span class="card-label">Preview Reels / TikTok</span>
+        <span class="card-label">Prévia do Reels</span>
         <div class="hdr-actions">
+          <button class="cbtn cbtn-outline guide-btn" id="r-guideBtn" onclick="toggleGuides('reels')" aria-pressed="false" title="Mostrar guias do Instagram">Guias</button>
+          <button class="cbtn cbtn-outline contrast-btn" onclick="autoContrast('reels')" title="Ajustar a leitura automaticamente">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z"/></svg>
+            <span>Contraste</span>
+          </button>
           <button class="cbtn cbtn-outline" id="r-btnMove" onclick="toggleMove('reels')" style="display:none">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="19 9 22 12 19 15"/><polyline points="9 19 12 22 15 19"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
             Ajustar
           </button>
-          <button class="cbtn cbtn-outline" id="r-btnChange" onclick="document.getElementById('rImgInput').click()" style="display:none">
+          <button class="cbtn cbtn-outline" id="r-btnChange" onclick="document.getElementById('rImgInput').click()" title="Adicionar imagem de referência">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"/></svg>
-            Trocar
+            Referência
           </button>
         </div>
       </div>
       <div class="card-body" style="padding:10px">
-        <div class="cwrap transparent-mode" id="r-cw">
+        <div class="cwrap transparent-mode" id="r-cw" title="A imagem serve apenas como referência e não será exportada.">
+          <div class="guide-legend">Guias de prévia</div>
           <div class="zoom-chip" id="r-zpill"><span id="r-zlbl">100%</span></div>
-          <div class="res-badge">1080 × 1920</div>
+          <div class="res-badge" title="A referência não será incluída no PNG">1080 × 1920 · PNG</div>
           <canvas id="r-cv" style="aspect-ratio:9/16"></canvas>
         </div>
       </div>
     </div>
-    <button class="dl-main" id="r-dlBtn" onclick="exportMedia('reels')">BAIXAR REELS PNG</button>
+    <button class="dl-main" id="r-dlBtn" onclick="openExportDialog('reels')">Exportar</button>
   </div>
 
   <div class="ccol reels-ccol">
@@ -1115,7 +1637,7 @@
     <div class="tool-bar" id="reels-toolbar">
       <button class="tool-btn active" data-panel="reels-p1" onclick="openPanel('reels','reels-p1',this)">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
-        <span>Textos</span>
+        <span>Texto</span>
       </button>
       <button class="tool-btn" data-panel="reels-p2" onclick="openPanel('reels','reels-p2',this)">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
@@ -1128,17 +1650,17 @@
       <div class="card-body">
         <div class="field">
           <div class="field-label-row">
-            <span class="field-label">Título Principal <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Use ; para colorir)</span></span>
+            <span class="field-label">Título <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(;texto; = destaque)</span></span>
             <button class="clear-btn" onclick="clearText('r-titulo','reels')">Limpar</button>
           </div>
-          <textarea id="r-titulo" rows="2" placeholder="Ex: ;Novidade; chegou..." oninput="markDirty('reels')"></textarea>
+          <textarea autocomplete="off" id="r-titulo" rows="2" placeholder="Digite o título. Use ;texto; para destacar." oninput="markDirty('reels')"></textarea>
         </div>
         <div class="field sep">
           <div class="field-label-row">
-            <span class="field-label">Subtítulo / Legenda <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Enter = nova linha)</span></span>
+            <span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Enter cria nova linha)</span></span>
             <button class="clear-btn" onclick="clearText('r-sub','reels')">Limpar</button>
           </div>
-          <textarea id="r-sub" rows="2" placeholder="Adicione mais detalhes..." oninput="markDirty('reels')"></textarea>
+          <textarea autocomplete="off" id="r-sub" rows="2" placeholder="Digite um subtítulo opcional." oninput="markDirty('reels')"></textarea>
         </div>
       </div>
     </div>
@@ -1155,18 +1677,18 @@
           </div>
         </div>
         <div class="field sep">
-          <span class="field-label">Família da Fonte</span>
+          <span class="field-label">Fonte</span>
           <select id="r-fontFam" class="custom-select" onchange="markDirty('reels')">
-            <option value="Montserrat">Montserrat (Padrão Bold)</option>
-            <option value="Inter">Inter (Clean)</option>
-            <option value="Bebas Neue">Bebas Neue (Impacto)</option>
-            <option value="Poppins">Poppins (Redonda)</option>
-            <option value="Playfair Display">Playfair Display (Clássica)</option>
-            <option value="Oswald">Oswald (Condensada)</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Inter">Inter</option>
+            <option value="Bebas Neue">Bebas Neue</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Playfair Display">Playfair Display</option>
+            <option value="Oswald">Oswald</option>
           </select>
         </div>
         <div class="field">
-          <span class="field-label">Peso & Estilo do Título</span>
+          <span class="field-label">Estilo do título</span>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
             <div class="autofit-tog" id="r-titWeightRow">
               <button class="aft" data-val="300" onclick="setFontProp('titWeight',300,'r-titWeightRow','reels')">300</button>
@@ -1178,13 +1700,16 @@
               <button class="aft" data-val="900" onclick="setFontProp('titWeight',900,'r-titWeightRow','reels')">900</button>
             </div>
             <div class="autofit-tog" id="r-titItalicRow">
-              <button class="aft on" data-val="false" onclick="setFontProp('titItalic',false,'r-titItalicRow','reels')">N</button>
-              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('titItalic',true,'r-titItalicRow','reels')">I</button>
+              <button class="aft on" data-val="false" onclick="setFontProp('titItalic',false,'r-titItalicRow','reels')">Normal</button>
+              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('titItalic',true,'r-titItalicRow','reels')">Itálico</button>
+            </div>
+            <div class="autofit-tog" id="r-titUpperRow">
+              <button class="aft" data-val="true" aria-pressed="false" title="Transformar o título em letras maiúsculas" onclick="toggleTitleUppercase('reels','r-titUpperRow',this)">Maiúsculas</button>
             </div>
           </div>
         </div>
         <div class="field">
-          <span class="field-label">Cor do Título</span>
+          <span class="field-label">Cor do título</span>
           <div class="sw-row" id="r-titColorRow">
             <div class="sw on" data-c="#ffffff" style="background:#ffffff" onclick="setTitBase('#ffffff',this,'reels')"></div>
             <div class="sw" data-c="#6b6b6b" style="background:#6b6b6b" onclick="setTitBase('#6b6b6b',this,'reels')"></div>
@@ -1201,7 +1726,7 @@
           </div>
         </div>
         <div class="field">
-          <span class="field-label">Cor Destaque do Título</span>
+          <span class="field-label">Cor do destaque</span>
           <div class="sw-row" id="r-colorRow">
             <div class="sw on" data-c="#ffffff" style="background:#ffffff" onclick="setTC('#ffffff',this,'reels')"></div>
             <div class="sw" data-c="#6b6b6b" style="background:#6b6b6b" onclick="setTC('#6b6b6b',this,'reels')"></div>
@@ -1219,11 +1744,11 @@
         </div>
         <div class="slider-field sep">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-            <span class="field-label">Tamanho do Título</span>
+            <span class="field-label">Tamanho do título</span>
             <div class="autofit-tog" id="r-autoFitRow">
-              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'r-autoFitMode','r-autoFitRow','reels')">OFF</button>
-              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'r-autoFitMode','r-autoFitRow','reels')">2 lin</button>
-              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'r-autoFitMode','r-autoFitRow','reels')">3 lin</button>
+              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'r-autoFitMode','r-autoFitRow','reels')">Livre</button>
+              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'r-autoFitMode','r-autoFitRow','reels')">2 linhas</button>
+              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'r-autoFitMode','r-autoFitRow','reels')">3 linhas</button>
             </div>
           </div>
           <input type="hidden" id="r-autoFitMode" value="2">
@@ -1234,11 +1759,11 @@
         </div>
         <div class="slider-field">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
-            <span class="field-label">Tamanho do Subtítulo</span>
+            <span class="field-label">Tamanho do subtítulo</span>
             <div class="autofit-tog" id="r-autoFitSubRow">
-              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'r-autoFitSubMode','r-autoFitSubRow','reels')">OFF</button>
-              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'r-autoFitSubMode','r-autoFitSubRow','reels')">2 lin</button>
-              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'r-autoFitSubMode','r-autoFitSubRow','reels')">3 lin</button>
+              <button class="aft" data-val="off" onclick="setAutoFit('off',this,'r-autoFitSubMode','r-autoFitSubRow','reels')">Livre</button>
+              <button class="aft on" data-val="2" onclick="setAutoFit('2',this,'r-autoFitSubMode','r-autoFitSubRow','reels')">2 linhas</button>
+              <button class="aft" data-val="3" onclick="setAutoFit('3',this,'r-autoFitSubMode','r-autoFitSubRow','reels')">3 linhas</button>
             </div>
           </div>
           <input type="hidden" id="r-autoFitSubMode" value="2">
@@ -1248,7 +1773,7 @@
           </div>
         </div>
         <div class="field">
-          <span class="field-label">Peso & Estilo do Subtítulo</span>
+          <span class="field-label">Estilo do subtítulo</span>
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
             <div class="autofit-tog" id="r-subWeightRow">
               <button class="aft" data-val="300" onclick="setFontProp('subWeight',300,'r-subWeightRow','reels')">300</button>
@@ -1259,13 +1784,13 @@
               <button class="aft" data-val="800" onclick="setFontProp('subWeight',800,'r-subWeightRow','reels')">800</button>
             </div>
             <div class="autofit-tog" id="r-subItalicRow">
-              <button class="aft on" data-val="false" onclick="setFontProp('subItalic',false,'r-subItalicRow','reels')">N</button>
-              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('subItalic',true,'r-subItalicRow','reels')">I</button>
+              <button class="aft on" data-val="false" onclick="setFontProp('subItalic',false,'r-subItalicRow','reels')">Normal</button>
+              <button class="aft" data-val="true" style="font-style:italic" onclick="setFontProp('subItalic',true,'r-subItalicRow','reels')">Itálico</button>
             </div>
           </div>
         </div>
         <div class="slider-field">
-          <span class="field-label">Contorno Escuro (Stroke)</span>
+          <span class="field-label">Contorno do texto</span>
           <div class="slider-row">
             <input type="range" id="r-tStrk" min="0" max="15" value="0" oninput="sync('r-tStrk','r-tStrkN','reels')">
             <input class="snum" type="number" id="r-tStrkN" value="0" min="0" max="15" onchange="nsync('r-tStrkN','r-tStrk','reels')">
@@ -1284,35 +1809,40 @@
 const S = {
   img: {
     mediaFile:null, imgO:new Image(), transparentBg:false,
-    ratio:'9:16-hd', pos:'bottom', align:'center', tColor:'#ffffff', titBaseColor:'#ffffff', showSubBg:true, indicator:'none',
-    titWeight:800, titItalic:false, subWeight:400, subItalic:false,
+    ratio:'3:4', pos:'bottom', align:'center', tColor:'#ffffff', titBaseColor:'#ffffff', showSubBg:true, indicator:'none',
+    titWeight:800, titItalic:false, titUppercase:false, subWeight:400, subItalic:false,
     canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
-    autoFitSub:true
+    autoFitSub:true, showGuides:false, lastBackgroundLuminance:null, lastTextBounds:null
   },
   reels: {
     mediaFile:null, imgO:new Image(), transparentBg:true,
     ratio:'9:16-reels', pos:'bottom', align:'center', tColor:'#ffffff', titBaseColor:'#ffffff', showSubBg:true, indicator:'none',
-    titWeight:800, titItalic:false, subWeight:400, subItalic:false,
+    titWeight:800, titItalic:false, titUppercase:false, subWeight:400, subItalic:false,
     canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
-    autoFitSub:true
+    autoFitSub:true, showGuides:false, lastBackgroundLuminance:null, lastTextBounds:null
   },
   sub: {
     mediaFile:null, imgO:new Image(), transparentBg:false,
-    ratio:'9:16-hd', pos:'bottom', align:'center', tColor:'#ffffff', titBaseColor:'#ffffff', showSubBg:true, indicator:'none',
-    titWeight:800, titItalic:false, subWeight:400, subItalic:false,
+    ratio:'3:4', pos:'bottom', align:'center', tColor:'#ffffff', titBaseColor:'#ffffff', showSubBg:true, indicator:'none',
+    titWeight:800, titItalic:false, titUppercase:false, subWeight:400, subItalic:false,
     canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
-    autoFitSub:true
+    autoFitSub:true, showGuides:false, lastBackgroundLuminance:null, lastTextBounds:null
   }
 };
 
 const DIMS = {
   '4:5'        :{W:1080,H:1350},
   '1:1'        :{W:1080,H:1080},
-  '9:16-hd'    :{W:3240,H:4320},
+  '3:4'         :{W:1080,H:1440},
+  '9:16-hd'    :{W:1080,H:1440}, // compatibilidade com backups antigos
   '9:16-reels' :{W:1080,H:1920}
 };
 
 let currentPage = 'img';
+let saveTimer = null;
+let isApplyingState = false;
+const historyState = { past:[], future:[], max:30, lastJSON:'' };
+const exportOptions = { mode:'img', format:'png', quality:.90, scale:1, background:'full' };
 const offCanvas = document.createElement('canvas');
 const offCtx = offCanvas.getContext('2d');
 
@@ -1320,7 +1850,7 @@ const $ = id => document.getElementById(id);
 
 function getActiveData(mode) { return S[mode]; }
 
-function D(mode){ return DIMS[S[mode].ratio] || DIMS['9:16-hd']; }
+function D(mode){ return DIMS[S[mode].ratio] || DIMS['3:4']; }
 function cvEl(mode){ return mode==='reels' ? $('r-cv') : mode==='sub' ? $('s-cv') : $('cv'); }
 function cwEl(mode){ return mode==='reels' ? $('r-cw') : mode==='sub' ? $('s-cw') : $('cw'); }
 
@@ -1376,6 +1906,90 @@ function rrect(ctx,x,y,w,h,r){
   ctx.arcTo(x,y+h,x,y,rr); ctx.arcTo(x,y,x+w,y,rr); ctx.closePath();
 }
 
+function sampleCanvasLuminance(ctx, bounds){
+  try{
+    const x=Math.max(0,Math.floor(bounds.x));
+    const y=Math.max(0,Math.floor(bounds.y));
+    const w=Math.max(1,Math.min(ctx.canvas.width-x,Math.ceil(bounds.w)));
+    const h=Math.max(1,Math.min(ctx.canvas.height-y,Math.ceil(bounds.h)));
+    const img=ctx.getImageData(x,y,w,h).data;
+    const step=Math.max(1,Math.floor(Math.sqrt((w*h)/7000)));
+    let total=0,count=0;
+    for(let py=0;py<h;py+=step){
+      for(let px=0;px<w;px+=step){
+        const i=(py*w+px)*4;
+        const a=img[i+3]/255;
+        if(a<.08) continue;
+        const r=img[i]/255,g=img[i+1]/255,b=img[i+2]/255;
+        const lum=.2126*r+.7152*g+.0722*b;
+        total+=lum*a; count+=a;
+      }
+    }
+    return count?total/count:null;
+  }catch(error){
+    console.warn('Não foi possível analisar o contraste.',error);
+    return null;
+  }
+}
+
+function hexLuminance(hex){
+  const clean=(hex||'#ffffff').replace('#','');
+  const full=clean.length===3?clean.split('').map(c=>c+c).join(''):clean;
+  const vals=[0,2,4].map(i=>parseInt(full.slice(i,i+2),16)/255).map(v=>v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4));
+  return .2126*vals[0]+.7152*vals[1]+.0722*vals[2];
+}
+
+function approximateContrastRatio(colorHex,bgLum){
+  const fg=hexLuminance(colorHex);
+  const bg=Math.max(0,Math.min(1,bgLum));
+  return (Math.max(fg,bg)+.05)/(Math.min(fg,bg)+.05);
+}
+
+function drawInstagramGuides(ctx,W,H,mode){
+  const sc=W/1080;
+  ctx.save();
+  ctx.lineWidth=Math.max(1.5,2*sc);
+  ctx.setLineDash([12*sc,10*sc]);
+  ctx.strokeStyle='rgba(255,255,255,.78)';
+  ctx.fillStyle='rgba(255,255,255,.88)';
+  ctx.shadowColor='rgba(0,0,0,.65)';
+  ctx.shadowBlur=4*sc;
+  const margin=mode==='reels'?72*sc:58*sc;
+  ctx.strokeRect(margin,margin,W-margin*2,H-margin*2);
+
+  ctx.strokeStyle='rgba(255,255,255,.42)';
+  ctx.beginPath();
+  ctx.moveTo(W/3,margin);ctx.lineTo(W/3,H-margin);
+  ctx.moveTo(W*2/3,margin);ctx.lineTo(W*2/3,H-margin);
+  ctx.moveTo(margin,H/3);ctx.lineTo(W-margin,H/3);
+  ctx.moveTo(margin,H*2/3);ctx.lineTo(W-margin,H*2/3);
+  ctx.stroke();
+
+  ctx.setLineDash([]);
+  ctx.strokeStyle='rgba(255,255,255,.62)';
+  ctx.beginPath();ctx.moveTo(W/2,margin);ctx.lineTo(W/2,H-margin);ctx.stroke();
+
+  if(mode==='reels'){
+    const top=190*sc,bottom=330*sc,right=125*sc;
+    ctx.fillStyle='rgba(0,0,0,.18)';
+    ctx.fillRect(0,0,W,top);
+    ctx.fillRect(0,H-bottom,W,bottom);
+    ctx.fillRect(W-right,top,right,H-top-bottom);
+    ctx.strokeStyle='rgba(255,190,80,.9)';
+    ctx.setLineDash([10*sc,8*sc]);
+    ctx.strokeRect(margin,top,W-margin-right,H-top-bottom);
+    ctx.setLineDash([]);
+    ctx.fillStyle='rgba(255,220,150,.96)';
+    ctx.font=`600 ${Math.max(14,18*sc)}px 'DM Sans',sans-serif`;
+    ctx.fillText('Área segura',margin+12*sc,top+28*sc);
+  }
+
+  ctx.font=`600 ${Math.max(13,16*sc)}px 'DM Sans',sans-serif`;
+  ctx.fillStyle='rgba(255,255,255,.9)';
+  ctx.fillText('Margem segura',margin+10*sc,margin+24*sc);
+  ctx.restore();
+}
+
 function showToast(msg) {
   const t = $('toast');
   if(!t) return;
@@ -1392,7 +2006,11 @@ function switchPage(mode){
   $('pswImg').classList.toggle('active', mode==='img');
   $('pswSub').classList.toggle('active', mode==='sub');
   $('pswReels').classList.toggle('active', mode==='reels');
+  $('pswImg').setAttribute('aria-selected', String(mode==='img'));
+  $('pswSub').setAttribute('aria-selected', String(mode==='sub'));
+  $('pswReels').setAttribute('aria-selected', String(mode==='reels'));
   markDirty(mode);
+  saveState();
 }
 
 function openPanel(mode, panelId, btn) {
@@ -1446,6 +2064,29 @@ function applyFontProp(prop, val, rowId){
   if(btn) btn.classList.add('on');
 }
 
+/* ── Title uppercase toggle ── */
+function toggleTitleUppercase(mode, rowId, btn){
+  const enabled = !S[mode].titUppercase;
+  S[mode].titUppercase = enabled;
+  const target = btn || $(rowId)?.querySelector('.aft');
+  if(target){
+    target.classList.toggle('on', enabled);
+    target.setAttribute('aria-pressed', String(enabled));
+  }
+  markDirty(mode);
+  saveState();
+}
+
+function applyTitleUppercase(mode, rowId, enabled){
+  const value = Boolean(enabled);
+  S[mode].titUppercase = value;
+  const btn = $(rowId)?.querySelector('.aft');
+  if(btn){
+    btn.classList.toggle('on', value);
+    btn.setAttribute('aria-pressed', String(value));
+  }
+}
+
 /* Clamp dotActive when dotCount changes */
 function clampActive(cntId, actId, actNId, mode){
   const v = Math.max(2, Math.min(10, parseInt($(cntId).value)||5));
@@ -1483,11 +2124,17 @@ function renderLoop(mode){
   if(s.dirty){ s.dirty=false; draw(mode); saveState(); }
 }
 
-function draw(mode){
+function draw(mode, options={}){
   const s  = S[mode];
+  const forExport = options.forExport === true;
+  const transparentExport = options.transparentExport === true;
+  const analyzeContrast = options.analyzeContrast === true;
+  const renderScale = Math.max(1, Number(options.scale) || 1);
   const activeData = getActiveData(mode);
-  const cv = cvEl(mode);
-  const {W,H} = D(mode);
+  const cv = options.targetCanvas || cvEl(mode);
+  const baseDims = D(mode);
+  const W = Math.round(baseDims.W * renderScale);
+  const H = Math.round(baseDims.H * renderScale);
   if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H;}
 
   const pfx = mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
@@ -1496,8 +2143,10 @@ function draw(mode){
   const ctx = cv.getContext('2d');
   ctx.clearRect(0,0,W,H);
 
-  if(activeData.transparentBg){
-  } else if(activeData.mediaFile){
+  const showReference = mode === 'reels' && activeData.mediaFile && !forExport;
+  const shouldDrawMedia = activeData.mediaFile && !transparentExport && (!activeData.transparentBg || showReference);
+
+  if(shouldDrawMedia){
     const src=activeData.imgO, sW=src.naturalWidth, sH=src.naturalHeight;
     if(sW>0&&sH>0){
       const ir=sW/sH,cr=W/H;
@@ -1509,11 +2158,11 @@ function draw(mode){
       const dy=mpy>0 ? mpy*activeData.panY : (sH-sh)/2;
       ctx.drawImage(src,dx,dy,sw,sh,0,0,W,H);
     }
-  } else {
+  } else if(!activeData.transparentBg && !transparentExport) {
     ctx.fillStyle='#06070a'; ctx.fillRect(0,0,W,H);
   }
 
-  if(!activeData.transparentBg){
+  if(!activeData.transparentBg && !transparentExport){
     const gopVal=+g('gop').value/100;
     const isTop=activeData.pos==='top';
     const gH=H*0.6, gY0=isTop?0:H-gH;
@@ -1530,7 +2179,8 @@ function draw(mode){
   const textAlign=activeData.align==='right'?'right':activeData.align==='left'?'left':'center';
   const fontFam=g('fontFam').value||'Montserrat';
   const strokeW=+g('tStrk').value*sc;
-  const titTxt=g('titulo').value.trim();
+  let titTxt=g('titulo').value.trim();
+  if(activeData.titUppercase) titTxt=titTxt.toLocaleUpperCase('pt-BR');
   const subTxt=g('sub').value.trim();
   
   let titSzPx=+g('tsz').value*sc;
@@ -1546,12 +2196,16 @@ function draw(mode){
   const isAutoFit = autoMode !== 'off';
   const maxTitLines = parseInt(autoMode) || 2;
   if(isAutoFit && titTxt) {
-    let minSz = 30 * sc, maxSz = 180 * sc, low = minSz, high = maxSz, best = minSz;
+    const titleSizeInput = g('tsz');
+    let minSz = Number(titleSizeInput.min) * sc;
+    let maxSz = Number(titleSizeInput.max) * sc;
+    let low = minSz, high = maxSz, best = minSz;
     while (low <= high) {
       let mid = Math.floor((low + high) / 2);
       ctx.font = `${titFs}${titWeight} ${mid}px '${fontFam}',sans-serif`;
       let linesTest = formatTitLines(ctx, titTxt, maxTxtW);
-      if (linesTest.length <= maxTitLines) { best = mid; low = mid + 1; } 
+      const widthsFit = linesTest.every(line => line.reduce((sum, token) => sum + ctx.measureText(token.text).width, 0) <= maxTxtW);
+      if (linesTest.length <= maxTitLines && widthsFit) { best = mid; low = mid + 1; } 
       else { high = mid - 1; }
     }
     titSzPx = best;
@@ -1564,12 +2218,16 @@ function draw(mode){
   const isAutoFitSub = autoSubMode !== 'off';
   const maxSubLines = parseInt(autoSubMode) || 2;
   if(isAutoFitSub && subTxt) {
-    let minSzSub = 15 * sc, maxSzSub = 80 * sc, lowSub = minSzSub, highSub = maxSzSub, bestSub = minSzSub;
+    const subSizeInput = g('ssz');
+    let minSzSub = Number(subSizeInput.min) * sc;
+    let maxSzSub = Number(subSizeInput.max) * sc;
+    let lowSub = minSzSub, highSub = maxSzSub, bestSub = minSzSub;
     while (lowSub <= highSub) {
       let midSub = Math.floor((lowSub + highSub) / 2);
       ctx.font = `${subFs}${subWeight} ${midSub}px 'Inter',sans-serif`;
       let linesTestSub = wrapText(ctx, subTxt, maxTxtW);
-      if (linesTestSub.length <= maxSubLines) { bestSub = midSub; lowSub = midSub + 1; }
+      const widthsFitSub = linesTestSub.every(line => ctx.measureText(line).width <= maxTxtW);
+      if (linesTestSub.length <= maxSubLines && widthsFitSub) { bestSub = midSub; lowSub = midSub + 1; }
       else { highSub = midSub - 1; }
     }
     subSzPx = bestSub;
@@ -1604,6 +2262,16 @@ function draw(mode){
     baseSY=baseTY+titBlockH+gap;
   }
 
+  const contentBottom=Math.max(baseTY+titBlockH,baseSY+subBlockH);
+  const textBounds={
+    x:Math.max(0,pad*.45),
+    y:Math.max(0,baseTY-26*sc),
+    w:Math.min(W,W-pad*.9),
+    h:Math.max(80*sc,Math.min(H,contentBottom+28*sc)-Math.max(0,baseTY-26*sc))
+  };
+  s.lastTextBounds=textBounds;
+  if(analyzeContrast && !transparentExport) s.lastBackgroundLuminance=sampleCanvasLuminance(ctx,textBounds);
+
   if(titLines.length>0){
     ctx.save();
     ctx.font=`${titFs}${titWeight} ${titSzPx}px '${fontFam}',sans-serif`;
@@ -1615,9 +2283,14 @@ function draw(mode){
       if(textAlign==='right')  curX-=lineW;
       const posY=baseTY+i*titLH;
       if(strokeW>0){
-        ctx.strokeStyle='rgba(0,0,0,0.9)'; ctx.lineWidth=strokeW*2; ctx.lineJoin='round';
+        ctx.strokeStyle='rgba(0,0,0,0.9)';
+        ctx.lineWidth=strokeW*2;
+        ctx.lineJoin='round';
         let tx=curX;
-        lineArr.forEach(chunk=>{ctx.strokeText(chunk.text,tx,posY);tx+=ctx.measureText(chunk.text).width;});
+        lineArr.forEach(chunk=>{
+          ctx.strokeText(chunk.text,tx,posY);
+          tx+=ctx.measureText(chunk.text).width;
+        });
       } else {
         ctx.shadowColor=activeData.transparentBg?'rgba(0,0,0,0.35)':'rgba(0,0,0,0.75)';
         ctx.shadowBlur=activeData.transparentBg?8*sc:18*sc; ctx.shadowOffsetY=3*sc;
@@ -1637,7 +2310,7 @@ function draw(mode){
     ctx.textAlign=textAlign; ctx.textBaseline='top';
     const posX=baseAX, posY=baseSY;
     
-    if(activeData.showSubBg && !reelsMode){
+    if(activeData.showSubBg){
       const sbopVal=parseInt(g('sbop').value)/100;
       if (offCanvas.width !== W || offCanvas.height !== H) { offCanvas.width = W; offCanvas.height = H; }
       offCtx.clearRect(0, 0, W, H);
@@ -1694,6 +2367,84 @@ function draw(mode){
     }
     ctx.restore();
   }
+
+  if(!forExport && s.showGuides){
+    drawInstagramGuides(ctx,W,H,mode);
+  }
+}
+
+function toggleGuides(mode){
+  const state=S[mode];
+  state.showGuides=!state.showGuides;
+  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
+  const btn=$(pfx+'guideBtn');
+  if(btn){
+    btn.classList.toggle('active',state.showGuides);
+    btn.setAttribute('aria-pressed',String(state.showGuides));
+  }
+  cwEl(mode).classList.toggle('guides-on',state.showGuides);
+  markDirty(mode);
+  saveState();
+}
+
+function applyGuidesState(mode,enabled){
+  S[mode].showGuides=Boolean(enabled);
+  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
+  const btn=$(pfx+'guideBtn');
+  if(btn){
+    btn.classList.toggle('active',S[mode].showGuides);
+    btn.setAttribute('aria-pressed',String(S[mode].showGuides));
+  }
+  cwEl(mode).classList.toggle('guides-on',S[mode].showGuides);
+}
+
+function setNumericPair(prefix,id,numId,value){
+  const input=$(prefix+id),number=$(prefix+numId);
+  if(!input||!number) return;
+  const bounded=Math.max(Number(input.min),Math.min(Number(input.max),Math.round(value)));
+  input.value=bounded; number.value=bounded;
+}
+
+function autoContrast(mode){
+  const state=S[mode];
+  if(!state.mediaFile){
+    showToast(mode==='reels'?'Adicione uma imagem de referência para analisar o contraste.':'Importe uma imagem para analisar o contraste.');
+    return;
+  }
+
+  draw(mode,{analyzeContrast:true});
+  const lum=state.lastBackgroundLuminance;
+  if(lum===null || !Number.isFinite(lum)){
+    showToast('Não foi possível analisar esta imagem.');
+    return;
+  }
+
+  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
+  const useDarkText=lum>.62;
+  const baseColor=useDarkText?'#111111':'#ffffff';
+  const currentHighlight=state.tColor||'#ffffff';
+  const highlight=approximateContrastRatio(currentHighlight,lum)>=3?currentHighlight:baseColor;
+  const stroke=useDarkText?0:(lum>.48?5:lum>.30?3:1);
+  const subOpacity=useDarkText?72:(lum>.42?60:46);
+  const gradient=useDarkText?10:(lum>.48?74:lum>.30?58:38);
+
+  state.titBaseColor=baseColor;
+  state.tColor=highlight;
+  setTitBase(baseColor,null,mode,false);
+  setTC(highlight,null,mode,false);
+  setNumericPair(pfx,'tStrk','tStrkN',stroke);
+  setNumericPair(pfx,'sbop','sbnum',subOpacity);
+  if(mode!=='reels') setNumericPair(pfx,'gop','gnum',gradient);
+
+  const subtitle=$(pfx+'sub')?.value.trim();
+  if(subtitle){
+    state.showSubBg=true;
+    setSubBg(true,mode,false);
+  }
+
+  markDirty(mode);
+  saveState(true);
+  showToast(useDarkText?'Contraste ajustado com texto escuro.':'Contraste ajustado com texto claro.');
 }
 
 function setAccent(c,el){
@@ -1713,6 +2464,7 @@ function setAccent(c,el){
 
 function exportBackup(){
   try{
+    saveState(true);
     const raw = localStorage.getItem('pbState3');
     if(!raw){ showToast('Nenhuma configuração salva ainda.'); return; }
     const blob = new Blob([raw], {type:'application/json'});
@@ -1742,14 +2494,34 @@ function importBackup(e){
   e.target.value = '';
 }
 
-function toggleTheme(){document.body.classList.toggle('lt');}
+function toggleTheme(){document.body.classList.toggle('lt');saveState();}
 
-function togglePalette(){
+function togglePalette(force){
   const picker = $('accentPicker');
   const overlay = $('accentOverlay');
-  picker.classList.toggle('open');
-  overlay.classList.toggle('show');
+  const shouldOpen = typeof force === 'boolean' ? force : !picker.classList.contains('open');
+  picker.classList.toggle('open', shouldOpen);
+  overlay.classList.toggle('show', shouldOpen);
+  $('btnPalette').setAttribute('aria-expanded', String(shouldOpen));
 }
+
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape'){
+    togglePalette(false);
+    closeExportDialog();
+    return;
+  }
+  const target=e.target;
+  const isEditing=target && (target.matches?.('input,textarea,select') || target.isContentEditable);
+  if(isEditing) return;
+  const mod=e.ctrlKey||e.metaKey;
+  if(mod && e.key.toLowerCase()==='z'){
+    e.preventDefault();
+    e.shiftKey?redoChange():undoChange();
+  }else if(mod && e.key.toLowerCase()==='y'){
+    e.preventDefault();redoChange();
+  }
+});
 
 function resetAll(){
   if(confirm('Tem certeza que deseja limpar tudo?')){localStorage.removeItem('pbState3');location.reload();}
@@ -1757,7 +2529,7 @@ function resetAll(){
 
 function sync(rid,nid,mode){ 
   $(nid).value=$(rid).value; 
-  const pfx = mode === 'reels' ? 'r-' : '';
+  const pfx = mode === 'reels' ? 'r-' : mode === 'sub' ? 's-' : '';
   if(rid.includes('tsz') && !rid.includes('ssz')) {
     resetAutoFitToggle(pfx+'autoFitMode', pfx+'autoFitRow');
   }
@@ -1770,7 +2542,7 @@ function sync(rid,nid,mode){
 function nsync(nid,rid,mode){
   const el=$(nid);let v=parseFloat(el.value);if(isNaN(v))return;
   v=Math.max(+el.min,Math.min(+el.max,v));el.value=v;$(rid).value=v;
-  const pfx = mode === 'reels' ? 'r-' : '';
+  const pfx = mode === 'reels' ? 'r-' : mode === 'sub' ? 's-' : '';
   if(rid.includes('tsz') && !rid.includes('ssz')) {
     resetAutoFitToggle(pfx+'autoFitMode', pfx+'autoFitRow');
   }
@@ -1865,37 +2637,55 @@ function setInd(val,btn,mode,updateState=true){
 }
 
 function loadImg(e,mode){
-  const f=e.target.files[0]; if(!f) return;
+  const file=e.target.files && e.target.files[0];
+  if(file) loadImageFile(file,mode);
+  e.target.value='';
+}
+
+function loadImageFile(file,mode){
+  if(!file || !file.type.startsWith('image/')){
+    showToast('Selecione um arquivo de imagem válido.');
+    return;
+  }
+  if(file.size > 30 * 1024 * 1024){
+    showToast('A imagem deve ter no máximo 30 MB.');
+    return;
+  }
+
   const activeData = getActiveData(mode);
-  activeData.mediaFile = f;
+  activeData.mediaFile = file;
   if(mode !== 'reels') activeData.transparentBg = false;
   const cw = cwEl(mode);
   const pfx = mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
+
   if(mode !== 'reels'){
     const ph=$(`${pfx}prevPlaceholder`);
     if(ph) ph.style.display='none';
-    cw.classList.remove('transparent-mode');
     cw.style.display='flex';
-    $(`${pfx}btnMove`).style.display='flex';
-    $(`${pfx}btnChange`).style.display='flex';
-    if(mode !== 'reels') $(mode==='sub'?'s-dlBtn':'dlBtn').disabled=false;
-  } else {
-    cw.classList.remove('transparent-mode');
-    $('r-btnMove').style.display='flex';
-    $('r-btnChange').style.display='flex';
+    $(mode==='sub'?'s-dlBtn':'dlBtn').disabled=false;
   }
+  cw.classList.remove('transparent-mode');
+  $(`${pfx}btnMove`).style.display='flex';
+  $(`${pfx}btnChange`).style.display='flex';
+
   if(activeData.imgO._blobURL) URL.revokeObjectURL(activeData.imgO._blobURL);
-  const blobURL = URL.createObjectURL(f); activeData.imgO._blobURL = blobURL;
+  const blobURL = URL.createObjectURL(file);
+  activeData.imgO._blobURL = blobURL;
   activeData.imgO.onload = () => {
     activeData.panX=.5; activeData.panY=.5; activeData.zoom=1;
     $(`${pfx}zlbl`).textContent='100%';
     $(`${pfx}zpill`).style.display='flex';
     markDirty(mode);
-    saveState();
+    saveState(true);
+    initializeHistory();
+    if(mode === 'reels') showToast('Referência carregada. O PNG continuará transparente.');
   };
-  activeData.imgO.onerror = () => showToast('Erro ao carregar a imagem. Tente outro arquivo.');
+  activeData.imgO.onerror = () => {
+    activeData.mediaFile = null;
+    URL.revokeObjectURL(blobURL);
+    showToast('Erro ao carregar a imagem. Tente outro arquivo.');
+  };
   activeData.imgO.src = blobURL;
-  e.target.value = '';
 }
 
 /* ── Clear title/subtitle text ── */
@@ -1906,12 +2696,20 @@ function clearText(id, mode){
   el.focus();
 }
 
-function saveState(){
+function buildState(){
   try{
     const g = id => { const el=$(id); return el ? el.value : null; };
-    const gc = id => { const el=$(id); return el ? el.checked : true; };
     const st={
+      version: 6,
+      theme: document.body.classList.contains('lt') ? 'light' : 'dark',
+      currentPage,
       accent: getComputedStyle(document.documentElement).getPropertyValue('--ac').trim(),
+      img_showGuides: S.img.showGuides,
+      img_panX: S.img.panX, img_panY: S.img.panY, img_zoom: S.img.zoom,
+      sub_showGuides: S.sub.showGuides,
+      sub_panX: S.sub.panX, sub_panY: S.sub.panY, sub_zoom: S.sub.zoom,
+      r_showGuides: S.reels.showGuides,
+      r_panX: S.reels.panX, r_panY: S.reels.panY, r_zoom: S.reels.zoom,
       img_ratio   : S.img.ratio,
       img_pos     : S.img.pos,
       img_align   : S.img.align,
@@ -1919,10 +2717,13 @@ function saveState(){
       img_titBaseColor: S.img.titBaseColor,
       img_titWeight  : S.img.titWeight,
       img_titItalic  : S.img.titItalic,
+      img_titUppercase: S.img.titUppercase,
       img_subWeight  : S.img.subWeight,
       img_subItalic  : S.img.subItalic,
       img_showSubBg: S.img.showSubBg,
       img_indicator: S.img.indicator,
+      img_titulo  : g('titulo'),
+      img_sub      : g('sub'),
       img_fontFam : g('fontFam'),
       img_tsz     : g('tsz'),
       img_autoFitMode : g('autoFitMode'),
@@ -1941,11 +2742,14 @@ function saveState(){
       sub_titBaseColor: S.sub.titBaseColor,
       sub_showSubBg: S.sub.showSubBg,
       sub_indicator: S.sub.indicator,
+      sub_titulo  : g('s-titulo'),
+      sub_sub      : g('s-sub'),
       sub_fontFam : g('s-fontFam'),
       sub_autoFitMode : g('s-autoFitMode'),
       sub_autoFitSubMode : g('s-autoFitSubMode'),
       sub_titWeight: S.sub.titWeight,
       sub_titItalic: S.sub.titItalic,
+      sub_titUppercase: S.sub.titUppercase,
       sub_subWeight: S.sub.subWeight,
       sub_subItalic: S.sub.subItalic,
       sub_tsz     : g('s-tsz'),
@@ -1963,6 +2767,7 @@ function saveState(){
       r_titBaseColor: S.reels.titBaseColor,
       r_titWeight  : S.reels.titWeight,
       r_titItalic  : S.reels.titItalic,
+      r_titUppercase: S.reels.titUppercase,
       r_subWeight  : S.reels.subWeight,
       r_subItalic  : S.reels.subItalic,
       r_showSubBg: S.reels.showSubBg,
@@ -1975,26 +2780,79 @@ function saveState(){
       r_sbop     : g('r-sbop'),
     };
     Object.keys(st).forEach(k => { if(st[k] === null) delete st[k]; });
-    localStorage.setItem('pbState3', JSON.stringify(st));
-  }catch(e){}
+    return st;
+  }catch(e){
+    console.warn('buildState error',e);
+    return null;
+  }
 }
 
-function loadState(){
+function pushHistorySnapshot(st){
+  if(isApplyingState || !st) return;
+  const json=JSON.stringify(st);
+  if(json===historyState.lastJSON) return;
+  historyState.past.push(st);
+  if(historyState.past.length>historyState.max) historyState.past.shift();
+  historyState.future=[];
+  historyState.lastJSON=json;
+  updateHistoryButtons();
+}
+
+function initializeHistory(){
+  const st=buildState();
+  if(!st) return;
+  historyState.past=[st];
+  historyState.future=[];
+  historyState.lastJSON=JSON.stringify(st);
+  updateHistoryButtons();
+}
+
+function updateHistoryButtons(){
+  const undo=$('undoBtn'),redo=$('redoBtn');
+  if(undo) undo.disabled=historyState.past.length<=1;
+  if(redo) redo.disabled=historyState.future.length===0;
+}
+
+function persistState(){
+  const st=buildState();
+  if(!st) return;
   try{
-    const raw=localStorage.getItem('pbState3'); if(!raw) return;
-    const st=JSON.parse(raw);
+    localStorage.setItem('pbState3',JSON.stringify(st));
+    pushHistorySnapshot(st);
+  }catch(e){ console.warn('saveState error',e); }
+}
+
+function saveState(immediate=false){
+  if(isApplyingState) return;
+  clearTimeout(saveTimer);
+  if(immediate){
+    persistState();
+    return;
+  }
+  saveTimer = setTimeout(persistState, 250);
+}
+
+function applyStateObject(st){
+  const previousApplying=isApplyingState;
+  isApplyingState=true;
+  try{
+    if(st.theme === 'light') document.body.classList.add('lt');
+    else if(st.theme === 'dark') document.body.classList.remove('lt');
     if(st.accent) setAccent(st.accent, null);
-    if(st.img_ratio){ const btn=document.querySelector(`#ratioRow button[onclick="setRatio('${st.img_ratio}',this,'img')"]`); if(btn) setRatio(st.img_ratio,btn,'img'); }
+    if(st.img_ratio){ const ratio=st.img_ratio==='9:16-hd'?'3:4':st.img_ratio; const btn=document.querySelector(`#ratioRow button[onclick="setRatio('${ratio}',this,'img')"]`); if(btn) setRatio(ratio,btn,'img'); }
     if(st.img_pos){ setPos(st.img_pos, null, 'img'); }
     if(st.img_align){ setAlign(st.img_align, null, 'img'); }
     if(st.img_tColor){ setTC(st.img_tColor, null, 'img'); }
     if(st.img_titBaseColor){ setTitBase(st.img_titBaseColor, null, 'img'); }
     if(st.img_titWeight !== undefined){ S.img.titWeight = st.img_titWeight; applyFontProp('titWeight', st.img_titWeight, 'titWeightRow'); }
     if(st.img_titItalic !== undefined){ S.img.titItalic = st.img_titItalic; applyFontProp('titItalic', st.img_titItalic, 'titItalicRow'); }
+    if(st.img_titUppercase !== undefined) applyTitleUppercase('img', 'titUpperRow', st.img_titUppercase);
     if(st.img_subWeight !== undefined){ S.img.subWeight = st.img_subWeight; applyFontProp('subWeight', st.img_subWeight, 'subWeightRow'); }
     if(st.img_subItalic !== undefined){ S.img.subItalic = st.img_subItalic; applyFontProp('subItalic', st.img_subItalic, 'subItalicRow'); }
     if(st.img_showSubBg!==undefined) setSubBg(st.img_showSubBg,'img');
     if(st.img_indicator){ setInd(st.img_indicator, null, 'img'); }
+    if(st.img_titulo!==undefined) $('titulo').value=st.img_titulo;
+    if(st.img_sub!==undefined) $('sub').value=st.img_sub;
     if(st.img_fontFam) $('fontFam').value=st.img_fontFam;
     // AutoFit modes (with backward compat for old boolean saves)
     const loadAFM = (newKey, oldKey, hiddenId, rowId) => {
@@ -2007,7 +2865,7 @@ function loadState(){
     loadAFM('img_autoFitSubMode', 'img_autoFitSub', 'autoFitSubMode', 'autoFitSubRow');
     loadAFM('r_autoFitMode',      'r_autoFit',      'r-autoFitMode',  'r-autoFitRow');
     loadAFM('r_autoFitSubMode',   'r_autoFitSub',   'r-autoFitSubMode','r-autoFitSubRow');
-    if(st.img_tsz!==undefined){ const v=Math.max(40,Math.min(180,+st.img_tsz)); $('tsz').value=v; $('tnum').value=v; }
+    if(st.img_tsz!==undefined){ const input=$('tsz'); const v=Math.max(+input.min,Math.min(+input.max,+st.img_tsz)); input.value=v; $('tnum').value=v; }
     if(st.img_tStrk!==undefined){ $('tStrk').value=st.img_tStrk; $('tStrkN').value=st.img_tStrk; }
     if(st.img_ssz!==undefined){ const v=Math.max(15,Math.min(80,+st.img_ssz)); $('ssz').value=v; $('snum2').value=v; }
     if(st.img_sbop!==undefined){ $('sbop').value=st.img_sbop; $('sbnum').value=st.img_sbop; }
@@ -2025,26 +2883,30 @@ function loadState(){
     if(st.r_titBaseColor){ setTitBase(st.r_titBaseColor, null, 'reels'); }
     if(st.r_titWeight !== undefined){ S.reels.titWeight = st.r_titWeight; applyFontProp('titWeight', st.r_titWeight, 'r-titWeightRow'); }
     if(st.r_titItalic !== undefined){ S.reels.titItalic = st.r_titItalic; applyFontProp('titItalic', st.r_titItalic, 'r-titItalicRow'); }
+    if(st.r_titUppercase !== undefined) applyTitleUppercase('reels', 'r-titUpperRow', st.r_titUppercase);
     if(st.r_subWeight !== undefined){ S.reels.subWeight = st.r_subWeight; applyFontProp('subWeight', st.r_subWeight, 'r-subWeightRow'); }
     if(st.r_subItalic !== undefined){ S.reels.subItalic = st.r_subItalic; applyFontProp('subItalic', st.r_subItalic, 'r-subItalicRow'); }
     if(st.r_showSubBg!==undefined) setSubBg(st.r_showSubBg,'reels');
     if(st.r_fontFam) $('r-fontFam').value=st.r_fontFam;
     // sub mode restore
-    if(st.sub_ratio){ const btn=document.querySelector(`#s-ratioRow button[onclick*="'${st.sub_ratio}'"]`); if(btn) setRatio(st.sub_ratio,btn,'sub'); }
+    if(st.sub_ratio){ const ratio=st.sub_ratio==='9:16-hd'?'3:4':st.sub_ratio; const btn=document.querySelector(`#s-ratioRow button[onclick*="'${ratio}'"]`); if(btn) setRatio(ratio,btn,'sub'); }
     if(st.sub_pos){ setPos(st.sub_pos, null, 'sub'); }
     if(st.sub_align){ setAlign(st.sub_align, null, 'sub'); }
     if(st.sub_tColor){ setTC(st.sub_tColor, null, 'sub'); }
     if(st.sub_titBaseColor){ setTitBase(st.sub_titBaseColor, null, 'sub'); }
     if(st.sub_showSubBg!==undefined) setSubBg(st.sub_showSubBg,'sub');
     if(st.sub_indicator){ setInd(st.sub_indicator, null, 'sub'); }
+    if(st.sub_titulo!==undefined) $('s-titulo').value=st.sub_titulo;
+    if(st.sub_sub!==undefined) $('s-sub').value=st.sub_sub;
     if(st.sub_fontFam) $('s-fontFam').value=st.sub_fontFam;
-    loadAFM('sub_autoFitMode',    'img_autoFit',    's-autoFitMode',    's-autoFitRow');
-    loadAFM('sub_autoFitSubMode', 'img_autoFitSub', 's-autoFitSubMode', 's-autoFitSubRow');
+    loadAFM('sub_autoFitMode',    'sub_autoFit',    's-autoFitMode',    's-autoFitRow');
+    loadAFM('sub_autoFitSubMode', 'sub_autoFitSub', 's-autoFitSubMode', 's-autoFitSubRow');
     if(st.sub_titWeight !== undefined){ S.sub.titWeight = st.sub_titWeight; applyFontProp('titWeight', st.sub_titWeight, 's-titWeightRow'); }
     if(st.sub_titItalic !== undefined){ S.sub.titItalic = st.sub_titItalic; applyFontProp('titItalic', st.sub_titItalic, 's-titItalicRow'); }
+    if(st.sub_titUppercase !== undefined) applyTitleUppercase('sub', 's-titUpperRow', st.sub_titUppercase);
     if(st.sub_subWeight !== undefined){ S.sub.subWeight = st.sub_subWeight; applyFontProp('subWeight', st.sub_subWeight, 's-subWeightRow'); }
     if(st.sub_subItalic !== undefined){ S.sub.subItalic = st.sub_subItalic; applyFontProp('subItalic', st.sub_subItalic, 's-subItalicRow'); }
-    if(st.sub_tsz!==undefined){ const v=Math.max(40,Math.min(180,+st.sub_tsz)); $('s-tsz').value=v; $('s-tnum').value=v; }
+    if(st.sub_tsz!==undefined){ const input=$('s-tsz'); const v=Math.max(+input.min,Math.min(+input.max,+st.sub_tsz)); input.value=v; $('s-tnum').value=v; }
     if(st.sub_tStrk!==undefined){ $('s-tStrk').value=st.sub_tStrk; $('s-tStrkN').value=st.sub_tStrk; }
     if(st.sub_ssz!==undefined){ const v=Math.max(15,Math.min(80,+st.sub_ssz)); $('s-ssz').value=v; $('s-snum2').value=v; }
     if(st.sub_sbop!==undefined){ $('s-sbop').value=st.sub_sbop; $('s-sbnum').value=st.sub_sbop; }
@@ -2056,11 +2918,81 @@ function loadState(){
     }
     if(st.sub_dotActive!==undefined){ $('s-dotActive').value=st.sub_dotActive; $('s-dotActiveN').value=st.sub_dotActive; }
     // (reels autofit handled above by loadAFM)
-    if(st.r_tsz!==undefined){ const v=Math.max(40,Math.min(180,+st.r_tsz)); $('r-tsz').value=v; $('r-tnum').value=v; }
+    if(st.r_tsz!==undefined){ const input=$('r-tsz'); const v=Math.max(+input.min,Math.min(+input.max,+st.r_tsz)); input.value=v; $('r-tnum').value=v; }
     if(st.r_tStrk!==undefined){ $('r-tStrk').value=st.r_tStrk; $('r-tStrkN').value=st.r_tStrk; }
     if(st.r_ssz!==undefined){ const v=Math.max(15,Math.min(80,+st.r_ssz)); $('r-ssz').value=v; $('r-snum2').value=v; }
     if(st.r_sbop!==undefined){ $('r-sbop').value=st.r_sbop; $('r-sbnum').value=st.r_sbop; }
-  }catch(e){ console.warn('loadState error',e); }
+    if(st.img_showGuides!==undefined) applyGuidesState('img',st.img_showGuides);
+    if(st.sub_showGuides!==undefined) applyGuidesState('sub',st.sub_showGuides);
+    if(st.r_showGuides!==undefined) applyGuidesState('reels',st.r_showGuides);
+    if(st.img_panX!==undefined){S.img.panX=st.img_panX;S.img.panY=st.img_panY;S.img.zoom=st.img_zoom||1;}
+    if(st.sub_panX!==undefined){S.sub.panX=st.sub_panX;S.sub.panY=st.sub_panY;S.sub.zoom=st.sub_zoom||1;}
+    if(st.r_panX!==undefined){S.reels.panX=st.r_panX;S.reels.panY=st.r_panY;S.reels.zoom=st.r_zoom||1;}
+    if($('zlbl')) $('zlbl').textContent=Math.round(S.img.zoom*100)+'%';
+    if($('s-zlbl')) $('s-zlbl').textContent=Math.round(S.sub.zoom*100)+'%';
+    if($('r-zlbl')) $('r-zlbl').textContent=Math.round(S.reels.zoom*100)+'%';
+    if(['img','sub','reels'].includes(st.currentPage)) switchPage(st.currentPage);
+    markDirty('img');markDirty('sub');markDirty('reels');
+  }catch(e){ console.warn('applyState error',e); }
+  finally{isApplyingState=previousApplying;}
+}
+
+function clearEditorTexts(){
+  ['titulo','sub','s-titulo','s-sub','r-titulo','r-sub'].forEach(id=>{
+    const el=$(id);
+    if(el) el.value='';
+  });
+}
+
+function loadState(){
+  try{
+    const raw=localStorage.getItem('pbState3');
+    if(!raw){
+      clearEditorTexts();
+      return;
+    }
+
+    const st=JSON.parse(raw);
+
+    // As configurações visuais permanecem salvas, mas cada nova sessão
+    // começa com os campos de texto vazios.
+    st.img_titulo='';
+    st.img_sub='';
+    st.sub_titulo='';
+    st.sub_sub='';
+    st.r_titulo='';
+    st.r_sub='';
+
+    applyStateObject(st);
+    clearEditorTexts();
+    localStorage.setItem('pbState3',JSON.stringify(st));
+  }catch(e){
+    console.warn('loadState error',e);
+    clearEditorTexts();
+  }
+}
+
+function undoChange(){
+  if(historyState.past.length<=1) return;
+  const current=historyState.past.pop();
+  historyState.future.push(current);
+  const previous=historyState.past[historyState.past.length-1];
+  applyStateObject(previous);
+  historyState.lastJSON=JSON.stringify(previous);
+  localStorage.setItem('pbState3',historyState.lastJSON);
+  updateHistoryButtons();
+  showToast('Ajuste desfeito.');
+}
+
+function redoChange(){
+  if(!historyState.future.length) return;
+  const next=historyState.future.pop();
+  historyState.past.push(next);
+  applyStateObject(next);
+  historyState.lastJSON=JSON.stringify(next);
+  localStorage.setItem('pbState3',historyState.lastJSON);
+  updateHistoryButtons();
+  showToast('Ajuste refeito.');
 }
 
 function toggleMove(mode){
@@ -2164,18 +3096,209 @@ function bindCanvas(mode){
   },{passive:false});
 }
 
-async function exportMedia(mode){
-  const s = S[mode]; if(!s.mediaFile&&!s.transparentBg) return;
-  draw(mode);
-  const cv=cvEl(mode), {W,H}=D(mode);
-  const expC=document.createElement('canvas'); expC.width=W; expC.height=H;
-  expC.getContext('2d').drawImage(cv,0,0,W,H);
-  const suffix=s.transparentBg?'transparente':(mode==='reels'?'reels':mode==='sub'?'assinantes':'feed');
-  setTimeout(()=>{
-    const a=document.createElement('a');
-    a.download=`post-${suffix}.png`; a.href=expC.toDataURL('image/png'); a.click();
-  },80);
+function exportChoiceButton(rowId,value){
+  return document.querySelector(`#${rowId} .choice-btn[data-value="${value}"]`);
 }
+
+function setChoiceRow(rowId,value){
+  document.querySelectorAll(`#${rowId} .choice-btn`).forEach(btn=>btn.classList.toggle('on',String(btn.dataset.value)===String(value)));
+}
+
+function openExportDialog(mode){
+  const state=S[mode];
+  if(!state.mediaFile && mode!=='reels'){
+    showToast('Importe uma imagem antes de exportar.');
+    return;
+  }
+
+  exportOptions.mode=mode;
+  exportOptions.format='png';
+  exportOptions.quality=.90;
+  exportOptions.scale=1;
+  exportOptions.background=mode==='reels'?'transparent':'full';
+
+  const suffix=mode==='reels'?'reels-overlay':mode==='sub'?'assinantes':'feed';
+  $('exportFilename').value='post-'+suffix;
+  $('exportQuality').value=90;
+  $('exportQualityLabel').textContent='90%';
+
+  const jpegBtn=exportChoiceButton('exportFormatRow','jpeg');
+  const fullBtn=exportChoiceButton('exportBackgroundRow','full');
+  const transparentBtn=$('transparentExportBtn');
+  if(jpegBtn) jpegBtn.disabled=mode==='reels';
+  if(fullBtn) fullBtn.disabled=mode==='reels';
+  if(transparentBtn) transparentBtn.disabled=false;
+
+  setChoiceRow('exportFormatRow','png');
+  setChoiceRow('exportScaleRow','1');
+  setChoiceRow('exportBackgroundRow',exportOptions.background);
+  updateExportUI();
+  $('exportOverlay').classList.add('show');
+  document.body.style.overflow='hidden';
+  setTimeout(()=>$('exportFilename').select(),30);
+}
+
+function closeExportDialog(event){
+  if(event && event.target!==$('exportOverlay')) return;
+  $('exportOverlay').classList.remove('show');
+  document.body.style.overflow='';
+}
+
+function setExportOption(key,value,btn){
+  if(btn?.disabled) return;
+  exportOptions[key]=key==='scale'?Number(value):value;
+  const rowId=key==='format'?'exportFormatRow':key==='scale'?'exportScaleRow':'exportBackgroundRow';
+  setChoiceRow(rowId,value);
+
+  if(key==='format' && value==='jpeg'){
+    exportOptions.background='full';
+    setChoiceRow('exportBackgroundRow','full');
+  }
+  updateExportUI();
+}
+
+function updateExportQuality(){
+  const value=Number($('exportQuality').value)||90;
+  exportOptions.quality=value/100;
+  $('exportQualityLabel').textContent=value+'%';
+  updateExportUI();
+}
+
+function updateExportUI(){
+  const mode=exportOptions.mode;
+  const isPNG=exportOptions.format==='png';
+  const isReels=mode==='reels';
+  $('qualityWrap').classList.toggle('disabled',isPNG);
+  $('exportQuality').disabled=isPNG;
+  const transparentBtn=$('transparentExportBtn');
+  if(transparentBtn) transparentBtn.disabled=!isPNG;
+  $('exportBackgroundHelp').textContent=isReels
+    ? 'No Reels, a imagem de referência não entra no arquivo final.'
+    : isPNG?'“Somente textos” cria um fundo transparente para sobreposição.':'JPEG sempre exporta a arte completa.';
+
+  const dims=D(mode);
+  const W=dims.W*exportOptions.scale,H=dims.H*exportOptions.scale;
+  const format=exportOptions.format==='png'?'PNG':`JPEG ${Math.round(exportOptions.quality*100)}%`;
+  $('exportSummary').textContent=`${W} × ${H} · ${format}`;
+}
+
+async function createExportBlob(forceFormat=null){
+  const mode=exportOptions.mode;
+  const format=forceFormat||exportOptions.format;
+  const transparent=mode==='reels'||exportOptions.background==='transparent';
+  const target=document.createElement('canvas');
+  if(document.fonts?.ready) await document.fonts.ready;
+  draw(mode,{forExport:true,targetCanvas:target,scale:exportOptions.scale,transparentExport:transparent});
+
+  const mime=format==='jpeg'?'image/jpeg':'image/png';
+  const quality=format==='jpeg'?exportOptions.quality:undefined;
+  return await new Promise((resolve,reject)=>{
+    target.toBlob(blob=>blob?resolve(blob):reject(new Error('Falha ao gerar a imagem')),mime,quality);
+  });
+}
+
+function cleanExportFilename(){
+  const raw=$('exportFilename').value.trim()||'post';
+  return raw.replace(/[\\/:*?"<>|]+/g,'-').replace(/\s+/g,'-').replace(/-+/g,'-').slice(0,80)||'post';
+}
+
+async function downloadExportImage(){
+  const btn=$('downloadExportBtn');
+  const original=btn.textContent;
+  btn.disabled=true;btn.textContent='Gerando…';
+  try{
+    const blob=await createExportBlob();
+    const ext=exportOptions.format==='jpeg'?'jpg':'png';
+    const url=URL.createObjectURL(blob);
+    const link=document.createElement('a');
+    link.download=cleanExportFilename()+'.'+ext;
+    link.href=url;document.body.appendChild(link);link.click();link.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),1200);
+    showToast('Arquivo exportado.');
+    closeExportDialog();
+  }catch(error){
+    console.error(error);showToast('Não foi possível gerar o arquivo.');
+  }finally{btn.disabled=false;btn.textContent=original;}
+}
+
+async function copyExportImage(){
+  const btn=$('copyExportBtn');
+  const original=btn.textContent;
+  btn.disabled=true;btn.textContent='Copiando…';
+  try{
+    if(!navigator.clipboard || typeof ClipboardItem==='undefined') throw new Error('Clipboard API indisponível');
+    const blob=await createExportBlob('png');
+    await navigator.clipboard.write([new ClipboardItem({'image/png':blob})]);
+    showToast('Imagem copiada.');
+  }catch(error){
+    console.warn(error);showToast('O navegador não permitiu copiar. Use “Baixar arquivo”.');
+  }finally{btn.disabled=false;btn.textContent=original;}
+}
+
+async function exportMedia(mode){
+  openExportDialog(mode);
+}
+
+function bindUploadZone(mode){
+  const zones = [cwEl(mode)];
+  const pfx = mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
+  const placeholder = $(`${pfx}prevPlaceholder`);
+  if(placeholder) zones.push(placeholder);
+
+  zones.forEach(zone => {
+    ['dragenter','dragover'].forEach(type => zone.addEventListener(type,e=>{
+      e.preventDefault();
+      zone.classList.add('drag-over');
+    }));
+    ['dragleave','drop'].forEach(type => zone.addEventListener(type,e=>{
+      e.preventDefault();
+      zone.classList.remove('drag-over');
+    }));
+    zone.addEventListener('drop',e=>{
+      const file=[...e.dataTransfer.files].find(item=>item.type.startsWith('image/'));
+      if(file) loadImageFile(file,mode);
+      else showToast('Solte um arquivo de imagem válido.');
+    });
+  });
+}
+
+function initKeyboardAccessibility(){
+  document.querySelectorAll('.sw,.ac-dot').forEach(el=>{
+    el.setAttribute('role','button');
+    el.tabIndex=0;
+    const color=el.dataset.c || 'cor';
+    el.setAttribute('aria-label',`Selecionar cor ${color}`);
+    el.addEventListener('keydown',e=>{
+      if(e.key==='Enter' || e.key===' '){
+        e.preventDefault();
+        el.click();
+      }
+    });
+  });
+}
+
+document.addEventListener('paste',e=>{
+  const file=[...(e.clipboardData?.files || [])].find(item=>item.type.startsWith('image/'));
+  if(file){
+    e.preventDefault();
+    loadImageFile(file,currentPage);
+  }
+});
+
+window.addEventListener('pagehide',()=>saveState(true));
+window.addEventListener('pageshow',event=>{
+  // Ao voltar de uma página armazenada no cache do navegador, limpe também
+  // os textos para manter o mesmo comportamento de uma atualização comum.
+  if(event.persisted){
+    clearEditorTexts();
+    saveState(true);
+    markDirty('img');
+    markDirty('sub');
+    markDirty('reels');
+    initializeHistory();
+  }
+});
+
 
 (()=>{
   const cv=cvEl('img'), {W,H}=D('img');
@@ -2197,11 +3320,19 @@ async function exportMedia(mode){
   const defaultDot = document.querySelector('#accentGrid .ac-dot[data-c="#d97757"]');
   if(defaultDot){ defaultDot.classList.add('sel'); }
 
+  initKeyboardAccessibility();
+  bindUploadZone('img');
+  bindUploadZone('sub');
+  bindUploadZone('reels');
   loadState();
+  initializeHistory();
 
   markDirty('img');
   markDirty('sub');
   markDirty('reels');
+  if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(()=>{markDirty('img');markDirty('sub');markDirty('reels');});
+  }
 })();
 
 bindCanvas('img');

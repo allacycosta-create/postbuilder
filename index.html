@@ -806,7 +806,24 @@
     /* ── Recursos avançados ── */
     .ibtn:disabled{opacity:.28;cursor:not-allowed;pointer-events:none}
     .guide-btn.active{background:var(--ac2);border-color:transparent;color:var(--ac)}
-    .contrast-btn{white-space:nowrap}
+    .image-opacity-control{
+      display:flex;align-items:stretch;height:30px;overflow:hidden;
+      border:1px solid var(--line);border-radius:8px;background:var(--s2);
+    }
+    .opacity-step,.opacity-readout{
+      border:none;background:transparent;color:var(--t2);font-family:'DM Sans',sans-serif;
+      transition:background .15s,color .15s;
+    }
+    .opacity-step{width:28px;font-size:17px;font-weight:500;line-height:1}
+    .opacity-readout{min-width:82px;padding:0 8px;gap:5px;font-size:11px;font-weight:650}
+    .opacity-step:hover,.opacity-readout:hover{background:var(--s3);color:var(--tx)}
+    .opacity-step:disabled{opacity:.3;cursor:not-allowed}
+    .opacity-value{font-family:'DM Mono',monospace;font-size:10px;color:var(--tx)}
+    @media(max-width:520px){
+      .opacity-label{display:none}
+      .opacity-readout{min-width:46px;padding-inline:5px}
+      .opacity-step{width:26px}
+    }
 
     .modal-overlay{
       display:none;position:fixed;inset:0;z-index:500;
@@ -870,7 +887,6 @@
       .export-body{padding:15px;gap:16px}
       .export-actions{padding:0 15px 15px;grid-template-columns:1fr}
       .choice-grid.three{grid-template-columns:1fr}
-      .hdr-actions .contrast-btn span{display:none}
     }
 
   </style>
@@ -1024,10 +1040,13 @@
         <span class="card-label">Prévia</span>
         <div class="hdr-actions">
           <button class="cbtn cbtn-outline guide-btn" id="guideBtn" onclick="toggleGuides('img')" aria-pressed="false" title="Mostrar guias do Instagram">Guias</button>
-          <button class="cbtn cbtn-outline contrast-btn" onclick="autoContrast('img')" title="Ajustar a leitura automaticamente">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z"/></svg>
-            <span>Contraste</span>
-          </button>
+          <div class="image-opacity-control" aria-label="Opacidade da imagem do Feed">
+            <button class="opacity-step" id="imgOpacityMinus" onclick="adjustImageOpacity('img',-10)" title="Diminuir opacidade da imagem" aria-label="Diminuir opacidade da imagem">−</button>
+            <button class="opacity-readout" onclick="resetImageOpacity('img')" title="Clique para voltar a 100%" aria-label="Opacidade da imagem. Clique para restaurar 100%">
+              <span class="opacity-label">Imagem</span><span class="opacity-value" id="imgOpacityValue">100%</span>
+            </button>
+            <button class="opacity-step" id="imgOpacityPlus" onclick="adjustImageOpacity('img',10)" title="Aumentar opacidade da imagem" aria-label="Aumentar opacidade da imagem">+</button>
+          </div>
           <button class="cbtn cbtn-outline" id="btnMove" onclick="toggleMove('img')" style="display:none">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="19 9 22 12 19 15"/><polyline points="9 19 12 22 15 19"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
             Ajustar
@@ -1194,8 +1213,8 @@
           </div>
           <input type="hidden" id="autoFitMode" value="2">
           <div class="slider-row">
-            <input type="range" id="tsz" min="40" max="120" value="50" oninput="sync('tsz','tnum','img')">
-            <input class="snum" type="number" id="tnum" value="50" min="40" max="120" onchange="nsync('tnum','tsz','img')">
+            <input type="range" id="tsz" min="18" max="120" value="50" oninput="sync('tsz','tnum','img')">
+            <input class="snum" type="number" id="tnum" value="50" min="18" max="120" onchange="nsync('tnum','tsz','img')">
           </div>
         </div>
         <div class="slider-field">
@@ -1314,10 +1333,13 @@
         <span class="card-label">Prévia para assinantes</span>
         <div class="hdr-actions">
           <button class="cbtn cbtn-outline guide-btn" id="s-guideBtn" onclick="toggleGuides('sub')" aria-pressed="false" title="Mostrar guias do Instagram">Guias</button>
-          <button class="cbtn cbtn-outline contrast-btn" onclick="autoContrast('sub')" title="Ajustar a leitura automaticamente">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z"/></svg>
-            <span>Contraste</span>
-          </button>
+          <div class="image-opacity-control" aria-label="Opacidade da imagem para assinantes">
+            <button class="opacity-step" id="subOpacityMinus" onclick="adjustImageOpacity('sub',-10)" title="Diminuir opacidade da imagem" aria-label="Diminuir opacidade da imagem">−</button>
+            <button class="opacity-readout" onclick="resetImageOpacity('sub')" title="Clique para voltar a 100%" aria-label="Opacidade da imagem. Clique para restaurar 100%">
+              <span class="opacity-label">Imagem</span><span class="opacity-value" id="subOpacityValue">100%</span>
+            </button>
+            <button class="opacity-step" id="subOpacityPlus" onclick="adjustImageOpacity('sub',10)" title="Aumentar opacidade da imagem" aria-label="Aumentar opacidade da imagem">+</button>
+          </div>
           <button class="cbtn cbtn-outline" id="s-btnMove" onclick="toggleMove('sub')" style="display:none">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="19 9 22 12 19 15"/><polyline points="9 19 12 22 15 19"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
             Ajustar
@@ -1484,8 +1506,8 @@
           </div>
           <input type="hidden" id="s-autoFitMode" value="2">
           <div class="slider-row">
-            <input type="range" id="s-tsz" min="40" max="120" value="50" oninput="sync('s-tsz','s-tnum','sub')">
-            <input class="snum" type="number" id="s-tnum" value="50" min="40" max="120" onchange="nsync('s-tnum','s-tsz','sub')">
+            <input type="range" id="s-tsz" min="18" max="120" value="50" oninput="sync('s-tsz','s-tnum','sub')">
+            <input class="snum" type="number" id="s-tnum" value="50" min="18" max="120" onchange="nsync('s-tnum','s-tsz','sub')">
           </div>
         </div>
         <div class="slider-field">
@@ -1605,10 +1627,7 @@
         <span class="card-label">Prévia do Reels</span>
         <div class="hdr-actions">
           <button class="cbtn cbtn-outline guide-btn" id="r-guideBtn" onclick="toggleGuides('reels')" aria-pressed="false" title="Mostrar guias do Instagram">Guias</button>
-          <button class="cbtn cbtn-outline contrast-btn" onclick="autoContrast('reels')" title="Ajustar a leitura automaticamente">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 1 0 18z"/></svg>
-            <span>Contraste</span>
-          </button>
+
           <button class="cbtn cbtn-outline" id="r-btnMove" onclick="toggleMove('reels')" style="display:none">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="19 9 22 12 19 15"/><polyline points="9 19 12 22 15 19"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
             Ajustar
@@ -1753,8 +1772,8 @@
           </div>
           <input type="hidden" id="r-autoFitMode" value="2">
           <div class="slider-row">
-            <input type="range" id="r-tsz" min="40" max="140" value="65" oninput="sync('r-tsz','r-tnum','reels')">
-            <input class="snum" type="number" id="r-tnum" value="65" min="40" max="140" onchange="nsync('r-tnum','r-tsz','reels')">
+            <input type="range" id="r-tsz" min="18" max="140" value="65" oninput="sync('r-tsz','r-tnum','reels')">
+            <input class="snum" type="number" id="r-tnum" value="65" min="18" max="140" onchange="nsync('r-tnum','r-tsz','reels')">
           </div>
         </div>
         <div class="slider-field">
@@ -1808,7 +1827,7 @@
 
 const S = {
   img: {
-    mediaFile:null, imgO:new Image(), transparentBg:false,
+    mediaFile:null, imgO:new Image(), transparentBg:false, imageOpacity:1,
     ratio:'3:4', pos:'bottom', align:'center', tColor:'#ffffff', titBaseColor:'#ffffff', showSubBg:true, indicator:'none',
     titWeight:800, titItalic:false, titUppercase:false, subWeight:400, subItalic:false,
     canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
@@ -1822,7 +1841,7 @@ const S = {
     autoFitSub:true, showGuides:false, lastBackgroundLuminance:null, lastTextBounds:null
   },
   sub: {
-    mediaFile:null, imgO:new Image(), transparentBg:false,
+    mediaFile:null, imgO:new Image(), transparentBg:false, imageOpacity:1,
     ratio:'3:4', pos:'bottom', align:'center', tColor:'#ffffff', titBaseColor:'#ffffff', showSubBg:true, indicator:'none',
     titWeight:800, titItalic:false, titUppercase:false, subWeight:400, subItalic:false,
     canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
@@ -1878,6 +1897,23 @@ function wrapText(ctx,text,maxW){
   return result;
 }
 
+function splitTitleTokenToWidth(ctx, token, maxW){
+  if(!token || /^\s+$/.test(token) || ctx.measureText(token).width <= maxW) return [token];
+  const parts=[];
+  let current='';
+  for(const char of Array.from(token)){
+    const test=current+char;
+    if(current && ctx.measureText(test).width>maxW){
+      parts.push(current);
+      current=char;
+    }else{
+      current=test;
+    }
+  }
+  if(current) parts.push(current);
+  return parts;
+}
+
 function formatTitLines(ctx,text,maxW){
   const paras=text.split('\n'); const lines=[];
   for(const para of paras){
@@ -1887,11 +1923,17 @@ function formatTitLines(ctx,text,maxW){
       const isC=(i%2!==0),pt=parts[i]; if(!pt) continue;
       const tokens=pt.split(/(\s+)/);
       for(let j=0;j<tokens.length;j++){
-        const tok=tokens[j]; if(!tok) continue;
-        const w=ctx.measureText(tok).width;
-        if(curW+w>maxW&&cur.length>0&&tok.trim()!==''){lines.push(cur);cur=[];curW=0;}
-        if(curW===0&&tok.trim()==='') continue;
-        cur.push({text:tok,colored:isC}); curW+=w;
+        const original=tokens[j]; if(!original) continue;
+        const fittedTokens=splitTitleTokenToWidth(ctx,original,maxW);
+        for(const tok of fittedTokens){
+          if(!tok) continue;
+          const w=ctx.measureText(tok).width;
+          if(curW+w>maxW&&cur.length>0&&tok.trim()!==''){
+            lines.push(cur);cur=[];curW=0;
+          }
+          if(curW===0&&tok.trim()==='') continue;
+          cur.push({text:tok,colored:isC}); curW+=w;
+        }
       }
     }
     if(cur.length>0) lines.push(cur);
@@ -2149,6 +2191,10 @@ function draw(mode, options={}){
   if(shouldDrawMedia){
     const src=activeData.imgO, sW=src.naturalWidth, sH=src.naturalHeight;
     if(sW>0&&sH>0){
+      if(!activeData.transparentBg && !transparentExport){
+        ctx.fillStyle='#06070a';
+        ctx.fillRect(0,0,W,H);
+      }
       const ir=sW/sH,cr=W/H;
       let bw,bh;
       if(ir>cr){bh=sH;bw=bh*cr;}else{bw=sW;bh=bw/cr;}
@@ -2156,7 +2202,11 @@ function draw(mode, options={}){
       const mpx=sW-sw, mpy=sH-sh;
       const dx=mpx>0 ? mpx*activeData.panX : (sW-sw)/2;
       const dy=mpy>0 ? mpy*activeData.panY : (sH-sh)/2;
+      const mediaOpacity = mode==='reels' ? 1 : Math.max(0,Math.min(1,Number(activeData.imageOpacity ?? 1)));
+      ctx.save();
+      ctx.globalAlpha=mediaOpacity;
       ctx.drawImage(src,dx,dy,sw,sh,0,0,W,H);
+      ctx.restore();
     }
   } else if(!activeData.transparentBg && !transparentExport) {
     ctx.fillStyle='#06070a'; ctx.fillRect(0,0,W,H);
@@ -2197,20 +2247,55 @@ function draw(mode, options={}){
   const maxTitLines = parseInt(autoMode) || 2;
   if(isAutoFit && titTxt) {
     const titleSizeInput = g('tsz');
-    let minSz = Number(titleSizeInput.min) * sc;
-    let maxSz = Number(titleSizeInput.max) * sc;
-    let low = minSz, high = maxSz, best = minSz;
+    const controlMin = Number(titleSizeInput.min) || 18;
+    const controlMax = Number(titleSizeInput.max) || 120;
+    const minSz = Math.min(controlMin, 18) * sc;
+    const maxSz = controlMax * sc;
+    let low = Math.floor(minSz), high = Math.floor(maxSz), best = Math.floor(minSz);
+    let foundFit = false;
+
     while (low <= high) {
-      let mid = Math.floor((low + high) / 2);
+      const mid = Math.floor((low + high) / 2);
       ctx.font = `${titFs}${titWeight} ${mid}px '${fontFam}',sans-serif`;
-      let linesTest = formatTitLines(ctx, titTxt, maxTxtW);
-      const widthsFit = linesTest.every(line => line.reduce((sum, token) => sum + ctx.measureText(token.text).width, 0) <= maxTxtW);
-      if (linesTest.length <= maxTitLines && widthsFit) { best = mid; low = mid + 1; } 
-      else { high = mid - 1; }
+      const linesTest = formatTitLines(ctx, titTxt, maxTxtW);
+      const widthsFit = linesTest.every(line =>
+        line.reduce((sum, token) => sum + ctx.measureText(token.text).width, 0) <= maxTxtW + 0.5
+      );
+      if (linesTest.length <= maxTitLines && widthsFit) {
+        best = mid;
+        foundFit = true;
+        low = mid + 1;
+      } else {
+        high = mid - 1;
+      }
     }
+
+    // If the title is exceptionally long, continue below the visible slider minimum.
+    if(!foundFit){
+      const emergencyMin = 10 * sc;
+      for(let size=Math.floor(minSz)-1; size>=Math.floor(emergencyMin); size--){
+        ctx.font = `${titFs}${titWeight} ${size}px '${fontFam}',sans-serif`;
+        const linesTest = formatTitLines(ctx, titTxt, maxTxtW);
+        const widthsFit = linesTest.every(line =>
+          line.reduce((sum, token) => sum + ctx.measureText(token.text).width, 0) <= maxTxtW + 0.5
+        );
+        if(linesTest.length <= maxTitLines && widthsFit){
+          best=size;
+          foundFit=true;
+          break;
+        }
+      }
+    }
+
     titSzPx = best;
-    g('tsz').value = Math.round(best / sc);
-    g('tnum').value = Math.round(best / sc);
+    const displaySize = Math.max(10, Math.round(best / sc));
+    if(displaySize < Number(titleSizeInput.min)){
+      titleSizeInput.min = String(displaySize);
+      const numberInput=g('tnum');
+      if(numberInput) numberInput.min=String(displaySize);
+    }
+    g('tsz').value = displaySize;
+    g('tnum').value = displaySize;
   }
 
   const autoSubModeEl = g('autoFitSubMode');
@@ -2588,6 +2673,43 @@ function setAlign(a,btn,mode,updateState=true){
   }
 }
 
+function opacityControlIds(mode){
+  return mode==='sub'
+    ? {value:'subOpacityValue',minus:'subOpacityMinus',plus:'subOpacityPlus'}
+    : {value:'imgOpacityValue',minus:'imgOpacityMinus',plus:'imgOpacityPlus'};
+}
+
+function applyImageOpacity(mode,value){
+  if(mode==='reels') return;
+  const data=getActiveData(mode);
+  const normalized=Math.max(0,Math.min(1,Number(value)));
+  data.imageOpacity=Number.isFinite(normalized)?normalized:1;
+  const ids=opacityControlIds(mode);
+  const percent=Math.round(data.imageOpacity*100);
+  const valueEl=$(ids.value),minusEl=$(ids.minus),plusEl=$(ids.plus);
+  if(valueEl) valueEl.textContent=percent+'%';
+  if(minusEl) minusEl.disabled=percent<=0;
+  if(plusEl) plusEl.disabled=percent>=100;
+}
+
+function adjustImageOpacity(mode,deltaPercent){
+  if(mode==='reels') return;
+  const data=getActiveData(mode);
+  const current=Math.round((data.imageOpacity ?? 1)*100);
+  const next=Math.max(0,Math.min(100,current+Number(deltaPercent||0)));
+  applyImageOpacity(mode,next/100);
+  markDirty(mode);
+  saveState(true);
+}
+
+function resetImageOpacity(mode){
+  if(mode==='reels') return;
+  applyImageOpacity(mode,1);
+  markDirty(mode);
+  saveState(true);
+  showToast('Opacidade da imagem restaurada para 100%.');
+}
+
 function setTC(c,el,mode,updateState=true){
   if(updateState){
     const data = getActiveData(mode); data.tColor = c;
@@ -2700,13 +2822,15 @@ function buildState(){
   try{
     const g = id => { const el=$(id); return el ? el.value : null; };
     const st={
-      version: 6,
+      version: 7,
       theme: document.body.classList.contains('lt') ? 'light' : 'dark',
       currentPage,
       accent: getComputedStyle(document.documentElement).getPropertyValue('--ac').trim(),
       img_showGuides: S.img.showGuides,
+      img_imageOpacity: S.img.imageOpacity,
       img_panX: S.img.panX, img_panY: S.img.panY, img_zoom: S.img.zoom,
       sub_showGuides: S.sub.showGuides,
+      sub_imageOpacity: S.sub.imageOpacity,
       sub_panX: S.sub.panX, sub_panY: S.sub.panY, sub_zoom: S.sub.zoom,
       r_showGuides: S.reels.showGuides,
       r_panX: S.reels.panX, r_panY: S.reels.panY, r_zoom: S.reels.zoom,
@@ -2922,7 +3046,11 @@ function applyStateObject(st){
     if(st.r_tStrk!==undefined){ $('r-tStrk').value=st.r_tStrk; $('r-tStrkN').value=st.r_tStrk; }
     if(st.r_ssz!==undefined){ const v=Math.max(15,Math.min(80,+st.r_ssz)); $('r-ssz').value=v; $('r-snum2').value=v; }
     if(st.r_sbop!==undefined){ $('r-sbop').value=st.r_sbop; $('r-sbnum').value=st.r_sbop; }
+    if(st.img_imageOpacity!==undefined) applyImageOpacity('img',st.img_imageOpacity);
+    else applyImageOpacity('img',1);
     if(st.img_showGuides!==undefined) applyGuidesState('img',st.img_showGuides);
+    if(st.sub_imageOpacity!==undefined) applyImageOpacity('sub',st.sub_imageOpacity);
+    else applyImageOpacity('sub',1);
     if(st.sub_showGuides!==undefined) applyGuidesState('sub',st.sub_showGuides);
     if(st.r_showGuides!==undefined) applyGuidesState('reels',st.r_showGuides);
     if(st.img_panX!==undefined){S.img.panX=st.img_panX;S.img.panY=st.img_panY;S.img.zoom=st.img_zoom||1;}

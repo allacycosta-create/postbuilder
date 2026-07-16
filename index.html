@@ -1835,7 +1835,7 @@ const S = {
   },
   reels: {
     mediaFile:null, imgO:new Image(), transparentBg:true,
-    ratio:'9:16-reels', pos:'bottom', align:'center', tColor:'#ffffff', titBaseColor:'#ffffff', showSubBg:true, indicator:'none',
+    ratio:'9:16-reels', pos:'bottom', align:'center', tColor:'#ffffff', titBaseColor:'#ffffff', showSubBg:false, indicator:'none',
     titWeight:800, titItalic:false, titUppercase:false, subWeight:400, subItalic:false,
     canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
     autoFitSub:true, showGuides:false, lastBackgroundLuminance:null, lastTextBounds:null
@@ -2435,8 +2435,9 @@ function draw(mode, options={}){
     ctx.textAlign=textAlign; ctx.textBaseline='top';
     const posX=baseAX, posY=baseSY;
     
-    if(activeData.showSubBg){
-      const sbopVal=parseInt(g('sbop').value)/100;
+    if(activeData.showSubBg && !reelsMode){
+      const sbopEl=g('sbop');
+      const sbopVal=Math.max(0,Math.min(1,Number(sbopEl ? sbopEl.value : 52)/100));
       if (offCanvas.width !== W || offCanvas.height !== H) { offCanvas.width = W; offCanvas.height = H; }
       offCtx.clearRect(0, 0, W, H);
       offCtx.font=`${subFs}${subWeight} ${subSzPx}px 'Inter',sans-serif`; offCtx.fillStyle='#000';
@@ -3050,7 +3051,8 @@ function applyStateObject(st){
     if(st.r_titUppercase !== undefined) applyTitleUppercase('reels', 'r-titUpperRow', st.r_titUppercase);
     if(st.r_subWeight !== undefined){ S.reels.subWeight = st.r_subWeight; applyFontProp('subWeight', st.r_subWeight, 'r-subWeightRow'); }
     if(st.r_subItalic !== undefined){ S.reels.subItalic = st.r_subItalic; applyFontProp('subItalic', st.r_subItalic, 'r-subItalicRow'); }
-    if(st.r_showSubBg!==undefined) setSubBg(st.r_showSubBg,'reels');
+    S.reels.showSubBg = false;
+    setSubBg(false,'reels',false);
     if(st.r_fontFam) $('r-fontFam').value=st.r_fontFam;
     // sub mode restore
     if(st.sub_ratio){ const ratio=st.sub_ratio==='9:16-hd'?'3:4':st.sub_ratio; const btn=document.querySelector(`#s-ratioRow button[onclick*="'${ratio}'"]`); if(btn) setRatio(ratio,btn,'sub'); }
@@ -3085,7 +3087,11 @@ function applyStateObject(st){
     if(st.r_tsz!==undefined){ const input=$('r-tsz'); const v=Math.max(+input.min,Math.min(+input.max,+st.r_tsz)); input.value=v; $('r-tnum').value=v; }
     if(st.r_tStrk!==undefined){ $('r-tStrk').value=st.r_tStrk; $('r-tStrkN').value=st.r_tStrk; }
     if(st.r_ssz!==undefined){ const v=Math.max(15,Math.min(80,+st.r_ssz)); $('r-ssz').value=v; $('r-snum2').value=v; }
-    if(st.r_sbop!==undefined){ $('r-sbop').value=st.r_sbop; $('r-sbnum').value=st.r_sbop; }
+    if(st.r_sbop!==undefined){
+      const rSbop=$('r-sbop'), rSbnum=$('r-sbnum');
+      if(rSbop) rSbop.value=st.r_sbop;
+      if(rSbnum) rSbnum.value=st.r_sbop;
+    }
     if(st.img_imageOpacity!==undefined) applyImageOpacity('img',st.img_imageOpacity);
     else applyImageOpacity('img',1);
     if(st.img_showGuides!==undefined) applyGuidesState('img',st.img_showGuides);

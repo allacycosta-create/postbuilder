@@ -889,6 +889,65 @@
       .choice-grid.three{grid-template-columns:1fr}
     }
 
+
+    /* Logo 1:1 */
+    .logo-actions{display:flex;align-items:center;gap:4px}
+    .logo-remove-btn{
+      width:28px;height:28px;padding:0;border-radius:8px;
+      font-size:16px;line-height:1;color:var(--t2);
+    }
+    .logo-remove-btn:hover{color:#ef4444;background:rgba(239,68,68,.12)}
+    .logo-size-wrap{padding-top:4px}
+    .logo-note{font-size:11px;color:var(--t3);line-height:1.4}
+    @media(max-width:879px){
+      .logo-actions .cbtn{padding:5px 8px}
+      .logo-remove-btn{width:26px;height:26px}
+    }
+
+
+    /* Barra de ações da prévia deslizável no celular */
+    @media(max-width:879px){
+      .pcol > .card > .card-hdr{
+        display:flex;
+        align-items:flex-start;
+        flex-wrap:wrap;
+        overflow:hidden;
+      }
+      .pcol > .card > .card-hdr > .card-label{
+        flex:0 0 100%;
+        margin-bottom:7px;
+      }
+      .pcol > .card > .card-hdr > .hdr-actions{
+        flex:1 1 100%;
+        width:100%;
+        max-width:100%;
+        min-width:0;
+        display:flex;
+        flex-wrap:nowrap;
+        justify-content:flex-start;
+        gap:7px;
+        overflow-x:auto;
+        overflow-y:hidden;
+        padding:1px 2px 5px;
+        margin:0 -2px;
+        scroll-behavior:smooth;
+        scroll-snap-type:x proximity;
+        scrollbar-width:none;
+        -ms-overflow-style:none;
+        -webkit-overflow-scrolling:touch;
+        overscroll-behavior-inline:contain;
+        touch-action:pan-x;
+      }
+      .pcol > .card > .card-hdr > .hdr-actions::-webkit-scrollbar{
+        display:none;
+      }
+      .pcol > .card > .card-hdr > .hdr-actions > *,
+      .pcol > .card > .card-hdr > .hdr-actions .logo-actions{
+        flex:0 0 auto;
+        scroll-snap-align:start;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -898,6 +957,9 @@
 <input type="file" id="sImgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'sub')">
 <input type="file" id="imgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'img')">
 <input type="file" id="rImgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'reels')">
+<input type="file" id="logoInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadLogo(event,'img')">
+<input type="file" id="sLogoInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadLogo(event,'sub')">
+<input type="file" id="rLogoInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadLogo(event,'reels')">
 
 <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true"></div>
 <div class="accent-overlay" id="accentOverlay" onclick="togglePalette()"></div>
@@ -1040,6 +1102,10 @@
         <span class="card-label">Prévia</span>
         <div class="hdr-actions">
           <button class="cbtn cbtn-outline guide-btn" id="guideBtn" onclick="toggleGuides('img')" aria-pressed="false" title="Mostrar guias do Instagram">Guias</button>
+          <div class="logo-actions">
+            <button class="cbtn cbtn-outline" id="logoBtn" onclick="$('logoInput').click()" title="Adicionar logo quadrada">Logo</button>
+            <button class="cbtn cbtn-outline logo-remove-btn" id="logoRemoveBtn" onclick="removeLogo('img')" style="display:none" title="Remover logo" aria-label="Remover logo">×</button>
+          </div>
           <div class="image-opacity-control" aria-label="Opacidade da imagem do Feed">
             <button class="opacity-step" id="imgOpacityMinus" onclick="adjustImageOpacity('img',-10)" title="Diminuir opacidade da imagem" aria-label="Diminuir opacidade da imagem">−</button>
             <button class="opacity-readout" onclick="resetImageOpacity('img')" title="Clique para voltar a 100%" aria-label="Opacidade da imagem. Clique para restaurar 100%">
@@ -1270,6 +1336,19 @@
             <input class="snum" type="number" id="gnum" value="65" min="0" max="95" onchange="nsync('gnum','gop','img')">
           </div>
         </div>
+        <div class="slider-field logo-size-wrap" id="logoSizeWrap" style="display:none">
+          <span class="field-label">Tamanho da logo 1:1</span>
+          <div class="slider-row">
+            <input type="range" id="logoSize" min="60" max="240" value="120" oninput="setLogoSize('img',this.value)">
+            <input class="snum" type="number" id="logoSizeN" value="120" min="60" max="240" onchange="setLogoSize('img',this.value)">
+          </div>
+          <span class="field-label" style="margin-top:8px">Opacidade da logo</span>
+          <div class="slider-row">
+            <input type="range" id="logoOpacity" min="0" max="100" value="100" oninput="setLogoOpacity('img',this.value)">
+            <input class="snum" type="number" id="logoOpacityN" value="100" min="0" max="100" onchange="setLogoOpacity('img',this.value)">
+          </div>
+          <span class="logo-note">Posição fixa no canto superior esquerdo.</span>
+        </div>
         <div class="field sep">
           <span class="field-label">Fundo do subtítulo</span>
           <div class="tog-row">
@@ -1334,6 +1413,10 @@
         <span class="card-label">Prévia para assinantes</span>
         <div class="hdr-actions">
           <button class="cbtn cbtn-outline guide-btn" id="s-guideBtn" onclick="toggleGuides('sub')" aria-pressed="false" title="Mostrar guias do Instagram">Guias</button>
+          <div class="logo-actions">
+            <button class="cbtn cbtn-outline" id="s-logoBtn" onclick="$('sLogoInput').click()" title="Adicionar logo quadrada">Logo</button>
+            <button class="cbtn cbtn-outline logo-remove-btn" id="s-logoRemoveBtn" onclick="removeLogo('sub')" style="display:none" title="Remover logo" aria-label="Remover logo">×</button>
+          </div>
           <div class="image-opacity-control" aria-label="Opacidade da imagem para assinantes">
             <button class="opacity-step" id="subOpacityMinus" onclick="adjustImageOpacity('sub',-10)" title="Diminuir opacidade da imagem" aria-label="Diminuir opacidade da imagem">−</button>
             <button class="opacity-readout" onclick="resetImageOpacity('sub')" title="Clique para voltar a 100%" aria-label="Opacidade da imagem. Clique para restaurar 100%">
@@ -1564,6 +1647,19 @@
             <input class="snum" type="number" id="s-gnum" value="65" min="0" max="95" onchange="nsync('s-gnum','s-gop','sub')">
           </div>
         </div>
+        <div class="slider-field logo-size-wrap" id="s-logoSizeWrap" style="display:none">
+          <span class="field-label">Tamanho da logo 1:1</span>
+          <div class="slider-row">
+            <input type="range" id="s-logoSize" min="60" max="240" value="120" oninput="setLogoSize('sub',this.value)">
+            <input class="snum" type="number" id="s-logoSizeN" value="120" min="60" max="240" onchange="setLogoSize('sub',this.value)">
+          </div>
+          <span class="field-label" style="margin-top:8px">Opacidade da logo</span>
+          <div class="slider-row">
+            <input type="range" id="s-logoOpacity" min="0" max="100" value="100" oninput="setLogoOpacity('sub',this.value)">
+            <input class="snum" type="number" id="s-logoOpacityN" value="100" min="0" max="100" onchange="setLogoOpacity('sub',this.value)">
+          </div>
+          <span class="logo-note">Posição fixa no canto superior esquerdo.</span>
+        </div>
         <div class="field sep">
           <span class="field-label">Fundo do subtítulo</span>
           <div class="tog-row">
@@ -1629,6 +1725,10 @@
         <span class="card-label">Prévia do Reels</span>
         <div class="hdr-actions">
           <button class="cbtn cbtn-outline guide-btn" id="r-guideBtn" onclick="toggleGuides('reels')" aria-pressed="false" title="Mostrar guias do Instagram">Guias</button>
+          <div class="logo-actions">
+            <button class="cbtn cbtn-outline" id="r-logoBtn" onclick="$('rLogoInput').click()" title="Adicionar logo quadrada">Logo</button>
+            <button class="cbtn cbtn-outline logo-remove-btn" id="r-logoRemoveBtn" onclick="removeLogo('reels')" style="display:none" title="Remover logo" aria-label="Remover logo">×</button>
+          </div>
 
           <button class="cbtn cbtn-outline" id="r-btnMove" onclick="toggleMove('reels')" style="display:none">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/><polyline points="19 9 22 12 19 15"/><polyline points="9 19 12 22 15 19"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
@@ -1818,6 +1918,19 @@
             <input class="snum" type="number" id="r-tStrkN" value="0" min="0" max="15" onchange="nsync('r-tStrkN','r-tStrk','reels')">
           </div>
         </div>
+        <div class="slider-field logo-size-wrap" id="r-logoSizeWrap" style="display:none">
+          <span class="field-label">Tamanho da logo 1:1</span>
+          <div class="slider-row">
+            <input type="range" id="r-logoSize" min="60" max="240" value="120" oninput="setLogoSize('reels',this.value)">
+            <input class="snum" type="number" id="r-logoSizeN" value="120" min="60" max="240" onchange="setLogoSize('reels',this.value)">
+          </div>
+          <span class="field-label" style="margin-top:8px">Opacidade da logo</span>
+          <div class="slider-row">
+            <input type="range" id="r-logoOpacity" min="0" max="100" value="100" oninput="setLogoOpacity('reels',this.value)">
+            <input class="snum" type="number" id="r-logoOpacityN" value="100" min="0" max="100" onchange="setLogoOpacity('reels',this.value)">
+          </div>
+          <span class="logo-note">Posição fixa no canto superior esquerdo.</span>
+        </div>
       </div>
     </div>
 
@@ -1830,21 +1943,21 @@
 
 const S = {
   img: {
-    mediaFile:null, imgO:new Image(), transparentBg:false, imageOpacity:1,
+    mediaFile:null, imgO:new Image(), logoFile:null, logoImg:new Image(), logoVisible:false, logoWantedVisible:null, logoSize:120, logoOpacity:1, transparentBg:false, imageOpacity:1,
     ratio:'3:4', pos:'bottom', align:'center', tColor:'#ffffff', titBaseColor:'#ffffff', showSubBg:true, indicator:'none',
     titWeight:800, titItalic:false, titUppercase:false, subWeight:400, subItalic:false,
     canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
     autoFitSub:true, showGuides:false, lastBackgroundLuminance:null, lastTextBounds:null
   },
   reels: {
-    mediaFile:null, imgO:new Image(), transparentBg:true,
+    mediaFile:null, imgO:new Image(), logoFile:null, logoImg:new Image(), logoVisible:false, logoWantedVisible:null, logoSize:120, logoOpacity:1, transparentBg:true,
     ratio:'9:16-reels', pos:'bottom', align:'center', tColor:'#ffffff', titBaseColor:'#ffffff', showSubBg:false, indicator:'none',
     titWeight:800, titItalic:false, titUppercase:false, subWeight:400, subItalic:false,
     canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
     autoFitSub:true, showGuides:false, lastBackgroundLuminance:null, lastTextBounds:null
   },
   sub: {
-    mediaFile:null, imgO:new Image(), transparentBg:false, imageOpacity:1,
+    mediaFile:null, imgO:new Image(), logoFile:null, logoImg:new Image(), logoVisible:false, logoWantedVisible:null, logoSize:120, logoOpacity:1, transparentBg:false, imageOpacity:1,
     ratio:'3:4', pos:'bottom', align:'center', tColor:'#ffffff', titBaseColor:'#ffffff', showSubBg:true, indicator:'none',
     titWeight:800, titItalic:false, titUppercase:false, subWeight:400, subItalic:false,
     canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
@@ -2043,6 +2156,322 @@ function approximateContrastRatio(colorHex,bgLum){
   const fg=hexLuminance(colorHex);
   const bg=Math.max(0,Math.min(1,bgLum));
   return (Math.max(fg,bg)+.05)/(Math.min(fg,bg)+.05);
+}
+
+function logoPrefix(mode){
+  return mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
+}
+
+const LOGO_DB_NAME='postBuilderAssets';
+const LOGO_DB_VERSION=1;
+const LOGO_STORE='logos';
+const LOGO_FALLBACK_PREFIX='pbLogoAsset_';
+
+function openLogoDB(){
+  return new Promise((resolve,reject)=>{
+    if(!('indexedDB' in window)){
+      reject(new Error('IndexedDB indisponível'));
+      return;
+    }
+    const request=indexedDB.open(LOGO_DB_NAME,LOGO_DB_VERSION);
+    request.onupgradeneeded=()=>{
+      const db=request.result;
+      if(!db.objectStoreNames.contains(LOGO_STORE)){
+        db.createObjectStore(LOGO_STORE,{keyPath:'mode'});
+      }
+    };
+    request.onsuccess=()=>resolve(request.result);
+    request.onerror=()=>reject(request.error||new Error('Falha ao abrir armazenamento'));
+  });
+}
+
+function blobToDataURL(blob){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>resolve(reader.result);
+    reader.onerror=()=>reject(reader.error);
+    reader.readAsDataURL(blob);
+  });
+}
+
+async function saveLogoFallback(mode,blob,visible=true){
+  const dataUrl=await blobToDataURL(blob);
+  localStorage.setItem(LOGO_FALLBACK_PREFIX+mode,JSON.stringify({
+    dataUrl,
+    name:blob.name||('logo-'+mode),
+    type:blob.type||'image/webp',
+    visible:Boolean(visible),
+    updatedAt:Date.now()
+  }));
+  return true;
+}
+
+async function getLogoFallback(mode){
+  try{
+    const raw=localStorage.getItem(LOGO_FALLBACK_PREFIX+mode);
+    if(!raw) return null;
+    const record=JSON.parse(raw);
+    if(!record.dataUrl) return null;
+    const blob=await fetch(record.dataUrl).then(response=>response.blob());
+    return {...record,mode,blob};
+  }catch(error){
+    console.warn('Não foi possível ler a cópia local da logo.',error);
+    return null;
+  }
+}
+
+async function createOptimizedLogoBlob(img){
+  const maxSide=512;
+  const canvas=document.createElement('canvas');
+  canvas.width=maxSide;
+  canvas.height=maxSide;
+  const ctx=canvas.getContext('2d');
+  const iw=img.naturalWidth||img.width;
+  const ih=img.naturalHeight||img.height;
+  const factor=Math.min(maxSide/iw,maxSide/ih);
+  const dw=iw*factor,dh=ih*factor;
+  ctx.clearRect(0,0,maxSide,maxSide);
+  ctx.imageSmoothingEnabled=true;
+  ctx.imageSmoothingQuality='high';
+  ctx.drawImage(img,(maxSide-dw)/2,(maxSide-dh)/2,dw,dh);
+  const makeBlob=(type,quality)=>new Promise(resolve=>canvas.toBlob(resolve,type,quality));
+  return await makeBlob('image/webp',.92) || await makeBlob('image/png') || null;
+}
+
+async function persistLogoAsset(mode,blob,visible=true){
+  if(!blob) return false;
+  try{
+    const db=await openLogoDB();
+    await new Promise((resolve,reject)=>{
+      const tx=db.transaction(LOGO_STORE,'readwrite');
+      tx.objectStore(LOGO_STORE).put({
+        mode,
+        blob,
+        name:blob.name||('logo-'+mode),
+        type:blob.type||'image/webp',
+        visible:Boolean(visible),
+        updatedAt:Date.now()
+      });
+      tx.oncomplete=resolve;
+      tx.onerror=()=>reject(tx.error);
+      tx.onabort=()=>reject(tx.error);
+    });
+    db.close();
+    localStorage.removeItem(LOGO_FALLBACK_PREFIX+mode);
+    return true;
+  }catch(error){
+    console.warn('IndexedDB indisponível; usando armazenamento local para a logo.',error);
+    return saveLogoFallback(mode,blob,visible);
+  }
+}
+
+async function getPersistedLogo(mode){
+  try{
+    const db=await openLogoDB();
+    const result=await new Promise((resolve,reject)=>{
+      const tx=db.transaction(LOGO_STORE,'readonly');
+      const request=tx.objectStore(LOGO_STORE).get(mode);
+      request.onsuccess=()=>resolve(request.result||null);
+      request.onerror=()=>reject(request.error);
+    });
+    db.close();
+    if(result) return result;
+  }catch(error){
+    console.warn('IndexedDB indisponível ao restaurar a logo.',error);
+  }
+  return getLogoFallback(mode);
+}
+
+async function deletePersistedLogo(mode){
+  localStorage.removeItem(LOGO_FALLBACK_PREFIX+mode);
+  try{
+    const db=await openLogoDB();
+    await new Promise((resolve,reject)=>{
+      const tx=db.transaction(LOGO_STORE,'readwrite');
+      tx.objectStore(LOGO_STORE).delete(mode);
+      tx.oncomplete=resolve;
+      tx.onerror=()=>reject(tx.error);
+      tx.onabort=()=>reject(tx.error);
+    });
+    db.close();
+  }catch(error){
+    console.warn('Não foi possível remover a logo salva.',error);
+  }
+}
+
+async function clearPersistedLogos(){
+  ['img','sub','reels'].forEach(mode=>localStorage.removeItem(LOGO_FALLBACK_PREFIX+mode));
+  try{
+    const db=await openLogoDB();
+    await new Promise((resolve,reject)=>{
+      const tx=db.transaction(LOGO_STORE,'readwrite');
+      tx.objectStore(LOGO_STORE).clear();
+      tx.oncomplete=resolve;
+      tx.onerror=()=>reject(tx.error);
+      tx.onabort=()=>reject(tx.error);
+    });
+    db.close();
+  }catch(error){
+    console.warn('Não foi possível limpar as logos salvas.',error);
+  }
+}
+
+function loadLogoBlobIntoMode(mode,blob,visible=true){
+  return new Promise((resolve,reject)=>{
+    const data=S[mode];
+    if(data.logoImg._blobURL) URL.revokeObjectURL(data.logoImg._blobURL);
+    const url=URL.createObjectURL(blob);
+    data.logoFile=blob;
+    data.logoImg._blobURL=url;
+    data.logoImg.onload=()=>{
+      data.logoVisible=Boolean(visible);
+      data.logoWantedVisible=Boolean(visible);
+      updateLogoUI(mode);
+      markDirty(mode);
+      resolve(true);
+    };
+    data.logoImg.onerror=()=>{
+      URL.revokeObjectURL(url);
+      data.logoFile=null;
+      data.logoVisible=false;
+      updateLogoUI(mode);
+      reject(new Error('Falha ao carregar logo salva'));
+    };
+    data.logoImg.src=url;
+  });
+}
+
+async function restorePersistedLogos(){
+  for(const mode of ['img','sub','reels']){
+    try{
+      const record=await getPersistedLogo(mode);
+      if(!record?.blob) continue;
+      const data=S[mode];
+      const visible=data.logoWantedVisible===null ? record.visible!==false : data.logoWantedVisible;
+      await loadLogoBlobIntoMode(mode,record.blob,visible);
+    }catch(error){
+      console.warn('Não foi possível restaurar a logo de '+mode+'.',error);
+    }
+  }
+}
+
+function updateLogoUI(mode){
+  const data=S[mode];
+  const pfx=logoPrefix(mode);
+  const button=$(pfx+'logoBtn');
+  const remove=$(pfx+'logoRemoveBtn');
+  const sizeWrap=$(pfx+'logoSizeWrap');
+  const hasLogo=Boolean(data.logoVisible && data.logoImg && data.logoImg.naturalWidth>0);
+  if(button) button.textContent=hasLogo?'Trocar logo':'Logo';
+  if(remove) remove.style.display=hasLogo?'flex':'none';
+  if(sizeWrap) sizeWrap.style.display=hasLogo?'flex':'none';
+}
+
+function setLogoSize(mode,value,save=true){
+  const data=S[mode];
+  const n=Math.max(60,Math.min(240,Math.round(Number(value)||120)));
+  data.logoSize=n;
+  const pfx=logoPrefix(mode);
+  const range=$(pfx+'logoSize');
+  const number=$(pfx+'logoSizeN');
+  if(range) range.value=n;
+  if(number) number.value=n;
+  markDirty(mode);
+  if(save) saveState();
+}
+
+function setLogoOpacity(mode,value,save=true){
+  const data=S[mode];
+  const n=Math.max(0,Math.min(100,Math.round(Number(value)||0)));
+  data.logoOpacity=n/100;
+  const pfx=logoPrefix(mode);
+  const range=$(pfx+'logoOpacity');
+  const number=$(pfx+'logoOpacityN');
+  if(range) range.value=n;
+  if(number) number.value=n;
+  markDirty(mode);
+  if(save) saveState();
+}
+
+function loadLogo(event,mode){
+  const file=event.target.files && event.target.files[0];
+  if(file) loadLogoFile(file,mode);
+  event.target.value='';
+}
+
+function loadLogoFile(file,mode){
+  if(!file || !file.type.startsWith('image/')){
+    showToast('Selecione um arquivo de imagem válido para a logo.');
+    return;
+  }
+  if(file.size>10*1024*1024){
+    showToast('A logo deve ter no máximo 10 MB.');
+    return;
+  }
+
+  const data=S[mode];
+  if(data.logoImg._blobURL) URL.revokeObjectURL(data.logoImg._blobURL);
+  const url=URL.createObjectURL(file);
+  data.logoFile=file;
+  data.logoImg._blobURL=url;
+  data.logoImg.onload=async()=>{
+    data.logoVisible=true;
+    data.logoWantedVisible=true;
+    updateLogoUI(mode);
+    markDirty(mode);
+    saveState(true);
+    initializeHistory();
+    try{
+      const storedBlob=await createOptimizedLogoBlob(data.logoImg) || file;
+      data.logoFile=storedBlob;
+      await persistLogoAsset(mode,storedBlob,true);
+      showToast('Logo adicionada e salva neste navegador.');
+    }catch(error){
+      console.warn('Não foi possível salvar a logo para a próxima sessão.',error);
+      showToast('Logo adicionada, mas o navegador não permitiu salvá-la.');
+    }
+  };
+  data.logoImg.onerror=()=>{
+    URL.revokeObjectURL(url);
+    data.logoFile=null;
+    data.logoVisible=false;
+    data.logoWantedVisible=false;
+    updateLogoUI(mode);
+    showToast('Não foi possível carregar a logo.');
+  };
+  data.logoImg.src=url;
+}
+
+function removeLogo(mode){
+  const data=S[mode];
+  if(!data.logoImg || !data.logoImg.naturalWidth) return;
+  data.logoVisible=false;
+  data.logoWantedVisible=false;
+  updateLogoUI(mode);
+  markDirty(mode);
+  saveState(true);
+  deletePersistedLogo(mode);
+  showToast('Logo removida.');
+}
+
+function drawLogo(ctx,data,W,H,sc){
+  if(!data.logoVisible || !data.logoImg || !data.logoImg.naturalWidth) return;
+  const square=Math.max(60,Math.min(240,Number(data.logoSize)||120))*sc;
+  const margin=56*sc;
+  const iw=data.logoImg.naturalWidth;
+  const ih=data.logoImg.naturalHeight;
+  const factor=Math.min(square/iw,square/ih);
+  const dw=iw*factor;
+  const dh=ih*factor;
+  const x=margin+(square-dw)/2;
+  const y=margin+(square-dh)/2;
+  ctx.save();
+  const logoAlpha=Number(data.logoOpacity);
+  ctx.globalAlpha=Number.isFinite(logoAlpha)?Math.max(0,Math.min(1,logoAlpha)):1;
+  ctx.imageSmoothingEnabled=true;
+  ctx.imageSmoothingQuality='high';
+  ctx.drawImage(data.logoImg,x,y,dw,dh);
+  ctx.restore();
 }
 
 function drawInstagramGuides(ctx,W,H,mode){
@@ -2522,6 +2951,8 @@ function draw(mode, options={}){
     ctx.restore();
   }
 
+  drawLogo(ctx,activeData,W,H,sc);
+
   if(!forExport && s.showGuides){
     drawInstagramGuides(ctx,W,H,mode);
   }
@@ -2677,8 +3108,12 @@ document.addEventListener('keydown', e => {
   }
 });
 
-function resetAll(){
-  if(confirm('Tem certeza que deseja limpar tudo?')){localStorage.removeItem('pbState3');location.reload();}
+async function resetAll(){
+  if(confirm('Tem certeza que deseja limpar tudo?')){
+    localStorage.removeItem('pbState3');
+    await clearPersistedLogos();
+    location.reload();
+  }
 }
 
 function sync(rid,nid,mode){ 
@@ -2891,11 +3326,14 @@ function buildState(){
   try{
     const g = id => { const el=$(id); return el ? el.value : null; };
     const st={
-      version: 7,
+      version: 9,
       theme: document.body.classList.contains('lt') ? 'light' : 'dark',
       currentPage,
       accent: getComputedStyle(document.documentElement).getPropertyValue('--ac').trim(),
       img_showGuides: S.img.showGuides,
+      img_logoVisible: S.img.logoVisible,
+      img_logoSize: S.img.logoSize,
+      img_logoOpacity: S.img.logoOpacity,
       img_imageOpacity: S.img.imageOpacity,
       img_panX: S.img.panX, img_panY: S.img.panY, img_zoom: S.img.zoom,
       sub_showGuides: S.sub.showGuides,
@@ -2928,6 +3366,9 @@ function buildState(){
       img_indOp   : g('indOp'),
       img_dotCount: g('dotCount'),
       img_dotActive: g('dotActive'),
+      sub_logoVisible: S.sub.logoVisible,
+      sub_logoSize: S.sub.logoSize,
+      sub_logoOpacity: S.sub.logoOpacity,
       sub_ratio   : S.sub.ratio,
       sub_pos     : S.sub.pos,
       sub_align   : S.sub.align,
@@ -2953,6 +3394,9 @@ function buildState(){
       sub_indOp   : g('s-indOp'),
       sub_dotCount: g('s-dotCount'),
       sub_dotActive: g('s-dotActive'),
+      r_logoVisible: S.reels.logoVisible,
+      r_logoSize: S.reels.logoSize,
+      r_logoOpacity: S.reels.logoOpacity,
       r_align    : S.reels.align,
       r_titulo   : g('r-titulo'),
       r_sub      : g('r-sub'),
@@ -3123,10 +3567,31 @@ function applyStateObject(st){
     if(st.img_imageOpacity!==undefined) applyImageOpacity('img',st.img_imageOpacity);
     else applyImageOpacity('img',1);
     if(st.img_showGuides!==undefined) applyGuidesState('img',st.img_showGuides);
+    if(st.img_logoSize!==undefined) setLogoSize('img',st.img_logoSize,false);
+    if(st.img_logoOpacity!==undefined) setLogoOpacity('img',Math.round(st.img_logoOpacity*100),false);
+    else setLogoOpacity('img',100,false);
+    S.img.logoWantedVisible=st.img_logoVisible===undefined?null:Boolean(st.img_logoVisible);
+    S.img.logoVisible=Boolean(S.img.logoWantedVisible && S.img.logoImg.naturalWidth);
+    if(S.img.logoVisible && S.img.logoFile) persistLogoAsset('img',S.img.logoFile,true).catch(()=>{});
+    updateLogoUI('img');
     if(st.sub_imageOpacity!==undefined) applyImageOpacity('sub',st.sub_imageOpacity);
     else applyImageOpacity('sub',1);
     if(st.sub_showGuides!==undefined) applyGuidesState('sub',st.sub_showGuides);
+    if(st.sub_logoSize!==undefined) setLogoSize('sub',st.sub_logoSize,false);
+    if(st.sub_logoOpacity!==undefined) setLogoOpacity('sub',Math.round(st.sub_logoOpacity*100),false);
+    else setLogoOpacity('sub',100,false);
+    S.sub.logoWantedVisible=st.sub_logoVisible===undefined?null:Boolean(st.sub_logoVisible);
+    S.sub.logoVisible=Boolean(S.sub.logoWantedVisible && S.sub.logoImg.naturalWidth);
+    if(S.sub.logoVisible && S.sub.logoFile) persistLogoAsset('sub',S.sub.logoFile,true).catch(()=>{});
+    updateLogoUI('sub');
     if(st.r_showGuides!==undefined) applyGuidesState('reels',st.r_showGuides);
+    if(st.r_logoSize!==undefined) setLogoSize('reels',st.r_logoSize,false);
+    if(st.r_logoOpacity!==undefined) setLogoOpacity('reels',Math.round(st.r_logoOpacity*100),false);
+    else setLogoOpacity('reels',100,false);
+    S.reels.logoWantedVisible=st.r_logoVisible===undefined?null:Boolean(st.r_logoVisible);
+    S.reels.logoVisible=Boolean(S.reels.logoWantedVisible && S.reels.logoImg.naturalWidth);
+    if(S.reels.logoVisible && S.reels.logoFile) persistLogoAsset('reels',S.reels.logoFile,true).catch(()=>{});
+    updateLogoUI('reels');
     if(st.img_panX!==undefined){S.img.panX=st.img_panX;S.img.panY=st.img_panY;S.img.zoom=st.img_zoom||1;}
     if(st.sub_panX!==undefined){S.sub.panX=st.sub_panX;S.sub.panY=st.sub_panY;S.sub.zoom=st.sub_zoom||1;}
     if(st.r_panX!==undefined){S.reels.panX=st.r_panX;S.reels.panY=st.r_panY;S.reels.zoom=st.r_zoom||1;}
@@ -3502,7 +3967,7 @@ window.addEventListener('pageshow',event=>{
 });
 
 
-(()=>{
+(async()=>{
   const cv=cvEl('img'), {W,H}=D('img');
   cv.width=W;cv.height=H;cv.style.aspectRatio=W+'/'+H;
   const ph=$('prevPlaceholder'); if(ph) ph.style.aspectRatio=W+'/'+H;
@@ -3527,6 +3992,10 @@ window.addEventListener('pageshow',event=>{
   bindUploadZone('sub');
   bindUploadZone('reels');
   loadState();
+  await restorePersistedLogos();
+  updateLogoUI('img');
+  updateLogoUI('sub');
+  updateLogoUI('reels');
   initializeHistory();
 
   markDirty('img');

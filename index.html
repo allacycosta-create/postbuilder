@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Post Builder — Criador de posts</title>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&family=Bebas+Neue&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@400;700;800;900&family=Oswald:wght@600&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&family=Bebas+Neue&family=Inter:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Montserrat:wght@400;700;800;900&family=Oswald:wght@600&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
   <style>
     /* ── Design System ── */
     :root {
@@ -1138,7 +1138,8 @@
         </div>
         <div class="field">
           <span class="field-label">Fonte</span>
-          <select id="fontFam" class="custom-select" onchange="markDirty('img')">
+          <select id="fontFam" class="custom-select" onchange="changeTitleFont('img')">
+            <option value="Anton">Anton</option>
             <option value="Montserrat">Montserrat</option>
             <option value="Inter">Inter</option>
             <option value="Bebas Neue">Bebas Neue</option>
@@ -1431,7 +1432,8 @@
         </div>
         <div class="field">
           <span class="field-label">Fonte</span>
-          <select id="s-fontFam" class="custom-select" onchange="markDirty('sub')">
+          <select id="s-fontFam" class="custom-select" onchange="changeTitleFont('sub')">
+            <option value="Anton">Anton</option>
             <option value="Montserrat">Montserrat</option>
             <option value="Inter">Inter</option>
             <option value="Bebas Neue">Bebas Neue</option>
@@ -1697,7 +1699,8 @@
         </div>
         <div class="field sep">
           <span class="field-label">Fonte</span>
-          <select id="r-fontFam" class="custom-select" onchange="markDirty('reels')">
+          <select id="r-fontFam" class="custom-select" onchange="changeTitleFont('reels')">
+            <option value="Anton">Anton</option>
             <option value="Montserrat">Montserrat</option>
             <option value="Inter">Inter</option>
             <option value="Bebas Neue">Bebas Neue</option>
@@ -2152,6 +2155,31 @@ function setFontProp(prop, val, rowId, mode){
     if(btn) btn.classList.add('on');
   }
   markDirty(mode); saveState();
+}
+
+async function changeTitleFont(mode){
+  const pfx = mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
+  const select = $(pfx+'fontFam');
+  if(!select) return;
+
+  const fontName = select.value || 'Montserrat';
+  if(fontName === 'Anton'){
+    S[mode].titWeight = 400;
+    S[mode].titItalic = false;
+    applyFontProp('titWeight', 400, pfx+'titWeightRow');
+    applyFontProp('titItalic', false, pfx+'titItalicRow');
+  }
+
+  try{
+    if(document.fonts?.load){
+      await document.fonts.load(`400 64px "${fontName}"`);
+    }
+  }catch(e){
+    console.warn('Não foi possível confirmar o carregamento da fonte:', fontName, e);
+  }
+
+  markDirty(mode);
+  saveState(true);
 }
 
 function applyFontProp(prop, val, rowId){

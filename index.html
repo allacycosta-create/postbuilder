@@ -966,8 +966,10 @@
 
 <input type="file" id="sImgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'sub')">
 <input type="file" id="imgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'img')">
+<input type="file" id="v2ImgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'img2')">
 <input type="file" id="rImgInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadImg(event,'reels')">
 <input type="file" id="logoInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadLogo(event,'img')">
+<input type="file" id="v2LogoInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadLogo(event,'img2')">
 <input type="file" id="sLogoInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadLogo(event,'sub')">
 <input type="file" id="rLogoInput" accept="image/*" style="opacity:0;position:absolute;z-index:-1;width:1px;height:1px;" onchange="loadLogo(event,'reels')">
 
@@ -1090,6 +1092,10 @@
     <button class="psw-btn active" id="pswImg" onclick="switchPage('img')" aria-label="Criar imagem para o feed" role="tab" aria-selected="true" aria-controls="pageImg">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
       Feed
+    </button>
+    <button class="psw-btn" id="pswImg2" onclick="switchPage('img2')" aria-label="Criar imagem no modelo Feed V2" role="tab" aria-selected="false" aria-controls="pageImg2">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 8h10M7 12h10M7 16h6"/></svg>
+      Feed V2
     </button>
     <button class="psw-btn" id="pswSub" onclick="switchPage('sub')" aria-label="Criar conteúdo para assinantes" role="tab" aria-selected="false" aria-controls="pageSub">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
@@ -1427,6 +1433,331 @@
 </div>
 </div>
 
+
+<!-- ═══════════════════ PAGE: FEED V2 ═══════════════════ -->
+<div class="page" id="pageImg2">
+<div class="workspace">
+<div class="pcol">
+<div class="card">
+<div class="card-hdr">
+<span class="card-label">Prévia Feed V2</span>
+<div class="hdr-actions">
+<button aria-pressed="false" class="cbtn cbtn-outline guide-btn" id="v2-guideBtn" onclick="toggleGuides('img2')" title="Mostrar guias do Instagram">Guias</button>
+<div class="logo-actions">
+<button class="cbtn cbtn-outline" id="v2-logoBtn" onclick="$('v2LogoInput').click()" title="Adicionar logo quadrada">Logo</button>
+<button aria-label="Remover logo" class="cbtn cbtn-outline logo-remove-btn" id="v2-logoRemoveBtn" onclick="removeLogo('img2')" style="display:none" title="Remover logo">×</button>
+</div>
+<div aria-label="Opacidade da imagem do Feed V2" class="image-opacity-control">
+<button aria-label="Diminuir opacidade da imagem" class="opacity-step" id="v2-imgOpacityMinus" onclick="adjustImageOpacity('img2',-10)" title="Diminuir opacidade da imagem">−</button>
+<button aria-label="Opacidade da imagem. Clique para restaurar 100%" class="opacity-readout" onclick="resetImageOpacity('img2')" title="Clique para voltar a 100%">
+<span class="opacity-label">Imagem</span><span class="opacity-value" id="v2-imgOpacityValue">100%</span>
+</button>
+<button aria-label="Aumentar opacidade da imagem" class="opacity-step" id="v2-imgOpacityPlus" onclick="adjustImageOpacity('img2',10)" title="Aumentar opacidade da imagem">+</button>
+</div>
+<button class="cbtn cbtn-outline" id="v2-btnMove" onclick="toggleMove('img2')" style="display:none">
+<svg fill="none" height="13" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="13"><polyline points="5 9 2 12 5 15"></polyline><polyline points="9 5 12 2 15 5"></polyline><polyline points="19 9 22 12 19 15"></polyline><polyline points="9 19 12 22 15 19"></polyline><line x1="2" x2="22" y1="12" y2="12"></line><line x1="12" x2="12" y1="2" y2="22"></line></svg>
+            Ajustar
+          </button>
+<button class="cbtn cbtn-outline" id="v2-btnChange" onclick="document.getElementById('v2ImgInput').click()" style="display:none">
+<svg fill="none" height="13" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24" width="13"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.2"></path></svg>
+            Trocar
+          </button>
+</div>
+</div>
+<div class="card-body" style="padding:10px">
+<div class="prev-placeholder" id="v2-prevPlaceholder" onclick="document.getElementById('v2ImgInput').click()">
+<div class="prev-placeholder-icon">+</div>
+<span>Clique ou arraste uma imagem</span>
+</div>
+<div class="cwrap" id="v2-cw" style="display:none">
+<div class="guide-legend">Guias de prévia</div>
+<div class="zoom-chip" id="v2-zpill"><span id="v2-zlbl">100%</span></div>
+<canvas id="v2-cv"></canvas>
+</div>
+</div>
+</div>
+<button class="dl-main" disabled="" id="v2-dlBtn" onclick="openExportDialog('img2')">EXPORTAR FEED V2</button>
+</div>
+<div class="ccol">
+<!-- Toolbar -->
+<div class="tool-bar" id="v2-img-toolbar">
+<button class="tool-btn active" data-panel="v2-img-p1" onclick="openPanel('img2','v2-img-p1',this)">
+<svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><polyline points="4 7 4 4 20 4 20 7"></polyline><line x1="9" x2="15" y1="20" y2="20"></line><line x1="12" x2="12" y1="4" y2="20"></line></svg>
+<span>Texto</span>
+</button>
+<button class="tool-btn" data-panel="v2-img-p2" onclick="openPanel('img2','v2-img-p2',this)">
+<svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><line x1="4" x2="4" y1="21" y2="14"></line><line x1="4" x2="4" y1="10" y2="3"></line><line x1="12" x2="12" y1="21" y2="12"></line><line x1="12" x2="12" y1="8" y2="3"></line><line x1="20" x2="20" y1="21" y2="16"></line><line x1="20" x2="20" y1="12" y2="3"></line><line x1="1" x2="7" y1="14" y2="14"></line><line x1="9" x2="15" y1="8" y2="8"></line><line x1="17" x2="23" y1="16" y2="16"></line></svg>
+<span>Estilo</span>
+</button>
+<button class="tool-btn" data-panel="v2-img-p3" onclick="openPanel('img2','v2-img-p3',this)">
+<svg fill="none" height="18" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24" width="18"><rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>
+<span>Efeitos</span>
+</button>
+</div>
+<!-- Panel 1: Textos -->
+<div class="tool-panel active" id="v2-img-p1">
+<div class="card-body">
+<div class="field">
+<div class="field-label-row">
+<span class="field-label">Texto superior <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(acima do título)</span></span>
+<button class="clear-btn" onclick="clearText('v2-upper','img2')">Limpar</button>
+</div>
+<textarea id="v2-upper" oninput="markDirty('img2')" placeholder="Texto complementar acima do título..." rows="2"></textarea>
+<span class="logo-note">Usa o mesmo estilo, tamanho e autofit do subtítulo.</span>
+</div><div class="field sep">
+<div class="field-label-row">
+<span class="field-label">Título <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(;texto; = destaque)</span></span>
+<button class="clear-btn" onclick="clearText('v2-titulo','img2')">Limpar</button>
+</div>
+<textarea autocomplete="off" id="v2-titulo" oninput="markDirty('img2')" placeholder="Digite o título. Use ;texto; para destacar." rows="2"></textarea>
+</div>
+<div class="field sep">
+<div class="field-label-row">
+<span class="field-label">Subtítulo <span style="font-weight:400;color:var(--t2);text-transform:none;letter-spacing:0;font-family:'DM Sans',sans-serif;font-size:11px">(Enter cria nova linha)</span></span>
+<button class="clear-btn" onclick="clearText('v2-sub','img2')">Limpar</button>
+</div>
+<textarea autocomplete="off" id="v2-sub" oninput="markDirty('img2')" placeholder="Digite um subtítulo opcional." rows="2"></textarea>
+</div>
+</div>
+</div>
+<!-- Panel 2: Estilo -->
+<div class="tool-panel" id="v2-img-p2">
+<div class="card-body">
+<div class="field">
+<span class="field-label">Formato</span>
+<div class="tog-row" id="v2-ratioRow">
+<button class="tog on" onclick="setRatio('3:4',this,'img2')">3:4</button>
+<button class="tog" onclick="setRatio('4:5',this,'img2')">4:5</button>
+<button class="tog" onclick="setRatio('1:1',this,'img2')">1:1</button>
+</div>
+</div>
+<div class="field sep">
+<span class="field-label">Posição do texto</span>
+<div class="tog-row">
+<button class="tog on" id="v2-posBot" onclick="setPos('bottom',this,'img2')">Embaixo</button>
+<button class="tog" id="v2-posTop" onclick="setPos('top',this,'img2')">Em cima</button>
+</div>
+</div>
+<div class="field">
+<span class="field-label">Alinhamento</span>
+<div class="tog-row" id="v2-alignRow">
+<button class="tog on" onclick="setAlign('center',this,'img2')">Centro</button>
+<button class="tog" onclick="setAlign('left',this,'img2')">Esquerda</button>
+<button class="tog" onclick="setAlign('right',this,'img2')">Direita</button>
+</div>
+</div>
+<div class="field">
+<span class="field-label">Fonte</span>
+<select class="custom-select" id="v2-fontFam" onchange="changeTitleFont('img2')">
+<option value="DIN Next Pro Heavy">DIN Next Pro Heavy</option>
+<option value="Anton">Anton</option>
+<option value="Montserrat">Montserrat</option>
+<option value="Inter">Inter</option>
+<option value="Bebas Neue">Bebas Neue</option>
+<option value="Poppins">Poppins</option>
+<option value="Playfair Display">Playfair Display</option>
+<option value="Oswald">Oswald</option>
+</select>
+</div>
+<div class="field">
+<span class="field-label">Estilo do título</span>
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<div class="autofit-tog" id="v2-titWeightRow">
+<button class="aft" data-val="300" onclick="setFontProp('titWeight',300,'v2-titWeightRow','img2')">300</button>
+<button class="aft" data-val="400" onclick="setFontProp('titWeight',400,'v2-titWeightRow','img2')">400</button>
+<button class="aft" data-val="500" onclick="setFontProp('titWeight',500,'v2-titWeightRow','img2')">500</button>
+<button class="aft" data-val="600" onclick="setFontProp('titWeight',600,'v2-titWeightRow','img2')">600</button>
+<button class="aft" data-val="700" onclick="setFontProp('titWeight',700,'v2-titWeightRow','img2')">700</button>
+<button class="aft on" data-val="800" onclick="setFontProp('titWeight',800,'v2-titWeightRow','img2')">800</button>
+<button class="aft" data-val="900" onclick="setFontProp('titWeight',900,'v2-titWeightRow','img2')">900</button>
+</div>
+<div class="autofit-tog" id="v2-titItalicRow">
+<button class="aft on" data-val="false" onclick="setFontProp('titItalic',false,'v2-titItalicRow','img2')">Normal</button>
+<button class="aft" data-val="true" onclick="setFontProp('titItalic',true,'v2-titItalicRow','img2')" style="font-style:italic">Itálico</button>
+</div>
+<div class="autofit-tog" id="v2-titUpperRow">
+<button aria-pressed="false" class="aft" data-val="true" onclick="toggleTitleUppercase('img2','v2-titUpperRow',this)" title="Transformar o título em letras maiúsculas">Maiúsculas</button>
+</div>
+</div>
+</div>
+<div class="field">
+<span class="field-label">Cor do título</span>
+<div class="sw-row" id="v2-titColorRow">
+<div class="sw on" data-c="#ffffff" onclick="setTitBase('#ffffff',this,'img2')" style="background:#ffffff"></div>
+<div class="sw" data-c="#6b6b6b" onclick="setTitBase('#6b6b6b',this,'img2')" style="background:#6b6b6b"></div>
+<div class="sw" data-c="#3b9eff" onclick="setTitBase('#3b9eff',this,'img2')" style="background:#3b9eff"></div>
+<div class="sw" data-c="#7c6af7" onclick="setTitBase('#7c6af7',this,'img2')" style="background:#7c6af7"></div>
+<div class="sw" data-c="#00d4aa" onclick="setTitBase('#00d4aa',this,'img2')" style="background:#00d4aa"></div>
+<div class="sw" data-c="#69ff47" onclick="setTitBase('#69ff47',this,'img2')" style="background:#69ff47"></div>
+<div class="sw" data-c="#ffd600" onclick="setTitBase('#ffd600',this,'img2')" style="background:#ffd600"></div>
+<div class="sw" data-c="#ff6b00" onclick="setTitBase('#ff6b00',this,'img2')" style="background:#ff6b00"></div>
+<div class="sw" data-c="#ff3b3b" onclick="setTitBase('#ff3b3b',this,'img2')" style="background:#ff3b3b"></div>
+<div class="sw" data-c="#ff3b9e" onclick="setTitBase('#ff3b9e',this,'img2')" style="background:#ff3b9e"></div>
+<div class="sw" data-c="#06d6c8" onclick="setTitBase('#06d6c8',this,'img2')" style="background:#06d6c8"></div>
+<div class="sw" data-c="#b347ff" onclick="setTitBase('#b347ff',this,'img2')" style="background:#b347ff"></div>
+</div>
+</div>
+<div class="field">
+<span class="field-label">Cor do destaque</span>
+<div class="sw-row" id="v2-colorRow">
+<div class="sw on" data-c="#ffffff" onclick="setTC('#ffffff',this,'img2')" style="background:#ffffff"></div>
+<div class="sw" data-c="#6b6b6b" onclick="setTC('#6b6b6b',this,'img2')" style="background:#6b6b6b"></div>
+<div class="sw" data-c="#3b9eff" onclick="setTC('#3b9eff',this,'img2')" style="background:#3b9eff"></div>
+<div class="sw" data-c="#7c6af7" onclick="setTC('#7c6af7',this,'img2')" style="background:#7c6af7"></div>
+<div class="sw" data-c="#00d4aa" onclick="setTC('#00d4aa',this,'img2')" style="background:#00d4aa"></div>
+<div class="sw" data-c="#69ff47" onclick="setTC('#69ff47',this,'img2')" style="background:#69ff47"></div>
+<div class="sw" data-c="#ffd600" onclick="setTC('#ffd600',this,'img2')" style="background:#ffd600"></div>
+<div class="sw" data-c="#ff6b00" onclick="setTC('#ff6b00',this,'img2')" style="background:#ff6b00"></div>
+<div class="sw" data-c="#ff3b3b" onclick="setTC('#ff3b3b',this,'img2')" style="background:#ff3b3b"></div>
+<div class="sw" data-c="#ff3b9e" onclick="setTC('#ff3b9e',this,'img2')" style="background:#ff3b9e"></div>
+<div class="sw" data-c="#06d6c8" onclick="setTC('#06d6c8',this,'img2')" style="background:#06d6c8"></div>
+<div class="sw" data-c="#b347ff" onclick="setTC('#b347ff',this,'img2')" style="background:#b347ff"></div>
+</div>
+</div>
+<div class="slider-field sep">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+<span class="field-label">Tamanho do título</span>
+<div class="autofit-tog" id="v2-autoFitRow">
+<button class="aft" data-val="off" onclick="setAutoFit('off',this,'v2-autoFitMode','v2-autoFitRow','img2')">Livre</button>
+<button class="aft on" data-val="2" onclick="setAutoFit('2',this,'v2-autoFitMode','v2-autoFitRow','img2')">Máx. 2 linhas</button>
+<button class="aft" data-val="3" onclick="setAutoFit('3',this,'v2-autoFitMode','v2-autoFitRow','img2')">Máx. 3 linhas</button>
+</div>
+</div>
+<input id="v2-autoFitMode" type="hidden" value="2"/>
+<div class="slider-row">
+<input id="v2-tsz" max="120" min="18" oninput="sync('v2-tsz','v2-tnum','img2')" type="range" value="50"/>
+<input class="snum" id="v2-tnum" max="120" min="18" onchange="nsync('v2-tnum','v2-tsz','img2')" type="number" value="50"/>
+</div>
+</div>
+<div class="slider-field">
+<span class="field-label">Espaçamento do título</span>
+<div class="slider-row">
+<input id="v2-titTrack" max="30" min="-10" oninput="sync('v2-titTrack','v2-titTrackN','img2')" step="0.5" type="range" value="0"/>
+<input class="snum" id="v2-titTrackN" max="30" min="-10" onchange="nsync('v2-titTrackN','v2-titTrack','img2')" step="0.5" type="number" value="0"/>
+</div>
+</div>
+<div class="slider-field">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+<span class="field-label">Tamanho do subtítulo</span>
+<div class="autofit-tog" id="v2-autoFitSubRow">
+<button class="aft" data-val="off" onclick="setAutoFit('off',this,'v2-autoFitSubMode','v2-autoFitSubRow','img2')">Livre</button>
+<button class="aft on" data-val="2" onclick="setAutoFit('2',this,'v2-autoFitSubMode','v2-autoFitSubRow','img2')">Máx. 2 linhas</button>
+<button class="aft" data-val="3" onclick="setAutoFit('3',this,'v2-autoFitSubMode','v2-autoFitSubRow','img2')">Máx. 3 linhas</button>
+</div>
+</div>
+<input id="v2-autoFitSubMode" type="hidden" value="2"/>
+<div class="slider-row">
+<input id="v2-ssz" max="80" min="15" oninput="sync('v2-ssz','v2-snum2','img2')" type="range" value="28"/>
+<input class="snum" id="v2-snum2" max="80" min="15" onchange="nsync('v2-snum2','v2-ssz','img2')" type="number" value="28"/>
+</div>
+</div>
+<div class="slider-field">
+<span class="field-label">Espaçamento do subtítulo</span>
+<div class="slider-row">
+<input id="v2-subTrack" max="20" min="-5" oninput="sync('v2-subTrack','v2-subTrackN','img2')" step="0.5" type="range" value="0"/>
+<input class="snum" id="v2-subTrackN" max="20" min="-5" onchange="nsync('v2-subTrackN','v2-subTrack','img2')" step="0.5" type="number" value="0"/>
+</div>
+</div>
+<div class="field">
+<span class="field-label">Estilo do subtítulo</span>
+<div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+<div class="autofit-tog" id="v2-subWeightRow">
+<button class="aft" data-val="300" onclick="setFontProp('subWeight',300,'v2-subWeightRow','img2')">300</button>
+<button class="aft on" data-val="400" onclick="setFontProp('subWeight',400,'v2-subWeightRow','img2')">400</button>
+<button class="aft" data-val="500" onclick="setFontProp('subWeight',500,'v2-subWeightRow','img2')">500</button>
+<button class="aft" data-val="600" onclick="setFontProp('subWeight',600,'v2-subWeightRow','img2')">600</button>
+<button class="aft" data-val="700" onclick="setFontProp('subWeight',700,'v2-subWeightRow','img2')">700</button>
+<button class="aft" data-val="800" onclick="setFontProp('subWeight',800,'v2-subWeightRow','img2')">800</button>
+</div>
+<div class="autofit-tog" id="v2-subItalicRow">
+<button class="aft on" data-val="false" onclick="setFontProp('subItalic',false,'v2-subItalicRow','img2')">Normal</button>
+<button class="aft" data-val="true" onclick="setFontProp('subItalic',true,'v2-subItalicRow','img2')" style="font-style:italic">Itálico</button>
+</div>
+</div>
+</div>
+<div class="slider-field">
+<span class="field-label">Contorno do texto</span>
+<div class="slider-row">
+<input id="v2-tStrk" max="15" min="0" oninput="sync('v2-tStrk','v2-tStrkN','img2')" type="range" value="0"/>
+<input class="snum" id="v2-tStrkN" max="15" min="0" onchange="nsync('v2-tStrkN','v2-tStrk','img2')" type="number" value="0"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Panel 3: Fundo & Efeitos -->
+<div class="tool-panel" id="v2-img-p3">
+<div class="card-body">
+<div class="slider-field" id="v2-gopWrap">
+<span class="field-label">Sombra da imagem</span>
+<div class="slider-row">
+<input id="v2-gop" max="95" min="0" oninput="sync('v2-gop','v2-gnum','img2')" type="range" value="65"/>
+<input class="snum" id="v2-gnum" max="95" min="0" onchange="nsync('v2-gnum','v2-gop','img2')" type="number" value="65"/>
+</div>
+</div>
+<div class="slider-field logo-size-wrap" id="v2-logoSizeWrap" style="display:none">
+<span class="field-label">Tamanho da logo 1:1</span>
+<div class="slider-row">
+<input id="v2-logoSize" max="240" min="60" oninput="setLogoSize('img2',this.value)" type="range" value="120"/>
+<input class="snum" id="v2-logoSizeN" max="240" min="60" onchange="setLogoSize('img2',this.value)" type="number" value="120"/>
+</div>
+<span class="field-label" style="margin-top:8px">Opacidade da logo</span>
+<div class="slider-row">
+<input id="v2-logoOpacity" max="100" min="0" oninput="setLogoOpacity('img2',this.value)" type="range" value="100"/>
+<input class="snum" id="v2-logoOpacityN" max="100" min="0" onchange="setLogoOpacity('img2',this.value)" type="number" value="100"/>
+</div>
+<span class="logo-note">Canto superior esquerdo; muda para o inferior quando o texto está em cima.</span>
+</div>
+<div class="field sep">
+<span class="field-label">Fundo do subtítulo</span>
+<div class="tog-row">
+<button class="tog on" id="v2-sbOn" onclick="setSubBg(true,'img2')">Sim</button>
+<button class="tog" id="v2-sbOff" onclick="setSubBg(false,'img2')">Não</button>
+</div>
+</div>
+<div class="slider-field" id="v2-sbSlider">
+<span class="field-label">Opacidade do fundo</span>
+<div class="slider-row">
+<input id="v2-sbop" max="90" min="0" oninput="sync('v2-sbop','v2-sbnum','img2')" type="range" value="52"/>
+<input class="snum" id="v2-sbnum" max="90" min="0" onchange="nsync('v2-sbnum','v2-sbop','img2')" type="number" value="52"/>
+</div>
+</div>
+<div class="field sep" id="v2-indWrap">
+<span class="field-label">Indicador</span>
+<div class="tog-row" id="v2-indRow">
+<button class="tog on" onclick="setInd('none',this,'img2')">Nenhum</button>
+<button class="tog" onclick="setInd('arrowDown',this,'img2')">Ler ↓</button>
+<button class="tog" onclick="setInd('swipeRight',this,'img2')">Arraste ›</button>
+<button class="tog" onclick="setInd('dots',this,'img2')">Páginas</button>
+</div>
+</div>
+<div class="slider-field" id="v2-indOpWrap" style="display:none">
+<span class="field-label">Opacidade do indicador</span>
+<div class="slider-row">
+<input id="v2-indOp" max="100" min="0" oninput="sync('v2-indOp','v2-indOpN','img2')" type="range" value="85"/>
+<input class="snum" id="v2-indOpN" max="100" min="0" onchange="nsync('v2-indOpN','v2-indOp','img2')" type="number" value="85"/>
+</div>
+</div>
+<div class="card-body" id="v2-indDotsWrap" style="display:none;padding-top:4px;gap:12px">
+<div class="slider-field">
+<span class="field-label">Total de páginas</span>
+<div class="slider-row">
+<input id="v2-dotCount" max="10" min="2" oninput="sync('v2-dotCount','v2-dotCountN','img2');clampActive('v2-dotCount','v2-dotActive','v2-dotActiveN','img2')" type="range" value="5"/>
+<input class="snum" id="v2-dotCountN" max="10" min="2" onchange="nsync('v2-dotCountN','v2-dotCount','img2');clampActive('v2-dotCount','v2-dotActive','v2-dotActiveN','img2')" type="number" value="5"/>
+</div>
+</div>
+<div class="slider-field">
+<span class="field-label">Página atual</span>
+<div class="slider-row">
+<input id="v2-dotActive" max="5" min="1" oninput="sync('v2-dotActive','v2-dotActiveN','img2')" type="range" value="1"/>
+<input class="snum" id="v2-dotActiveN" max="5" min="1" onchange="nsync('v2-dotActiveN','v2-dotActive','img2')" type="number" value="1"/>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
 
 <!-- ═══════════════════ PAGE: ASSINANTES ═══════════════════ -->
 <div class="page" id="pageSub">
@@ -2004,6 +2335,13 @@ const S = {
     canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
     autoFitSub:true, showGuides:false, lastBackgroundLuminance:null, lastTextBounds:null
   },
+  img2: {
+    mediaFile:null, imgO:new Image(), logoFile:null, logoImg:new Image(), logoVisible:false, logoWantedVisible:null, logoSize:120, logoOpacity:1, transparentBg:false, imageOpacity:1,
+    ratio:'3:4', pos:'bottom', align:'center', tColor:'#ffffff', titBaseColor:'#ffffff', showSubBg:true, indicator:'none',
+    titWeight:800, titItalic:false, titUppercase:false, subWeight:400, subItalic:false,
+    canMove:false, panX:.5, panY:.5, zoom:1, rafId:null, dirty:false, panDragging:false, panLastRaw:{x:0,y:0}, lTouches:[], lPinchDist:null,
+    autoFitSub:true, showGuides:false, lastBackgroundLuminance:null, lastTextBounds:null
+  },
   reels: {
     mediaFile:null, imgO:new Image(), logoFile:null, logoImg:new Image(), logoVisible:false, logoWantedVisible:null, logoSize:120, logoOpacity:1, transparentBg:true,
     ratio:'9:16-reels', pos:'bottom', align:'center', tColor:'#ffffff', titBaseColor:'#ffffff', showSubBg:false, indicator:'none',
@@ -2040,9 +2378,15 @@ const $ = id => document.getElementById(id);
 
 function getActiveData(mode) { return S[mode]; }
 
+function modePrefix(mode){
+  return mode==='reels' ? 'r-' : mode==='sub' ? 's-' : mode==='img2' ? 'v2-' : '';
+}
+function pageIdForMode(mode){
+  return mode==='reels' ? 'pageReels' : mode==='sub' ? 'pageSub' : mode==='img2' ? 'pageImg2' : 'pageImg';
+}
 function D(mode){ return DIMS[S[mode].ratio] || DIMS['3:4']; }
-function cvEl(mode){ return mode==='reels' ? $('r-cv') : mode==='sub' ? $('s-cv') : $('cv'); }
-function cwEl(mode){ return mode==='reels' ? $('r-cw') : mode==='sub' ? $('s-cw') : $('cw'); }
+function cvEl(mode){ return $(modePrefix(mode)+'cv'); }
+function cwEl(mode){ return $(modePrefix(mode)+'cw'); }
 
 function contrastColor(hex){
   hex=hex.replace('#','');
@@ -2218,9 +2562,7 @@ function approximateContrastRatio(colorHex,bgLum){
   return (Math.max(fg,bg)+.05)/(Math.min(fg,bg)+.05);
 }
 
-function logoPrefix(mode){
-  return mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
-}
+function logoPrefix(mode){ return modePrefix(mode); }
 
 const LOGO_DB_NAME='postBuilderAssets';
 const LOGO_DB_VERSION=1;
@@ -2360,7 +2702,7 @@ async function deletePersistedLogo(mode){
 }
 
 async function clearPersistedLogos(){
-  ['img','sub','reels'].forEach(mode=>localStorage.removeItem(LOGO_FALLBACK_PREFIX+mode));
+  ['img','img2','sub','reels'].forEach(mode=>localStorage.removeItem(LOGO_FALLBACK_PREFIX+mode));
   try{
     const db=await openLogoDB();
     await new Promise((resolve,reject)=>{
@@ -2402,7 +2744,7 @@ function loadLogoBlobIntoMode(mode,blob,visible=true){
 }
 
 async function restorePersistedLogos(){
-  for(const mode of ['img','sub','reels']){
+  for(const mode of ['img','img2','sub','reels']){
     try{
       const record=await getPersistedLogo(mode);
       if(!record?.blob) continue;
@@ -2597,27 +2939,28 @@ function showToast(msg) {
 
 function switchPage(mode){
   currentPage = mode;
-  $('pageImg').classList.toggle('active', mode==='img');
-  $('pageSub').classList.toggle('active', mode==='sub');
-  $('pageReels').classList.toggle('active', mode==='reels');
-  $('pswImg').classList.toggle('active', mode==='img');
-  $('pswSub').classList.toggle('active', mode==='sub');
-  $('pswReels').classList.toggle('active', mode==='reels');
-  $('pswImg').setAttribute('aria-selected', String(mode==='img'));
-  $('pswSub').setAttribute('aria-selected', String(mode==='sub'));
-  $('pswReels').setAttribute('aria-selected', String(mode==='reels'));
+  ['img','img2','sub','reels'].forEach(item=>{
+    const page=$(pageIdForMode(item));
+    const tab=$(item==='img'?'pswImg':item==='img2'?'pswImg2':item==='sub'?'pswSub':'pswReels');
+    const active=item===mode;
+    if(page) page.classList.toggle('active',active);
+    if(tab){
+      tab.classList.toggle('active',active);
+      tab.setAttribute('aria-selected',String(active));
+    }
+  });
   markDirty(mode);
   saveState();
 }
 
 function openPanel(mode, panelId, btn) {
-  const toolbarId = mode === 'img' ? 'img-toolbar' : mode === 'sub' ? 's-toolbar' : 'reels-toolbar';
-  const panels = mode === 'img' ? ['img-p1','img-p2','img-p3'] :
-                 mode === 'sub' ? ['s-p1','s-p2','s-p3'] : ['reels-p1','reels-p2'];
-  document.querySelectorAll(`#${toolbarId} .tool-btn`).forEach(b => b.classList.remove('active'));
-  panels.forEach(id => { const el=$(id); if(el) el.classList.remove('active'); });
+  const page=$(pageIdForMode(mode));
+  if(!page) return;
+  page.querySelectorAll('.tool-btn').forEach(b=>b.classList.remove('active'));
+  page.querySelectorAll('.tool-panel').forEach(panel=>panel.classList.remove('active'));
   btn.classList.add('active');
-  $(panelId).classList.add('active');
+  const panel=$(panelId);
+  if(panel) panel.classList.add('active');
 }
 
 /* ── Title base color ── */
@@ -2626,7 +2969,7 @@ function setTitBase(c, el, mode, updateState=true){
     const data = getActiveData(mode); data.titBaseColor = c;
     markDirty(mode); saveState();
   }
-  const pfx = mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
+  const pfx = modePrefix(mode);
   document.querySelectorAll(`#${pfx}titColorRow .sw`).forEach(s => s.classList.remove('on'));
   let target = el;
   if(!target) target = Array.from(document.querySelectorAll(`#${pfx}titColorRow .sw`)).find(d => d.dataset.c && d.dataset.c.toLowerCase() === c.toLowerCase());
@@ -2753,7 +3096,7 @@ function drawSyntheticTitleLine(ctx,lineArr,x,y,lineWidth,lineHeight,fontName,se
 }
 
 async function changeTitleFont(mode){
-  const pfx = mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
+  const pfx = modePrefix(mode);
   const select = $(pfx+'fontFam');
   if(!select) return;
 
@@ -2862,7 +3205,7 @@ function draw(mode, options={}){
   const H = Math.round(baseDims.H * renderScale);
   if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H;}
 
-  const pfx = mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
+  const pfx = modePrefix(mode);
   const g = id => $(pfx+id);
 
   const ctx = cv.getContext('2d');
@@ -2918,6 +3261,7 @@ function draw(mode, options={}){
   let titTxt=g('titulo').value.trim();
   if(activeData.titUppercase) titTxt=titTxt.toLocaleUpperCase('pt-BR');
   const subTxt=g('sub').value.trim();
+  const upperTxt=mode==='img2' ? (g('upper')?.value.trim() || '') : '';
   
   let titSzPx=+g('tsz').value*sc;
   let subSzPx=+g('ssz').value*sc;
@@ -2966,25 +3310,31 @@ function draw(mode, options={}){
   const autoSubMode = autoSubModeEl ? autoSubModeEl.value : 'off';
   const isAutoFitSub = autoSubMode !== 'off';
   const maxSubLines = parseInt(autoSubMode) || 2;
-  if(isAutoFitSub && subTxt) {
+  if(isAutoFitSub && (subTxt || upperTxt)) {
     const subSizeInput = g('ssz');
     const subNumberInput = g('snum2');
     const controlMin = Number(subSizeInput.min) || 15;
     const controlMax = Number(subSizeInput.max) || 80;
+    const textsToFit=[upperTxt,subTxt].filter(Boolean);
+    let chosenFit=null;
 
-    const fit=findLargestFittingFontSize({
-      ctx,
-      minSize:controlMin,
-      maxSize:controlMax,
-      emergencyMin:8,
-      scale:sc,
-      maxLines:maxSubLines,
-      maxWidth:maxTxtW,
-      fontAtSize:px=>`${subFs}${subWeight} ${px}px 'Inter',sans-serif`,
-      buildLines:()=>wrapText(ctx,subTxt,maxTxtW),
-      measureLine:line=>ctx.measureText(line).width
+    textsToFit.forEach(text=>{
+      const fit=findLargestFittingFontSize({
+        ctx,
+        minSize:controlMin,
+        maxSize:controlMax,
+        emergencyMin:8,
+        scale:sc,
+        maxLines:maxSubLines,
+        maxWidth:maxTxtW,
+        fontAtSize:px=>`${subFs}${subWeight} ${px}px 'Inter',sans-serif`,
+        buildLines:()=>wrapText(ctx,text,maxTxtW),
+        measureLine:line=>ctx.measureText(line).width
+      });
+      if(!chosenFit || fit.size<chosenFit.size) chosenFit=fit;
     });
 
+    const fit=chosenFit;
     subSzPx=fit.size*sc;
     if(fit.usedEmergency && fit.size<Number(subSizeInput.min)){
       subSizeInput.min=String(fit.size);
@@ -3003,35 +3353,72 @@ function draw(mode, options={}){
   setCanvasLetterSpacing(ctx,subTrack);
   ctx.font=`${subFs}${subWeight} ${subSzPx}px 'Inter',sans-serif`;
   const subLines=subTxt?wrapText(ctx,subTxt,maxTxtW):[];
+  const upperLines=upperTxt?wrapText(ctx,upperTxt,maxTxtW):[];
   const subMet=ctx.measureText('Ag');
   const tH2=subMet.actualBoundingBoxAscent+subMet.actualBoundingBoxDescent;
   const spx2=18*sc,spy=9*sc,lg=6*sc,bLH=tH2+spy*2,stp=tH2+lg;
   const subBlockH=subLines.length>0?(subLines.length-1)*stp+bLH:0;
-  const gap=(titTxt&&subTxt)?28*sc:0;
-  const totalH=titBlockH+gap+subBlockH;
+  const upperBlockH=upperLines.length>0?(upperLines.length-1)*stp+bLH:0;
+  const gapUpper=(upperTxt&&titTxt)?28*sc:0;
+  const gapLower=(titTxt&&subTxt)?28*sc:0;
+  const totalH=upperBlockH+gapUpper+titBlockH+gapLower+subBlockH;
 
-  let baseTY, baseSY;
+  let baseUY=0, baseTY, baseSY;
   if(mode==='reels'){
     const anchorTit = 625*sc;   
     baseTY = anchorTit - titBlockH; 
     const anchorSub = H - 625*sc;   
     baseSY = anchorSub;
   } else {
-    if(activeData.pos==='top')         baseTY=100*sc;
-    else if(activeData.pos==='middle') baseTY=(H-totalH)/2;
-    else                               baseTY=H-100*sc-totalH;
-    baseSY=baseTY+titBlockH+gap;
+    let blockStart;
+    if(activeData.pos==='top')         blockStart=100*sc;
+    else if(activeData.pos==='middle') blockStart=(H-totalH)/2;
+    else                               blockStart=H-100*sc-totalH;
+    baseUY=blockStart;
+    baseTY=blockStart+upperBlockH+gapUpper;
+    baseSY=baseTY+titBlockH+gapLower;
   }
 
-  const contentBottom=Math.max(baseTY+titBlockH,baseSY+subBlockH);
+  const contentTop=upperLines.length?baseUY:baseTY;
+  const contentBottom=Math.max(baseUY+upperBlockH,baseTY+titBlockH,baseSY+subBlockH);
   const textBounds={
     x:Math.max(0,pad*.45),
-    y:Math.max(0,baseTY-26*sc),
+    y:Math.max(0,contentTop-26*sc),
     w:Math.min(W,W-pad*.9),
-    h:Math.max(80*sc,Math.min(H,contentBottom+28*sc)-Math.max(0,baseTY-26*sc))
+    h:Math.max(80*sc,Math.min(H,contentBottom+28*sc)-Math.max(0,contentTop-26*sc))
   };
   s.lastTextBounds=textBounds;
   if(analyzeContrast && !transparentExport) s.lastBackgroundLuminance=sampleCanvasLuminance(ctx,textBounds);
+
+  if(upperLines.length>0){
+    ctx.save();
+    setCanvasLetterSpacing(ctx,subTrack);
+    ctx.font=`${subFs}${subWeight} ${subSzPx}px 'Inter',sans-serif`;
+    ctx.textAlign=textAlign; ctx.textBaseline='top';
+    const posX=baseAX, posY=baseUY;
+    if(activeData.showSubBg){
+      const sbopEl=g('sbop');
+      const sbopVal=Math.max(0,Math.min(1,Number(sbopEl ? sbopEl.value : 52)/100));
+      if(offCanvas.width!==W || offCanvas.height!==H){offCanvas.width=W;offCanvas.height=H;}
+      offCtx.clearRect(0,0,W,H);
+      setCanvasLetterSpacing(offCtx,subTrack);
+      offCtx.font=`${subFs}${subWeight} ${subSzPx}px 'Inter',sans-serif`;
+      offCtx.fillStyle='#000';
+      upperLines.forEach((line,i)=>{
+        if(!line) return;
+        const lw=offCtx.measureText(line).width,bw=lw+spx2*2;
+        const bx=textAlign==='left'?posX-spx2:textAlign==='right'?posX-lw-spx2:posX-bw/2;
+        rrect(offCtx,bx,posY-spy+i*stp,bw,bLH,10*sc);offCtx.fill();
+      });
+      ctx.globalAlpha=sbopVal;ctx.drawImage(offCanvas,0,0);ctx.globalAlpha=1;
+    }else{
+      ctx.shadowColor='rgba(0,0,0,0.7)';ctx.shadowBlur=10*sc;ctx.shadowOffsetY=2*sc;
+    }
+    ctx.fillStyle='rgba(255,255,255,.93)';
+    const textOffsetY=(bLH-subSzPx)/2;
+    upperLines.forEach((line,i)=>{if(line) ctx.fillText(line,posX,posY-spy+i*stp+textOffsetY);});
+    ctx.restore();
+  }
 
   if(titLines.length>0){
     ctx.save();
@@ -3152,7 +3539,7 @@ function draw(mode, options={}){
 function toggleGuides(mode){
   const state=S[mode];
   state.showGuides=!state.showGuides;
-  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
+  const pfx=modePrefix(mode);
   const btn=$(pfx+'guideBtn');
   if(btn){
     btn.classList.toggle('active',state.showGuides);
@@ -3165,7 +3552,7 @@ function toggleGuides(mode){
 
 function applyGuidesState(mode,enabled){
   S[mode].showGuides=Boolean(enabled);
-  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
+  const pfx=modePrefix(mode);
   const btn=$(pfx+'guideBtn');
   if(btn){
     btn.classList.toggle('active',S[mode].showGuides);
@@ -3195,7 +3582,7 @@ function autoContrast(mode){
     return;
   }
 
-  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
+  const pfx=modePrefix(mode);
   const useDarkText=lum>.62;
   const baseColor=useDarkText?'#111111':'#ffffff';
   const currentHighlight=state.tColor||'#ffffff';
@@ -3235,7 +3622,7 @@ function setAccent(c,el){
   document.querySelectorAll('#accentGrid .ac-dot').forEach(d=>d.classList.remove('sel'));
   if(!el) el=document.querySelector(`#accentGrid .ac-dot[data-c="${c.toLowerCase()}"]`);
   if(el) el.classList.add('sel');
-  markDirty('img'); markDirty('sub'); markDirty('reels'); saveState();
+  markDirty('img'); markDirty('img2'); markDirty('sub'); markDirty('reels'); saveState();
 }
 
 function exportBackup(){
@@ -3309,7 +3696,7 @@ async function resetAll(){
 
 function sync(rid,nid,mode){ 
   $(nid).value=$(rid).value; 
-  const pfx = mode === 'reels' ? 'r-' : mode === 'sub' ? 's-' : '';
+  const pfx = modePrefix(mode);
   if(rid.includes('tsz') && !rid.includes('ssz')) {
     resetAutoFitToggle(pfx+'autoFitMode', pfx+'autoFitRow');
   }
@@ -3322,7 +3709,7 @@ function sync(rid,nid,mode){
 function nsync(nid,rid,mode){
   const el=$(nid);let v=parseFloat(el.value);if(isNaN(v))return;
   v=Math.max(+el.min,Math.min(+el.max,v));el.value=v;$(rid).value=v;
-  const pfx = mode === 'reels' ? 'r-' : mode === 'sub' ? 's-' : '';
+  const pfx = modePrefix(mode);
   if(rid.includes('tsz') && !rid.includes('ssz')) {
     resetAutoFitToggle(pfx+'autoFitMode', pfx+'autoFitRow');
   }
@@ -3334,7 +3721,7 @@ function nsync(nid,rid,mode){
 
 function setRatio(r,btn,mode){
   S[mode].ratio = r;
-  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
+  const pfx=modePrefix(mode);
   document.querySelectorAll(`#${pfx}ratioRow .tog`).forEach(b=>b.classList.remove('on'));
   if(btn) btn.classList.add('on');
   const cv=cvEl(mode); const {W,H}=D(mode);
@@ -3348,7 +3735,7 @@ function setPos(p,btn,mode,updateState=true){
     const data = getActiveData(mode); data.pos = p;
     markDirty(mode); saveState();
   }
-  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
+  const pfx=modePrefix(mode);
   $(`${pfx}posBot`)&&$(`${pfx}posBot`).classList.toggle('on',p==='bottom');
   $(`${pfx}posTop`)&&$(`${pfx}posTop`).classList.toggle('on',p==='top');
   $(`${pfx}posMid`)&&$(`${pfx}posMid`).classList.toggle('on',p==='middle');
@@ -3359,7 +3746,7 @@ function setAlign(a,btn,mode,updateState=true){
     const data = getActiveData(mode); data.align = a;
     markDirty(mode); saveState();
   }
-  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
+  const pfx=modePrefix(mode);
   document.querySelectorAll(`#${pfx}alignRow .tog`).forEach(b=>b.classList.remove('on'));
   if(btn) btn.classList.add('on');
   else {
@@ -3369,9 +3756,9 @@ function setAlign(a,btn,mode,updateState=true){
 }
 
 function opacityControlIds(mode){
-  return mode==='sub'
-    ? {value:'subOpacityValue',minus:'subOpacityMinus',plus:'subOpacityPlus'}
-    : {value:'imgOpacityValue',minus:'imgOpacityMinus',plus:'imgOpacityPlus'};
+  if(mode==='sub') return {value:'subOpacityValue',minus:'subOpacityMinus',plus:'subOpacityPlus'};
+  if(mode==='img2') return {value:'v2-imgOpacityValue',minus:'v2-imgOpacityMinus',plus:'v2-imgOpacityPlus'};
+  return {value:'imgOpacityValue',minus:'imgOpacityMinus',plus:'imgOpacityPlus'};
 }
 
 function applyImageOpacity(mode,value){
@@ -3410,7 +3797,7 @@ function setTC(c,el,mode,updateState=true){
     const data = getActiveData(mode); data.tColor = c;
     markDirty(mode); saveState();
   }
-  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
+  const pfx=modePrefix(mode);
   document.querySelectorAll(`#${pfx}colorRow .sw`).forEach(s=>s.classList.remove('on'));
   let target = el;
   if(!target) target=Array.from(document.querySelectorAll(`#${pfx}colorRow .sw`)).find(d=>d.dataset.c&&d.dataset.c.toLowerCase()===c.toLowerCase());
@@ -3422,7 +3809,7 @@ function setSubBg(v,mode,updateState=true){
     const data = getActiveData(mode); data.showSubBg = v;
     markDirty(mode); saveState();
   }
-  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
+  const pfx=modePrefix(mode);
   const elOn=$(`${pfx}sbOn`), elOff=$(`${pfx}sbOff`), elSlider=$(`${pfx}sbSlider`);
   if(elOn) elOn.classList.toggle('on',v);
   if(elOff) elOff.classList.toggle('on',!v);
@@ -3434,7 +3821,7 @@ function setInd(val,btn,mode,updateState=true){
     const data = getActiveData(mode); data.indicator = val;
     markDirty(mode); saveState();
   }
-  const pfx=mode==='reels'?'r-':mode==='sub'?'s-':'';
+  const pfx=modePrefix(mode);
   document.querySelectorAll(`#${pfx}indRow .tog`).forEach(b=>b.classList.remove('on'));
   if(btn) btn.classList.add('on');
   else {
@@ -3473,13 +3860,14 @@ function loadImageFile(file,mode){
   activeData.mediaFile = file;
   if(mode !== 'reels') activeData.transparentBg = false;
   const cw = cwEl(mode);
-  const pfx = mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
+  const pfx = modePrefix(mode);
 
   if(mode !== 'reels'){
     const ph=$(`${pfx}prevPlaceholder`);
     if(ph) ph.style.display='none';
     cw.style.display='flex';
-    $(mode==='sub'?'s-dlBtn':'dlBtn').disabled=false;
+    const downloadButton=$(pfx+'dlBtn');
+    if(downloadButton) downloadButton.disabled=false;
   }
   cw.classList.remove('transparent-mode');
   $(`${pfx}btnMove`).style.display='flex';
@@ -3517,7 +3905,7 @@ function buildState(){
   try{
     const g = id => { const el=$(id); return el ? el.value : null; };
     const st={
-      version: 10,
+      version: 11,
       theme: document.body.classList.contains('lt') ? 'light' : 'dark',
       currentPage,
       accent: getComputedStyle(document.documentElement).getPropertyValue('--ac').trim(),
@@ -3559,6 +3947,40 @@ function buildState(){
       img_indOp   : g('indOp'),
       img_dotCount: g('dotCount'),
       img_dotActive: g('dotActive'),
+      img2_showGuides: S.img2.showGuides,
+      img2_logoVisible: S.img2.logoVisible,
+      img2_logoSize: S.img2.logoSize,
+      img2_logoOpacity: S.img2.logoOpacity,
+      img2_imageOpacity: S.img2.imageOpacity,
+      img2_panX: S.img2.panX, img2_panY: S.img2.panY, img2_zoom: S.img2.zoom,
+      img2_ratio   : S.img2.ratio,
+      img2_pos     : S.img2.pos,
+      img2_align   : S.img2.align,
+      img2_tColor  : S.img2.tColor,
+      img2_titBaseColor: S.img2.titBaseColor,
+      img2_titWeight  : S.img2.titWeight,
+      img2_titItalic  : S.img2.titItalic,
+      img2_titUppercase: S.img2.titUppercase,
+      img2_subWeight  : S.img2.subWeight,
+      img2_subItalic  : S.img2.subItalic,
+      img2_showSubBg: S.img2.showSubBg,
+      img2_indicator: S.img2.indicator,
+      img2_upper   : g('v2-upper'),
+      img2_titulo  : g('v2-titulo'),
+      img2_sub     : g('v2-sub'),
+      img2_fontFam : g('v2-fontFam'),
+      img2_tsz     : g('v2-tsz'),
+      img2_titTrack: g('v2-titTrack'),
+      img2_subTrack: g('v2-subTrack'),
+      img2_autoFitMode : g('v2-autoFitMode'),
+      img2_autoFitSubMode : g('v2-autoFitSubMode'),
+      img2_tStrk   : g('v2-tStrk'),
+      img2_ssz     : g('v2-ssz'),
+      img2_sbop    : g('v2-sbop'),
+      img2_gop     : g('v2-gop'),
+      img2_indOp   : g('v2-indOp'),
+      img2_dotCount: g('v2-dotCount'),
+      img2_dotActive: g('v2-dotActive'),
       sub_logoVisible: S.sub.logoVisible,
       sub_logoSize: S.sub.logoSize,
       sub_logoOpacity: S.sub.logoOpacity,
@@ -3712,6 +4134,39 @@ function applyStateObject(st){
       $('dotActive').max=dc; $('dotActiveN').max=dc;
     }
     if(st.img_dotActive!==undefined){ $('dotActive').value=st.img_dotActive; $('dotActiveN').value=st.img_dotActive; }
+    // Feed V2 restore
+    if(st.img2_ratio){ const ratio=st.img2_ratio==='9:16-hd'?'3:4':st.img2_ratio; const btn=document.querySelector(`#v2-ratioRow button[onclick="setRatio('${ratio}',this,'img2')"]`); if(btn) setRatio(ratio,btn,'img2'); }
+    if(st.img2_pos){ setPos(st.img2_pos, null, 'img2'); }
+    if(st.img2_align){ setAlign(st.img2_align, null, 'img2'); }
+    if(st.img2_tColor){ setTC(st.img2_tColor, null, 'img2'); }
+    if(st.img2_titBaseColor){ setTitBase(st.img2_titBaseColor, null, 'img2'); }
+    if(st.img2_titWeight !== undefined){ S.img2.titWeight = st.img2_titWeight; applyFontProp('titWeight', st.img2_titWeight, 'v2-titWeightRow'); }
+    if(st.img2_titItalic !== undefined){ S.img2.titItalic = st.img2_titItalic; applyFontProp('titItalic', st.img2_titItalic, 'v2-titItalicRow'); }
+    if(st.img2_titUppercase !== undefined) applyTitleUppercase('img2', 'v2-titUpperRow', st.img2_titUppercase);
+    if(st.img2_subWeight !== undefined){ S.img2.subWeight = st.img2_subWeight; applyFontProp('subWeight', st.img2_subWeight, 'v2-subWeightRow'); }
+    if(st.img2_subItalic !== undefined){ S.img2.subItalic = st.img2_subItalic; applyFontProp('subItalic', st.img2_subItalic, 'v2-subItalicRow'); }
+    if(st.img2_showSubBg!==undefined) setSubBg(st.img2_showSubBg,'img2');
+    if(st.img2_indicator){ setInd(st.img2_indicator, null, 'img2'); }
+    if(st.img2_upper!==undefined) $('v2-upper').value=st.img2_upper;
+    if(st.img2_titulo!==undefined) $('v2-titulo').value=st.img2_titulo;
+    if(st.img2_sub!==undefined) $('v2-sub').value=st.img2_sub;
+    if(st.img2_fontFam) $('v2-fontFam').value=st.img2_fontFam;
+    loadAFM('img2_autoFitMode',    'img2_autoFit',    'v2-autoFitMode',    'v2-autoFitRow');
+    loadAFM('img2_autoFitSubMode', 'img2_autoFitSub', 'v2-autoFitSubMode', 'v2-autoFitSubRow');
+    if(st.img2_tsz!==undefined){ const input=$('v2-tsz'); const v=Math.max(+input.min,Math.min(+input.max,+st.img2_tsz)); input.value=v; $('v2-tnum').value=v; }
+    if(st.img2_titTrack!==undefined){ const v=Math.max(-10,Math.min(30,+st.img2_titTrack||0)); $('v2-titTrack').value=v; $('v2-titTrackN').value=v; }
+    if(st.img2_subTrack!==undefined){ const v=Math.max(-5,Math.min(20,+st.img2_subTrack||0)); $('v2-subTrack').value=v; $('v2-subTrackN').value=v; }
+    if(st.img2_tStrk!==undefined){ $('v2-tStrk').value=st.img2_tStrk; $('v2-tStrkN').value=st.img2_tStrk; }
+    if(st.img2_ssz!==undefined){ const v=Math.max(15,Math.min(80,+st.img2_ssz)); $('v2-ssz').value=v; $('v2-snum2').value=v; }
+    if(st.img2_sbop!==undefined){ $('v2-sbop').value=st.img2_sbop; $('v2-sbnum').value=st.img2_sbop; }
+    if(st.img2_gop!==undefined){ $('v2-gop').value=st.img2_gop; $('v2-gnum').value=st.img2_gop; }
+    if(st.img2_indOp!==undefined){ $('v2-indOp').value=st.img2_indOp; $('v2-indOpN').value=st.img2_indOp; }
+    if(st.img2_dotCount!==undefined){
+      const dc=st.img2_dotCount; $('v2-dotCount').value=dc; $('v2-dotCountN').value=dc;
+      $('v2-dotActive').max=dc; $('v2-dotActiveN').max=dc;
+    }
+    if(st.img2_dotActive!==undefined){ $('v2-dotActive').value=st.img2_dotActive; $('v2-dotActiveN').value=st.img2_dotActive; }
+
     if(st.r_align){ setAlign(st.r_align, null, 'reels'); }
     if(st.r_titulo!==undefined) $('r-titulo').value = st.r_titulo;
     if(st.r_sub!==undefined) $('r-sub').value = st.r_sub;
@@ -3777,6 +4232,16 @@ function applyStateObject(st){
     S.img.logoVisible=Boolean(S.img.logoWantedVisible && S.img.logoImg.naturalWidth);
     if(S.img.logoVisible && S.img.logoFile) persistLogoAsset('img',S.img.logoFile,true).catch(()=>{});
     updateLogoUI('img');
+    if(st.img2_imageOpacity!==undefined) applyImageOpacity('img2',st.img2_imageOpacity);
+    else applyImageOpacity('img2',1);
+    if(st.img2_showGuides!==undefined) applyGuidesState('img2',st.img2_showGuides);
+    if(st.img2_logoSize!==undefined) setLogoSize('img2',st.img2_logoSize,false);
+    if(st.img2_logoOpacity!==undefined) setLogoOpacity('img2',Math.round(st.img2_logoOpacity*100),false);
+    else setLogoOpacity('img2',100,false);
+    S.img2.logoWantedVisible=st.img2_logoVisible===undefined?null:Boolean(st.img2_logoVisible);
+    S.img2.logoVisible=Boolean(S.img2.logoWantedVisible && S.img2.logoImg.naturalWidth);
+    if(S.img2.logoVisible && S.img2.logoFile) persistLogoAsset('img2',S.img2.logoFile,true).catch(()=>{});
+    updateLogoUI('img2');
     if(st.sub_imageOpacity!==undefined) applyImageOpacity('sub',st.sub_imageOpacity);
     else applyImageOpacity('sub',1);
     if(st.sub_showGuides!==undefined) applyGuidesState('sub',st.sub_showGuides);
@@ -3796,19 +4261,21 @@ function applyStateObject(st){
     if(S.reels.logoVisible && S.reels.logoFile) persistLogoAsset('reels',S.reels.logoFile,true).catch(()=>{});
     updateLogoUI('reels');
     if(st.img_panX!==undefined){S.img.panX=st.img_panX;S.img.panY=st.img_panY;S.img.zoom=st.img_zoom||1;}
+    if(st.img2_panX!==undefined){S.img2.panX=st.img2_panX;S.img2.panY=st.img2_panY;S.img2.zoom=st.img2_zoom||1;}
     if(st.sub_panX!==undefined){S.sub.panX=st.sub_panX;S.sub.panY=st.sub_panY;S.sub.zoom=st.sub_zoom||1;}
     if(st.r_panX!==undefined){S.reels.panX=st.r_panX;S.reels.panY=st.r_panY;S.reels.zoom=st.r_zoom||1;}
     if($('zlbl')) $('zlbl').textContent=Math.round(S.img.zoom*100)+'%';
+    if($('v2-zlbl')) $('v2-zlbl').textContent=Math.round(S.img2.zoom*100)+'%';
     if($('s-zlbl')) $('s-zlbl').textContent=Math.round(S.sub.zoom*100)+'%';
     if($('r-zlbl')) $('r-zlbl').textContent=Math.round(S.reels.zoom*100)+'%';
-    if(['img','sub','reels'].includes(st.currentPage)) switchPage(st.currentPage);
-    markDirty('img');markDirty('sub');markDirty('reels');
+    if(['img','img2','sub','reels'].includes(st.currentPage)) switchPage(st.currentPage);
+    markDirty('img');markDirty('img2');markDirty('sub');markDirty('reels');
   }catch(e){ console.warn('applyState error',e); }
   finally{isApplyingState=previousApplying;}
 }
 
 function clearEditorTexts(){
-  ['titulo','sub','s-titulo','s-sub','r-titulo','r-sub'].forEach(id=>{
+  ['titulo','sub','v2-upper','v2-titulo','v2-sub','s-titulo','s-sub','r-titulo','r-sub'].forEach(id=>{
     const el=$(id);
     if(el) el.value='';
   });
@@ -3828,6 +4295,9 @@ function loadState(){
     // começa com os campos de texto vazios.
     st.img_titulo='';
     st.img_sub='';
+    st.img2_upper='';
+    st.img2_titulo='';
+    st.img2_sub='';
     st.sub_titulo='';
     st.sub_sub='';
     st.r_titulo='';
@@ -3868,7 +4338,7 @@ function redoChange(){
 function toggleMove(mode){
   const s = S[mode];
   s.canMove = !s.canMove;
-  const pfx = mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
+  const pfx = modePrefix(mode);
   $(`${pfx}btnMove`).classList.toggle('active',s.canMove);
   const cw=cwEl(mode); cw.style.cursor=s.canMove?'grab':'default';
   cw.classList.toggle('is-moving',s.canMove);
@@ -3892,7 +4362,7 @@ function pinchDist(t){const dx=t[0].clientX-t[1].clientX,dy=t[0].clientY-t[1].cl
 
 function bindCanvas(mode){
   const cw=cwEl(mode);
-  const pfx=mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
+  const pfx=modePrefix(mode);
 
   cw.addEventListener('mousedown',e=>{
     const globalState = S[mode];
@@ -3987,7 +4457,7 @@ function openExportDialog(mode){
   exportOptions.scale=1;
   exportOptions.background=mode==='reels'?'transparent':'full';
 
-  const suffix=mode==='reels'?'reels-overlay':mode==='sub'?'assinantes':'feed';
+  const suffix=mode==='reels'?'reels-overlay':mode==='sub'?'assinantes':mode==='img2'?'feed-v2':'feed';
   $('exportFilename').value='post-'+suffix;
   $('exportQuality').value=90;
   $('exportQualityLabel').textContent='90%';
@@ -4111,7 +4581,7 @@ async function exportMedia(mode){
 
 function bindUploadZone(mode){
   const zones = [cwEl(mode)];
-  const pfx = mode==='reels' ? 'r-' : mode==='sub' ? 's-' : '';
+  const pfx = modePrefix(mode);
   const placeholder = $(`${pfx}prevPlaceholder`);
   if(placeholder) zones.push(placeholder);
 
@@ -4163,6 +4633,7 @@ window.addEventListener('pageshow',event=>{
     clearEditorTexts();
     saveState(true);
     markDirty('img');
+    markDirty('img2');
     markDirty('sub');
     markDirty('reels');
     initializeHistory();
@@ -4174,6 +4645,10 @@ window.addEventListener('pageshow',event=>{
   const cv=cvEl('img'), {W,H}=D('img');
   cv.width=W;cv.height=H;cv.style.aspectRatio=W+'/'+H;
   const ph=$('prevPlaceholder'); if(ph) ph.style.aspectRatio=W+'/'+H;
+
+  const v2cv=cvEl('img2'), {W:v2W,H:v2H}=D('img2');
+  v2cv.width=v2W;v2cv.height=v2H;v2cv.style.aspectRatio=v2W+'/'+v2H;
+  const v2ph=$('v2-prevPlaceholder'); if(v2ph) v2ph.style.aspectRatio=v2W+'/'+v2H;
 
   const rcv=cvEl('reels');
   rcv.width=1080;rcv.height=1920;rcv.style.aspectRatio='9/16';
@@ -4192,29 +4667,33 @@ window.addEventListener('pageshow',event=>{
 
   initKeyboardAccessibility();
   bindUploadZone('img');
+  bindUploadZone('img2');
   bindUploadZone('sub');
   bindUploadZone('reels');
   loadState();
   await restorePersistedLogos();
   updateLogoUI('img');
+  updateLogoUI('img2');
   updateLogoUI('sub');
   updateLogoUI('reels');
   initializeHistory();
 
   markDirty('img');
+  markDirty('img2');
   markDirty('sub');
   markDirty('reels');
   if(document.fonts && document.fonts.ready){
-    document.fonts.ready.then(()=>{markDirty('img');markDirty('sub');markDirty('reels');});
+    document.fonts.ready.then(()=>{markDirty('img');markDirty('img2');markDirty('sub');markDirty('reels');});
   }
   if(document.fonts && document.fonts.addEventListener){
     document.fonts.addEventListener('loadingdone',()=>{
-      markDirty('img');markDirty('sub');markDirty('reels');
+      markDirty('img');markDirty('img2');markDirty('sub');markDirty('reels');
     });
   }
 })();
 
 bindCanvas('img');
+bindCanvas('img2');
 bindCanvas('sub');
 bindCanvas('reels');
 </script>

@@ -1372,7 +1372,7 @@
             <input type="range" id="logoOpacity" min="0" max="100" value="100" oninput="setLogoOpacity('img',this.value)">
             <input class="snum" type="number" id="logoOpacityN" value="100" min="0" max="100" onchange="setLogoOpacity('img',this.value)">
           </div>
-          <span class="logo-note">Posição fixa no canto superior esquerdo.</span>
+          <span class="logo-note">Canto superior esquerdo; muda para o inferior quando o texto está em cima.</span>
         </div>
         <div class="field sep">
           <span class="field-label">Fundo do subtítulo</span>
@@ -1698,7 +1698,7 @@
             <input type="range" id="s-logoOpacity" min="0" max="100" value="100" oninput="setLogoOpacity('sub',this.value)">
             <input class="snum" type="number" id="s-logoOpacityN" value="100" min="0" max="100" onchange="setLogoOpacity('sub',this.value)">
           </div>
-          <span class="logo-note">Posição fixa no canto superior esquerdo.</span>
+          <span class="logo-note">Canto superior esquerdo; muda para o inferior quando o texto está em cima.</span>
         </div>
         <div class="field sep">
           <span class="field-label">Fundo do subtítulo</span>
@@ -1984,7 +1984,7 @@
             <input type="range" id="r-logoOpacity" min="0" max="100" value="100" oninput="setLogoOpacity('reels',this.value)">
             <input class="snum" type="number" id="r-logoOpacityN" value="100" min="0" max="100" onchange="setLogoOpacity('reels',this.value)">
           </div>
-          <span class="logo-note">Posição fixa no canto superior esquerdo.</span>
+          <span class="logo-note">Canto superior esquerdo; muda para o inferior quando o texto está em cima.</span>
         </div>
       </div>
     </div>
@@ -2524,7 +2524,15 @@ function drawLogo(ctx,data,W,H,sc){
   const dw=iw*factor;
   const dh=ih*factor;
   const x=margin+(square-dw)/2;
-  const y=margin+(square-dh)/2;
+
+  // Evita que a logo dispute espaço com o texto.
+  // Texto em cima: logo no canto inferior esquerdo.
+  // Texto embaixo/centro: logo no canto superior esquerdo.
+  const logoAtBottom=data.pos==='top';
+  const y=logoAtBottom
+    ? H-margin-square+(square-dh)/2
+    : margin+(square-dh)/2;
+
   ctx.save();
   const logoAlpha=Number(data.logoOpacity);
   ctx.globalAlpha=Number.isFinite(logoAlpha)?Math.max(0,Math.min(1,logoAlpha)):1;
